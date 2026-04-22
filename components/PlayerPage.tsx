@@ -281,9 +281,14 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                 <span className="l">Born 生年月日</span>
                 <span className="v">
                   {formatBirthdayFull(player.birthday)}
-                  {player.birthplace ? ` · ${player.birthplace}` : ""}
                 </span>
               </li>
+              {player.birthplace && (
+                <li>
+                  <span className="l">From 出身地</span>
+                  <span className="v">{player.birthplace}</span>
+                </li>
+              )}
               {player.bloodType && (
                 <li>
                   <span className="l">Blood 血液型</span>

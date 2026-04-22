@@ -1051,7 +1051,7 @@ footer.main .cr {
   .bio-box h3 .en { font-family: "Instrument Serif"; font-style: italic; font-size: 14px; color: var(--ink-3); font-weight: 400; }
   .bio-box p { margin: 0 0 12px; font-size: 13px; line-height: 1.85; color: var(--ink-2); }
   .bio-box p:last-child { margin-bottom: 0; }
-  .bio-box p:first-letter { font-family: "Shippori Mincho"; font-weight: 900; font-size: 44px; float: left; line-height: 0.95; margin: 4px 8px 0 0; color: var(--vermilion); }
+  .bio-box p:first-of-type::first-letter { font-family: "Shippori Mincho"; font-weight: 900; font-size: 44px; float: left; line-height: 0.95; margin: 4px 8px 0 0; color: var(--vermilion); }
 
   .fact-box { background: var(--ink); color: var(--paper); border: var(--border); box-shadow: var(--shadow); }
   .fact-box .fhd { padding: 12px 16px; border-bottom: 3px solid var(--vermilion); display: flex; justify-content: space-between; }
