@@ -181,7 +181,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="stat-b dark">
           <div className="lb">
-            Top Rate <span className="en">1着率</span>
+            Top Rate <span className="en">Mリーグ 1着率</span>
           </div>
           <div className="v-num">
             —<span className="u">%</span>
@@ -190,7 +190,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="stat-b">
           <div className="lb">
-            4th Avoidance <span className="en">4着回避率</span>
+            4th Avoidance <span className="en">Mリーグ 4着回避率</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
             —<span className="u">%</span>
@@ -199,7 +199,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="stat-b">
           <div className="lb">
-            Best Score <span className="en">最高スコア</span>
+            Best Score <span className="en">Mリーグ 最高スコア</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
             —<span className="u">pt</span>
@@ -373,7 +373,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         <h3>
           年間獲得ポイント推移
           <span className="en">
-            Annual Point Trajectory · {new Date().getFullYear() - careerBars.length}–{new Date().getFullYear()}
+            Mリーグ Annual Point Trajectory · {new Date().getFullYear() - careerBars.length}–{new Date().getFullYear()}
           </span>
         </h3>
         <div className="cc-grid" style={{ gridTemplateColumns: `repeat(${careerBars.length}, 1fr)` }}>
