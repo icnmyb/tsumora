@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 牌本体 -->
+  <rect x="2" y="1" width="28" height="30" rx="4" ry="4" fill="#f5f0e0"/>
+  <!-- 影 -->
+  <rect x="2" y="1" width="28" height="30" rx="4" ry="4" fill="none" stroke="#b8a880" stroke-width="1"/>
+  <!-- 内枠 -->
+  <rect x="4" y="3" width="24" height="26" rx="2" ry="2" fill="none" stroke="#c8b890" stroke-width="0.8"/>
+  <!-- H文字 -->
+  <text x="16" y="23" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#1a4a2e" text-anchor="middle">H</text>
+</svg>

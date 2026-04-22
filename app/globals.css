@@ -1,0 +1,2197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #ebe4d2;
+  --paper-2: #e0d8c2;
+  --ink: #0b0b09;
+  --ink-2: #2a2824;
+  --ink-3: #5a564d;
+  --ink-4: #8a8576;
+  --vermilion: #c8282a;
+  --vermilion-d: #8a1418;
+  --gold: #a07e28;
+  --moss: #2f5c3f;
+  --indigo: #1d4ed8;
+
+  --border: 2.5px solid var(--ink);
+  --border-thick: 4px solid var(--ink);
+  --shadow: 5px 5px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); cursor: auto; }
+a, button, [role="button"], label, select, input[type="submit"], input[type="button"] { cursor: url('/cursor_hai.svg') 13 5, pointer; }
+
+/* ============ BACKGROUND ANIMATIONS ============ */
+.bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+body > *:not(.bg-layer) { position: relative; z-index: 1; }
+
+/* 1. 点棒 horizontal scroll (ultra slow) */
+.bg-tenbo { opacity: .07; }
+.bg-tenbo .lane { position: absolute; left: 0; right: 0; display: flex; gap: 80px; white-space: nowrap; animation: tenbo-slide linear infinite; will-change: transform; }
+.bg-tenbo .lane.l1 { top: 14%; animation-duration: 18s; }
+.bg-tenbo .lane.l2 { top: 42%; animation-duration: 24s; animation-direction: reverse; }
+.bg-tenbo .lane.l3 { top: 68%; animation-duration: 21s; }
+.bg-tenbo .lane.l4 { top: 88%; animation-duration: 27s; animation-direction: reverse; }
+.bg-tenbo .stick {
+  flex-shrink: 0; height: 14px; width: 220px; background: #b02060;
+  border-radius: 7px; position: relative; display: flex; align-items: center; justify-content: space-around;
+}
+.bg-tenbo .stick.s1 { width: 160px; }
+.bg-tenbo .stick.s5 { width: 220px; }
+.bg-tenbo .stick.s10 { width: 300px; }
+.bg-tenbo .stick .dot { width: 6px; height: 6px; border-radius: 50%; background: #c8282a; }
+.bg-tenbo .stick.s1 .dot { background: #c8282a; }
+.bg-tenbo .stick.s5 .dot { background: #a07e28; }
+.bg-tenbo .stick.s10 .dot { background: #c8282a; }
+@keyframes tenbo-slide { from { transform: translateX(-20%); } to { transform: translateX(20%); } }
+
+/* 3. 煙/墨の滲み — slow drifting blobs */
+.bg-smoke .blob {
+  position: absolute; border-radius: 50%; filter: blur(80px);
+  animation: smoke-drift linear infinite; will-change: transform, opacity;
+}
+.bg-smoke .b1 { width: 520px; height: 520px; background: rgba(200,40,42,.18); top: -10%; left: -8%; animation-duration: 40s; }
+.bg-smoke .b2 { width: 420px; height: 420px; background: rgba(47,92,63,.16); top: 30%; right: -10%; animation-duration: 55s; animation-delay: -12s; }
+.bg-smoke .b3 { width: 360px; height: 360px; background: rgba(160,126,40,.14); bottom: 10%; left: 20%; animation-duration: 48s; animation-delay: -24s; }
+.bg-smoke .b4 { width: 480px; height: 480px; background: rgba(11,11,9,.12); top: 55%; left: 45%; animation-duration: 62s; animation-delay: -8s; }
+@keyframes smoke-drift {
+  0%, 100% { transform: translate(0,0) scale(1); opacity: .8; }
+  33% { transform: translate(8vw, -6vh) scale(1.15); opacity: 1; }
+  66% { transform: translate(-6vw, 10vh) scale(.9); opacity: .6; }
+}
+
+/* 4. 漢字の揺らぎ */
+.title-card .big-kanji { animation: ink-breathe 8s ease-in-out infinite; }
+.title-card:nth-child(2) .big-kanji { animation-delay: -2s; }
+.title-card:nth-child(3) .big-kanji { animation-delay: -4s; }
+.masthead h1 { animation: ink-breathe 10s ease-in-out infinite; }
+@keyframes ink-breathe {
+  0%, 100% { opacity: 1; filter: blur(0); transform: translate(0,0); }
+  50% { opacity: .92; filter: blur(.4px); transform: translate(.5px, -.3px); }
+}
+
+/* 2. hero tile stacking */
+.hero-lead { isolation: isolate; }
+.hero-lead .bg-tiles {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; opacity: .18;
+}
+.hero-lead .bg-tiles .tile {
+  position: absolute; width: 38px; height: 54px; border-radius: 4px;
+  background: linear-gradient(170deg, #faf4e4 0%, #d4c398 100%);
+  box-shadow: inset 0 -4px 0 rgba(130,105,55,.55), inset 0 1px 0 rgba(255,255,255,.7), 0 3px 6px rgba(0,0,0,.3);
+  animation: tile-fall linear infinite; will-change: transform, opacity;
+}
+.hero-lead .bg-tiles .tile.red { color: #c8282a; }
+.hero-lead .bg-tiles .tile.green { color: #2f5c3f; }
+.hero-lead .bg-tiles .tile::after {
+  content: attr(data-glyph); position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 26px; color: inherit;
+}
+@keyframes tile-fall {
+  0% { transform: translateY(-80px) rotate(var(--r, 0deg)); opacity: 0; }
+  10% { opacity: 1; }
+  85% { opacity: .95; }
+  100% { transform: translateY(520px) rotate(var(--r, 0deg)); opacity: 0; }
+}
+.hero-lead > :not(.bg-tiles) { position: relative; z-index: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-tenbo .lane, .bg-smoke .blob, .title-card .big-kanji, .masthead h1, .hero-lead .bg-tiles .tile { animation: none; }
+}
+
+body {
+  font-family: "Noto Sans JP", system-ui, sans-serif;
+  font-size: 13px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt";
+  letter-spacing: 0.005em;
+  background-image:
+    radial-gradient(ellipse 1200px 400px at 15% -10%, rgba(200,40,42,.04), transparent),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0.1 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.serif { font-family: "Shippori Mincho", "Noto Serif JP", serif; font-feature-settings: "palt"; }
+.italic { font-family: "Instrument Serif", serif; font-style: italic; }
+.mono { font-family: "Geist Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 28px; }
+
+/* ============ TOP RED STRIP ============ */
+.strip {
+  background: var(--ink); color: var(--paper);
+  font-size: 11px; letter-spacing: 0.1em;
+  border-bottom: var(--border-thick);
+}
+.strip .row {
+  display: flex; align-items: center; gap: 18px;
+  height: 32px; overflow: hidden; font-family: "Geist Mono";
+}
+.strip .live-tag {
+  background: var(--vermilion); color: var(--paper);
+  padding: 3px 10px; font-weight: 800; letter-spacing: 0.15em;
+  display: inline-flex; align-items: center; gap: 6px; font-size: 10px;
+}
+.strip .live-tag::before { content:""; width: 6px; height: 6px; background: var(--paper); border-radius: 50%; animation: blink 1.2s infinite; }
+@keyframes blink { 50% { opacity: .3; } }
+.strip .item { white-space: nowrap; opacity: .85; }
+.strip .item b { color: #f0c86d; font-weight: 700; letter-spacing: 0; font-family: "Shippori Mincho"; }
+.strip .sep { opacity: .3; }
+
+/* ============ MASTHEAD ============ */
+.masthead {
+  border-bottom: var(--border-thick);
+  background: var(--paper);
+  padding: 22px 0 18px;
+  position: relative;
+}
+.masthead-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; }
+.masthead-left { display: flex; align-items: flex-end; gap: 20px; }
+.masthead-left .edition {
+  border: var(--border); padding: 6px 10px 4px;
+  font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; line-height: 1.2;
+  background: var(--paper);
+}
+.masthead-left .edition b { display: block; font-size: 14px; letter-spacing: 0; margin-bottom: 2px; font-family: "Shippori Mincho"; font-weight: 900; color: var(--vermilion); }
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 88px; line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: var(--ink);
+}
+.masthead h1 .dot { color: var(--vermilion); }
+.masthead h1 .en {
+  display: block; font-family: "Instrument Serif"; font-style: italic;
+  font-weight: 400; font-size: 22px; letter-spacing: 0.02em;
+  margin-top: 4px; color: var(--ink-2);
+  line-height: 1;
+}
+
+.masthead-right {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 3px;
+  font-family: "Geist Mono"; font-size: 11px; line-height: 1.4;
+  color: var(--ink-2);
+}
+.masthead-right .kv { display: flex; gap: 10px; justify-content: flex-end; letter-spacing: 0.1em; }
+.masthead-right .kv span:first-child { color: var(--ink-3); }
+.masthead-right .big {
+  font-family: "Shippori Mincho"; font-size: 24px; font-weight: 900;
+  letter-spacing: -0.02em; line-height: 1; margin-top: 4px;
+  color: var(--ink);
+}
+
+/* ============ NAV ============ */
+nav.main {
+  border-bottom: var(--border-thick);
+  background: var(--ink); color: var(--paper);
+  display: flex; align-items: stretch;
+  font-family: "Shippori Mincho"; font-weight: 700;
+}
+nav.main a {
+  padding: 12px 22px;
+  border-right: 1.5px solid rgba(235,228,210,.15);
+  font-size: 14px; letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 8px;
+  color: var(--paper);
+  position: relative;
+}
+nav.main a:hover { background: rgba(235,228,210,.08); }
+nav.main a.active {
+  background: var(--vermilion);
+  color: var(--paper);
+}
+nav.main a.active::before {
+  content:""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: #f0c86d;
+}
+nav.main .idx { font-family: "Geist Mono"; font-size: 10px; color: rgba(235,228,210,.5); font-weight: 400; letter-spacing: 0.1em; }
+nav.main a.active .idx { color: rgba(255,255,255,.7); }
+nav.main .spacer { flex: 1; }
+nav.main .search {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 20px;
+  font-family: "Geist Mono"; font-size: 12px;
+  color: rgba(235,228,210,.7);
+  border-left: 1.5px solid rgba(235,228,210,.15);
+}
+nav.main .search .kbd {
+  border: 1px solid rgba(235,228,210,.3); padding: 2px 6px;
+  font-size: 10px; letter-spacing: 0.05em;
+}
+
+/* ============ GRID ============ */
+main { padding: 20px 0 60px; }
+.grid-2col {
+  display: grid; gap: 14px;
+  grid-template-columns: 1fr 340px;
+}
+.col { display: flex; flex-direction: column; gap: 14px; }
+
+.box {
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.box.dark { background: var(--ink); color: var(--paper); }
+.box.vermilion { background: var(--vermilion); color: var(--paper); }
+.box.inverted { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.box-hd {
+  border-bottom: var(--border);
+  padding: 8px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--paper-2);
+}
+.box.dark .box-hd { background: #000; color: var(--paper); border-bottom-color: rgba(235,228,210,.2); }
+.box.vermilion .box-hd { background: var(--vermilion-d); color: var(--paper); border-bottom-color: rgba(0,0,0,.3); }
+.box-hd .t { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.box-hd .t::before { content:""; width: 10px; height: 10px; background: var(--vermilion); }
+.box.dark .box-hd .t::before { background: #f0c86d; }
+.box.vermilion .box-hd .t::before { background: var(--paper); }
+.box-hd .more { color: var(--ink-3); font-size: 10px; }
+.box.dark .box-hd .more { color: rgba(235,228,210,.6); }
+
+/* ============ HERO ============ */
+.hero {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 14px;
+}
+
+.hero-lead {
+  background: var(--ink); color: var(--paper);
+  border: var(--border); box-shadow: var(--shadow);
+  padding: 28px 32px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-lead::before {
+  content:""; position: absolute; top: 0; right: 0;
+  width: 240px; height: 100%;
+  background: radial-gradient(ellipse at right, rgba(200,40,42,.2), transparent 70%);
+  pointer-events: none;
+}
+.hero-lead .kicker {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--vermilion); color: var(--paper);
+  padding: 4px 12px; margin-bottom: 18px;
+  font-family: "Geist Mono"; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+}
+.hero-lead .kicker::before { content:""; width: 6px; height: 6px; background: var(--paper); border-radius: 50%; animation: blink 1.2s infinite; }
+.hero-lead h2 {
+  margin: 0; font-family: "Shippori Mincho";
+  font-weight: 900; font-size: 64px; line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+.hero-lead h2 .em { color: var(--vermilion); }
+.hero-lead h2 .en {
+  display: block; font-family: "Instrument Serif"; font-style: italic;
+  font-weight: 400; font-size: 20px; color: #c4bfa8;
+  margin-top: 12px; letter-spacing: 0.01em;
+}
+.hero-lead .lead-body { margin-top: 20px; font-size: 13.5px; line-height: 1.75; color: rgba(235,228,210,.8); max-width: 460px; }
+
+.hero-lead .match-mini {
+  margin-top: 24px; padding-top: 18px;
+  border-top: 2px solid rgba(235,228,210,.2);
+  display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center;
+}
+.hero-lead .match-mini .name { font-family: "Geist Mono"; font-size: 10.5px; letter-spacing: 0.12em; color: rgba(235,228,210,.55); text-transform: uppercase; }
+.hero-lead .match-mini .title { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; margin-top: 3px; }
+.hero-lead .watchbtn {
+  border: 2.5px solid var(--paper); background: var(--vermilion);
+  padding: 12px 20px; color: var(--paper);
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px;
+  box-shadow: 4px 4px 0 var(--paper);
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer;
+}
+.hero-lead .watchbtn::before { content:"▶"; font-size: 11px; }
+
+.hero-scores {
+  background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+}
+.hero-scores .hd {
+  background: var(--ink); color: var(--paper);
+  padding: 8px 14px;
+  font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.hero-scores .hd .live { color: var(--vermilion); font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.hero-scores .hd .live::before { content:""; width:6px; height:6px; background: var(--vermilion); border-radius: 50%; animation: blink 1.2s infinite; }
+
+.hero-scores .body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+.hero-scores .sub {
+  font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 4px;
+}
+.hero-scores h3 { margin: 0 0 3px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; line-height: 1.1; }
+.hero-scores .h-note { font-size: 11.5px; color: var(--ink-3); margin-bottom: 14px; }
+
+.hero-scores .score-row {
+  display: grid; grid-template-columns: 28px 1fr auto; gap: 10px;
+  padding: 10px 12px;
+  border-left: 4px solid var(--ink);
+  margin-bottom: 6px;
+  align-items: baseline;
+  background: var(--paper-2);
+}
+.hero-scores .score-row.lead { border-left-color: var(--vermilion); background: #ded6bd; }
+.hero-scores .score-row .rk {
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; line-height: 1;
+  color: var(--ink-3); text-align: center;
+}
+.hero-scores .score-row.lead .rk { color: var(--vermilion); }
+.hero-scores .score-row .name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
+.hero-scores .score-row .pt {
+  font-family: "Geist Mono"; font-weight: 700; font-size: 16px;
+}
+.hero-scores .score-row.lead .pt { color: var(--vermilion); }
+.hero-scores .score-row .pt.m { color: var(--vermilion-d); }
+
+.hero-scores .score-footer {
+  border-top: 2px solid var(--ink); padding: 10px 14px;
+  font-family: "Geist Mono"; font-size: 10.5px;
+  display: flex; justify-content: space-between; color: var(--ink-3); letter-spacing: 0.1em;
+}
+.hero-scores .score-footer a { color: var(--vermilion); font-weight: 700; }
+
+/* ============ TODAY STRIP ============ */
+.today-strip { border: var(--border); background: var(--paper); box-shadow: var(--shadow); }
+.today-strip .hd {
+  background: var(--vermilion); color: var(--paper);
+  padding: 10px 16px; display: flex; justify-content: space-between; align-items: center;
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px;
+  border-bottom: var(--border);
+}
+.today-strip .hd .r { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.14em; opacity: .85; }
+.today-items { display: grid; grid-template-columns: repeat(5, 1fr); }
+.today-items .it {
+  padding: 14px 16px;
+  border-right: 2px solid var(--ink);
+  display: flex; flex-direction: column; gap: 2px;
+  position: relative;
+}
+.today-items .it:last-child { border-right: 0; }
+.today-items .it .time { font-family: "Geist Mono"; font-weight: 700; font-size: 15px; color: var(--ink); letter-spacing: -0.01em; }
+.today-items .it .tag {
+  display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+  padding: 1px 6px; margin-top: 2px; width: max-content;
+  background: var(--ink); color: var(--paper);
+}
+.today-items .it.live .tag { background: var(--vermilion); }
+.today-items .it .t { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; margin-top: 8px; line-height: 1.25; }
+.today-items .it .sub { font-size: 10.5px; color: var(--ink-3); margin-top: 3px; font-family: "Geist Mono"; }
+
+/* ============ TITLES SECTION ============ */
+.titles-section h2 {
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 38px;
+  letter-spacing: -0.03em; margin: 18px 0 14px;
+  display: flex; align-items: baseline; gap: 14px;
+}
+.titles-section h2 .num {
+  font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+  font-size: 26px; color: var(--vermilion);
+}
+.titles-section h2 .rule { flex: 1; height: 3px; background: var(--ink); margin: 0 14px; }
+.titles-section h2 .more { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); }
+
+.titles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.title-card {
+  background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+  padding: 20px 20px 18px; position: relative; overflow: hidden;
+}
+.title-card .org-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 10px; border: 2px solid var(--ink);
+  background: var(--paper); font-family: "Geist Mono"; font-size: 10px;
+  font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.title-card .org-tag .sw { width: 10px; height: 10px; background: var(--c); }
+.title-card .big-kanji {
+  position: absolute; top: -20px; right: -20px;
+  font-family: "Shippori Mincho"; font-weight: 900;
+  font-size: 180px; line-height: 0.85;
+  color: rgba(11,11,9,.05);
+  pointer-events: none;
+}
+.title-card h3 {
+  margin: 0; font-family: "Shippori Mincho"; font-weight: 900;
+  font-size: 40px; line-height: 1; letter-spacing: -0.03em;
+  position: relative;
+}
+.title-card .edition {
+  font-family: "Geist Mono"; font-size: 11.5px; color: var(--ink-2);
+  margin: 8px 0 16px; letter-spacing: 0.04em;
+}
+.title-card .edition b { color: var(--vermilion); font-weight: 700; }
+.title-card .standings {
+  border-top: 2.5px solid var(--ink);
+  padding-top: 10px;
+}
+.title-card .sr {
+  display: grid; grid-template-columns: 24px 1fr auto; gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(11,11,9,.12);
+  align-items: baseline;
+  font-size: 13px;
+}
+.title-card .sr:last-child { border-bottom: 0; }
+.title-card .sr .r { font-family: "Shippori Mincho"; font-weight: 900; font-size: 17px; color: var(--ink-3); text-align: center; line-height: 1; }
+.title-card .sr.l .r { color: var(--vermilion); }
+.title-card .sr .nm { font-family: "Shippori Mincho"; font-weight: 700; }
+.title-card .sr .pt { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; }
+.title-card .sr .pt.plus { color: var(--moss); }
+.title-card .sr .pt.minus { color: var(--vermilion-d); }
+.title-card .prize {
+  margin-top: 14px; padding-top: 10px;
+  border-top: 2px dashed var(--ink);
+  display: flex; justify-content: space-between;
+  font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase;
+}
+.title-card .prize b { color: var(--ink); font-weight: 700; }
+
+/* ============ ORGS SECTION ============ */
+.orgs-section h2 {
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 38px;
+  letter-spacing: -0.03em; margin: 8px 0 14px;
+  display: flex; align-items: baseline; gap: 14px;
+}
+.orgs-section h2 .num { font-family: "Instrument Serif"; font-style: italic; font-size: 26px; color: var(--vermilion); }
+.orgs-section h2 .rule { flex: 1; height: 3px; background: var(--ink); margin: 0 14px; }
+.orgs-section h2 .more { font-family: "Geist Mono"; font-size: 11px; color: var(--ink-3); letter-spacing: 0.14em; }
+
+.orgs-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+}
+.org-card {
+  background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm);
+  padding: 0; position: relative; overflow: hidden;
+}
+.org-card .stripe { height: 10px; background: var(--c); border-bottom: 2px solid var(--ink); }
+.org-card .body { padding: 16px 14px 14px; }
+.org-card .idx {
+  position: absolute; top: 16px; right: 14px;
+  font-family: "Instrument Serif"; font-style: italic;
+  font-size: 22px; color: var(--ink-3);
+}
+.org-card .code { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; color: var(--ink-3); margin-bottom: 4px; }
+.org-card .jp { font-family: "Shippori Mincho"; font-weight: 900; font-size: 16px; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.01em; }
+.org-card .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+.org-card .stat-row .s .l { font-family: "Geist Mono"; font-size: 9px; color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase; }
+.org-card .stat-row .s .v { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; line-height: 1; margin-top: 2px; }
+.org-card .titles-list {
+  border-top: 1.5px solid var(--ink);
+  padding-top: 9px; font-size: 11px; line-height: 1.6;
+  color: var(--ink-2);
+  font-family: "Shippori Mincho"; font-weight: 500;
+}
+.org-card .titles-list .lb {
+  font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: 3px; font-weight: 700;
+}
+
+/* ============ SIDEBAR BOXES ============ */
+.side-hd {
+  background: var(--ink); color: var(--paper);
+  padding: 10px 14px;
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px;
+  letter-spacing: 0.02em;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 3px solid var(--vermilion);
+}
+.side-hd .tag {
+  font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
+  background: var(--vermilion); padding: 2px 8px; color: var(--paper);
+}
+.side-hd .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); font-weight: 400; }
+
+.live-list { padding: 0; margin: 0; list-style: none; }
+.live-list li {
+  padding: 11px 14px; border-bottom: 1.5px solid var(--ink);
+  display: grid; grid-template-columns: 48px 1fr auto; gap: 10px; align-items: center;
+}
+.live-list li:last-child { border-bottom: 0; }
+.live-list .time {
+  font-family: "Geist Mono"; font-weight: 700; font-size: 12px;
+  text-align: center; line-height: 1.15;
+  color: var(--ink-3);
+}
+.live-list .time b { display: block; color: var(--vermilion); font-size: 15px; font-family: "Shippori Mincho"; letter-spacing: -0.02em; }
+.live-list .title { font-family: "Shippori Mincho"; font-weight: 700; font-size: 13px; line-height: 1.3; }
+.live-list .title .org-badge {
+  display: inline-block; font-family: "Geist Mono"; font-size: 9px;
+  padding: 1px 5px; margin-right: 5px; border: 1.5px solid var(--ink);
+  letter-spacing: 0.1em; font-weight: 700;
+  background: var(--c); color: #fff;
+  vertical-align: middle;
+}
+.live-list .title .ch { font-family: "Noto Sans JP"; font-weight: 400; font-size: 10.5px; color: var(--ink-3); display: block; margin-top: 3px; letter-spacing: 0; }
+.live-list .dot {
+  width: 12px; height: 12px; background: var(--ink);
+  border: 2px solid var(--ink);
+}
+.live-list .dot.on { background: var(--vermilion); animation: blink 1.2s infinite; border-color: var(--vermilion); }
+
+/* ============ M-LEAGUE BOX ============ */
+.mleague {
+  background: var(--ink); color: var(--paper);
+  border: var(--border); box-shadow: var(--shadow);
+}
+.mleague .mhd {
+  padding: 14px 16px;
+  border-bottom: 3px solid var(--vermilion);
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.mleague .mhd h2 {
+  margin: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em;
+  line-height: 1;
+}
+.mleague .mhd h2 .en { display: block; font-family: "Instrument Serif"; font-style: italic; font-size: 12px; color: #f0c86d; margin-top: 4px; font-weight: 400; letter-spacing: 0.02em; }
+.mleague .mhd .race { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.12em; color: rgba(235,228,210,.6); text-align: right; line-height: 1.4; }
+.mleague .mhd .race b { display: block; color: #f0c86d; font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px; letter-spacing: 0; margin-top: 3px; }
+
+.mleague table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.mleague thead th {
+  background: #1a1815; color: rgba(235,228,210,.6);
+  font-family: "Geist Mono"; font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 6px 10px; text-align: left;
+  border-bottom: 2px solid rgba(235,228,210,.2);
+}
+.mleague tbody td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(235,228,210,.1);
+}
+.mleague tbody tr:last-child td { border-bottom: 0; }
+.mleague .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 16px; width: 26px; text-align: center; color: rgba(235,228,210,.5); line-height: 1; }
+.mleague .rk.r1 { color: var(--vermilion); }
+.mleague .rk.r2, .mleague .rk.r3 { color: #f0c86d; }
+.mleague .team { display: flex; align-items: center; gap: 8px; font-family: "Shippori Mincho"; font-weight: 700; font-size: 12.5px; }
+.mleague .team .logo { width: 14px; height: 14px; border: 1.5px solid rgba(235,228,210,.3); flex-shrink: 0; }
+.mleague .pts { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; text-align: right; }
+.mleague .pts.p { color: #6ee7a7; }
+.mleague .pts.m { color: #ff8a72; }
+.mleague .delta { font-family: "Geist Mono"; font-size: 10px; text-align: right; color: rgba(235,228,210,.5); }
+.mleague .delta.up { color: #6ee7a7; }
+.mleague .delta.up::before { content:"▲ "; }
+.mleague .delta.dn { color: #ff8a72; }
+.mleague .delta.dn::before { content:"▼ "; }
+
+/* ============ RANKS BOX ============ */
+.ranks-box { border: var(--border); background: var(--paper); box-shadow: var(--shadow); }
+.ranks-box .hd {
+  background: var(--ink); color: var(--paper);
+  padding: 10px 14px;
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 3px solid var(--vermilion);
+}
+.ranks-box .hd .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); font-weight: 400; }
+.ranks-tabs {
+  display: flex; border-bottom: var(--border); background: var(--paper-2);
+}
+.ranks-tabs span {
+  padding: 9px 16px; border-right: 2px solid var(--ink);
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 12.5px;
+  color: var(--ink-3);
+}
+.ranks-tabs span.on {
+  background: var(--vermilion); color: var(--paper);
+}
+.ranks-tabs .end { flex: 1; border-right: 0; }
+.ranks-table { width: 100%; border-collapse: collapse; }
+.ranks-table td { padding: 10px 14px; border-bottom: 1.5px solid rgba(11,11,9,.1); }
+.ranks-table tr:last-child td { border-bottom: 0; }
+.ranks-table .rk {
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px;
+  line-height: 1; text-align: center; color: var(--ink-3); width: 46px;
+}
+.ranks-table .rk.r1 { color: var(--vermilion); }
+.ranks-table .rk.r2 { color: var(--gold); }
+.ranks-table .rk.r3 { color: var(--gold); }
+.ranks-table .player { display: flex; align-items: center; gap: 10px; }
+.ranks-table .avatar {
+  width: 32px; height: 32px; border: 2px solid var(--ink); background: var(--paper-2);
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ranks-table .name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
+.ranks-table .name .org {
+  display: inline-block; font-family: "Geist Mono"; font-size: 9px; font-weight: 700;
+  padding: 1px 5px; margin-left: 6px; border: 1.5px solid var(--ink);
+  vertical-align: middle; letter-spacing: 0.08em;
+}
+.ranks-table .sub { display: block; font-family: "Noto Sans JP"; font-weight: 400; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; letter-spacing: 0; }
+.ranks-table .cnt {
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 26px; letter-spacing: -0.02em;
+  text-align: right;
+}
+.ranks-table .cnt .u { font-family: "Geist Mono"; font-weight: 500; font-size: 11px; color: var(--ink-3); margin-left: 2px; }
+
+/* ============ NEWS BOX ============ */
+.news-box { border: var(--border); background: var(--paper); box-shadow: var(--shadow); }
+.news-box ul { margin: 0; padding: 0; list-style: none; }
+.news-box li {
+  padding: 11px 14px; border-bottom: 1.5px solid rgba(11,11,9,.12);
+  display: grid; grid-template-columns: 54px 50px 1fr; gap: 10px; align-items: baseline;
+}
+.news-box li:last-child { border-bottom: 0; }
+.news-box .dt { font-family: "Geist Mono"; font-size: 10.5px; color: var(--ink-3); font-weight: 700; }
+.news-box .cat {
+  font-family: "Geist Mono"; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-align: center;
+  padding: 2px 0; border: 2px solid var(--ink);
+  background: var(--paper-2);
+}
+.news-box .cat.tf { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion-d); }
+.news-box .cat.rs { background: var(--ink); color: var(--paper); }
+.news-box .cat.ev { background: var(--gold); color: var(--ink); }
+.news-box .t { font-family: "Shippori Mincho"; font-weight: 500; font-size: 12.5px; line-height: 1.5; }
+.news-box .t b { color: var(--vermilion); font-weight: 700; }
+
+/* ============ PICK BOX ============ */
+.pick-box {
+  background: var(--vermilion); color: var(--paper);
+  border: var(--border); box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.pick-box::after {
+  content:"特"; position: absolute; top: -30px; right: -10px;
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 180px;
+  color: rgba(0,0,0,.08); line-height: 1;
+}
+.pick-box .hd {
+  background: var(--ink); padding: 8px 14px;
+  font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  border-bottom: var(--border); font-weight: 700;
+}
+.pick-box .body { padding: 20px 18px 18px; position: relative; }
+.pick-box h3 { margin: 0 0 12px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 26px; line-height: 1.1; letter-spacing: -0.02em; }
+.pick-box p { margin: 0 0 16px; font-size: 12.5px; line-height: 1.7; color: rgba(255,255,255,.9); }
+.pick-box .cta {
+  display: inline-block;
+  background: var(--paper); color: var(--ink);
+  padding: 8px 14px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 12px;
+}
+.pick-box .tags { margin-top: 16px; padding-top: 14px; border-top: 2px dashed rgba(255,255,255,.3); font-size: 11px; line-height: 2; font-family: "Shippori Mincho"; }
+.pick-box .tags b { color: #f0c86d; }
+
+/* ============ SCHED STRIP ============ */
+.sched-wrap { border: var(--border); background: var(--paper); box-shadow: var(--shadow); }
+.sched-wrap .hd {
+  background: var(--ink); color: var(--paper); padding: 10px 14px;
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px;
+  display: flex; justify-content: space-between; border-bottom: 3px solid var(--vermilion);
+}
+.sched-wrap .hd .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); font-weight: 400; }
+.sched-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.sched-grid .d {
+  padding: 10px 10px; border-right: 2px solid var(--ink);
+  min-height: 110px; position: relative;
+  font-size: 10.5px;
+}
+.sched-grid .d:last-child { border-right: 0; }
+.sched-grid .d.today { background: var(--ink); color: var(--paper); }
+.sched-grid .d.today .dn { color: var(--vermilion); }
+.sched-grid .d .dh {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px; border-bottom: 1.5px solid rgba(11,11,9,.25);
+  padding-bottom: 4px;
+}
+.sched-grid .d.today .dh { border-bottom-color: rgba(235,228,210,.3); }
+.sched-grid .d .dn { font-family: "Shippori Mincho"; font-weight: 900; font-size: 26px; line-height: 1; color: var(--ink); }
+.sched-grid .d.sat .dn { color: var(--indigo); }
+.sched-grid .d.sun .dn { color: var(--vermilion); }
+.sched-grid .d .dw { font-family: "Geist Mono"; font-size: 10px; color: var(--ink-3); letter-spacing: 0.1em; }
+.sched-grid .d.today .dw { color: rgba(235,228,210,.5); }
+.sched-grid .d .ev {
+  font-family: "Shippori Mincho"; font-weight: 700; font-size: 10.5px;
+  padding: 2px 6px; margin-bottom: 3px;
+  background: var(--c); color: #fff;
+  border: 1.5px solid var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  line-height: 1.35;
+}
+.sched-grid .d.today .ev { border-color: var(--paper); }
+
+/* ============ FOOTER ============ */
+footer.main {
+  margin-top: 60px;
+  background: var(--ink); color: var(--paper);
+  border-top: 6px solid var(--vermilion);
+  padding: 40px 0 24px;
+}
+footer.main .wrap { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 36px; }
+footer.main h4 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 13px; letter-spacing: 0.04em; margin: 0 0 10px; color: #f0c86d; }
+footer.main h4 .en { display: block; font-family: "Instrument Serif"; font-style: italic; font-size: 11px; color: rgba(235,228,210,.5); font-weight: 400; margin-top: 2px; }
+footer.main ul { list-style: none; padding: 0; margin: 0; font-size: 12px; line-height: 2; font-family: "Shippori Mincho"; font-weight: 500; }
+footer.main .big-mark {
+  font-family: "Shippori Mincho"; font-weight: 900; font-size: 56px; line-height: 0.85;
+  letter-spacing: -0.04em; margin-bottom: 12px;
+}
+footer.main .big-mark .dot { color: var(--vermilion); }
+footer.main .desc { font-size: 12.5px; line-height: 1.8; color: rgba(235,228,210,.7); max-width: 360px; margin-top: 10px; }
+footer.main .cr {
+  grid-column: 1 / -1; margin-top: 30px; padding-top: 16px;
+  border-top: 2px solid rgba(235,228,210,.2);
+  font-family: "Geist Mono"; font-size: 10.5px; letter-spacing: 0.12em;
+  color: rgba(235,228,210,.4);
+  display: flex; justify-content: space-between;
+}
+  /* Page-specific: Title detail */
+  .title-hero {
+    background: var(--ink); color: var(--paper);
+    border: var(--border); box-shadow: var(--shadow);
+    padding: 32px 36px 28px; position: relative; overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .title-hero::before {
+    content: "鳳"; position: absolute; right: -40px; top: -60px;
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 420px;
+    line-height: 0.85; color: rgba(200,40,42,.12); pointer-events: none;
+    letter-spacing: -0.08em;
+  }
+  .title-hero .crumb {
+    font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em;
+    color: rgba(235,228,210,.55); margin-bottom: 20px; text-transform: uppercase;
+  }
+  .title-hero .crumb a { color: rgba(235,228,210,.55); border-bottom: 1px dotted rgba(235,228,210,.3); padding-bottom: 1px; }
+  .title-hero .crumb a:hover { color: var(--paper); }
+  .title-hero .crumb .sep { margin: 0 8px; opacity: .4; }
+  .title-hero .org-badge-big {
+    display: inline-block; background: var(--vermilion); color: var(--paper);
+    padding: 5px 12px; margin-bottom: 14px;
+    font-family: "Geist Mono"; font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+  }
+  .title-hero h1 {
+    margin: 0; font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 96px; line-height: 0.88; letter-spacing: -0.05em;
+    position: relative;
+  }
+  .title-hero h1 .en {
+    display: block; font-family: "Instrument Serif"; font-style: italic;
+    font-weight: 400; font-size: 28px; color: #f0c86d;
+    margin-top: 12px; letter-spacing: 0.01em;
+  }
+  .title-hero .meta-row {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    margin-top: 32px; border-top: 2px solid rgba(235,228,210,.2);
+    padding-top: 20px; position: relative;
+  }
+  .title-hero .m {
+    padding-right: 14px; border-right: 2px solid rgba(235,228,210,.15);
+  }
+  .title-hero .m:last-child { border-right: 0; }
+  .title-hero .m .l {
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(235,228,210,.55); margin-bottom: 6px;
+  }
+  .title-hero .m .v {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 26px;
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .title-hero .m .v.prize { color: #f0c86d; }
+  .title-hero .m .v.live { color: var(--vermilion); }
+  .title-hero .m .sub {
+    font-family: "Geist Mono"; font-size: 10px; color: rgba(235,228,210,.5);
+    margin-top: 4px; letter-spacing: 0.04em;
+  }
+
+  /* section heading reuse */
+  .sh {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 32px;
+    letter-spacing: -0.03em; margin: 24px 0 14px;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .sh .num { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 22px; color: var(--vermilion); }
+  .sh .rule { flex: 1; height: 3px; background: var(--ink); margin: 0 14px; }
+  .sh .more { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); }
+
+  /* full standings table */
+  .full-standings {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+  }
+  .fs-hd {
+    background: var(--ink); color: var(--paper);
+    padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 3px solid var(--vermilion);
+  }
+  .fs-hd .ttl { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; }
+  .fs-hd .ttl .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); margin-left: 8px; font-weight: 400; }
+  .fs-hd .nd { font-family: "Geist Mono"; font-size: 11px; color: rgba(235,228,210,.6); letter-spacing: 0.12em; }
+  .fs-table { width: 100%; border-collapse: collapse; }
+  .fs-table thead th {
+    background: var(--paper-2); padding: 10px 14px; text-align: left;
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 700;
+    border-bottom: 2px solid var(--ink);
+  }
+  .fs-table thead th.n { text-align: right; }
+  .fs-table tbody td { padding: 12px 14px; border-bottom: 1.5px solid rgba(11,11,9,.1); }
+  .fs-table tbody tr:last-child td { border-bottom: 0; }
+  .fs-table tbody tr.lead td { background: rgba(200,40,42,.06); }
+  .fs-table tbody tr.danger td { background: rgba(11,11,9,.04); }
+  .fs-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; line-height: 1; text-align: center; width: 42px; color: var(--ink-3); }
+  .fs-table .rk.r1 { color: var(--vermilion); }
+  .fs-table .rk.r2, .fs-table .rk.r3 { color: var(--gold); }
+  .fs-table .player { display: flex; align-items: center; gap: 10px; }
+  .fs-table .avatar {
+    width: 32px; height: 32px; border: 2px solid var(--ink); background: var(--paper-2);
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .fs-table .name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
+  .fs-table .name a { border-bottom: 1.5px solid transparent; }
+  .fs-table .name a:hover { border-bottom-color: var(--vermilion); }
+  .fs-table .sub { display: block; font-family: "Noto Sans JP"; font-weight: 400; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; letter-spacing: 0; }
+  .fs-table td.n { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; text-align: right; }
+  .fs-table td.n.p { color: var(--moss); }
+  .fs-table td.n.m { color: var(--vermilion-d); }
+  .fs-table .tag-pill { display: inline-block; padding: 2px 7px; font-family: "Geist Mono"; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; border: 1.5px solid var(--ink); }
+  .fs-table .tag-pill.safe { background: var(--moss); color: var(--paper); border-color: var(--moss); }
+  .fs-table .tag-pill.danger { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion); }
+
+  /* section grid */
+  .two-col { display: grid; grid-template-columns: 1.5fr 1fr; gap: 14px; }
+
+  /* rule box */
+  .rule-box {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 20px 22px;
+  }
+  .rule-box h3 {
+    margin: 0 0 14px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px;
+    letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 10px;
+  }
+  .rule-box h3 .en { font-family: "Instrument Serif"; font-style: italic; font-size: 14px; color: var(--ink-3); font-weight: 400; }
+  .rule-box .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 10px; }
+  .rule-box .rr {
+    padding: 10px 12px; border-top: 1.5px solid rgba(11,11,9,.12);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .rule-box .rr:nth-child(odd) { border-right: 1.5px dashed rgba(11,11,9,.15); }
+  .rule-box .rr .l { font-family: "Shippori Mincho"; font-weight: 700; font-size: 13px; }
+  .rule-box .rr .v { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; color: var(--vermilion); }
+  .rule-box .note {
+    margin-top: 14px; padding-top: 12px; border-top: 2px dashed var(--ink);
+    font-size: 12px; line-height: 1.7; color: var(--ink-2);
+  }
+
+  /* history list */
+  .history-box {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+  }
+  .history-box .hhd {
+    background: var(--ink); color: var(--paper); padding: 12px 16px;
+    border-bottom: 3px solid var(--vermilion);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .history-box .hhd .ttl { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; }
+  .history-box .hhd .ttl .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); margin-left: 8px; font-weight: 400; }
+  .history-box .hhd .cnt { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em; color: #f0c86d; }
+  .history-list { list-style: none; margin: 0; padding: 0; }
+  .history-list li {
+    display: grid; grid-template-columns: 50px 1fr auto;
+    gap: 14px; align-items: baseline;
+    padding: 10px 16px; border-bottom: 1.5px solid rgba(11,11,9,.1);
+  }
+  .history-list li:last-child { border-bottom: 0; }
+  .history-list li.current { background: rgba(200,40,42,.06); border-left: 4px solid var(--vermilion); padding-left: 12px; }
+  .history-list .ep { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; color: var(--ink-3); line-height: 1; }
+  .history-list li.current .ep { color: var(--vermilion); }
+  .history-list .champ { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
+  .history-list .champ a:hover { border-bottom: 1.5px solid var(--vermilion); }
+  .history-list .yr { font-family: "Geist Mono"; font-size: 11px; color: var(--ink-3); display: block; margin-top: 2px; letter-spacing: 0.05em; }
+  .history-list .cnt { font-family: "Geist Mono"; font-weight: 700; font-size: 11px; color: var(--ink-2); text-align: right; }
+  .history-list .cnt b { display: block; font-family: "Shippori Mincho"; font-size: 14px; color: var(--ink); font-weight: 900; letter-spacing: -0.01em; }
+
+  /* bracket / schedule */
+  .sched-list {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+  }
+  .sched-list .shd {
+    background: var(--ink); color: var(--paper); padding: 12px 16px;
+    border-bottom: 3px solid var(--vermilion);
+    font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .sched-list .shd .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); margin-left: 8px; font-weight: 400; }
+  .sched-list ul { list-style: none; margin: 0; padding: 0; }
+  .sched-list li {
+    padding: 12px 16px; border-bottom: 1.5px solid rgba(11,11,9,.1);
+    display: grid; grid-template-columns: 70px 70px 1fr auto; gap: 14px; align-items: baseline;
+  }
+  .sched-list li:last-child { border-bottom: 0; }
+  .sched-list li.live { background: rgba(200,40,42,.06); border-left: 4px solid var(--vermilion); padding-left: 12px; }
+  .sched-list li.done { opacity: 0.6; }
+  .sched-list .dt { font-family: "Geist Mono"; font-size: 11px; color: var(--ink-2); font-weight: 700; line-height: 1.4; }
+  .sched-list .dt b { display: block; font-family: "Shippori Mincho"; font-size: 16px; color: var(--ink); font-weight: 900; letter-spacing: -0.01em; }
+  .sched-list .status {
+    font-family: "Geist Mono"; font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+    padding: 3px 6px; text-align: center; border: 1.5px solid var(--ink);
+    background: var(--paper-2); height: max-content;
+  }
+  .sched-list .status.live { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion-d); }
+  .sched-list .status.done { background: var(--ink-3); color: var(--paper); border-color: var(--ink-3); }
+  .sched-list .title { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
+  .sched-list .title .sub { display: block; font-family: "Noto Sans JP"; font-weight: 400; font-size: 11px; color: var(--ink-3); margin-top: 3px; }
+  .sched-list .players {
+    font-family: "Noto Sans JP"; font-weight: 500; font-size: 11px; color: var(--ink-2);
+    text-align: right; line-height: 1.5;
+  }
+
+  /* stat highlights */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin: 14px 0;
+  }
+  .stat-card {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm);
+    padding: 16px 18px; position: relative; overflow: hidden;
+  }
+  .stat-card .lb { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+  .stat-card .en { font-family: "Instrument Serif"; font-style: italic; font-size: 12px; color: var(--ink-3); margin-left: 6px; }
+  .stat-card .v { font-family: "Shippori Mincho"; font-weight: 900; font-size: 44px; line-height: 1; letter-spacing: -0.04em; margin: 8px 0 4px; }
+  .stat-card .u { font-family: "Geist Mono"; font-weight: 500; font-size: 14px; color: var(--ink-3); margin-left: 4px; }
+  .stat-card .sub { font-family: "Noto Sans JP"; font-weight: 500; font-size: 11px; color: var(--ink-2); }
+  .stat-card.dark { background: var(--ink); color: var(--paper); }
+  .stat-card.dark .lb, .stat-card.dark .en, .stat-card.dark .u, .stat-card.dark .sub { color: rgba(235,228,210,.6); }
+  .stat-card.vermilion { background: var(--vermilion); color: var(--paper); }
+  .stat-card.vermilion .lb, .stat-card.vermilion .en, .stat-card.vermilion .u, .stat-card.vermilion .sub { color: rgba(255,255,255,.75); }
+
+  .p-hero { background: var(--ink); color: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 0; overflow: hidden; margin-bottom: 14px; display: grid; grid-template-columns: 320px 1fr auto; }
+  .p-hero .portrait { background: linear-gradient(160deg, #c8282a 0%, #8a1418 100%); position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; padding: 28px; min-height: 360px; }
+  .p-hero .portrait::before { content: "瀬"; position: absolute; inset: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 420px; line-height: 0.82; color: rgba(11,11,9,.25); display: flex; align-items: center; justify-content: center; letter-spacing: -0.08em; }
+  .p-hero .portrait .avatar-big { width: 200px; height: 200px; background: var(--paper); border: 5px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho"; font-weight: 900; font-size: 96px; color: var(--ink); position: relative; box-shadow: 8px 8px 0 rgba(11,11,9,.5); }
+  .p-hero .portrait .badge-floating { position: absolute; top: 20px; right: 20px; background: #f0c86d; color: var(--ink); padding: 8px 12px; font-family: "Geist Mono"; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; border: 2.5px solid var(--ink); transform: rotate(6deg); }
+  .p-hero .info { padding: 32px 36px; position: relative; }
+  .p-hero .crumb { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em; color: rgba(235,228,210,.55); text-transform: uppercase; margin-bottom: 16px; }
+  .p-hero .crumb a { color: inherit; border-bottom: 1px dotted rgba(235,228,210,.3); }
+  .p-hero .crumb .sep { margin: 0 8px; opacity: .4; }
+  .p-hero .kicker { display: inline-block; background: var(--vermilion); padding: 4px 10px; font-family: "Geist Mono"; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; margin-bottom: 10px; }
+  .p-hero h1 { margin: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 76px; line-height: 0.9; letter-spacing: -0.04em; }
+  .p-hero h1 .en { display: block; font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 22px; color: #f0c86d; margin-top: 10px; letter-spacing: 0.01em; }
+  .p-hero .nickname { margin-top: 14px; font-family: "Shippori Mincho"; font-weight: 700; font-size: 18px; color: #f0c86d; letter-spacing: -0.01em; }
+  .p-hero .nickname .q { font-family: "Instrument Serif"; font-style: italic; font-size: 16px; color: rgba(235,228,210,.55); margin-left: 6px; }
+  .p-hero .tags-row { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+  .p-hero .tag-chip { padding: 4px 10px; border: 2px solid rgba(235,228,210,.25); font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.12em; color: rgba(235,228,210,.85); }
+  .p-hero .tag-chip.v { background: var(--vermilion); border-color: var(--vermilion-d); color: var(--paper); }
+  .p-hero .tag-chip.g { background: #f0c86d; color: var(--ink); border-color: #a07e28; }
+  .p-hero .side { background: rgba(235,228,210,.05); border-left: 2px solid rgba(235,228,210,.15); padding: 28px 28px 28px 32px; min-width: 240px; }
+  .p-hero .side .kv { margin-bottom: 18px; }
+  .p-hero .side .kv:last-child { margin-bottom: 0; }
+  .p-hero .side .kv .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(235,228,210,.55); margin-bottom: 4px; }
+  .p-hero .side .kv .v { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+  .p-hero .side .kv .v b { font-family: "Shippori Mincho"; font-weight: 900; font-size: 24px; color: #f0c86d; letter-spacing: -0.02em; }
+  .p-hero .side .kv .v .mono { font-family: "Geist Mono"; font-weight: 700; font-size: 18px; color: #f0c86d; }
+
+  .sh { font-family: "Shippori Mincho"; font-weight: 900; font-size: 28px; letter-spacing: -0.03em; margin: 24px 0 12px; display: flex; align-items: baseline; gap: 14px; }
+  .sh .num { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 20px; color: var(--vermilion); }
+  .sh .rule { flex: 1; height: 3px; background: var(--ink); margin: 0 14px; }
+  .sh .more { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); }
+
+  .stats4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
+  .stat-b { background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm); padding: 18px 20px; }
+  .stat-b.dark { background: var(--ink); color: var(--paper); }
+  .stat-b.v { background: var(--vermilion); color: var(--paper); }
+  .stat-b .lb { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .stat-b .lb .en { font-family: "Instrument Serif"; font-style: italic; font-size: 12px; margin-left: 6px; opacity: .7; }
+  .stat-b .v-num { font-family: "Shippori Mincho"; font-weight: 900; font-size: 48px; line-height: 1; letter-spacing: -0.04em; margin: 8px 0 4px; }
+  .stat-b .u { font-family: "Geist Mono"; font-size: 14px; font-weight: 500; margin-left: 4px; opacity: .75; }
+  .stat-b .sub { font-family: "Noto Sans JP"; font-size: 11px; color: var(--ink-3); }
+  .stat-b.dark .sub, .stat-b.v .sub { color: rgba(255,255,255,.7); }
+
+  .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+  /* titles timeline */
+  .timeline { background: var(--paper); border: var(--border); box-shadow: var(--shadow); }
+  .timeline .hd { background: var(--ink); color: var(--paper); padding: 12px 16px; border-bottom: 3px solid var(--vermilion); display: flex; justify-content: space-between; align-items: center; }
+  .timeline .hd .t { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; }
+  .timeline .hd .t .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); margin-left: 8px; font-weight: 400; }
+  .timeline .hd .n { font-family: "Geist Mono"; font-size: 11px; color: #f0c86d; letter-spacing: 0.12em; }
+  .timeline-list { list-style: none; margin: 0; padding: 20px 24px; position: relative; }
+  .timeline-list::before { content: ""; position: absolute; left: 62px; top: 20px; bottom: 20px; width: 2px; background: var(--ink); }
+  .timeline-list li { display: grid; grid-template-columns: 52px 20px 1fr auto; gap: 12px; padding: 10px 0; align-items: baseline; }
+  .timeline-list li .yr { font-family: "Geist Mono"; font-weight: 700; font-size: 12px; color: var(--ink-2); letter-spacing: 0.04em; }
+  .timeline-list li .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--paper); border: 3px solid var(--ink); z-index: 1; position: relative; justify-self: center; }
+  .timeline-list li.champ .dot { background: var(--vermilion); border-color: var(--vermilion-d); box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--vermilion); }
+  .timeline-list li.champ .dot { background: #f0c86d; border-color: #a07e28; box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--ink); }
+  .timeline-list li .what { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
+  .timeline-list li .what .sub { display: block; font-family: "Noto Sans JP"; font-weight: 400; font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+  .timeline-list li .tag { font-family: "Geist Mono"; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; padding: 3px 7px; border: 1.5px solid var(--ink); }
+  .timeline-list li .tag.win { background: #f0c86d; color: var(--ink); }
+  .timeline-list li .tag.final { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion-d); }
+
+  /* side boxes */
+  .bio-box { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 14px; }
+  .bio-box h3 { margin: 0 0 14px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 10px; }
+  .bio-box h3 .en { font-family: "Instrument Serif"; font-style: italic; font-size: 14px; color: var(--ink-3); font-weight: 400; }
+  .bio-box p { margin: 0 0 12px; font-size: 13px; line-height: 1.85; color: var(--ink-2); }
+  .bio-box p:last-child { margin-bottom: 0; }
+  .bio-box p:first-letter { font-family: "Shippori Mincho"; font-weight: 900; font-size: 44px; float: left; line-height: 0.95; margin: 4px 8px 0 0; color: var(--vermilion); }
+
+  .fact-box { background: var(--ink); color: var(--paper); border: var(--border); box-shadow: var(--shadow); }
+  .fact-box .fhd { padding: 12px 16px; border-bottom: 3px solid var(--vermilion); display: flex; justify-content: space-between; }
+  .fact-box .fhd .t { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; }
+  .fact-box .fhd .t .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); margin-left: 8px; font-weight: 400; }
+  .fact-box ul { list-style: none; margin: 0; padding: 0; }
+  .fact-box li { display: grid; grid-template-columns: 100px 1fr; gap: 14px; padding: 11px 16px; border-bottom: 1.5px solid rgba(235,228,210,.1); font-size: 12.5px; }
+  .fact-box li:last-child { border-bottom: 0; }
+  .fact-box li .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(235,228,210,.55); }
+  .fact-box li .v { font-family: "Shippori Mincho"; font-weight: 500; }
+  .fact-box li .v .h { color: #f0c86d; font-family: "Geist Mono"; font-weight: 700; }
+
+  /* style chart */
+  .style-chart { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 22px 24px; }
+  .style-chart h3 { margin: 0 0 16px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 10px; }
+  .style-chart h3 .en { font-family: "Instrument Serif"; font-style: italic; font-size: 14px; color: var(--ink-3); font-weight: 400; }
+  .sc-bars { display: flex; flex-direction: column; gap: 12px; }
+  .sc-bar { display: grid; grid-template-columns: 100px 1fr 38px; gap: 12px; align-items: center; }
+  .sc-bar .lab { font-family: "Shippori Mincho"; font-weight: 700; font-size: 13px; }
+  .sc-bar .lab .en { display: block; font-family: "Instrument Serif"; font-style: italic; font-size: 10.5px; color: var(--ink-3); font-weight: 400; }
+  .sc-bar .track { height: 16px; background: var(--paper-2); border: 2px solid var(--ink); position: relative; }
+  .sc-bar .track .fill { height: 100%; background: var(--ink); position: relative; }
+  .sc-bar .track .fill.v { background: var(--vermilion); }
+  .sc-bar .track .fill.g { background: #a07e28; }
+  .sc-bar .track .fill.m { background: var(--moss); }
+  .sc-bar .n { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; text-align: right; }
+  .sc-note { margin-top: 16px; padding-top: 12px; border-top: 2px dashed var(--ink); font-size: 12px; line-height: 1.7; color: var(--ink-2); }
+  .sc-note b { font-family: "Shippori Mincho"; font-weight: 900; color: var(--vermilion); }
+
+  /* recent matches */
+  .recent-matches { background: var(--paper); border: var(--border); box-shadow: var(--shadow); }
+  .recent-matches .rhd { background: var(--ink); color: var(--paper); padding: 12px 16px; border-bottom: 3px solid var(--vermilion); display: flex; justify-content: space-between; align-items: center; }
+  .recent-matches .rhd .t { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; }
+  .recent-matches .rhd .t .en { font-family: "Instrument Serif"; font-style: italic; font-size: 13px; color: rgba(235,228,210,.6); margin-left: 8px; font-weight: 400; }
+  .rm-table { width: 100%; border-collapse: collapse; }
+  .rm-table thead th { background: var(--paper-2); padding: 10px 14px; text-align: left; font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; border-bottom: 2px solid var(--ink); }
+  .rm-table thead th.n { text-align: right; }
+  .rm-table tbody td { padding: 12px 14px; border-bottom: 1.5px solid rgba(11,11,9,.1); font-size: 12.5px; }
+  .rm-table tbody tr:last-child td { border-bottom: 0; }
+  .rm-table .dt { font-family: "Geist Mono"; font-weight: 600; color: var(--ink-2); }
+  .rm-table .mt { font-family: "Shippori Mincho"; font-weight: 700; }
+  .rm-table .mt .sub { display: block; font-family: "Noto Sans JP"; font-weight: 400; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
+  .rm-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px; text-align: center; width: 40px; color: var(--ink-3); }
+  .rm-table .rk.r1 { color: var(--vermilion); }
+  .rm-table .rk.r4 { color: var(--ink-4); }
+  .rm-table td.n { font-family: "Geist Mono"; font-weight: 700; text-align: right; }
+  .rm-table td.n.p { color: var(--moss); }
+  .rm-table td.n.m { color: var(--vermilion-d); }
+
+  /* career chart */
+  .career-chart { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 14px; }
+  .career-chart h3 { margin: 0 0 18px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 10px; }
+  .career-chart h3 .en { font-family: "Instrument Serif"; font-style: italic; font-size: 14px; color: var(--ink-3); font-weight: 400; }
+  .cc-grid { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; align-items: end; height: 180px; border-bottom: 3px solid var(--ink); padding-bottom: 4px; }
+  .cc-bar { background: var(--ink); position: relative; display: flex; align-items: flex-end; justify-content: center; color: var(--paper); font-family: "Geist Mono"; font-size: 9px; font-weight: 700; padding: 2px 0; }
+  .cc-bar.champ { background: var(--vermilion); }
+  .cc-bar.fin { background: #a07e28; }
+  .cc-grid + .cc-labels { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; margin-top: 8px; }
+  .cc-labels span { text-align: center; font-family: "Geist Mono"; font-size: 10px; color: var(--ink-3); font-weight: 600; }
+  .cc-legend { display: flex; gap: 16px; margin-top: 14px; font-size: 11.5px; color: var(--ink-2); }
+  .cc-legend .k { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border: 1.5px solid var(--ink); }
+
+  /* related */
+  .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .related-card { background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm); padding: 16px 18px; transition: transform .15s; }
+  .related-card:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--ink); }
+  .related-card .avatar { width: 48px; height: 48px; border: 2.5px solid var(--ink); background: var(--paper-2); font-family: "Shippori Mincho"; font-weight: 900; font-size: 24px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .related-card .nm { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+  .related-card .meta { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 3px; }
+  .related-card .tag { display: inline-block; margin-top: 10px; padding: 2px 7px; background: var(--ink); color: var(--paper); font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.12em; font-weight: 700; }
+  .ml-hero {
+    background: var(--ink); color: var(--paper);
+    border: var(--border); box-shadow: var(--shadow);
+    padding: 40px 44px 34px; margin-bottom: 14px;
+    position: relative; overflow: hidden;
+  }
+  .ml-hero::before {
+    content:"M"; position: absolute; right: -40px; top: -120px;
+    font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+    font-size: 560px; line-height: .8; color: rgba(200,40,42,.13);
+    letter-spacing: -0.06em; pointer-events: none;
+  }
+  .ml-hero .crumb {
+    font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em;
+    color: rgba(235,228,210,.55); margin-bottom: 22px; text-transform: uppercase;
+  }
+  .ml-hero .crumb a { color: rgba(235,228,210,.55); border-bottom: 1px dotted rgba(235,228,210,.3); padding-bottom: 1px; }
+  .ml-hero .crumb .sep { margin: 0 8px; opacity: .4; }
+  .ml-hero .season-tag {
+    display: inline-block; background: var(--vermilion); color: var(--paper);
+    font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.18em; font-weight: 700;
+    padding: 5px 12px; margin-bottom: 18px;
+  }
+  .ml-hero h1 {
+    margin: 0; font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 92px; line-height: 0.9; letter-spacing: -0.045em;
+  }
+  .ml-hero h1 .en {
+    display: block; font-family: "Instrument Serif"; font-style: italic;
+    font-weight: 400; font-size: 28px; color: #f0c86d;
+    margin-top: 14px; letter-spacing: 0.01em;
+  }
+  .ml-hero .lead {
+    margin-top: 22px; max-width: 560px;
+    font-size: 14px; line-height: 1.85; color: rgba(235,228,210,.82);
+  }
+  .ml-hero .meta-row {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    margin-top: 32px; border-top: 2px solid rgba(235,228,210,.2);
+    padding-top: 22px;
+  }
+  .ml-hero .m { padding: 0 18px; border-right: 1px solid rgba(235,228,210,.1); }
+  .ml-hero .m:first-child { padding-left: 0; }
+  .ml-hero .m:last-child { padding-right: 0; border-right: 0; }
+  .ml-hero .m .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(235,228,210,.55); margin-bottom: 8px; }
+  .ml-hero .m .v { font-family: "Shippori Mincho"; font-weight: 900; font-size: 34px; line-height: 1; letter-spacing: -0.02em; }
+  .ml-hero .m .v.accent { color: #f0c86d; }
+  .ml-hero .m .v.red { color: var(--vermilion); }
+  .ml-hero .m .sub { font-size: 11px; color: rgba(235,228,210,.65); margin-top: 6px; font-family: "Noto Sans JP"; }
+
+  /* standings */
+  .standings-wrap {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .st-head {
+    padding: 14px 22px; border-bottom: 2px solid var(--ink);
+    background: var(--ink); color: var(--paper);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .st-head .ttl { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; letter-spacing: -0.02em; }
+  .st-head .ttl .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; margin-left: 10px; color: rgba(235,228,210,.65); }
+  .st-head .as-of { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.1em; color: rgba(235,228,210,.7); }
+  .st-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .st-table th {
+    background: var(--paper-2); text-align: left;
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-3); font-weight: 700;
+    padding: 10px 14px; border-bottom: 2px solid var(--ink);
+  }
+  .st-table th.n { text-align: right; }
+  .st-table td { padding: 12px 14px; border-bottom: 1px dotted var(--ink-4); vertical-align: middle; }
+  .st-table tbody tr:hover { background: rgba(200,40,42,.04); }
+  .st-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 24px; text-align: center; width: 48px; color: var(--ink-4); }
+  .st-table .rk.top3 { color: var(--vermilion); }
+  .st-table .team-cell { display: flex; align-items: center; gap: 14px; }
+  .st-table .team-mark { width: 42px; height: 42px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px; flex-shrink: 0; color: #fff; }
+  .st-table .t-name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px; }
+  .st-table .t-name small { display: block; font-family: "Noto Sans JP"; font-size: 11px; font-weight: 400; color: var(--ink-3); margin-top: 2px; }
+  .st-table .t-name a { border-bottom: 1px dotted transparent; }
+  .st-table .t-name a:hover { border-bottom-color: var(--ink); }
+  .st-table .n { text-align: right; font-family: "Geist Mono"; font-weight: 600; }
+  .st-table .n.pts { font-size: 16px; font-weight: 700; }
+  .st-table .n.pts.p { color: var(--vermilion); }
+  .st-table .n.pts.m { color: var(--moss); }
+  .st-table .bar-cell { width: 160px; padding-right: 18px; }
+  .st-table .bar {
+    height: 6px; background: var(--paper-2); position: relative; border: 1px solid var(--ink-4);
+  }
+  .st-table .bar .fill { position: absolute; top: 0; bottom: 0; left: 50%; }
+  .st-table .bar .fill.p { background: var(--vermilion); }
+  .st-table .bar .fill.m { background: var(--moss); right: 50%; left: auto; }
+  .st-table .line-tag {
+    display: inline-block; font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.1em;
+    padding: 2px 6px; font-weight: 700;
+  }
+  .st-table .line-tag.f { background: var(--vermilion); color: var(--paper); }
+  .st-table .line-tag.s { background: var(--gold); color: var(--paper); }
+  .st-table .line-tag.p { background: var(--paper-2); color: var(--ink-3); border: 1px solid var(--ink-4); }
+
+  .sh { display: flex; align-items: baseline; gap: 14px; margin: 24px 0 12px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  .sh > span:first-child { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0; }
+  .sh .num { font-family: "Instrument Serif"; font-style: italic; font-size: 15px; color: var(--ink-3); }
+  .sh .rule { flex: 1; border-bottom: 1px dotted var(--ink-4); align-self: center; height: 1px; margin-bottom: -2px; }
+  .sh .more { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); }
+
+  /* team grid */
+  .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 14px; }
+  .team-card {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm);
+    padding: 20px 22px; position: relative; overflow: hidden;
+  }
+  .team-card .band { position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--tc); }
+  .team-card .head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-top: 6px; }
+  .team-card .mark { width: 50px; height: 50px; background: var(--tc); color: #fff; display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; flex-shrink: 0; }
+  .team-card .head-text { flex: 1; min-width: 0; }
+  .team-card .head-text h3 { margin: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px; letter-spacing: -0.02em; line-height: 1.15; }
+  .team-card .head-text .sponsor { font-family: "Noto Sans JP"; font-size: 11px; color: var(--ink-3); margin-top: 3px; }
+  .team-card .rk-pt { margin-left: auto; text-align: right; flex-shrink: 0; }
+  .team-card .head-rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 28px; line-height: 1; color: var(--tc); }
+  .team-card .head-pt { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; margin-top: 4px; }
+  .team-card .head-pt.p { color: var(--vermilion); }
+  .team-card .head-pt.m { color: var(--moss); }
+  .team-card .roster { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .team-card .p { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px dotted var(--ink-4); font-size: 12px; }
+  .team-card .p .av { width: 26px; height: 26px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho"; font-weight: 900; font-size: 12px; }
+  .team-card .p .nm { font-family: "Shippori Mincho"; font-weight: 700; font-size: 12.5px; }
+  .team-card .p .nm small { display: block; font-family: "Geist Mono"; font-size: 9px; color: var(--ink-3); margin-top: 1px; letter-spacing: 0.08em; }
+  .team-card .p .pt { font-family: "Geist Mono"; font-weight: 600; font-size: 11px; }
+  .team-card .p .pt.p { color: var(--vermilion); }
+  .team-card .p .pt.m { color: var(--moss); }
+
+  /* schedule */
+  .sched-wrap {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 24px 26px; margin-bottom: 14px;
+  }
+  .sched-wrap h3 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; margin: 0 0 18px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); display: flex; justify-content: space-between; align-items: baseline; }
+  .sched-wrap h3 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 14px; color: var(--ink-3); }
+  .sched-wrap .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .sc-item { padding: 14px 16px; background: var(--paper-2); border: 1.5px solid var(--ink); position: relative; }
+  .sc-item.live { background: var(--ink); color: var(--paper); }
+  .sc-item .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .sc-item .dt { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; letter-spacing: 0.04em; }
+  .sc-item.live .dt { color: #f0c86d; }
+  .sc-item .badge { font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.14em; padding: 2px 7px; background: var(--ink); color: var(--paper); }
+  .sc-item.live .badge { background: var(--vermilion); }
+  .sc-item .match { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; line-height: 1.4; margin-bottom: 8px; }
+  .sc-item .teams { display: flex; gap: 6px; flex-wrap: wrap; font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.06em; }
+  .sc-item .teams span { padding: 2px 6px; background: rgba(11,11,9,.1); border: 1px solid var(--ink-4); }
+  .sc-item.live .teams span { background: rgba(235,228,210,.1); border-color: rgba(235,228,210,.3); color: rgba(235,228,210,.9); }
+
+  /* two col bottom */
+  .two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+  .leaders-wrap { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 24px 26px; }
+  .leaders-wrap h3 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; }
+  .leaders-wrap h3 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; color: var(--ink-3); }
+  .lead-row { display: grid; grid-template-columns: 28px 32px 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px dotted var(--ink-4); align-items: center; font-size: 12px; }
+  .lead-row:last-child { border-bottom: 0; }
+  .lead-row .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px; color: var(--ink-4); text-align: center; }
+  .lead-row .rk.top { color: var(--vermilion); }
+  .lead-row .av { width: 30px; height: 30px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho"; font-weight: 900; font-size: 13px; }
+  .lead-row .nm { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
+  .lead-row .nm small { display: block; font-family: "Noto Sans JP"; font-size: 11px; font-weight: 400; color: var(--ink-3); margin-top: 2px; }
+  .lead-row .pt { font-family: "Geist Mono"; font-weight: 700; font-size: 14px; text-align: right; }
+  .lead-row .pt.p { color: var(--vermilion); }
+  .lead-row .pt.m { color: var(--moss); }
+
+  .info-card { background: var(--paper-2); border: var(--border); box-shadow: var(--shadow); padding: 22px 24px; }
+  .info-card h3 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); letter-spacing: -0.02em; }
+  .info-card h3 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; color: var(--ink-3); margin-left: 6px; }
+  .info-card dl { margin: 0; display: grid; grid-template-columns: 90px 1fr; gap: 10px 14px; font-size: 12px; }
+  .info-card dt { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.1em; color: var(--ink-3); padding-top: 2px; }
+  .info-card dd { margin: 0; font-family: "Noto Sans JP"; font-weight: 500; color: var(--ink); line-height: 1.55; }
+  .info-card dd b { font-family: "Shippori Mincho"; font-weight: 700; }
+
+  /* rule */
+  .rule-sheet { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 24px 28px; margin-bottom: 14px; }
+  .rule-sheet h3 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; margin: 0 0 18px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; }
+  .rule-sheet h3 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 14px; color: var(--ink-3); }
+  .rule-sheet .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .rule-sheet .r .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 4px; }
+  .rule-sheet .r .v { font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px; color: var(--ink); }
+  .rule-sheet .r .v b { color: var(--vermilion); }
+  /* ============ HERO ============ */
+  .sc-hero {
+    background: var(--ink); color: var(--paper);
+    border: var(--border); box-shadow: var(--shadow);
+    padding: 34px 44px 28px; margin-bottom: 14px;
+    position: relative; overflow: hidden;
+  }
+  .sc-hero::before {
+    content:"週"; position: absolute; left: 38%; top: -120px;
+    font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 460px; line-height: .8; color: rgba(200,40,42,.06);
+    letter-spacing: -0.05em; pointer-events: none;
+  }
+  .sc-hero .range .counts .c { position: relative; z-index: 1; }
+  .sc-hero .crumb { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em; color: rgba(235,228,210,.55); margin-bottom: 16px; text-transform: uppercase; }
+  .sc-hero .crumb a { color: rgba(235,228,210,.55); border-bottom: 1px dotted rgba(235,228,210,.3); padding-bottom: 1px; }
+  .sc-hero .crumb .sep { margin: 0 8px; opacity: .4; }
+  .sc-hero h1 {
+    margin: 0; font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 64px; line-height: 0.92; letter-spacing: -0.04em;
+    display: flex; align-items: baseline; gap: 22px;
+  }
+  .sc-hero h1 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 22px; color: #f0c86d; letter-spacing: 0.01em; }
+  .sc-hero .range {
+    display: flex; align-items: center; gap: 18px; margin-top: 24px;
+    padding-top: 20px; border-top: 2px solid rgba(235,228,210,.2);
+  }
+  .sc-hero .range .navbtn {
+    width: 36px; height: 36px; border: 2px solid rgba(235,228,210,.3);
+    background: transparent; color: var(--paper); font-family: "Shippori Mincho";
+    font-weight: 700; font-size: 18px; cursor: pointer; transition: all .15s;
+  }
+  .sc-hero .range .navbtn:hover { background: var(--vermilion); border-color: var(--vermilion); }
+  .sc-hero .range .wk {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 28px;
+    letter-spacing: -0.02em;
+  }
+  .sc-hero .range .wk .sub { font-family: "Geist Mono"; font-size: 12px; letter-spacing: 0.14em; color: rgba(235,228,210,.55); font-weight: 500; text-transform: uppercase; display: block; margin-top: 4px; }
+  .sc-hero .range .counts { margin-left: auto; display: flex; gap: 28px; }
+  .sc-hero .range .counts .c { text-align: right; }
+  .sc-hero .range .counts .c .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; color: rgba(235,228,210,.55); text-transform: uppercase; }
+  .sc-hero .range .counts .c .v { font-family: "Shippori Mincho"; font-weight: 900; font-size: 28px; line-height: 1; margin-top: 4px; letter-spacing: -0.02em; }
+  .sc-hero .range .counts .c .v.red { color: var(--vermilion); }
+  .sc-hero .range .counts .c .v.gold { color: #f0c86d; }
+
+  /* ============ FILTERS ============ */
+  .filter-bar {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 16px 22px; margin-bottom: 14px;
+    display: flex; gap: 22px; align-items: center; flex-wrap: wrap;
+  }
+  .filter-bar .label { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; margin-right: 2px; }
+  .filter-bar .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-bar .pill {
+    font-family: "Noto Sans JP"; font-size: 12px; font-weight: 500;
+    padding: 6px 12px; border: 1.5px solid var(--ink-4); background: var(--paper);
+    cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .filter-bar .pill:hover { border-color: var(--ink); }
+  .filter-bar .pill.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .filter-bar .pill .dot { width: 7px; height: 7px; }
+  .filter-bar .pill.on .dot { box-shadow: 0 0 0 1px var(--paper); }
+  .filter-bar .sep-v { width: 1px; height: 24px; background: var(--ink-4); }
+  .filter-bar .view { margin-left: auto; display: flex; gap: 2px; }
+  .filter-bar .view button {
+    background: var(--paper); border: 1.5px solid var(--ink); padding: 6px 12px;
+    font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.08em; font-weight: 600;
+    cursor: pointer; color: var(--ink);
+  }
+  .filter-bar .view button.on { background: var(--ink); color: var(--paper); }
+
+  /* ============ CALENDAR (week) ============ */
+  .cal-wrap {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    margin-bottom: 14px; overflow: hidden;
+  }
+  .cal-head-row {
+    display: grid; grid-template-columns: 80px repeat(7, 1fr);
+    border-bottom: 2px solid var(--ink); background: var(--ink); color: var(--paper);
+  }
+  .cal-head-row .corner {
+    padding: 12px 10px; font-family: "Geist Mono"; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: rgba(235,228,210,.55);
+    border-right: 1px solid rgba(235,228,210,.2);
+  }
+  .cal-head-row .day {
+    padding: 12px 14px; text-align: left;
+    border-right: 1px solid rgba(235,228,210,.12);
+    position: relative;
+  }
+  .cal-head-row .day:last-child { border-right: 0; }
+  .cal-head-row .day.today { background: var(--vermilion); }
+  .cal-head-row .day .dow { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; opacity: .7; }
+  .cal-head-row .day .dt { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; margin-top: 2px; display: flex; align-items: baseline; gap: 8px; }
+  .cal-head-row .day .dt .n { font-size: 11px; font-family: "Noto Sans JP"; color: rgba(235,228,210,.65); font-weight: 500; }
+  .cal-head-row .day.today .dt .n { color: #f0c86d; }
+  .cal-head-row .day.sat .dow { color: #9dc5ff; }
+  .cal-head-row .day.sun .dow { color: #f5a89a; }
+
+  .cal-body { display: grid; grid-template-columns: 80px repeat(7, 1fr); min-height: 520px; position: relative; }
+  .cal-body .hour-col {
+    border-right: 2px solid var(--ink); background: var(--paper-2);
+    display: flex; flex-direction: column;
+  }
+  .cal-body .hour {
+    flex: 1; border-bottom: 1px dotted var(--ink-4);
+    padding: 6px 10px 0; font-family: "Geist Mono"; font-size: 11px;
+    letter-spacing: 0.08em; color: var(--ink-3); font-weight: 600;
+    min-height: 72px;
+  }
+  .cal-body .hour:last-child { border-bottom: 0; }
+  .cal-body .day-col {
+    border-right: 1px solid var(--ink-4); position: relative;
+    background: var(--paper);
+  }
+  .cal-body .day-col:last-child { border-right: 0; }
+  .cal-body .day-col.today { background: rgba(200,40,42,.04); }
+  .cal-body .day-col .hour {
+    height: 72px; border-bottom: 1px dotted var(--ink-4);
+  }
+  .cal-body .day-col .hour:last-child { border-bottom: 0; }
+  .cal-body .event {
+    position: absolute; left: 4px; right: 4px;
+    border: 1.5px solid var(--ink); background: var(--paper);
+    padding: 5px 7px; font-size: 10.5px; line-height: 1.3;
+    overflow: hidden; cursor: pointer; transition: all .15s;
+  }
+  .cal-body .event:hover { transform: translate(-1px, -1px); box-shadow: 2px 2px 0 var(--ink); z-index: 5; }
+  .cal-body .event.live { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion-d); }
+  .cal-body .event .tm { font-family: "Geist Mono"; font-weight: 700; font-size: 10px; letter-spacing: 0.04em; }
+  .cal-body .event .tl { font-family: "Shippori Mincho"; font-weight: 700; margin-top: 1px; }
+  .cal-body .event .sub { font-size: 9.5px; color: var(--ink-3); margin-top: 1px; font-family: "Noto Sans JP"; }
+  .cal-body .event.live .sub { color: rgba(235,228,210,.8); }
+  .cal-body .event .org-tag {
+    display: inline-block; padding: 1px 4px; font-family: "Geist Mono"; font-size: 8.5px;
+    font-weight: 700; letter-spacing: 0.06em; margin-top: 2px; color: #fff;
+  }
+
+  /* now line */
+  .now-line { position: absolute; left: 80px; right: 0; border-top: 2px solid var(--vermilion); z-index: 3; pointer-events: none; }
+  .now-line::before { content: ""; position: absolute; left: -6px; top: -6px; width: 10px; height: 10px; border-radius: 50%; background: var(--vermilion); box-shadow: 0 0 0 3px rgba(200,40,42,.2); animation: now-pulse 1.6s infinite; }
+  @keyframes now-pulse { 50% { box-shadow: 0 0 0 6px rgba(200,40,42,.1); } }
+  .now-line .now-label { position: absolute; left: -70px; top: -10px; font-family: "Geist Mono"; font-weight: 700; font-size: 10px; letter-spacing: 0.1em; color: var(--vermilion); background: var(--paper); padding: 1px 5px; }
+
+  /* ============ LIST VIEW ============ */
+  .list-wrap {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .list-head {
+    padding: 14px 22px; background: var(--ink); color: var(--paper);
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px solid var(--ink);
+  }
+  .list-head .ttl { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; letter-spacing: -0.02em; }
+  .list-head .ttl .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; margin-left: 10px; color: rgba(235,228,210,.65); }
+  .list-head .count { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.1em; color: rgba(235,228,210,.7); }
+
+  .day-section { border-bottom: 1px solid var(--ink-4); }
+  .day-section:last-child { border-bottom: 0; }
+  .day-section .day-header {
+    padding: 10px 22px; background: var(--paper-2);
+    border-bottom: 1.5px solid var(--ink); display: flex; align-items: baseline; gap: 16px;
+  }
+  .day-section .day-header.today { background: var(--vermilion); color: var(--paper); }
+  .day-section .day-header .big {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em;
+  }
+  .day-section .day-header .dow { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; }
+  .day-section .day-header.today .dow { color: #f0c86d; }
+  .day-section .day-header .meta { margin-left: auto; font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.08em; color: var(--ink-3); }
+  .day-section .day-header.today .meta { color: rgba(235,228,210,.8); }
+
+  .match-row {
+    display: grid; grid-template-columns: 90px 90px 1fr 200px 140px 130px;
+    gap: 16px; padding: 14px 22px; align-items: center;
+    border-bottom: 1px dotted var(--ink-4); font-size: 12.5px;
+    transition: background .12s;
+  }
+  .match-row:last-child { border-bottom: 0; }
+  .match-row:hover { background: rgba(200,40,42,.04); }
+  .match-row .time { font-family: "Geist Mono"; font-weight: 700; font-size: 15px; letter-spacing: 0.02em; }
+  .match-row .time .dur { display: block; font-size: 10px; color: var(--ink-3); font-weight: 500; margin-top: 3px; }
+  .match-row .status {
+    display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+    font-family: "Geist Mono"; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; padding: 5px 8px; width: fit-content;
+  }
+  .match-row .status.live { background: var(--vermilion); color: var(--paper); }
+  .match-row .status.live::before { content:""; width: 5px; height: 5px; border-radius: 50%; background: var(--paper); animation: now-pulse 1.4s infinite; }
+  .match-row .status.upcoming { background: var(--paper-2); color: var(--ink); border: 1.5px solid var(--ink); }
+  .match-row .status.done { background: transparent; color: var(--ink-3); border: 1.5px solid var(--ink-4); }
+  .match-row .title h4 {
+    margin: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 16px;
+    letter-spacing: -0.01em; line-height: 1.3;
+  }
+  .match-row .title h4 a { border-bottom: 1px dotted transparent; }
+  .match-row .title h4 a:hover { border-bottom-color: var(--ink); }
+  .match-row .title .sub {
+    font-family: "Noto Sans JP"; font-size: 11px; color: var(--ink-3); margin-top: 3px;
+  }
+  .match-row .players { display: flex; flex-wrap: wrap; gap: 4px; font-size: 11px; }
+  .match-row .players .p {
+    padding: 2px 6px; background: var(--paper-2); border: 1px solid var(--ink-4);
+    font-family: "Shippori Mincho"; font-weight: 700;
+  }
+  .match-row .players .p.lead { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .match-row .org-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .match-row .org-tag .bar { width: 4px; height: 18px; background: var(--oc); }
+  .match-row .action {
+    font-family: "Geist Mono"; font-size: 10.5px; letter-spacing: 0.1em;
+    font-weight: 700; text-transform: uppercase; text-align: right;
+  }
+  .match-row .action.watch { color: var(--vermilion); }
+  .match-row .action .ch { display: block; font-family: "Noto Sans JP"; font-size: 10px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; text-transform: none; margin-top: 3px; }
+
+  /* ============ RIGHT COLS ============ */
+  .cal-two { display: grid; grid-template-columns: 1fr 380px; gap: 14px; align-items: start; }
+
+  .side-card {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 22px 24px; margin-bottom: 14px;
+  }
+  .side-card h3 {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px;
+    margin: 0 0 14px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink); letter-spacing: -0.02em;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .side-card h3 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; color: var(--ink-3); }
+
+  .mini-cal {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-top: 4px;
+  }
+  .mini-cal .dow-h { font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.1em; text-align: center; color: var(--ink-3); padding: 4px 0; font-weight: 700; text-transform: uppercase; }
+  .mini-cal .dow-h.sat { color: #4a7dcc; }
+  .mini-cal .dow-h.sun { color: var(--vermilion); }
+  .mini-cal .d {
+    text-align: center; padding: 6px 0; font-family: "Shippori Mincho";
+    font-weight: 700; font-size: 12px; border: 1px solid transparent;
+    cursor: pointer; position: relative;
+  }
+  .mini-cal .d:hover { background: var(--paper-2); }
+  .mini-cal .d.other { color: var(--ink-4); }
+  .mini-cal .d.selected { background: var(--vermilion); color: var(--paper); }
+  .mini-cal .d.today { border-color: var(--ink); font-weight: 900; }
+  .mini-cal .d.has::after {
+    content:""; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: var(--vermilion);
+  }
+  .mini-cal .d.selected.has::after { background: var(--paper); }
+
+  .jump-list { display: grid; gap: 8px; }
+  .jump-item {
+    display: grid; grid-template-columns: 50px 1fr auto; gap: 10px;
+    padding: 10px 0; border-bottom: 1px dotted var(--ink-4);
+    align-items: center; font-size: 12px;
+  }
+  .jump-item:last-child { border-bottom: 0; }
+  .jump-item .d { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; line-height: 1; text-align: center; }
+  .jump-item .d small { display: block; font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.12em; color: var(--ink-3); margin-top: 3px; font-weight: 600; }
+  .jump-item .t { font-family: "Shippori Mincho"; font-weight: 700; font-size: 13px; }
+  .jump-item .t small { display: block; font-family: "Noto Sans JP"; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; font-weight: 400; }
+  .jump-item .c { font-family: "Geist Mono"; font-weight: 700; color: var(--vermilion); font-size: 14px; }
+
+  .ch-list { display: grid; gap: 10px; }
+  .ch-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; background: var(--paper-2); border: 1.5px solid var(--ink);
+  }
+  .ch-item .badge {
+    width: 38px; height: 38px; background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 11px; letter-spacing: 0.04em;
+    flex-shrink: 0; text-align: center; line-height: 1.1;
+  }
+  .ch-item .nm { flex: 1; font-family: "Shippori Mincho"; font-weight: 700; font-size: 12.5px; }
+  .ch-item .nm small { display: block; font-family: "Noto Sans JP"; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; font-weight: 400; }
+  .ch-item .live-tag { font-family: "Geist Mono"; font-weight: 700; font-size: 9px; color: var(--vermilion); letter-spacing: 0.12em; }
+  /* HERO */
+  .rk-hero { background: var(--ink); color: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 34px 44px 28px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .rk-hero::before { content:"位"; position: absolute; left: 40%; top: -140px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 480px; line-height: .8; color: rgba(240,200,109,.07); letter-spacing: -0.05em; pointer-events: none; }
+  .rk-hero .crumb { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em; color: rgba(235,228,210,.55); margin-bottom: 16px; text-transform: uppercase; position: relative; }
+  .rk-hero .crumb a { color: rgba(235,228,210,.55); border-bottom: 1px dotted rgba(235,228,210,.3); padding-bottom: 1px; }
+  .rk-hero .crumb .sep { margin: 0 8px; opacity: .4; }
+  .rk-hero h1 { margin: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 64px; line-height: 0.92; letter-spacing: -0.04em; display: flex; align-items: baseline; gap: 22px; position: relative; }
+  .rk-hero h1 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 22px; color: #f0c86d; letter-spacing: 0.01em; }
+  .rk-hero p.lead { margin: 16px 0 0; max-width: 600px; font-family: "Noto Sans JP"; font-size: 13px; line-height: 1.7; color: rgba(235,228,210,.8); position: relative; }
+  .rk-hero .hero-stats { display: flex; gap: 38px; margin-top: 26px; padding-top: 22px; border-top: 2px solid rgba(235,228,210,.2); position: relative; }
+  .rk-hero .hs { }
+  .rk-hero .hs .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(235,228,210,.55); }
+  .rk-hero .hs .v { font-family: "Shippori Mincho"; font-weight: 900; font-size: 30px; line-height: 1; margin-top: 6px; letter-spacing: -0.02em; }
+  .rk-hero .hs .v.red { color: var(--vermilion); }
+  .rk-hero .hs .v.gold { color: #f0c86d; }
+
+  /* TAB bar */
+  .tab-bar { background: var(--paper); border: var(--border); box-shadow: var(--shadow); margin-bottom: 14px; display: flex; overflow: hidden; }
+  .tab-bar button { flex: 1; border: 0; border-right: 1.5px solid var(--ink-4); background: var(--paper); padding: 14px 18px; font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; cursor: pointer; text-align: left; display: flex; align-items: baseline; gap: 10px; color: var(--ink); transition: background .12s; }
+  .tab-bar button:last-child { border-right: 0; }
+  .tab-bar button:hover { background: var(--paper-2); }
+  .tab-bar button.on { background: var(--ink); color: var(--paper); }
+  .tab-bar button .idx { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.12em; color: var(--ink-3); font-weight: 700; }
+  .tab-bar button.on .idx { color: #f0c86d; }
+  .tab-bar button .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 11px; color: var(--ink-3); margin-left: 2px; }
+  .tab-bar button.on .en { color: rgba(235,228,210,.6); }
+
+  /* filter row */
+  .filter-bar { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 14px 22px; margin-bottom: 14px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  .filter-bar .label { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; }
+  .filter-bar .pills { display: flex; gap: 5px; flex-wrap: wrap; }
+  .filter-bar .pill { font-family: "Noto Sans JP"; font-size: 12px; font-weight: 500; padding: 5px 11px; border: 1.5px solid var(--ink-4); background: var(--paper); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .filter-bar .pill:hover { border-color: var(--ink); }
+  .filter-bar .pill.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .filter-bar .pill .dot { width: 7px; height: 7px; }
+  .filter-bar .sep-v { width: 1px; height: 24px; background: var(--ink-4); }
+  .filter-bar .search-in { margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1.5px solid var(--ink); font-family: "Geist Mono"; font-size: 11px; color: var(--ink-3); min-width: 200px; }
+  .filter-bar .search-in::before { content: "⌕"; }
+
+  /* TWO COL */
+  .rk-grid { display: grid; grid-template-columns: 1fr 380px; gap: 14px; align-items: start; }
+
+  /* PODIUM */
+  .podium { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 28px 28px 24px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .podium::before { content:"賞"; position: absolute; right: -30px; top: -80px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 340px; color: rgba(200,40,42,.05); line-height: .8; letter-spacing: -0.05em; pointer-events: none; }
+  .podium h2 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; margin: 0 0 4px; letter-spacing: -0.02em; position: relative; display: flex; align-items: baseline; gap: 14px; }
+  .podium h2 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; color: var(--ink-3); }
+  .podium .note { font-family: "Noto Sans JP"; font-size: 11.5px; color: var(--ink-3); margin-bottom: 22px; position: relative; }
+  .podium .note b { color: var(--vermilion); font-family: "Geist Mono"; font-weight: 700; }
+
+  .podium-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; align-items: end; position: relative; }
+  .pod-card { border: var(--border); padding: 20px 18px; position: relative; background: var(--paper); }
+  .pod-card.p1 { background: var(--ink); color: var(--paper); box-shadow: 5px 5px 0 var(--vermilion); transform: translateY(-8px); }
+  .pod-card.p2 { background: var(--paper); }
+  .pod-card.p3 { background: var(--paper); }
+  .pod-card .rk-big { position: absolute; top: -18px; left: 14px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 60px; line-height: .9; letter-spacing: -0.04em; background: var(--paper); border: var(--border); padding: 0 12px; }
+  .pod-card.p1 .rk-big { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion-d); }
+  .pod-card .rk-big .m { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; letter-spacing: 0; vertical-align: super; margin-left: -2px; }
+  .pod-card .org { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 38px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .pod-card.p1 .org { color: #f0c86d; }
+  .pod-card .org .bar { width: 4px; height: 13px; background: var(--oc); }
+  .pod-card .nm { font-family: "Shippori Mincho"; font-weight: 900; font-size: 28px; letter-spacing: -0.02em; line-height: 1.05; margin: 8px 0 3px; }
+  .pod-card.p1 .nm { font-size: 32px; }
+  .pod-card .sub { font-family: "Noto Sans JP"; font-size: 11px; color: var(--ink-3); margin-bottom: 16px; }
+  .pod-card.p1 .sub { color: rgba(235,228,210,.7); }
+  .pod-card .metric-row { display: flex; gap: 18px; padding-top: 12px; border-top: 1.5px solid var(--ink-4); }
+  .pod-card.p1 .metric-row { border-top-color: rgba(235,228,210,.2); }
+  .pod-card .metric-row .m { }
+  .pod-card .metric-row .m .ml { font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; }
+  .pod-card.p1 .metric-row .m .ml { color: rgba(235,228,210,.55); }
+  .pod-card .metric-row .m .mv { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; margin-top: 3px; letter-spacing: -0.02em; line-height: 1; }
+  .pod-card .metric-row .m .mv.plus { color: var(--vermilion); }
+  .pod-card.p1 .metric-row .m .mv.plus { color: #f0c86d; }
+  .pod-card .face { position: absolute; right: 14px; bottom: 14px; width: 80px; height: 80px; background: var(--paper-2); border: 2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho"; font-weight: 900; font-size: 36px; color: var(--ink); }
+  .pod-card.p1 .face { background: rgba(240,200,109,.15); border-color: rgba(240,200,109,.5); color: #f0c86d; }
+
+  /* TABLE */
+  .rk-table-wrap { background: var(--paper); border: var(--border); box-shadow: var(--shadow); }
+  .rk-table-head { background: var(--ink); color: var(--paper); display: grid; grid-template-columns: 60px 70px 1fr 90px 90px 90px 90px 90px 80px; gap: 12px; padding: 12px 22px; font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+  .rk-table-head span { color: rgba(235,228,210,.65); }
+  .rk-table-head .arrow { color: #f0c86d; }
+  .rk-row { display: grid; grid-template-columns: 60px 70px 1fr 90px 90px 90px 90px 90px 80px; gap: 12px; padding: 14px 22px; align-items: center; border-bottom: 1px dotted var(--ink-4); transition: background .12s; font-size: 13px; }
+  .rk-row:last-child { border-bottom: 0; }
+  .rk-row:hover { background: rgba(200,40,42,.04); }
+  .rk-row.top { background: rgba(240,200,109,.06); }
+  .rk-row .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; line-height: 1; letter-spacing: -0.02em; }
+  .rk-row.top .rk { color: var(--vermilion); }
+  .rk-row .rk small { display: block; font-family: "Geist Mono"; font-size: 9px; color: var(--ink-3); font-weight: 600; letter-spacing: 0.08em; margin-top: 3px; }
+  .rk-row .rk small.up { color: var(--vermilion); }
+  .rk-row .rk small.dn { color: var(--moss); }
+  .rk-row .rk small.eq { color: var(--ink-3); }
+  .rk-row .face {
+    width: 44px; height: 44px; background: var(--paper-2); border: 1.5px solid var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px;
+  }
+  .rk-row .face.var1 { background: #c8282a; color: var(--paper); border-color: var(--vermilion-d); }
+  .rk-row .face.var2 { background: #2f5c3f; color: var(--paper); border-color: #1e3d2a; }
+  .rk-row .face.var3 { background: #1d4ed8; color: var(--paper); border-color: #1a3ba0; }
+  .rk-row .face.var4 { background: #a07e28; color: var(--paper); border-color: #7a5e1a; }
+  .rk-row .face.var5 { background: #4b2a7a; color: var(--paper); border-color: #36205a; }
+  .rk-row .face.var6 { background: var(--ink); color: var(--paper); }
+  .rk-row .nm { font-family: "Shippori Mincho"; font-weight: 900; font-size: 17px; letter-spacing: -0.01em; }
+  .rk-row .nm a { border-bottom: 1px dotted transparent; }
+  .rk-row .nm a:hover { border-bottom-color: var(--ink); }
+  .rk-row .nm .sub { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 3px; font-weight: 500; display: flex; gap: 8px; align-items: center; text-transform: uppercase; }
+  .rk-row .nm .sub .bar { width: 3px; height: 10px; background: var(--oc); }
+  .rk-row .val { font-family: "Geist Mono"; font-weight: 700; font-size: 15px; text-align: right; letter-spacing: 0.02em; }
+  .rk-row .val.plus { color: var(--vermilion); }
+  .rk-row .val.minus { color: var(--moss); }
+  .rk-row .val.gold { color: #a07e28; }
+  .rk-row .val .u { font-size: 9px; color: var(--ink-3); margin-left: 2px; font-weight: 500; font-family: "Geist Mono"; text-transform: uppercase; letter-spacing: 0.08em; }
+  .rk-row .val small { display: block; font-size: 10px; color: var(--ink-3); font-weight: 500; margin-top: 3px; font-family: "Noto Sans JP"; letter-spacing: 0; }
+  .rk-row .act { text-align: right; font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.08em; font-weight: 700; color: var(--ink-3); text-transform: uppercase; }
+  .rk-row .act:hover { color: var(--vermilion); }
+
+  .rk-pagination { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border-top: 2px solid var(--ink); background: var(--paper-2); }
+  .rk-pagination .info { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.1em; font-weight: 700; color: var(--ink-3); text-transform: uppercase; }
+  .rk-pagination .pages { display: flex; gap: 4px; }
+  .rk-pagination .pages button { background: var(--paper); border: 1.5px solid var(--ink); width: 32px; height: 32px; font-family: "Geist Mono"; font-weight: 700; font-size: 12px; cursor: pointer; }
+  .rk-pagination .pages button.on { background: var(--ink); color: var(--paper); }
+  .rk-pagination .pages button:hover:not(.on) { background: var(--paper-2); }
+
+  /* SIDE */
+  .side-card { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 14px; }
+  .side-card h3 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; }
+  .side-card h3 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 13px; color: var(--ink-3); }
+
+  /* mini leaderboards */
+  .mini-row { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; padding: 9px 0; border-bottom: 1px dotted var(--ink-4); align-items: baseline; font-size: 12.5px; }
+  .mini-row:last-child { border-bottom: 0; }
+  .mini-row .n { font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px; color: var(--ink-3); text-align: center; letter-spacing: -0.02em; line-height: 1; }
+  .mini-row.top .n { color: var(--vermilion); }
+  .mini-row .nm { font-family: "Shippori Mincho"; font-weight: 700; font-size: 13px; }
+  .mini-row .nm small { display: block; font-family: "Noto Sans JP"; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; font-weight: 400; }
+  .mini-row .v { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; }
+  .mini-row .v.plus { color: var(--vermilion); }
+  .mini-row .v.gold { color: #a07e28; }
+  .mini-row .v small { font-size: 9px; color: var(--ink-3); margin-left: 2px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* movers */
+  .mover { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; padding: 10px 0; border-bottom: 1px dotted var(--ink-4); align-items: center; }
+  .mover:last-child { border-bottom: 0; }
+  .mover .dlt { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; text-align: center; }
+  .mover.up .dlt { color: var(--vermilion); }
+  .mover.up .dlt::before { content: "▲"; display: block; font-size: 9px; margin-bottom: 2px; }
+  .mover.dn .dlt::before { content: "▼"; display: block; font-size: 9px; margin-bottom: 2px; }
+  .mover.dn .dlt { color: var(--moss); }
+  .mover .mn { font-family: "Shippori Mincho"; font-weight: 700; font-size: 13px; }
+  .mover .mn small { display: block; font-family: "Geist Mono"; font-size: 9.5px; color: var(--ink-3); margin-top: 2px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+  .mover .rnk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 16px; letter-spacing: -0.02em; }
+  .mover .rnk small { display: block; font-family: "Geist Mono"; font-size: 9px; color: var(--ink-3); font-weight: 500; margin-top: 2px; }
+
+  /* org leaderboard */
+  .org-lead { display: grid; gap: 8px; }
+  .org-lead .ol { display: grid; grid-template-columns: 22px 14px 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; background: var(--paper-2); border-left: 4px solid var(--oc); font-size: 12px; }
+  .org-lead .ol .rn { font-family: "Geist Mono"; font-weight: 700; color: var(--ink-3); font-size: 11px; }
+  .org-lead .ol .og { font-family: "Shippori Mincho"; font-weight: 900; font-size: 13px; }
+  .org-lead .ol .og small { display: block; font-family: "Geist Mono"; font-size: 9px; color: var(--ink-3); margin-top: 2px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+  .org-lead .ol .vl { font-family: "Geist Mono"; font-weight: 700; font-size: 13px; color: var(--vermilion); }
+
+  /* note */
+  .data-note { background: var(--paper-2); border: 1.5px solid var(--ink-4); padding: 14px 16px; margin-top: 14px; font-family: "Noto Sans JP"; font-size: 11px; color: var(--ink-3); line-height: 1.6; }
+  .data-note b { color: var(--ink); font-family: "Shippori Mincho"; font-weight: 700; }
+
+  /* SECTION heading between rankings */
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin: 32px 0 16px; padding-bottom: 10px; border-bottom: 2.5px solid var(--ink); position: relative; }
+  .sec-head h2 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 28px; letter-spacing: -0.03em; margin: 0; }
+  .sec-head .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 16px; color: var(--ink-3); }
+  .sec-head .num { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.16em; color: var(--vermilion); font-weight: 700; margin-left: auto; text-transform: uppercase; }
+  /* ===== ORG HERO ===== */
+  .org-hero {
+    background: var(--ink); color: var(--paper);
+    border: var(--border); box-shadow: var(--shadow);
+    padding: 36px 40px 30px; position: relative; overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .org-hero::before {
+    content: "連"; position: absolute; right: -30px; top: -80px;
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 480px;
+    line-height: 0.85; color: rgba(200,40,42,.13); pointer-events: none;
+    letter-spacing: -0.08em;
+  }
+  .org-hero .crumb {
+    font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em;
+    color: rgba(235,228,210,.55); margin-bottom: 22px; text-transform: uppercase;
+  }
+  .org-hero .crumb a { color: rgba(235,228,210,.55); border-bottom: 1px dotted rgba(235,228,210,.3); padding-bottom: 1px; }
+  .org-hero .crumb a:hover { color: var(--paper); }
+  .org-hero .crumb .sep { margin: 0 8px; opacity: .4; }
+
+  .org-hero .top-grid { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; }
+  .org-hero .org-code {
+    font-family: "Geist Mono"; font-size: 12px; letter-spacing: 0.2em;
+    color: var(--vermilion); font-weight: 700; margin-bottom: 10px;
+  }
+  .org-hero h1 {
+    margin: 0; font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 84px; line-height: 0.9; letter-spacing: -0.045em;
+  }
+  .org-hero h1 .en {
+    display: block; font-family: "Instrument Serif"; font-style: italic;
+    font-weight: 400; font-size: 26px; color: #f0c86d;
+    margin-top: 14px; letter-spacing: 0.01em;
+  }
+  .org-hero .tags { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+  .org-hero .tags span {
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
+    padding: 4px 10px; background: rgba(235,228,210,.08);
+    border: 1px solid rgba(235,228,210,.2); color: rgba(235,228,210,.85);
+  }
+  .org-hero .tags span.highlight {
+    background: var(--vermilion); color: var(--paper); border-color: var(--vermilion);
+  }
+
+  .org-hero .kite {
+    width: 180px; height: 180px; position: relative;
+    border: 3px solid var(--vermilion); padding: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(200,40,42,.1);
+  }
+  .org-hero .kite::before, .org-hero .kite::after {
+    content:""; position: absolute; background: var(--vermilion);
+  }
+  .org-hero .kite::before { top: -3px; left: -3px; width: 24px; height: 3px; }
+  .org-hero .kite::after { top: -3px; left: -3px; width: 3px; height: 24px; }
+  .org-hero .kite .k-main {
+    font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 100px; line-height: 0.9; color: var(--paper);
+    letter-spacing: -0.05em;
+  }
+
+  .org-hero .meta-row {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    margin-top: 36px; border-top: 2px solid rgba(235,228,210,.2);
+    padding-top: 22px;
+  }
+  .org-hero .m { padding: 0 18px; border-right: 1px solid rgba(235,228,210,.1); }
+  .org-hero .m:first-child { padding-left: 0; }
+  .org-hero .m:last-child { padding-right: 0; border-right: 0; }
+  .org-hero .m .l {
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: rgba(235,228,210,.55); margin-bottom: 8px;
+  }
+  .org-hero .m .v {
+    font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 34px; line-height: 1; letter-spacing: -0.02em; color: var(--paper);
+  }
+  .org-hero .m .v.accent { color: #f0c86d; }
+  .org-hero .m .sub {
+    font-family: "Noto Sans JP"; font-size: 11px; color: rgba(235,228,210,.65);
+    margin-top: 6px;
+  }
+
+  /* ===== Intro block ===== */
+  .intro-block {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 14px;
+    margin-bottom: 14px;
+  }
+  .intro-main {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 26px 30px; position: relative;
+  }
+  .intro-main h2 {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 26px;
+    margin: 0 0 14px; letter-spacing: -0.03em;
+  }
+  .intro-main h2 .en {
+    font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+    font-size: 16px; color: var(--ink-3); margin-left: 10px;
+  }
+  .intro-main .lead {
+    font-size: 14px; line-height: 1.85; color: var(--ink-2);
+    column-count: 2; column-gap: 28px; column-rule: 1px dotted var(--ink-4);
+    text-align: justify;
+  }
+  .intro-main .lead p:first-child { margin-top: 0; }
+  .intro-main .lead p { margin-bottom: 0.9em; }
+  .intro-main .pullquote {
+    margin-top: 20px; padding: 16px 20px;
+    border-left: 4px solid var(--vermilion);
+    background: rgba(200,40,42,.05);
+    font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px;
+    color: var(--ink); line-height: 1.7;
+  }
+
+  .intro-side {
+    background: var(--paper-2); border: var(--border); box-shadow: var(--shadow);
+    padding: 22px 24px;
+  }
+  .intro-side h3 {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px;
+    margin: 0 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .intro-side h3 .en {
+    font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+    font-size: 13px; color: var(--ink-3); margin-left: 6px;
+  }
+  .intro-side dl { margin: 0; display: grid; grid-template-columns: 90px 1fr; gap: 10px 14px; font-size: 12px; }
+  .intro-side dt {
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-3); padding-top: 2px;
+  }
+  .intro-side dd {
+    margin: 0; font-family: "Noto Sans JP"; font-weight: 500;
+    color: var(--ink); line-height: 1.55;
+  }
+  .intro-side dd b { font-family: "Shippori Mincho"; font-weight: 700; }
+  .intro-side dd a { border-bottom: 1px dotted var(--ink); }
+
+  /* ===== Section heading ===== */
+  .sh {
+    display: flex; align-items: baseline; gap: 14px;
+    margin: 24px 0 12px;
+    border-bottom: 2px solid var(--ink); padding-bottom: 8px;
+  }
+  .sh > span:first-child {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .sh .num {
+    font-family: "Instrument Serif"; font-style: italic;
+    font-size: 15px; color: var(--ink-3);
+  }
+  .sh .rule { flex: 1; border-bottom: 1px dotted var(--ink-4); align-self: center; margin-bottom: -2px; height: 1px; }
+  .sh .more {
+    font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.1em;
+    color: var(--ink-3);
+  }
+
+  /* ===== Titles grid ===== */
+  .title-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    margin-bottom: 14px;
+  }
+  .t-card {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm);
+    padding: 18px 20px; position: relative; overflow: hidden; min-height: 180px;
+    display: flex; flex-direction: column;
+  }
+  .t-card .big-kanji {
+    position: absolute; right: -28px; bottom: -58px;
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 200px;
+    line-height: 0.85; color: rgba(11,11,9,.06); pointer-events: none;
+    letter-spacing: -0.08em;
+  }
+  .t-card .rk {
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
+    color: var(--vermilion); font-weight: 700; margin-bottom: 6px;
+  }
+  .t-card h3 {
+    margin: 0 0 6px; font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 28px; letter-spacing: -0.03em; line-height: 1;
+  }
+  .t-card .en {
+    font-family: "Instrument Serif"; font-style: italic; font-size: 13px;
+    color: var(--ink-3); margin-bottom: 14px;
+  }
+  .t-card .since {
+    font-family: "Geist Mono"; font-size: 10px; color: var(--ink-3);
+    margin-bottom: auto; letter-spacing: 0.1em;
+  }
+  .t-card .leader {
+    font-size: 12px; padding-top: 10px; margin-top: 12px;
+    border-top: 1px dotted var(--ink-4);
+    display: flex; justify-content: space-between; align-items: baseline;
+    position: relative; z-index: 1;
+  }
+  .t-card .leader .name { font-family: "Shippori Mincho"; font-weight: 700; }
+  .t-card .leader .pt { font-family: "Geist Mono"; font-weight: 700; color: var(--vermilion); }
+  .t-card .leader .pt.done { color: var(--ink-3); }
+  .t-card .pill {
+    position: absolute; top: 14px; right: 14px;
+    font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.1em;
+    padding: 2px 6px; background: var(--ink); color: var(--paper);
+  }
+  .t-card .pill.live { background: var(--vermilion); }
+
+  /* ===== Roster table ===== */
+  .roster-wrap {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 0; margin-bottom: 14px;
+  }
+  .roster-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 22px; border-bottom: 2px solid var(--ink);
+    background: var(--ink); color: var(--paper);
+  }
+  .roster-head .ttl {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+  .roster-head .ttl .en {
+    font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+    font-size: 13px; margin-left: 8px; color: rgba(235,228,210,.65);
+  }
+  .roster-head .filters { display: flex; gap: 2px; font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.1em; }
+  .roster-head .filters span {
+    padding: 5px 12px; border: 1px solid rgba(235,228,210,.25);
+    color: rgba(235,228,210,.7); cursor: pointer;
+  }
+  .roster-head .filters span.on { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion); }
+  .roster-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .roster-table th {
+    background: var(--paper-2); text-align: left;
+    font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-3); font-weight: 700;
+    padding: 10px 16px; border-bottom: 2px solid var(--ink);
+  }
+  .roster-table th.n { text-align: right; }
+  .roster-table td {
+    padding: 10px 16px; border-bottom: 1px dotted var(--ink-4);
+    vertical-align: middle;
+  }
+  .roster-table tbody tr:hover { background: rgba(200,40,42,.04); }
+  .roster-table .rk {
+    font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 20px; text-align: center; width: 42px; color: var(--ink-4);
+  }
+  .roster-table .rk.top3 { color: var(--vermilion); }
+  .roster-table .player-cell { display: flex; align-items: center; gap: 12px; }
+  .roster-table .avatar {
+    width: 36px; height: 36px; background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho";
+    font-weight: 900; font-size: 16px; flex-shrink: 0;
+  }
+  .roster-table .avatar.vermilion { background: var(--vermilion); }
+  .roster-table .avatar.gold { background: var(--gold); }
+  .roster-table .avatar.moss { background: var(--moss); }
+  .roster-table .pname {
+    font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px;
+  }
+  .roster-table .pname a { border-bottom: 1px dotted transparent; }
+  .roster-table .pname a:hover { border-bottom-color: var(--ink); }
+  .roster-table .psub {
+    font-family: "Noto Sans JP"; font-size: 11px; color: var(--ink-3); margin-top: 2px;
+  }
+  .roster-table .titles {
+    display: flex; gap: 4px; flex-wrap: wrap;
+  }
+  .roster-table .titles span {
+    font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.1em;
+    padding: 2px 6px; background: var(--paper-2); border: 1px solid var(--ink-4);
+  }
+  .roster-table .titles span.t-jpml { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion); }
+  .roster-table .n { text-align: right; font-family: "Geist Mono"; font-weight: 600; }
+  .roster-table td.n.p { color: var(--vermilion); }
+  .roster-table td.n.m { color: var(--moss); }
+  .roster-table .league {
+    font-family: "Geist Mono"; font-weight: 700; letter-spacing: 0.05em;
+    padding: 3px 8px; background: var(--ink); color: var(--paper); font-size: 10px; text-align: center;
+  }
+  .roster-table .league.a1 { background: var(--vermilion); }
+  .roster-table .league.a2 { background: var(--gold); }
+  .roster-table .league.b { background: var(--moss); }
+  .roster-table .league.c { background: var(--ink-3); }
+
+  /* ===== History / milestones ===== */
+  .two-col { display: grid; grid-template-columns: 1.5fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .timeline {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 24px 28px; position: relative;
+  }
+  .timeline h3 {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px;
+    margin: 0 0 20px; padding-bottom: 10px; border-bottom: 2px solid var(--ink);
+    letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .timeline h3 .en {
+    font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+    font-size: 14px; color: var(--ink-3);
+  }
+  .tl-item {
+    display: grid; grid-template-columns: 60px 1fr; gap: 18px; padding: 10px 0;
+    border-bottom: 1px dotted var(--ink-4); position: relative;
+  }
+  .tl-item:last-child { border-bottom: 0; }
+  .tl-item .yr {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px;
+    line-height: 1; color: var(--vermilion);
+  }
+  .tl-item .yr small { display: block; font-family: "Geist Mono"; font-size: 9px;
+    letter-spacing: 0.1em; color: var(--ink-3); font-weight: 500; margin-top: 2px; }
+  .tl-item .ev {
+    font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px;
+    line-height: 1.5;
+  }
+  .tl-item .ev small { display: block; font-family: "Noto Sans JP"; font-weight: 400;
+    font-size: 11px; color: var(--ink-3); margin-top: 3px; line-height: 1.5; }
+
+  /* ===== Champions rail ===== */
+  .champions {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    padding: 24px 28px; position: relative;
+  }
+  .champions h3 {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px;
+    margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid var(--ink);
+    letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .champions h3 .en {
+    font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+    font-size: 14px; color: var(--ink-3);
+  }
+  .champ-row { display: grid; grid-template-columns: 48px 1fr auto; gap: 12px; padding: 9px 0; border-bottom: 1px dotted var(--ink-4); align-items: center; }
+  .champ-row:last-child { border-bottom: 0; }
+  .champ-row .ep {
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 16px;
+    text-align: center; color: var(--vermilion);
+  }
+  .champ-row .ep small { display: block; font-family: "Geist Mono"; font-size: 9px;
+    color: var(--ink-3); font-weight: 500; letter-spacing: 0.06em; }
+  .champ-row .ch-name {
+    font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px;
+  }
+  .champ-row .ch-name small { display: block; font-family: "Noto Sans JP"; font-weight: 400;
+    font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+  .champ-row .ch-yr { font-family: "Geist Mono"; font-size: 11px; color: var(--ink-3); }
+
+  /* ===== Schedule strip ===== */
+  .sched-strip {
+    background: var(--ink); color: var(--paper);
+    border: var(--border); box-shadow: var(--shadow);
+    padding: 22px 26px; margin-bottom: 14px;
+    position: relative; overflow: hidden;
+  }
+  .sched-strip::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 100% 50%, rgba(200,40,42,.12), transparent 60%);
+    pointer-events: none;
+  }
+  .sched-strip h3 {
+    margin: 0 0 16px; font-family: "Shippori Mincho"; font-weight: 900;
+    font-size: 20px; letter-spacing: -0.02em;
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 12px; border-bottom: 1px solid rgba(235,228,210,.2);
+  }
+  .sched-strip h3 .en {
+    font-family: "Instrument Serif"; font-style: italic; font-weight: 400;
+    font-size: 13px; color: rgba(235,228,210,.55);
+  }
+  .sched-strip .grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .sched-strip .si {
+    padding: 14px; background: rgba(235,228,210,.04);
+    border: 1px solid rgba(235,228,210,.12);
+    position: relative;
+  }
+  .sched-strip .si.live { border-color: var(--vermilion); background: rgba(200,40,42,.12); }
+  .sched-strip .si .badge {
+    font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.14em;
+    padding: 2px 7px; background: rgba(235,228,210,.1); display: inline-block;
+    color: rgba(235,228,210,.75); margin-bottom: 10px;
+  }
+  .sched-strip .si.live .badge { background: var(--vermilion); color: var(--paper); }
+  .sched-strip .si .dt {
+    font-family: "Geist Mono"; font-weight: 700; font-size: 13px; color: #f0c86d;
+    letter-spacing: 0.05em; margin-bottom: 4px;
+  }
+  .sched-strip .si .t {
+    font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px;
+    line-height: 1.3; margin-bottom: 6px;
+  }
+  .sched-strip .si .sub {
+    font-size: 11px; color: rgba(235,228,210,.7);
+    font-family: "Noto Sans JP"; line-height: 1.5;
+  }
+
+  /* ===== Media / channels ===== */
+  .media-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px;
+  }
+  .media-card {
+    background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm);
+    padding: 20px 22px; display: flex; flex-direction: column; gap: 4px;
+    position: relative;
+  }
+  .media-card .icn {
+    width: 44px; height: 44px; background: var(--vermilion);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px; color: var(--paper);
+    font-family: "Shippori Mincho"; font-weight: 900; font-size: 24px;
+  }
+  .media-card .icn.ytb { background: #c8282a; }
+  .media-card .icn.nico { background: var(--ink); color: #f0c86d; }
+  .media-card .icn.abema { background: var(--moss); }
+  .media-card h4 {
+    margin: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 16px;
+    letter-spacing: -0.02em;
+  }
+  .media-card .desc {
+    font-size: 12px; color: var(--ink-2); line-height: 1.6; margin-top: 4px;
+  }
+  .media-card .meta {
+    font-family: "Geist Mono"; font-size: 10px; color: var(--ink-3);
+    letter-spacing: 0.1em; margin-top: 10px; padding-top: 10px;
+    border-top: 1px dotted var(--ink-4);
+    display: flex; gap: 14px;
+  }
+  .media-card .meta b { color: var(--ink); }
+
+/* ============ 1万点棒 SCROLLBAR ============ */
+/* ネイティブスクロールバー非表示 → CustomScrollbar.tsxで代替 */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
