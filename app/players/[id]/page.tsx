@@ -3,14 +3,17 @@ import { ALL_PLAYERS } from "@/app/players/data";
 import { PlayerPage } from "@/components/PlayerPage";
 import type { Metadata } from "next";
 
-type Params = { id: string };
-
-export function generateStaticParams(): Params[] {
+export function generateStaticParams() {
   return ALL_PLAYERS.map((p) => ({ id: p.id }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const player = ALL_PLAYERS.find((p) => p.id === params.id);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const player = ALL_PLAYERS.find((p) => p.id === id);
   if (!player) return {};
   return {
     title: `${player.name}（${player.nameEn}） — Hora.mg`,
@@ -18,8 +21,13 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function PlayerDynamicPage({ params }: { params: Params }) {
-  const player = ALL_PLAYERS.find((p) => p.id === params.id);
+export default async function PlayerDynamicPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const player = ALL_PLAYERS.find((p) => p.id === id);
   if (!player) notFound();
   return <PlayerPage player={player} />;
 }

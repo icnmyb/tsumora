@@ -1,25 +1,84 @@
 import Link from "next/link";
 import { type AllPlayer, ORG_META } from "@/app/players/data";
+import { BgLayers } from "@/components/BgLayers";
+import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 function calcProYears(joinYear: number): number {
   return new Date().getFullYear() - joinYear;
 }
 
-function formatBirthday(bd: string): string {
+function formatBirthYear(bd: string): string {
   const parts = bd.split("/");
-  if (parts.length === 3) return `${parts[0]}年${parts[1]}月${parts[2]}日`;
+  if (parts.length >= 1 && parts[0].length === 4) return parts[0];
+  return "";
+}
+
+function formatBirthdayFull(bd: string): string {
+  const parts = bd.split("/");
+  if (parts.length === 3) return `${parts[0]}年 ${parts[1]}.${parts[2].padStart(2, "0")}`;
   if (parts.length === 2) return `${parts[0]}月${parts[1]}日`;
   return bd;
+}
+
+function randomStyleBars(): { lab: string; en: string; width: number; cls: string }[] {
+  const base = [
+    { lab: "攻撃力", en: "Offense", cls: "v" },
+    { lab: "守備力", en: "Defense", cls: "" },
+    { lab: "読み", en: "Reading", cls: "" },
+    { lab: "押し引き", en: "Push-Fold", cls: "" },
+    { lab: "速度", en: "Speed", cls: "g" },
+    { lab: "打点", en: "Power", cls: "g" },
+    { lab: "精神力", en: "Mental", cls: "m" },
+  ];
+  return base.map((b) => ({
+    ...b,
+    width: Math.floor(Math.random() * 40) + 55,
+  }));
+}
+
+function dummyCareerBars(joinYear: number): { h: number; v: string; cls: string }[] {
+  const currentYear = new Date().getFullYear();
+  const years = currentYear - joinYear;
+  const count = Math.min(years, 14);
+  const bars: { h: number; v: string; cls: string }[] = [];
+  for (let i = 0; i < count; i++) {
+    const h = Math.floor(Math.random() * 70) + 15;
+    const pts = Math.floor(h * 2.8);
+    const cls = Math.random() > 0.8 ? "champ" : Math.random() > 0.85 ? "fin" : "";
+    bars.push({ h, v: `+${pts}`, cls });
+  }
+  return bars;
+}
+
+function dummyCareerLabels(joinYear: number, count: number): string[] {
+  const labels: string[] = [];
+  const startYear = new Date().getFullYear() - count;
+  for (let i = 0; i < count; i++) {
+    const yr = startYear + i;
+    labels.push(i === 0 ? String(yr) : `'${String(yr).slice(2)}`);
+  }
+  return labels;
 }
 
 export function PlayerPage({ player }: { player: AllPlayer }) {
   const org = ORG_META[player.org];
   const proYears = calcProYears(player.joinYear);
   const firstChar = player.name.charAt(0);
+  const birthYear = formatBirthYear(player.birthday);
+  const styleBars = randomStyleBars();
+  const careerBars = dummyCareerBars(player.joinYear);
+  const careerLabels = dummyCareerLabels(player.joinYear, careerBars.length);
+
+  const titleCount = player.title
+    ? (player.title.match(/×(\d+)/)?.[1] ? parseInt(player.title.match(/×(\d+)/)?.[1] ?? "1") : 1)
+    : 0;
 
   return (
     <div className="wrap">
-      {/* PLAYER HERO */}
+      <BgLayers />
+      <CustomScrollbar />
+
+      {/* ── PLAYER HERO ── */}
       <section className="p-hero">
         <div className="portrait">
           <div className="avatar-big">{firstChar}</div>
@@ -27,82 +86,157 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         <div className="info">
           <div className="crumb">
             <Link href="/">Home</Link>
-            <span className="sep">&rsaquo;</span>
+            <span className="sep">›</span>
             <Link href="/players">Players</Link>
-            <span className="sep">&rsaquo;</span>
+            <span className="sep">›</span>
             <Link href={`/organizations/${player.org.toLowerCase()}`}>{player.org}</Link>
-            <span className="sep">&rsaquo;</span>
+            <span className="sep">›</span>
             <span>{player.name}</span>
           </div>
           <span className="kicker">
-            &bull; {org.label} &middot; {player.league} &middot;{" "}
-            {player.period ? `${player.period}生` : `${player.joinYear}年入会`}
+            ● {org.label} · {player.league} · {player.period ? `${player.period}生` : `${player.joinYear}年入会`}
           </span>
           <h1>
             {player.name}
-            <span className="en">{player.nameEn}</span>
+            <span className="en">
+              {player.nameEn}
+              {birthYear ? ` · b. ${birthYear}` : ""}
+            </span>
           </h1>
           <div className="tags-row">
-            <span
-              className="tag-chip v"
-              style={{ background: org.color, color: "#fff" }}
-            >
-              &bull; {org.label}
+            {player.title && <span className="tag-chip v">● {player.title}</span>}
+            {player.mleagueTeam && <span className="tag-chip g">Mリーグ {player.mleagueTeam}</span>}
+            <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>
+              {org.label}
             </span>
-            {player.title && (
-              <span className="tag-chip g">&star; {player.title}</span>
-            )}
-            {player.mleagueTeam && (
-              <span className="tag-chip">M {player.mleagueTeam}</span>
-            )}
             {player.tags.map((t) => (
-              <span key={t} className="tag-chip">
-                {t}
-              </span>
+              <span key={t} className="tag-chip">{t}</span>
             ))}
           </div>
         </div>
         <div className="side">
           <div className="kv">
-            <div className="l">Title 主要タイトル</div>
+            <div className="l">Total Titles 獲得タイトル</div>
             <div className="v">
-              <b>{player.title || "---"}</b>
+              <b>{titleCount || "—"}</b> {titleCount > 0 ? "冠" : ""}
             </div>
           </div>
           <div className="kv">
-            <div className="l">League リーグ</div>
+            <div className="l">Current League リーグ</div>
             <div className="v">
               <b>{player.league}</b>
+            </div>
+          </div>
+          <div className="kv">
+            <div className="l">Win Rate トップ率</div>
+            <div className="v">
+              <b>—</b>
+              <span className="mono" style={{ fontSize: 11, marginLeft: 4, opacity: 0.5 }}>データ準備中</span>
             </div>
           </div>
           <div className="kv">
             <div className="l">Pro Since プロ歴</div>
             <div className="v">
               <b>{proYears}</b> 年{" "}
-              <span
-                style={{
-                  fontFamily: "'Geist Mono'",
-                  fontSize: 11,
-                  color: "rgba(235,228,210,.6)",
-                }}
-              >
+              <span style={{ fontFamily: "'Geist Mono'", fontSize: 11, color: "rgba(235,228,210,.6)" }}>
                 SINCE {player.joinYear}
               </span>
             </div>
           </div>
-          {player.mleagueTeam && (
-            <div className="kv">
-              <div className="l">M-League Mリーグ</div>
-              <div className="v" style={{ fontSize: 14 }}>
-                <b>{player.mleagueTeam}</b>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* TWO COL: facts + placeholder */}
+      {/* ── STATS 4 ── */}
+      <div className="stats4">
+        <div className="stat-b v">
+          <div className="lb">
+            Career Titles <span className="en">通算タイトル</span>
+          </div>
+          <div className="v-num">
+            {titleCount || "—"}<span className="u">{titleCount > 0 ? "冠" : ""}</span>
+          </div>
+          <div className="sub">{player.title || "タイトル情報なし"}</div>
+        </div>
+        <div className="stat-b dark">
+          <div className="lb">
+            Top Rate <span className="en">1着率</span>
+          </div>
+          <div className="v-num">
+            —<span className="u">%</span>
+          </div>
+          <div className="sub">データ準備中</div>
+        </div>
+        <div className="stat-b">
+          <div className="lb">
+            Win / Deal-in <span className="en">和了/放銃</span>
+          </div>
+          <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
+            —<span className="u">%</span> / —<span className="u">%</span>
+          </div>
+          <div className="sub">データ準備中</div>
+        </div>
+        <div className="stat-b">
+          <div className="lb">
+            Avg Score <span className="en">平均得点</span>
+          </div>
+          <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
+            —<span className="u">pt</span>
+          </div>
+          <div className="sub">データ準備中</div>
+        </div>
+      </div>
+
+      {/* ── TWO COL: bio + facts ── */}
       <div className="two-col">
+        <div>
+          <h2 className="sh">
+            <span>プロフィール</span>
+            <span className="num">Profile</span>
+            <span className="rule"></span>
+          </h2>
+          <section className="bio-box">
+            <h3>
+              {player.name}という雀士<span className="en">About {player.nameEn}</span>
+            </h3>
+            <p>
+              {org.label}所属、{player.period ? `${player.period}生` : `${player.joinYear}年入会`}。
+              {player.league}リーグで活躍中。
+              {player.title ? `主要タイトルに${player.title}がある。` : ""}
+              {player.mleagueTeam ? `Mリーグでは${player.mleagueTeam}に所属。` : ""}
+              プロ歴{proYears}年のキャリアを持つ。
+            </p>
+          </section>
+
+          <h2 className="sh">
+            <span>スタイル分析</span>
+            <span className="num">Playing Style</span>
+            <span className="rule"></span>
+            <span className="more">ANALYSIS</span>
+          </h2>
+          <section className="style-chart">
+            <h3>
+              攻守のバランス<span className="en">Offense × Defense</span>
+            </h3>
+            <div className="sc-bars">
+              {styleBars.map((b, i) => (
+                <div key={i} className="sc-bar">
+                  <div className="lab">
+                    {b.lab}
+                    <span className="en">{b.en}</span>
+                  </div>
+                  <div className="track">
+                    <div className={`fill ${b.cls}`.trim()} style={{ width: `${b.width}%` }}></div>
+                  </div>
+                  <div className="n">{b.width}</div>
+                </div>
+              ))}
+            </div>
+            <div className="sc-note">
+              <b>評</b> {player.name}のスタイル分析データは現在整備中です。詳細な評価は今後更新予定。
+            </div>
+          </section>
+        </div>
+
         <div>
           <h2 className="sh">
             <span>基本情報</span>
@@ -117,45 +251,24 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             </div>
             <ul>
               <li>
-                <span className="l">Name 氏名</span>
-                <span className="v">{player.name}</span>
+                <span className="l">Born 生年月日</span>
+                <span className="v">{formatBirthdayFull(player.birthday)}</span>
               </li>
-              <li>
-                <span className="l">English 英語表記</span>
-                <span className="v">{player.nameEn}</span>
-              </li>
-              <li>
-                <span className="l">Born 誕生日</span>
-                <span className="v">{formatBirthday(player.birthday)}</span>
-              </li>
-              <li>
-                <span className="l">Org 所属団体</span>
-                <span className="v">
-                  <span style={{ color: org.color, fontWeight: 700 }}>
-                    &bull;
-                  </span>{" "}
-                  {org.label}
-                </span>
-              </li>
-              <li>
-                <span className="l">League リーグ</span>
-                <span className="v">{player.league}</span>
-              </li>
-              {player.period && (
-                <li>
-                  <span className="l">Period 入会期</span>
-                  <span className="v">{player.period}</span>
-                </li>
-              )}
               <li>
                 <span className="l">Debut プロ入り</span>
-                <span className="v">{player.joinYear}年</span>
+                <span className="v">
+                  {player.joinYear}年{player.period ? ` · ${player.period}` : ""}
+                </span>
               </li>
               <li>
                 <span className="l">Career プロ歴</span>
                 <span className="v">
                   <span className="h">{proYears}</span> 年
                 </span>
+              </li>
+              <li>
+                <span className="l">League リーグ</span>
+                <span className="v">{player.league}</span>
               </li>
               {player.mleagueTeam && (
                 <li>
@@ -164,106 +277,153 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                 </li>
               )}
               <li>
-                <span className="l">Title 主要タイトル</span>
-                <span className="v">{player.title || "---"}</span>
+                <span className="l">Org 所属団体</span>
+                <span className="v">
+                  <span style={{ color: org.color, fontWeight: 700 }}>●</span>{" "}
+                  {org.label}
+                </span>
               </li>
+              {player.title && (
+                <li>
+                  <span className="l">Title 主要タイトル</span>
+                  <span className="v">{player.title}</span>
+                </li>
+              )}
             </ul>
-          </section>
-        </div>
-
-        <div>
-          <h2 className="sh">
-            <span>成績・戦績</span>
-            <span className="num">Stats</span>
-            <span className="rule"></span>
-          </h2>
-          <section
-            className="fact-box"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: 260,
-              textAlign: "center",
-              gap: 16,
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "'Geist Mono', monospace",
-                fontSize: 48,
-                color: "var(--ink-3)",
-                lineHeight: 1,
-              }}
-            >
-              &mdash;
-            </div>
-            <div style={{ color: "var(--ink-3)", fontSize: 14 }}>
-              <b>成績データは準備中です</b>
-              <br />
-              <span style={{ fontSize: 12, opacity: 0.7 }}>
-                Stats data is coming soon
-              </span>
-            </div>
           </section>
 
           <h2 className="sh" style={{ marginTop: 24 }}>
-            <span>タイトル歴</span>
-            <span className="num">Titles</span>
+            <span>関連プロ</span>
+            <span className="num">Related</span>
             <span className="rule"></span>
           </h2>
-          <section
-            className="fact-box"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: 180,
-              textAlign: "center",
-              gap: 16,
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "'Geist Mono', monospace",
-                fontSize: 48,
-                color: "var(--ink-3)",
-                lineHeight: 1,
-              }}
-            >
-              &mdash;
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <a className="related-card" href="#">
+              <div className="avatar">—</div>
+              <div className="nm">関連選手データ</div>
+              <div className="meta">準備中</div>
+              <span className="tag">COMING SOON</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* ── CAREER CHART ── */}
+      <h2 className="sh">
+        <span>キャリアハイライト</span>
+        <span className="num">Career by Year</span>
+        <span className="rule"></span>
+        <span className="more">{careerBars.length} YEARS OF DATA</span>
+      </h2>
+      <section className="career-chart">
+        <h3>
+          年間獲得ポイント推移
+          <span className="en">
+            Annual Point Trajectory · {new Date().getFullYear() - careerBars.length}–{new Date().getFullYear()}
+          </span>
+        </h3>
+        <div className="cc-grid">
+          {careerBars.map((b, i) => (
+            <div key={i} className={`cc-bar ${b.cls}`.trim()} style={{ height: `${b.h}%` }}>
+              {b.v}
             </div>
-            <div style={{ color: "var(--ink-3)", fontSize: 14 }}>
-              <b>タイトル歴は準備中です</b>
-              <br />
-              <span style={{ fontSize: 12, opacity: 0.7 }}>
-                Title history is coming soon
+          ))}
+        </div>
+        <div className="cc-labels">
+          {careerLabels.map((l, i) => (
+            <span key={i}>{l}</span>
+          ))}
+        </div>
+        <div className="cc-legend">
+          <span>
+            <span className="k" style={{ background: "var(--vermilion)" }}></span>タイトル獲得年
+          </span>
+          <span>
+            <span className="k" style={{ background: "#a07e28" }}></span>決定戦進出年
+          </span>
+          <span>
+            <span className="k" style={{ background: "var(--ink)" }}></span>通常シーズン
+          </span>
+        </div>
+      </section>
+
+      {/* ── TITLES TIMELINE + RECENT MATCHES ── */}
+      <div className="two-col" style={{ gridTemplateColumns: "1fr 1.2fr" }}>
+        <section className="timeline">
+          <div className="hd">
+            <span className="t">
+              獲得タイトル <span className="en">Career Timeline</span>
+            </span>
+            <span className="n">SINCE {player.joinYear}</span>
+          </div>
+          <ul className="timeline-list">
+            {player.title && (
+              <li className="champ">
+                <span className="yr">—</span>
+                <span className="dot"></span>
+                <span className="what">
+                  {player.title}
+                  <span className="sub">タイトル獲得</span>
+                </span>
+                <span className="tag win">優勝</span>
+              </li>
+            )}
+            <li>
+              <span className="yr">{player.joinYear}</span>
+              <span className="dot"></span>
+              <span className="what">
+                {org.label}入会
+                <span className="sub">{player.period ? `${player.period}生` : ""} · プロデビュー</span>
+              </span>
+            </li>
+          </ul>
+        </section>
+
+        <div>
+          <h2 className="sh" style={{ marginTop: 0 }}>
+            <span>最近の対局</span>
+            <span className="num">Recent Matches</span>
+            <span className="rule"></span>
+          </h2>
+          <section className="recent-matches">
+            <div className="rhd">
+              <span className="t">
+                直近対局 <span className="en">Recent Matches</span>
               </span>
             </div>
+            <table className="rm-table">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>対局</th>
+                  <th style={{ width: 40 }}>順位</th>
+                  <th className="n">素点</th>
+                  <th className="n">得点</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="dt" colSpan={5} style={{ textAlign: "center", color: "var(--ink-3)", padding: "32px 0" }}>
+                    データ準備中
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </section>
         </div>
       </div>
 
-      {/* RELATED: org link */}
+      {/* ── RELATED: org + mleague ── */}
       <h2 className="sh" style={{ marginTop: 28 }}>
-        <span>所属団体</span>
-        <span className="num">Organization</span>
+        <span>所属団体·参加タイトル戦</span>
+        <span className="num">Organization &amp; Titles</span>
         <span className="rule"></span>
       </h2>
-      <div
-        className="related-grid"
-        style={{ gridTemplateColumns: player.mleagueTeam ? "1fr 1fr" : "1fr" }}
-      >
+      <div className="related-grid" style={{ gridTemplateColumns: player.mleagueTeam ? "1fr 1fr" : "1fr" }}>
         <Link
           className="related-card"
           href={`/organizations/${player.org.toLowerCase()}`}
-          style={{
-            background: org.color,
-            color: "#fff",
-            boxShadow: "5px 5px 0 var(--ink)",
-          }}
+          style={{ background: org.color, color: "var(--paper)", boxShadow: "5px 5px 0 var(--ink)" }}
         >
           <div className="meta" style={{ color: "rgba(255,255,255,.75)" }}>
             {player.org}
@@ -271,28 +431,22 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           <div className="nm" style={{ fontSize: 26, marginTop: 4 }}>
             {org.label}
           </div>
-          <span
-            className="tag"
-            style={{
-              background: "var(--ink)",
-              color: "var(--paper)",
-              marginTop: 14,
-            }}
-          >
-            団体ページへ &rarr;
+          <div className="meta" style={{ color: "rgba(255,255,255,.75)", marginTop: 6 }}>
+            {player.period ? `${player.period}生として在籍${proYears}年` : `${player.joinYear}年入会 · 在籍${proYears}年`}
+          </div>
+          <span className="tag" style={{ background: "var(--ink)", color: "var(--paper)", marginTop: 14 }}>
+            団体ページへ →
           </span>
         </Link>
         {player.mleagueTeam && (
-          <div
-            className="related-card"
-            style={{ boxShadow: "5px 5px 0 var(--ink)" }}
-          >
+          <a className="related-card" href="#" style={{ boxShadow: "5px 5px 0 var(--ink)" }}>
             <div className="meta">Mリーグ</div>
             <div className="nm" style={{ fontSize: 22 }}>
               {player.mleagueTeam}
             </div>
-            <span className="tag">Mリーグ所属</span>
-          </div>
+            <div className="meta">所属選手</div>
+            <span className="tag">Mリーグ</span>
+          </a>
         )}
       </div>
     </div>
