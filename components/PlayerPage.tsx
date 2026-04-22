@@ -181,7 +181,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="stat-b dark">
           <div className="lb">
-            Top Rate <span className="en">Mリーグ 1着率</span>
+            Top Rate <span className="en">今期Mリーグ 1着率</span>
           </div>
           <div className="v-num">
             —<span className="u">%</span>
@@ -190,7 +190,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="stat-b">
           <div className="lb">
-            4th Avoidance <span className="en">Mリーグ 4着回避率</span>
+            4th Avoidance <span className="en">今期Mリーグ 4着回避率</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
             —<span className="u">%</span>
@@ -199,7 +199,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="stat-b">
           <div className="lb">
-            Best Score <span className="en">Mリーグ 最高スコア</span>
+            Best Score <span className="en">今期Mリーグ 最高スコア</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
             —<span className="u">pt</span>
