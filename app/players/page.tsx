@@ -86,39 +86,123 @@ export default function PlayersIndexPage() {
       </section>
 
       {/* FEATURED PLAYERS GRID */}
-      {/* FEATURED FILTER TABS */}
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "24px 0 12px" }}>
-        {(["ALL", "JPML", "NPM", "最高位戦", "RMU", "μ"] as OrgFilter[]).map((key) => {
-          const active = orgFilter === key;
-          const color = key === "ALL" ? "var(--ink)" : ORG_META[key as OrgCode]?.color ?? "var(--ink)";
-          return (
-            <button
-              key={key}
-              onClick={() => setOrgFilter(key)}
-              style={{
-                padding: "5px 14px",
-                border: `2px solid ${active ? color : "var(--ink-4)"}`,
-                background: active ? color : "transparent",
-                color: active ? "var(--paper)" : "var(--ink-3)",
-                fontFamily: "'Geist Mono', monospace",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-                cursor: "pointer",
-                fontWeight: active ? 700 : 400,
-                transition: "all 100ms ease",
-              }}
-            >
-              {key}
-            </button>
-          );
-        })}
-      </div>
-
       <h2 className="sh">
         <span>注目プロ</span>
         <span className="num">Featured Players · Select one</span>
         <span className="rule"></span>
       </h2>
+
+      {/* FEATURED FILTER TABS — editorial underline style */}
+      <nav
+        aria-label="Filter featured players by organization"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "stretch",
+          gap: 0,
+          margin: "18px 0 20px",
+          borderTop: "1.5px solid var(--ink)",
+          borderBottom: "1.5px solid var(--ink)",
+          background: "var(--paper)",
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            padding: "10px 14px",
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 9.5,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "var(--ink-3)",
+            borderRight: "1px solid var(--ink-5, rgba(0,0,0,0.12))",
+            fontWeight: 700,
+          }}
+        >
+          Filter ⁄ 団体
+        </span>
+        {ORG_TABS.map((f, i) => {
+          const active = orgFilter === f.key;
+          const count =
+            f.key === "ALL"
+              ? ALL_PLAYERS.length
+              : ALL_PLAYERS.filter((p) => p.org === f.key).length;
+          return (
+            <button
+              key={`feat-${f.key}`}
+              type="button"
+              aria-pressed={active}
+              onClick={() => setOrgFilter(f.key)}
+              style={{
+                position: "relative",
+                display: "inline-flex",
+                alignItems: "baseline",
+                gap: 8,
+                padding: "12px 18px",
+                background: active ? "var(--paper-2)" : "transparent",
+                color: active ? f.color : "var(--ink)",
+                border: "none",
+                borderRight:
+                  i === ORG_TABS.length - 1
+                    ? "none"
+                    : "1px solid var(--ink-5, rgba(0,0,0,0.12))",
+                fontFamily: "'Geist Mono', monospace",
+                cursor: "pointer",
+                transition:
+                  "background 140ms ease, color 140ms ease",
+              }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  bottom: -1.5,
+                  height: 3,
+                  background: active ? f.color : "transparent",
+                  transition: "background 140ms ease",
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "'Shippori Mincho', serif",
+                  fontSize: 15,
+                  fontWeight: 900,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {f.label}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'Instrument Serif', serif",
+                  fontStyle: "italic",
+                  fontSize: 11,
+                  color: active ? f.color : "var(--ink-3)",
+                  opacity: 0.85,
+                }}
+              >
+                {f.en}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 9.5,
+                  letterSpacing: "0.1em",
+                  color: active ? f.color : "var(--ink-3)",
+                  fontWeight: 700,
+                  marginLeft: 2,
+                }}
+              >
+                ({count})
+              </span>
+            </button>
+          );
+        })}
+      </nav>
 
       <div
         style={{
