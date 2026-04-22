@@ -985,6 +985,8 @@ footer.main .cr {
   .p-hero .portrait::before { content: "瀬"; position: absolute; inset: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 420px; line-height: 0.82; color: rgba(11,11,9,.25); display: flex; align-items: center; justify-content: center; letter-spacing: -0.08em; }
   .p-hero .portrait .avatar-big { width: 200px; height: 200px; background: var(--paper); border: 5px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: "Shippori Mincho"; font-weight: 900; font-size: 96px; color: var(--ink); position: relative; box-shadow: 8px 8px 0 rgba(11,11,9,.5); }
   .p-hero .portrait .badge-floating { position: absolute; top: 20px; right: 20px; background: #f0c86d; color: var(--ink); padding: 8px 12px; font-family: "Geist Mono"; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; border: 2.5px solid var(--ink); transform: rotate(6deg); }
+  .p-hero .portrait--dynamic::before { content: none !important; }
+  .p-hero .portrait-bg-char { position: absolute; inset: 0; font-family: "Shippori Mincho"; font-weight: 900; font-size: 420px; line-height: 0.82; color: rgba(11,11,9,.25); display: flex; align-items: center; justify-content: center; letter-spacing: -0.08em; pointer-events: none; overflow: hidden; }
   .p-hero .info { padding: 32px 36px; position: relative; }
   .p-hero .crumb { font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em; color: rgba(235,228,210,.55); text-transform: uppercase; margin-bottom: 16px; }
   .p-hero .crumb a { color: inherit; border-bottom: 1px dotted rgba(235,228,210,.3); }

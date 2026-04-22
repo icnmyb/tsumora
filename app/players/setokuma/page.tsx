@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 const STYLE_BARS = [
-  { lab: "攻撃力", en: "Offense", width: 68, cls: "v" },
-  { lab: "守備力", en: "Defense", width: 92, cls: "" },
-  { lab: "読み", en: "Reading", width: 96, cls: "" },
-  { lab: "押し引き", en: "Push-Fold", width: 94, cls: "" },
-  { lab: "速度", en: "Speed", width: 62, cls: "g" },
-  { lab: "打点", en: "Power", width: 72, cls: "g" },
-  { lab: "精神力", en: "Mental", width: 98, cls: "m" },
+  { lab: "攻撃力", en: "Offense", width: 92, cls: "v" },
+  { lab: "守備力", en: "Defense", width: 78, cls: "" },
+  { lab: "読み", en: "Reading", width: 88, cls: "" },
+  { lab: "押し引き", en: "Push-Fold", width: 85, cls: "" },
+  { lab: "速度", en: "Speed", width: 70, cls: "g" },
+  { lab: "打点", en: "Power", width: 90, cls: "g" },
+  { lab: "精神力", en: "Mental", width: 95, cls: "m" },
 ];
 
 const CAREER_BARS = [
@@ -28,16 +28,15 @@ const CAREER_BARS = [
 ];
 
 const TITLES = [
-  { yr: "進行中", what: "第42期鳳凰位戦", sub: "A1首位 +124.5 · 4連覇なるか", tag: "LEAD", tagCls: "final" },
-  { yr: "2024-25", what: "第41期鳳凰位戦", sub: "3連覇達成 · 通算3冠目", tag: "優勝", tagCls: "win" },
-  { yr: "2023-24", what: "第40期鳳凰位戦", sub: "2連覇 · 決定戦で佐々木を下す", tag: "優勝", tagCls: "win" },
-  { yr: "2022-23", what: "第39期鳳凰位戦", sub: "初の鳳凰位 · 決定戦4日目逆転", tag: "優勝", tagCls: "win" },
-  { yr: "2021", what: "第17期プロクイーン", sub: "男子選手初の招待優勝 · 招待制", tag: "優勝", tagCls: "win" },
-  { yr: "2019", what: "第44期王位戦", sub: "通算2度目の王位", tag: "優勝", tagCls: "win" },
-  { yr: "2018", what: "Mリーグ初年度出場", sub: "KONAMI麻雀格闘倶楽部 · キャプテン", tag: "参加", tagCls: "win" },
-  { yr: "2016", what: "第41期王位戦", sub: "初の王位獲得", tag: "優勝", tagCls: "win" },
-  { yr: "2013", what: "第30期十段位戦", sub: "プロ入り後16年目の初タイトル", tag: "優勝", tagCls: "win" },
-  { yr: "1997", what: "日本プロ麻雀連盟入会", sub: "第13期生 · プロデビュー", tag: "", tagCls: "", noChamp: true },
+  { yr: "進行中", what: "第41期鳳凰位戦", sub: "TEAM RAIDEN/雷電として出場", tag: "出場", tagCls: "final" },
+  { yr: "2018", what: "Mリーグ発足 TEAM RAIDEN/雷電", sub: "初代メンバーとして参加", tag: "参加", tagCls: "win" },
+  { yr: "2013", what: "第30期十段位", sub: "十段位3連覇達成", tag: "優勝", tagCls: "win" },
+  { yr: "2012", what: "第29期鳳凰位", sub: "3度目の鳳凰位 · 十段位との二冠", tag: "優勝", tagCls: "win" },
+  { yr: "2012", what: "第29期十段位", sub: "十段位連覇", tag: "優勝", tagCls: "win" },
+  { yr: "2011", what: "第28期十段位", sub: "初の十段位", tag: "優勝", tagCls: "win" },
+  { yr: "2010", what: "第27期鳳凰位", sub: "2年連続鳳凰位", tag: "優勝", tagCls: "win" },
+  { yr: "2009", what: "第26期鳳凰位", sub: "初の鳳凰位", tag: "優勝", tagCls: "win" },
+  { yr: "1997", what: "日本プロ麻雀連盟入会", sub: "第14期生 · プロデビュー", tag: "", tagCls: "", noChamp: true },
 ];
 
 const RECENT = [
@@ -72,40 +71,38 @@ export default function PlayerSetokuma() {
             <span className="sep">›</span>
             <span>瀬戸熊 直樹</span>
           </div>
-          <span className="kicker">● 日本プロ麻雀連盟 · A1リーグ · 第13期生</span>
+          <span className="kicker">● 日本プロ麻雀連盟 · A1リーグ · 第14期生</span>
           <h1>
             瀬戸熊 直樹
-            <span className="en">Naoki Setokuma · &quot;熊&quot; · b. 1971</span>
+            <span className="en">Naoki Setokuma · &quot;暴君&quot; · b. 1970</span>
           </h1>
           <div className="nickname">
             クマクマタイム <span className="q">Kuma-Kuma Time</span>
           </div>
           <div className="tags-row">
-            <span className="tag-chip v">● 現鳳凰位</span>
-            <span className="tag-chip g">★ 連盟最多タイトル</span>
-            <span className="tag-chip">十段位 ×1</span>
-            <span className="tag-chip">王位 ×2</span>
-            <span className="tag-chip">Mリーグ 格闘倶楽部</span>
+            <span className="tag-chip v">● 鳳凰位 ×3</span>
+            <span className="tag-chip g">★ 十段位 ×3</span>
+            <span className="tag-chip">無双位 ×2</span>
+            <span className="tag-chip">Mリーグ TEAM RAIDEN/雷電</span>
           </div>
         </div>
         <div className="side">
           <div className="kv">
             <div className="l">Total Titles 獲得タイトル</div>
             <div className="v">
-              <b>14</b> 冠
+              <b>10</b> 冠
             </div>
           </div>
           <div className="kv">
             <div className="l">Current Rank A1リーグ順位</div>
             <div className="v">
-              <b>1</b> 位 <span className="mono">+124.5</span>
+              データ準備中
             </div>
           </div>
           <div className="kv">
             <div className="l">Win Rate トップ率</div>
             <div className="v">
-              <b>32.4</b>
-              <span className="mono">%</span>
+              データ準備中
             </div>
           </div>
           <div className="kv">
@@ -125,36 +122,36 @@ export default function PlayerSetokuma() {
             Career Titles <span className="en">通算タイトル</span>
           </div>
           <div className="v-num">
-            14<span className="u">冠</span>
+            10<span className="u">冠</span>
           </div>
-          <div className="sub">鳳凰位3 / 十段位1 / 王位2 / 他8</div>
+          <div className="sub">鳳凰位3 / 十段位3 / 無双位2 / 他2</div>
         </div>
         <div className="stat-b dark">
           <div className="lb">
             Top Rate <span className="en">1着率</span>
           </div>
-          <div className="v-num">
-            32.4<span className="u">%</span>
+          <div className="v-num" style={{ fontSize: 24, marginTop: 14 }}>
+            データ準備中
           </div>
-          <div className="sub">通算2,842戦 / 平均順位 2.38</div>
+          <div className="sub">—</div>
         </div>
         <div className="stat-b">
           <div className="lb">
-            Win / Deal-in <span className="en">和了/放銃</span>
+            4th Avoidance <span className="en">4着回避率</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
-            23.1<span className="u">%</span> / 9.4<span className="u">%</span>
+            —<span className="u">%</span>
           </div>
-          <div className="sub">和了差 +13.7 · 連盟トップクラスの防御力</div>
+          <div className="sub">データ準備中</div>
         </div>
         <div className="stat-b">
           <div className="lb">
-            Avg Score <span className="en">平均得点</span>
+            Best Score <span className="en">最高スコア</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
-            +8.4<span className="u">pt</span>
+            —<span className="u">pt</span>
           </div>
-          <div className="sub">通算平均 · Mリーグ通算 +287.2</div>
+          <div className="sub">データ準備中</div>
         </div>
       </div>
 
@@ -168,16 +165,16 @@ export default function PlayerSetokuma() {
           </h2>
           <section className="bio-box">
             <h3>
-              瀬戸熊 直樹という雀士<span className="en">The Thinker of Kuma-Kuma Time</span>
+              瀬戸熊 直樹という雀士<span className="en">The Tyrant of Kuma-Kuma Time</span>
             </h3>
             <p>
-              「クマクマタイム」と呼ばれる、局面全体を俯瞰して相手の手牌を読み切る独特の思考スタイルで知られる。連盟第13期生、1997年プロ入り。2013年、第30期十段位を獲得して初タイトル。その後、第39・40・41期と鳳凰位を3連覇し、連盟の最高峰リーグA1を代表する存在となった。
+              「暴君」の異名を持つ攻撃型雀士。1970年千葉県生まれ、東京経済大学出身。1997年に日本プロ麻雀連盟第14期生としてプロ入り。初タイトルは第6期無双位で、以降は鳳凰位を第26・27・29期（2009・2010・2012年）の3度獲得、十段位も第28・29・30期（2011〜2013年）と3連覇を達成するなど、通算10冠を誇る。
             </p>
             <p>
-              攻撃型ではなく、徹底した読みと押し引きの精度で卓を制圧するタイプ。「強者ほど守備が堅い」を体現する雀士として、後進に大きな影響を与えている。Mリーグでは2018年の発足時からKONAMI麻雀格闘倶楽部に所属し、チームの精神的支柱として活躍中。
+              高い打点力と攻撃的な打ち筋が持ち味で、局面を読み切った上での強烈な押しが「クマクマタイム」と呼ばれ恐れられている。Mリーグでは2018年の発足時からTEAM RAIDEN/雷電に所属。現在は連盟九段・理事を務めている。
             </p>
             <p>
-              座右の銘は「継続は力なり」。趣味はゴルフと読書。Mリーグ会場でも常に冷静沈着な佇まいで知られ、「日本一静かなトッププロ」の異名を持つ。
+              趣味は海外ドラマ・漫画・アニメ。血液型はO型。鳳凰位戦と十段位戦の両方で複数回の優勝を果たした、連盟を代表するトッププロの一人である。
             </p>
           </section>
 
@@ -185,7 +182,7 @@ export default function PlayerSetokuma() {
             <span>スタイル分析</span>
             <span className="num">Playing Style</span>
             <span className="rule"></span>
-            <span className="more">READ-TYPE</span>
+            <span className="more">ATTACK-TYPE</span>
           </h2>
           <section className="style-chart">
             <h3>
@@ -206,7 +203,7 @@ export default function PlayerSetokuma() {
               ))}
             </div>
             <div className="sc-note">
-              <b>評</b> 圧倒的な「読み」と「守備」で卓をコントロールする典型的な思考派雀士。ラス回避率は連盟A1リーグトップ（82.1%）。長考の末に放つ一打には「クマクマタイム」と呼ばれる独自の時間軸があり、対戦相手の思考を止める効果がある。
+              <b>評</b> 「暴君」の異名が示す通り、圧倒的な攻撃力と打点力で卓を支配する攻撃型雀士。局面を読み切った上での強烈な押しは「クマクマタイム」と呼ばれ、対戦相手を恐れさせる。鳳凰位3期・十段位3期という連盟の二大タイトルを制した実力は本物。
             </div>
           </section>
         </div>
@@ -227,23 +224,21 @@ export default function PlayerSetokuma() {
               <li>
                 <span className="l">Born 生年月日</span>
                 <span className="v">
-                  1971年<span className="h"> 03.07</span> · 千葉県
-                </span>
-              </li>
-              <li>
-                <span className="l">Height 身長</span>
-                <span className="v">
-                  172 <span className="h">cm</span>
+                  1970年<span className="h"> 08.27</span> · 千葉県
                 </span>
               </li>
               <li>
                 <span className="l">Blood 血液型</span>
-                <span className="v">A 型</span>
+                <span className="v">O 型</span>
+              </li>
+              <li>
+                <span className="l">Education 学歴</span>
+                <span className="v">東京経済大学</span>
               </li>
               <li>
                 <span className="l">Debut プロ入り</span>
                 <span className="v">
-                  1997年 · <span className="h">連盟第13期生</span>
+                  1997年 · <span className="h">連盟第14期生</span>
                 </span>
               </li>
               <li>
@@ -254,29 +249,21 @@ export default function PlayerSetokuma() {
               </li>
               <li>
                 <span className="l">Rank 段位</span>
-                <span className="v">八段</span>
+                <span className="v">九段（連盟理事）</span>
               </li>
               <li>
                 <span className="l">League リーグ</span>
-                <span className="v">
-                  A1 · <span className="h">第5節</span>
-                </span>
+                <span className="v">A1</span>
               </li>
               <li>
                 <span className="l">M League Mリーグ</span>
                 <span className="v">
-                  KONAMI麻雀格闘倶楽部
-                  <br />
-                  <span style={{ fontFamily: "'Geist Mono'", fontSize: 10, color: "#f0c86d" }}>2018〜 · Captain</span>
+                  TEAM RAIDEN / 雷電（2018〜）
                 </span>
               </li>
               <li>
                 <span className="l">Hobby 趣味</span>
-                <span className="v">ゴルフ · 読書</span>
-              </li>
-              <li>
-                <span className="l">Motto 座右の銘</span>
-                <span className="v">継続は力なり</span>
+                <span className="v">海外ドラマ · 漫画 · アニメ</span>
               </li>
             </ul>
           </section>
@@ -288,9 +275,9 @@ export default function PlayerSetokuma() {
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
             {[
-              { av: "前", nm: "前原 雄大", meta: "連盟 · 鳳凰位2回", tag: "A1ライバル" },
-              { av: "佐", nm: "佐々木 寿人", meta: "連盟 · 十段位3回", tag: "A1ライバル" },
-              { av: "滝", nm: "滝沢 和典", meta: "連盟 · 第38期鳳凰位", tag: "A1ライバル" },
+              { av: "前", nm: "前原 雄大", meta: "連盟 · 鳳凰位5回", tag: "A1ライバル" },
+              { av: "佐", nm: "佐々木 寿人", meta: "連盟 · 十段位5回", tag: "A1ライバル" },
+              { av: "滝", nm: "滝沢 和典", meta: "連盟 · 王位2回", tag: "A1ライバル" },
               { av: "藤", nm: "藤崎 智", meta: "連盟 · 第32期鳳凰位", tag: "同世代" },
             ].map((r, i) => (
               <a key={i} className="related-card" href="#">
@@ -358,7 +345,7 @@ export default function PlayerSetokuma() {
             <span className="t">
               獲得タイトル <span className="en">All Titles Won</span>
             </span>
-            <span className="n">14 TITLES · SINCE 2013</span>
+            <span className="n">10 TITLES · SINCE 1997</span>
           </div>
           <ul className="timeline-list">
             {TITLES.map((t, i) => (
@@ -439,7 +426,7 @@ export default function PlayerSetokuma() {
           <div className="meta" style={{ color: "rgba(255,255,255,.75)" }}>JPML · 1981</div>
           <div className="nm" style={{ fontSize: 26, marginTop: 4 }}>日本プロ麻雀連盟</div>
           <div className="meta" style={{ color: "rgba(255,255,255,.75)", marginTop: 6 }}>
-            所属612名 / 第13期生として在籍29年
+            所属612名 / 第14期生として在籍29年
           </div>
           <span className="tag" style={{ background: "var(--ink)", color: "var(--paper)", marginTop: 14 }}>
             団体ページへ →
@@ -448,14 +435,14 @@ export default function PlayerSetokuma() {
         <Link className="related-card" href="/titles/houou-isen">
           <div className="meta">JPML · G1リーグ</div>
           <div className="nm" style={{ fontSize: 24 }}>鳳凰位戦</div>
-          <div className="meta">第42期 A1首位 +124.5 · 進行中</div>
-          <span className="tag" style={{ background: "var(--vermilion)", color: "var(--paper)" }}>● 首位 LIVE</span>
+          <div className="meta">第41期 · 進行中</div>
+          <span className="tag">出場中</span>
         </Link>
         <a className="related-card" href="#">
           <div className="meta">Mリーグ · 2018〜</div>
-          <div className="nm" style={{ fontSize: 22 }}>KONAMI麻雀格闘倶楽部</div>
-          <div className="meta">キャプテン · 通算 +287.2pt</div>
-          <span className="tag">2025-26 首位</span>
+          <div className="nm" style={{ fontSize: 22 }}>TEAM RAIDEN / 雷電</div>
+          <div className="meta">2018年Mリーグ発足時より所属</div>
+          <span className="tag">所属中</span>
         </a>
       </div>
     </div>
