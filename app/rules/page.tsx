@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { MainNav } from "@/components/MainNav";
-import { SiteFooter } from "@/components/SiteFooter";
 import { BgLayers } from "@/components/BgLayers";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
 import { ORG_RULE_GROUPS, RULE_ITEMS, type OrgRuleGroup } from "./data";
@@ -24,15 +22,17 @@ const ORG_EN: Record<OrgTab, string> = {
 };
 
 /* ============================================================
- * Rule cell — あり: org color / なし: muted / other: text only
+ * Rule cell
  * ============================================================ */
-type RuleCellProps = {
+function RuleCell({
+  value,
+  color,
+  size = "sm",
+}: {
   value: string;
   color: string;
   size?: "sm" | "md";
-};
-
-function RuleCell({ value, color, size = "sm" }: RuleCellProps) {
+}) {
   const isAri = value === "あり";
   const isNashi = value === "なし";
   return (
@@ -94,8 +94,7 @@ function RuleItemCell({ label, desc }: { label: string; desc?: string }) {
 }
 
 /* ============================================================
- * ALL view — orgs × RULE_ITEMS, horizontal-scrollable
- * Orgs with multiple rule variants get an ×N badge.
+ * ALL view — comparison table
  * ============================================================ */
 function CompareTable() {
   return (
@@ -103,7 +102,7 @@ function CompareTable() {
       style={{
         overflowX: "auto",
         margin: "0 0 48px",
-        border: "var(--border)",
+        border: "1.5px solid var(--ink)",
         boxShadow: "var(--shadow)",
         background: "var(--paper)",
       }}
@@ -120,14 +119,15 @@ function CompareTable() {
             <th
               style={{
                 padding: "14px 16px",
-                background: "var(--ink)",
-                color: "var(--paper)",
+                background: "var(--paper-2)",
+                color: "var(--ink)",
                 fontFamily: "'Geist Mono', monospace",
                 fontSize: 10.5,
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 textAlign: "left",
-                borderRight: "1px solid rgba(255,255,255,0.2)",
+                borderBottom: "2px solid var(--ink)",
+                borderRight: "2px solid var(--ink)",
                 minWidth: 180,
               }}
             >
@@ -137,16 +137,13 @@ function CompareTable() {
               <th
                 key={g.org}
                 style={{
-                  padding: "14px 14px",
-                  background: g.color,
-                  color: "#fff",
-                  fontFamily: "'Shippori Mincho', serif",
-                  fontSize: 14,
-                  fontWeight: 900,
+                  padding: "14px 14px 12px",
+                  background: "var(--paper)",
+                  color: g.color,
                   textAlign: "center",
-                  borderRight: "1px solid rgba(255,255,255,0.2)",
+                  borderBottom: `3px solid ${g.color}`,
+                  borderRight: "1px solid var(--ink-4)",
                   whiteSpace: "nowrap",
-                  letterSpacing: "-0.01em",
                 }}
               >
                 <div
@@ -157,7 +154,16 @@ function CompareTable() {
                     gap: 6,
                   }}
                 >
-                  <span>{g.org}</span>
+                  <span
+                    style={{
+                      fontFamily: "'Shippori Mincho', serif",
+                      fontSize: 15,
+                      fontWeight: 900,
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    {g.org}
+                  </span>
                   {g.rules.length > 1 && (
                     <span
                       style={{
@@ -165,8 +171,9 @@ function CompareTable() {
                         fontSize: 9,
                         fontWeight: 700,
                         padding: "2px 6px",
-                        background: "rgba(255,255,255,0.22)",
-                        border: "1px solid rgba(255,255,255,0.35)",
+                        background: "var(--paper-2)",
+                        border: `1px solid ${g.color}`,
+                        color: g.color,
                         letterSpacing: "0.06em",
                       }}
                     >
@@ -179,7 +186,7 @@ function CompareTable() {
                     fontFamily: "'Geist Mono', monospace",
                     fontSize: 9,
                     fontWeight: 400,
-                    opacity: 0.85,
+                    color: "var(--ink-3)",
                     marginTop: 4,
                     letterSpacing: "0.04em",
                   }}
@@ -210,7 +217,7 @@ function CompareTable() {
 }
 
 /* ============================================================
- * Per-org view — 1 rule => direct table; multiple => sub-tabs
+ * Per-org detail view
  * ============================================================ */
 function OrgDetail({ group }: { group: OrgRuleGroup }) {
   const [subId, setSubId] = useState<string>(group.rules[0].id);
@@ -221,7 +228,7 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
       style={{
         margin: "0 0 48px",
         background: "var(--paper)",
-        border: "var(--border)",
+        border: "1.5px solid var(--ink)",
         boxShadow: "var(--shadow)",
       }}
     >
@@ -342,14 +349,15 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
               <th
                 style={{
                   padding: "12px 16px",
-                  background: group.color,
-                  color: "#fff",
+                  background: "var(--paper-2)",
+                  color: "var(--ink)",
                   fontFamily: "'Geist Mono', monospace",
                   fontSize: 11,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   textAlign: "left",
-                  borderRight: "1px solid rgba(255,255,255,0.2)",
+                  borderBottom: "2px solid var(--ink)",
+                  borderRight: "2px solid var(--ink)",
                   width: "40%",
                 }}
               >
@@ -358,13 +366,14 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
               <th
                 style={{
                   padding: "12px 16px",
-                  background: group.color,
-                  color: "#fff",
+                  background: "var(--paper)",
+                  color: group.color,
                   fontFamily: "'Shippori Mincho', serif",
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: 900,
                   textAlign: "center",
                   letterSpacing: "-0.01em",
+                  borderBottom: `3px solid ${group.color}`,
                 }}
               >
                 {rule.name}
@@ -390,14 +399,15 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
 }
 
 /* ============================================================
- * Org filter bar — editorial underline style matching players/organizations
+ * Filter bar
  * ============================================================ */
-type OrgFilterBarProps = {
+function OrgFilterBar({
+  current,
+  onChange,
+}: {
   current: OrgTab;
   onChange: (tab: OrgTab) => void;
-};
-
-function OrgFilterBar({ current, onChange }: OrgFilterBarProps) {
+}) {
   return (
     <nav
       aria-label="団体で絞り込む"
@@ -619,40 +629,20 @@ export default function RulesPage() {
     orgTab === "ALL" ? null : ORG_RULE_GROUPS.find((g) => g.org === orgTab);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--paper)",
-        position: "relative",
-      }}
-    >
+    <div className="wrap">
       <BgLayers />
       <CustomScrollbar />
 
-      <section className="hero-band">
-        <div className="hero-inner">
-          <div className="hero-text">
-            <div
-              className="crumb"
-              style={{
-                fontFamily: "'Geist Mono', monospace",
-                fontSize: 10.5,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "var(--ink-3)",
-                marginBottom: 12,
-              }}
-            >
-              <Link
-                href="/"
-                style={{ color: "var(--ink-3)", textDecoration: "none" }}
-              >
-                Home
-              </Link>
-              <span style={{ margin: "0 8px" }}>›</span>
-              <span>Rules</span>
-            </div>
-            <h1 className="hero-title">
+      <section className="org-hero">
+        <div className="crumb">
+          <Link href="/">Home</Link>
+          <span className="sep">›</span>
+          <span>Rules</span>
+        </div>
+        <div className="top-grid">
+          <div>
+            <div className="org-code">RULES · 5 BODIES · CROSS-REFERENCE</div>
+            <h1>
               競技ルール比較
               <span className="en">Rules · 5 Bodies Cross-Reference</span>
             </h1>
@@ -669,7 +659,7 @@ export default function RulesPage() {
         </div>
       </section>
 
-      <div className="container" style={{ padding: "40px 24px 80px" }}>
+      <div style={{ padding: "40px 24px 80px" }}>
         <OrgFilterBar current={orgTab} onChange={setOrgTab} />
 
         {orgTab === "ALL" && (
@@ -737,8 +727,7 @@ export default function RulesPage() {
               lineHeight: 1.8,
             }}
           >
-            ※
-            本ページのルール情報は各団体の公式資料をもとに作成しています。正式な競技には各団体の最新ルールブックをご参照ください。
+            ※ 本ページのルール情報は各団体の公式資料をもとに作成しています。正式な競技には各団体の最新ルールブックをご参照ください。
           </p>
         </div>
       </div>
