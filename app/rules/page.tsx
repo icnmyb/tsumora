@@ -1,0 +1,747 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { MainNav } from "@/components/MainNav";
+import { SiteFooter } from "@/components/SiteFooter";
+import { BgLayers } from "@/components/BgLayers";
+import { CustomScrollbar } from "@/components/CustomScrollbar";
+import { ORG_RULE_GROUPS, RULE_ITEMS, type OrgRuleGroup } from "./data";
+
+/* ============================================================
+ * Tabs
+ * ============================================================ */
+const ORG_TABS = ["ALL", "JPML", "NPM", "最高位戦", "RMU", "μ"] as const;
+type OrgTab = (typeof ORG_TABS)[number];
+
+const ORG_EN: Record<OrgTab, string> = {
+  ALL: "All Bodies",
+  JPML: "連盟",
+  NPM: "協会",
+  最高位戦: "Saikōisen",
+  RMU: "Real Mahjong Unit",
+  μ: "麻将連合",
+};
+
+/* ============================================================
+ * Rule cell — あり: org color / なし: muted / other: text only
+ * ============================================================ */
+type RuleCellProps = {
+  value: string;
+  color: string;
+  size?: "sm" | "md";
+};
+
+function RuleCell({ value, color, size = "sm" }: RuleCellProps) {
+  const isAri = value === "あり";
+  const isNashi = value === "なし";
+  return (
+    <td
+      style={{
+        padding: size === "md" ? "12px 16px" : "10px 14px",
+        fontFamily:
+          isAri || isNashi
+            ? "'Geist Mono', monospace"
+            : "'Noto Sans JP', sans-serif",
+        fontSize: size === "md" ? 13 : 12,
+        fontWeight: isAri ? 700 : 400,
+        background: isAri ? color : isNashi ? "var(--paper-2)" : "transparent",
+        color: isAri ? "#fff" : isNashi ? "var(--ink-3)" : "var(--ink)",
+        textAlign: "center",
+        borderBottom: "1px solid var(--ink-4)",
+        borderRight: "1px solid var(--ink-4)",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {value}
+    </td>
+  );
+}
+
+/* ============================================================
+ * Rule-item label cell (left column)
+ * ============================================================ */
+function RuleItemCell({ label, desc }: { label: string; desc?: string }) {
+  return (
+    <td
+      style={{
+        padding: "10px 16px",
+        fontFamily: "'Noto Sans JP', sans-serif",
+        fontSize: 12,
+        fontWeight: 600,
+        background: "var(--paper-2)",
+        borderBottom: "1px solid var(--ink-4)",
+        borderRight: "2px solid var(--ink)",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {label}
+      {desc && (
+        <span
+          style={{
+            display: "block",
+            fontWeight: 400,
+            fontSize: 10,
+            color: "var(--ink-3)",
+            marginTop: 2,
+          }}
+        >
+          {desc}
+        </span>
+      )}
+    </td>
+  );
+}
+
+/* ============================================================
+ * ALL view — orgs × RULE_ITEMS, horizontal-scrollable
+ * Orgs with multiple rule variants get an ×N badge.
+ * ============================================================ */
+function CompareTable() {
+  return (
+    <div
+      style={{
+        overflowX: "auto",
+        margin: "0 0 48px",
+        border: "var(--border)",
+        boxShadow: "var(--shadow)",
+        background: "var(--paper)",
+      }}
+    >
+      <table
+        style={{
+          borderCollapse: "collapse",
+          width: "100%",
+          minWidth: 760,
+        }}
+      >
+        <thead>
+          <tr>
+            <th
+              style={{
+                padding: "14px 16px",
+                background: "var(--ink)",
+                color: "var(--paper)",
+                fontFamily: "'Geist Mono', monospace",
+                fontSize: 10.5,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                textAlign: "left",
+                borderRight: "1px solid rgba(255,255,255,0.2)",
+                minWidth: 180,
+              }}
+            >
+              ルール項目
+            </th>
+            {ORG_RULE_GROUPS.map((g) => (
+              <th
+                key={g.org}
+                style={{
+                  padding: "14px 14px",
+                  background: g.color,
+                  color: "#fff",
+                  fontFamily: "'Shippori Mincho', serif",
+                  fontSize: 14,
+                  fontWeight: 900,
+                  textAlign: "center",
+                  borderRight: "1px solid rgba(255,255,255,0.2)",
+                  whiteSpace: "nowrap",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 6,
+                  }}
+                >
+                  <span>{g.org}</span>
+                  {g.rules.length > 1 && (
+                    <span
+                      style={{
+                        fontFamily: "'Geist Mono', monospace",
+                        fontSize: 9,
+                        fontWeight: 700,
+                        padding: "2px 6px",
+                        background: "rgba(255,255,255,0.22)",
+                        border: "1px solid rgba(255,255,255,0.35)",
+                        letterSpacing: "0.06em",
+                      }}
+                    >
+                      ×{g.rules.length}
+                    </span>
+                  )}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Geist Mono', monospace",
+                    fontSize: 9,
+                    fontWeight: 400,
+                    opacity: 0.85,
+                    marginTop: 4,
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {g.rules[0].name}
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {RULE_ITEMS.map((item) => (
+            <tr key={item.key}>
+              <RuleItemCell label={item.label} desc={item.desc} />
+              {ORG_RULE_GROUPS.map((g) => (
+                <RuleCell
+                  key={g.org}
+                  value={String(g.rules[0].values[item.key] ?? "—")}
+                  color={g.color}
+                />
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* ============================================================
+ * Per-org view — 1 rule => direct table; multiple => sub-tabs
+ * ============================================================ */
+function OrgDetail({ group }: { group: OrgRuleGroup }) {
+  const [subId, setSubId] = useState<string>(group.rules[0].id);
+  const rule = group.rules.find((r) => r.id === subId) ?? group.rules[0];
+
+  return (
+    <div
+      style={{
+        margin: "0 0 48px",
+        background: "var(--paper)",
+        border: "var(--border)",
+        boxShadow: "var(--shadow)",
+      }}
+    >
+      {group.rules.length > 1 && (
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "stretch",
+            borderBottom: "1.5px solid var(--ink)",
+            background: "var(--paper)",
+          }}
+        >
+          <span
+            aria-hidden
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "10px 14px",
+              fontFamily: "'Geist Mono', monospace",
+              fontSize: 9.5,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "var(--ink-3)",
+              borderRight: "1px solid var(--ink-5, rgba(0,0,0,0.12))",
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+            }}
+          >
+            Rule ⁄ ルール種別
+          </span>
+          {group.rules.map((r) => {
+            const active = r.id === subId;
+            return (
+              <button
+                key={r.id}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setSubId(r.id)}
+                style={{
+                  position: "relative",
+                  display: "inline-flex",
+                  alignItems: "baseline",
+                  gap: 8,
+                  padding: "12px 18px",
+                  background: active ? "var(--paper-2)" : "transparent",
+                  color: active ? group.color : "var(--ink-3)",
+                  border: "none",
+                  borderRight: "1px solid var(--ink-5, rgba(0,0,0,0.12))",
+                  cursor: "pointer",
+                  transition: "background 140ms ease, color 140ms ease",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "'Shippori Mincho', serif",
+                    fontSize: 14,
+                    fontWeight: active ? 900 : 700,
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  {r.name}
+                </span>
+                {active && (
+                  <span
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: -1.5,
+                      height: 3,
+                      background: group.color,
+                    }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {rule.description && (
+        <div
+          style={{
+            padding: "14px 20px",
+            background: "var(--paper-2)",
+            borderBottom: "1px solid var(--ink-4)",
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: 13,
+            lineHeight: 1.7,
+            color: "var(--ink-2)",
+          }}
+        >
+          <span
+            style={{
+              display: "inline-block",
+              fontFamily: "'Geist Mono', monospace",
+              fontSize: 9.5,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: group.color,
+              marginRight: 10,
+              fontWeight: 700,
+            }}
+          >
+            About
+          </span>
+          {rule.description}
+        </div>
+      )}
+
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th
+                style={{
+                  padding: "12px 16px",
+                  background: group.color,
+                  color: "#fff",
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 11,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  textAlign: "left",
+                  borderRight: "1px solid rgba(255,255,255,0.2)",
+                  width: "40%",
+                }}
+              >
+                ルール項目
+              </th>
+              <th
+                style={{
+                  padding: "12px 16px",
+                  background: group.color,
+                  color: "#fff",
+                  fontFamily: "'Shippori Mincho', serif",
+                  fontSize: 14,
+                  fontWeight: 900,
+                  textAlign: "center",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {rule.name}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {RULE_ITEMS.map((item) => (
+              <tr key={item.key}>
+                <RuleItemCell label={item.label} desc={item.desc} />
+                <RuleCell
+                  value={String(rule.values[item.key] ?? "—")}
+                  color={group.color}
+                  size="md"
+                />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+ * Org filter bar — editorial underline style matching players/organizations
+ * ============================================================ */
+type OrgFilterBarProps = {
+  current: OrgTab;
+  onChange: (tab: OrgTab) => void;
+};
+
+function OrgFilterBar({ current, onChange }: OrgFilterBarProps) {
+  return (
+    <nav
+      aria-label="団体で絞り込む"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "stretch",
+        margin: "0 0 28px",
+        borderTop: "1.5px solid var(--ink)",
+        borderBottom: "1.5px solid var(--ink)",
+        background: "var(--paper)",
+      }}
+    >
+      <span
+        aria-hidden
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          padding: "10px 14px",
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: 9.5,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          color: "var(--ink-3)",
+          borderRight: "1px solid var(--ink-5, rgba(0,0,0,0.12))",
+          fontWeight: 700,
+          whiteSpace: "nowrap",
+        }}
+      >
+        Filter ⁄ 団体
+      </span>
+      {ORG_TABS.map((tab, i) => {
+        const group = ORG_RULE_GROUPS.find((g) => g.org === tab);
+        const color = group?.color ?? "var(--ink)";
+        const active = current === tab;
+        const en = ORG_EN[tab];
+        return (
+          <button
+            key={tab}
+            type="button"
+            aria-pressed={active}
+            onClick={() => onChange(tab)}
+            style={{
+              position: "relative",
+              display: "inline-flex",
+              alignItems: "baseline",
+              gap: 8,
+              padding: "12px 18px",
+              background: active ? "var(--paper-2)" : "transparent",
+              color: active ? color : "var(--ink)",
+              border: "none",
+              borderRight:
+                i === ORG_TABS.length - 1
+                  ? "none"
+                  : "1px solid var(--ink-5, rgba(0,0,0,0.12))",
+              fontFamily: "'Geist Mono', monospace",
+              cursor: "pointer",
+              transition: "background 140ms ease, color 140ms ease",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span
+              aria-hidden
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                bottom: -1.5,
+                height: 3,
+                background: active ? color : "transparent",
+                transition: "background 140ms ease",
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "'Shippori Mincho', serif",
+                fontSize: 15,
+                fontWeight: 900,
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {tab}
+            </span>
+            <span
+              style={{
+                fontFamily: "'Instrument Serif', serif",
+                fontStyle: "italic",
+                fontSize: 11,
+                color: active ? color : "var(--ink-3)",
+                opacity: 0.85,
+              }}
+            >
+              {en}
+            </span>
+            {group && group.rules.length > 1 && (
+              <span
+                style={{
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 9.5,
+                  letterSpacing: "0.08em",
+                  color: active ? color : "var(--ink-3)",
+                  fontWeight: 700,
+                  padding: "1px 6px",
+                  border: `1px solid ${active ? color : "var(--ink-4)"}`,
+                  background: active ? "var(--paper)" : "var(--paper-2)",
+                  marginLeft: 2,
+                }}
+              >
+                ×{group.rules.length}
+              </span>
+            )}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
+/* ============================================================
+ * Legend
+ * ============================================================ */
+function Legend() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: 14,
+        padding: "14px 18px",
+        background: "var(--paper-2)",
+        border: "1.5px solid var(--ink)",
+        marginBottom: 24,
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: 9.5,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: "var(--ink-3)",
+          fontWeight: 700,
+        }}
+      >
+        Legend
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+        <span
+          style={{
+            display: "inline-block",
+            width: 18,
+            height: 14,
+            background: "var(--ink)",
+            border: "1px solid var(--ink)",
+          }}
+        />
+        <span
+          style={{
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: 11,
+            color: "var(--ink-2)",
+          }}
+        >
+          あり（団体色）
+        </span>
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+        <span
+          style={{
+            display: "inline-block",
+            width: 18,
+            height: 14,
+            background: "var(--paper-2)",
+            border: "1px solid var(--ink-4)",
+          }}
+        />
+        <span
+          style={{
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: 11,
+            color: "var(--ink-2)",
+          }}
+        >
+          なし
+        </span>
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+        <span
+          style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 11,
+            color: "var(--ink-2)",
+          }}
+        >
+          —
+        </span>
+        <span
+          style={{
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: 11,
+            color: "var(--ink-2)",
+          }}
+        >
+          未確認 / 非該当
+        </span>
+      </span>
+    </div>
+  );
+}
+
+/* ============================================================
+ * Page
+ * ============================================================ */
+export default function RulesPage() {
+  const [orgTab, setOrgTab] = useState<OrgTab>("ALL");
+
+  const currentGroup =
+    orgTab === "ALL" ? null : ORG_RULE_GROUPS.find((g) => g.org === orgTab);
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "var(--paper)",
+        position: "relative",
+      }}
+    >
+      <BgLayers />
+      <CustomScrollbar />
+
+      <section className="hero-band">
+        <div className="hero-inner">
+          <div className="hero-text">
+            <div
+              className="crumb"
+              style={{
+                fontFamily: "'Geist Mono', monospace",
+                fontSize: 10.5,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--ink-3)",
+                marginBottom: 12,
+              }}
+            >
+              <Link
+                href="/"
+                style={{ color: "var(--ink-3)", textDecoration: "none" }}
+              >
+                Home
+              </Link>
+              <span style={{ margin: "0 8px" }}>›</span>
+              <span>Rules</span>
+            </div>
+            <h1 className="hero-title">
+              競技ルール比較
+              <span className="en">Rules · 5 Bodies Cross-Reference</span>
+            </h1>
+            <div className="tags">
+              <span className="highlight">● 5団体横断</span>
+              <span>主要項目を一覧比較</span>
+              <span>複数ルール対応</span>
+              <span>公式資料準拠</span>
+            </div>
+          </div>
+          <div className="kite">
+            <div className="k-main">則</div>
+          </div>
+        </div>
+      </section>
+
+      <div className="container" style={{ padding: "40px 24px 80px" }}>
+        <OrgFilterBar current={orgTab} onChange={setOrgTab} />
+
+        {orgTab === "ALL" && (
+          <>
+            <h2 className="sh">
+              <span>全団体比較表</span>
+              <span className="num">
+                Compare · 代表ルールで比較（複数種ある場合は第1ルール）
+              </span>
+              <span className="rule"></span>
+            </h2>
+            <CompareTable />
+          </>
+        )}
+
+        {currentGroup && (
+          <>
+            <h2 className="sh">
+              <span style={{ color: currentGroup.color }}>
+                {currentGroup.org}
+              </span>
+              <span className="num">
+                {currentGroup.label} · {currentGroup.rules.length}種のルール
+              </span>
+              <span className="rule"></span>
+              <span
+                className="more"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "4px 10px",
+                  background: currentGroup.color,
+                  color: "#fff",
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 11,
+                  letterSpacing: "0.1em",
+                  fontWeight: 700,
+                }}
+              >
+                <span style={{ fontSize: 14, fontWeight: 900 }}>
+                  {currentGroup.rules.length}
+                </span>
+                <span style={{ fontSize: 9.5, opacity: 0.85 }}>RULES</span>
+              </span>
+            </h2>
+            <OrgDetail group={currentGroup} />
+          </>
+        )}
+
+        <Legend />
+
+        <div
+          style={{
+            marginTop: 16,
+            paddingTop: 24,
+            borderTop: "1.5px solid var(--ink-4)",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'Noto Sans JP', sans-serif",
+              fontSize: 12,
+              color: "var(--ink-3)",
+              lineHeight: 1.8,
+            }}
+          >
+            ※
+            本ページのルール情報は各団体の公式資料をもとに作成しています。正式な競技には各団体の最新ルールブックをご参照ください。
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

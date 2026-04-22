@@ -43,6 +43,7 @@ export function SiteFooter() {
             <li><Link href="/titles">タイトル戦図鑑</Link></li>
             <li><Link href="/players">プロ選手データベース</Link></li>
             <li><Link href="/rankings">ランキング</Link></li>
+            <li><Link href="/rules">競技ルール</Link></li>
             <li><Link href="/mleague">Mリーグ</Link></li>
           </ul>
         </div>
