@@ -28,13 +28,16 @@ function RuleCell({
   value,
   color,
   size = "sm",
+  isDetail = false,
 }: {
   value: string;
   color: string;
   size?: "sm" | "md";
+  isDetail?: boolean;
 }) {
-  const isAri = value === "あり";
-  const isNashi = value === "なし";
+  const displayValue = isDetail && value === "JPMLタブを参照" ? "↓詳細を参照" : value;
+  const isAri = displayValue === "あり";
+  const isNashi = displayValue === "なし";
   return (
     <td
       style={{
@@ -45,15 +48,15 @@ function RuleCell({
             : "'Noto Sans JP', sans-serif",
         fontSize: size === "md" ? 13 : 12,
         fontWeight: isAri ? 700 : 400,
-        background: isAri ? color : isNashi ? "var(--paper-2)" : "transparent",
-        color: isAri ? "#fff" : isNashi ? "var(--ink-3)" : "var(--ink)",
+        background: isAri ? `${color}1a` : isNashi ? "var(--paper-2)" : "transparent",
+        color: isAri ? color : isNashi ? "var(--ink-3)" : "var(--ink)",
         textAlign: "center",
-        borderBottom: "1px solid var(--ink-4)",
-        borderRight: "1px solid var(--ink-4)",
+        borderBottom: "1px solid var(--ink)",
+        borderRight: "1px solid var(--ink)",
         whiteSpace: "nowrap",
       }}
     >
-      {value}
+      {displayValue}
     </td>
   );
 }
@@ -70,7 +73,7 @@ function RuleItemCell({ label, desc }: { label: string; desc?: string }) {
         fontSize: 12,
         fontWeight: 600,
         background: "var(--paper-2)",
-        borderBottom: "1px solid var(--ink-4)",
+        borderBottom: "1px solid var(--ink)",
         borderRight: "2px solid var(--ink)",
         whiteSpace: "nowrap",
       }}
@@ -141,8 +144,8 @@ function CompareTable() {
                   background: "var(--paper)",
                   color: g.color,
                   textAlign: "center",
-                  borderBottom: `3px solid ${g.color}`,
-                  borderRight: "1px solid var(--ink-4)",
+                  borderBottom: "2px solid var(--ink)",
+                  borderRight: "1px solid var(--ink)",
                   whiteSpace: "nowrap",
                 }}
               >
@@ -212,6 +215,327 @@ function CompareTable() {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+/* ============================================================
+ * Rank Points Visual — JPML 公式ルール順位点
+ * ============================================================ */
+const RANK_PTS_DATA = [
+  {
+    label: "1人浮き",
+    sub: "30000超 × 1人",
+    pts: [
+      { rank: "1着", value: 12 },
+      { rank: "2着", value: -1 },
+      { rank: "3着", value: -3 },
+      { rank: "4着", value: -8 },
+    ],
+  },
+  {
+    label: "2人浮き",
+    sub: "30000超 × 2人",
+    pts: [
+      { rank: "1着", value: 8 },
+      { rank: "2着", value: 4 },
+      { rank: "3着", value: -4 },
+      { rank: "4着", value: -8 },
+    ],
+  },
+  {
+    label: "3人浮き",
+    sub: "30000超 × 3人",
+    pts: [
+      { rank: "1着", value: 8 },
+      { rank: "2着", value: 3 },
+      { rank: "3着", value: 1 },
+      { rank: "4着", value: -12 },
+    ],
+  },
+] as const;
+
+const MAX_ABS = 12;
+const VERMILION = "#c8282a";
+
+function RankPtsVisual() {
+  return (
+    <div style={{ padding: "28px 20px 20px" }}>
+      {/* Section title */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          gap: 10,
+          marginBottom: 20,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 9.5,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: VERMILION,
+            fontWeight: 700,
+          }}
+        >
+          Rank Pts
+        </span>
+        <span
+          style={{
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: 13,
+            fontWeight: 600,
+            color: "var(--ink)",
+          }}
+        >
+          順位点 — 浮き人数別
+        </span>
+        <span
+          style={{
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: 11,
+            color: "var(--ink-3)",
+          }}
+        >
+          ※「浮き」= 30000点以上。浮き人数で変動
+        </span>
+      </div>
+
+      {/* ── Bar chart cards ── */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: 14,
+          marginBottom: 24,
+        }}
+      >
+        {RANK_PTS_DATA.map((scenario) => (
+          <div
+            key={scenario.label}
+            style={{
+              background: "var(--paper)",
+              border: "1.5px solid var(--ink)",
+              boxShadow: "3px 3px 0 var(--ink)",
+            }}
+          >
+            {/* Card header */}
+            <div
+              style={{
+                padding: "10px 14px",
+                borderBottom: "1.5px solid var(--ink)",
+                background: "var(--paper-2)",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Shippori Mincho', serif",
+                  fontSize: 15,
+                  fontWeight: 900,
+                  color: "var(--ink)",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {scenario.label}
+              </span>
+              <span
+                style={{
+                  marginLeft: 8,
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 9.5,
+                  color: "var(--ink-3)",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {scenario.sub}
+              </span>
+            </div>
+            {/* Bars */}
+            <div style={{ padding: "12px 14px 14px" }}>
+              {scenario.pts.map((p) => {
+                const isPlus = p.value >= 0;
+                const pct = (Math.abs(p.value) / MAX_ABS) * 100;
+                return (
+                  <div
+                    key={p.rank}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      marginBottom: 6,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'Geist Mono', monospace",
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: "var(--ink-2)",
+                        width: 28,
+                        flexShrink: 0,
+                        textAlign: "right",
+                      }}
+                    >
+                      {p.rank}
+                    </span>
+                    <div
+                      style={{
+                        flex: 1,
+                        height: 18,
+                        background: "var(--paper-2)",
+                        border: "1px solid var(--ink-4)",
+                        position: "relative",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          height: "100%",
+                          width: `${pct}%`,
+                          background: isPlus ? VERMILION : "var(--ink-3)",
+                          opacity: isPlus ? 1 : 0.45,
+                          transition: "width 300ms ease",
+                        }}
+                      />
+                    </div>
+                    <span
+                      style={{
+                        fontFamily: "'Geist Mono', monospace",
+                        fontSize: 13,
+                        fontWeight: 800,
+                        color: isPlus ? VERMILION : "var(--ink-3)",
+                        width: 38,
+                        flexShrink: 0,
+                        textAlign: "right",
+                      }}
+                    >
+                      {isPlus ? "+" : ""}
+                      {p.value}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Matrix comparison table ── */}
+      <div
+        style={{
+          overflowX: "auto",
+          border: "1.5px solid var(--ink)",
+          boxShadow: "3px 3px 0 var(--ink)",
+          background: "var(--paper)",
+        }}
+      >
+        <table style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th
+                style={{
+                  padding: "10px 14px",
+                  background: "var(--paper-2)",
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 10,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "var(--ink-3)",
+                  textAlign: "left",
+                  borderBottom: "2px solid var(--ink)",
+                  borderRight: "2px solid var(--ink)",
+                  fontWeight: 700,
+                }}
+              >
+                順位
+              </th>
+              {RANK_PTS_DATA.map((s) => (
+                <th
+                  key={s.label}
+                  style={{
+                    padding: "10px 14px",
+                    background: "var(--paper)",
+                    fontFamily: "'Shippori Mincho', serif",
+                    fontSize: 13,
+                    fontWeight: 900,
+                    color: "var(--ink)",
+                    textAlign: "center",
+                    borderBottom: `3px solid ${VERMILION}`,
+                    borderRight: "1px solid var(--ink)",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  {s.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {["1着", "2着", "3着", "4着"].map((rank, ri) => (
+              <tr key={rank}>
+                <td
+                  style={{
+                    padding: "10px 14px",
+                    fontFamily: "'Geist Mono', monospace",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    background: "var(--paper-2)",
+                    borderBottom: "1px solid var(--ink)",
+                    borderRight: "2px solid var(--ink)",
+                    color: "var(--ink-2)",
+                  }}
+                >
+                  {rank}
+                </td>
+                {RANK_PTS_DATA.map((s) => {
+                  const v = s.pts[ri].value;
+                  const isPlus = v >= 0;
+                  const intensity = Math.abs(v) / MAX_ABS;
+                  return (
+                    <td
+                      key={s.label}
+                      style={{
+                        padding: "10px 14px",
+                        fontFamily: "'Geist Mono', monospace",
+                        fontSize: 14,
+                        fontWeight: 800,
+                        textAlign: "center",
+                        borderBottom: "1px solid var(--ink)",
+                        borderRight: "1px solid var(--ink)",
+                        color: isPlus ? VERMILION : "var(--ink-3)",
+                        background: isPlus
+                          ? `rgba(200, 40, 42, ${0.06 + intensity * 0.12})`
+                          : `rgba(0, 0, 0, ${0.02 + intensity * 0.06})`,
+                      }}
+                    >
+                      {isPlus ? "+" : ""}
+                      {v}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Note */}
+      <p
+        style={{
+          marginTop: 12,
+          fontFamily: "'Noto Sans JP', sans-serif",
+          fontSize: 11,
+          color: "var(--ink-3)",
+          lineHeight: 1.7,
+        }}
+      >
+        ※ 同点の場合は順位点を分ける。
+      </p>
     </div>
   );
 }
@@ -317,7 +641,7 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
           style={{
             padding: "14px 20px",
             background: "var(--paper-2)",
-            borderBottom: "1px solid var(--ink-4)",
+            borderBottom: "1px solid var(--ink)",
             fontFamily: "'Noto Sans JP', sans-serif",
             fontSize: 13,
             lineHeight: 1.7,
@@ -343,7 +667,7 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
       )}
 
       <div style={{ overflowX: "auto" }}>
-        <table style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table style={{ borderCollapse: "collapse", width: "100%", border: "2px solid var(--ink)" }}>
           <thead>
             <tr>
               <th
@@ -373,7 +697,7 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
                   fontWeight: 900,
                   textAlign: "center",
                   letterSpacing: "-0.01em",
-                  borderBottom: `3px solid ${group.color}`,
+                  borderBottom: "2px solid var(--ink)",
                 }}
               >
                 {rule.name}
@@ -388,12 +712,19 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
                   value={String(rule.values[item.key] ?? "—")}
                   color={group.color}
                   size="md"
+                  isDetail={true}
                 />
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {rule.id === "jpml-official" && (
+        <div style={{ borderTop: "1.5px solid var(--ink-4)" }}>
+          <RankPtsVisual />
+        </div>
+      )}
     </div>
   );
 }
