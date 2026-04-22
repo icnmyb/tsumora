@@ -41,23 +41,32 @@ type MLeagueTeamTab = {
   key: MLeagueTeamFilter;
   label: string;
   en: string;
+  color: string;
 };
 
 const MLEAGUE_TEAM_TABS: MLeagueTeamTab[] = [
-  { key: "ALL", label: "ALL", en: "全チーム" },
-  { key: "BEAST X", label: "BEAST X", en: "BEAST X" },
-  { key: "EX風林火山", label: "EX風林火山", en: "EX Furinkazan" },
-  { key: "TEAM RAIDEN / 雷電", label: "TEAM雷電", en: "Team Raiden" },
-  { key: "KONAMI麻雀格闘倶楽部", label: "KONAMI麻雀格闘倶楽部", en: "KONAMI" },
-  { key: "セガサミーフェニックス", label: "セガサミーフェニックス", en: "Sega Sammy Phoenix" },
-  { key: "赤坂ドリブンズ", label: "赤坂ドリブンズ", en: "Akasaka Drivens" },
-  { key: "U-NEXT Pirates", label: "U-NEXT Pirates", en: "U-NEXT Pirates" },
-  { key: "渋谷ABEMAS", label: "渋谷ABEMAS", en: "Shibuya ABEMAS" },
-  { key: "EARTH JETS", label: "EARTH JETS", en: "Earth Jets" },
-  { key: "KADOKAWAサクラナイツ", label: "KADOKAWAサクラナイツ", en: "Sakura Knights" },
+  { key: "ALL",                   label: "ALL",                   en: "全チーム",            color: "var(--ink)" },
+  { key: "BEAST X",               label: "BEAST X",               en: "BEAST X",             color: "#0B2A5B" },
+  { key: "EX風林火山",             label: "EX風林火山",             en: "EX Furinkazan",       color: "#910000" },
+  { key: "TEAM RAIDEN / 雷電",    label: "TEAM雷電",               en: "Team Raiden",         color: "#c8b800" },
+  { key: "KONAMI麻雀格闘倶楽部",  label: "KONAMI麻雀格闘倶楽部",  en: "KONAMI",              color: "#F14141" },
+  { key: "セガサミーフェニックス", label: "セガサミーフェニックス", en: "Sega Sammy Phoenix",  color: "#F2A01F" },
+  { key: "赤坂ドリブンズ",        label: "赤坂ドリブンズ",        en: "Akasaka Drivens",     color: "#6aaa2a" },
+  { key: "U-NEXT Pirates",        label: "U-NEXT Pirates",        en: "U-NEXT Pirates",      color: "#2FAAE6" },
+  { key: "渋谷ABEMAS",            label: "渋谷ABEMAS",            en: "Shibuya ABEMAS",      color: "#B29D41" },
+  { key: "EARTH JETS",            label: "EARTH JETS",            en: "Earth Jets",          color: "#1E9627" },
+  { key: "KADOKAWAサクラナイツ",  label: "KADOKAWAサクラナイツ",  en: "Sakura Knights",      color: "#e8538f" },
 ];
 
 const CURRENT_YEAR = 2026;
+
+/** "YYYY/MM/DD" → そのまま表示。"MM/DD" → 月日のみ表示 */
+function formatBirthday(b: string): string {
+  if (!b) return "—";
+  const parts = b.split("/");
+  if (parts.length === 2) return `${parts[0]}/${parts[1]}`; // MM/DD
+  return b; // YYYY/MM/DD
+}
 
 export default function PlayersIndexPage() {
   const [orgFilter, setOrgFilter] = useState<OrgFilter>("ALL");
@@ -292,7 +301,7 @@ export default function PlayersIndexPage() {
                 {t.label}
               </span>
               {active && (
-                <span style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: "var(--ink)" }} />
+                <span style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: t.color }} />
               )}
             </button>
           );
@@ -479,7 +488,7 @@ export default function PlayersIndexPage() {
                 </div>
                 <div>
                   <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 3 }}>誕生日</div>
-                  <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 11, fontWeight: 600, color: "var(--ink)" }}>{p.birthday}</div>
+                  <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 11, fontWeight: 600, color: "var(--ink)" }}>{formatBirthday(p.birthday)}</div>
                 </div>
               </div>
 
@@ -778,7 +787,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
         style={{
           position: "relative",
           display: "grid",
-          gridTemplateColumns: "56px 1fr auto auto auto",
+          gridTemplateColumns: "56px 1fr auto auto auto auto auto auto",
           alignItems: "center",
           gap: 16,
           padding: "12px 16px 12px 0",
@@ -868,12 +877,48 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             fontSize: 10.5,
             letterSpacing: "0.08em",
             color: "var(--ink-3)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {player.joinYear}年入会
+        </span>
+
+        <span
+          style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 10.5,
+            letterSpacing: "0.08em",
+            color: "var(--ink-3)",
             textTransform: "uppercase",
             whiteSpace: "nowrap",
           }}
         >
           <span style={{ fontWeight: 700, color: "var(--ink-2)" }}>{years}</span>
           <span style={{ marginLeft: 3 }}>年目</span>
+        </span>
+
+        <span
+          style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 10.5,
+            letterSpacing: "0.08em",
+            color: "var(--ink-3)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {player.period || "—"}
+        </span>
+
+        <span
+          style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 10.5,
+            letterSpacing: "0.08em",
+            color: "var(--ink-3)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {formatBirthday(player.birthday)}
         </span>
 
         <span
