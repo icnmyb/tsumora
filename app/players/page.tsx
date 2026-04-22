@@ -35,17 +35,43 @@ const GENDER_TABS: GenderTab[] = [
   { key: "female", label: "女性", en: "Female" },
 ];
 
+type MLeagueTeamFilter = "ALL" | string;
+
+type MLeagueTeamTab = {
+  key: MLeagueTeamFilter;
+  label: string;
+  en: string;
+};
+
+const MLEAGUE_TEAM_TABS: MLeagueTeamTab[] = [
+  { key: "ALL", label: "ALL", en: "全チーム" },
+  { key: "BEAST X", label: "BEAST X", en: "BEAST X" },
+  { key: "EX風林火山", label: "EX風林火山", en: "EX Furinkazan" },
+  { key: "TEAM RAIDEN / 雷電", label: "TEAM雷電", en: "Team Raiden" },
+  { key: "KONAMI麻雀格闘倶楽部", label: "KONAMI麻雀格闘倶楽部", en: "KONAMI" },
+  { key: "セガサミーフェニックス", label: "セガサミーフェニックス", en: "Sega Sammy Phoenix" },
+  { key: "赤坂ドリブンズ", label: "赤坂ドリブンズ", en: "Akasaka Drivens" },
+  { key: "U-NEXT Pirates", label: "U-NEXT Pirates", en: "U-NEXT Pirates" },
+  { key: "渋谷ABEMAS", label: "渋谷ABEMAS", en: "Shibuya ABEMAS" },
+  { key: "EARTH JETS", label: "EARTH JETS", en: "Earth Jets" },
+  { key: "KADOKAWAサクラナイツ", label: "KADOKAWAサクラナイツ", en: "Sakura Knights" },
+];
+
 const CURRENT_YEAR = 2026;
 
 export default function PlayersIndexPage() {
   const [orgFilter, setOrgFilter] = useState<OrgFilter>("ALL");
   const [genderFilter, setGenderFilter] = useState<GenderFilter>("ALL");
+  const [mleagueTeamFilter, setMleagueTeamFilter] = useState<MLeagueTeamFilter>("ALL");
 
   const featured = useMemo(() => {
-    const base = ALL_PLAYERS.slice(0, 10);
-    if (orgFilter === "ALL") return base;
-    return ALL_PLAYERS.filter((p) => p.org === orgFilter).slice(0, 10);
-  }, [orgFilter]);
+    return ALL_PLAYERS.filter((p) => {
+      if (!p.mleagueTeam) return false;
+      const orgOk = orgFilter === "ALL" || p.org === orgFilter;
+      const teamOk = mleagueTeamFilter === "ALL" || p.mleagueTeam === mleagueTeamFilter;
+      return orgOk && teamOk;
+    });
+  }, [orgFilter, mleagueTeamFilter]);
 
   const filtered = useMemo(() => {
     return ALL_PLAYERS.filter((p) => {
@@ -73,7 +99,7 @@ export default function PlayersIndexPage() {
               <span className="en">Featured Professional Players</span>
             </h1>
             <div className="tags">
-              <span className="highlight">● 注目プロ 10名</span>
+              <span className="highlight">● Mリーガー</span>
               <span>5団体横断</span>
               <span>Mリーガー多数</span>
               <span>現役タイトルホルダー含む</span>
@@ -87,8 +113,8 @@ export default function PlayersIndexPage() {
 
       {/* FEATURED PLAYERS GRID */}
       <h2 className="sh">
-        <span>注目プロ</span>
-        <span className="num">Featured Players · Select one</span>
+        <span>Mリーガー</span>
+        <span className="num">M.LEAGUE Players · Select one</span>
         <span className="rule"></span>
       </h2>
 
@@ -199,6 +225,75 @@ export default function PlayersIndexPage() {
               >
                 ({count})
               </span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* MLEAGUE TEAM FILTER TABS */}
+      <nav
+        aria-label="Filter by M.League team"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "stretch",
+          gap: 0,
+          margin: "0 0 20px",
+          borderTop: "1px solid var(--ink-4)",
+          borderBottom: "1.5px solid var(--ink)",
+          background: "var(--paper)",
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            padding: "10px 14px",
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 9.5,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "var(--ink-3)",
+            borderRight: "1px solid var(--ink-5, rgba(0,0,0,0.12))",
+            fontWeight: 700,
+            whiteSpace: "nowrap",
+          }}
+        >
+          Filter ⁄ チーム
+        </span>
+        {MLEAGUE_TEAM_TABS.map((t) => {
+          const active = mleagueTeamFilter === t.key;
+          return (
+            <button
+              key={`team-${t.key}`}
+              type="button"
+              aria-pressed={active}
+              onClick={() => setMleagueTeamFilter(t.key)}
+              style={{
+                position: "relative",
+                display: "inline-flex",
+                alignItems: "baseline",
+                gap: 6,
+                padding: "12px 14px",
+                background: active ? "var(--paper-2)" : "transparent",
+                color: active ? "var(--ink)" : "var(--ink-3)",
+                border: "none",
+                borderRight: "1px solid var(--ink-5, rgba(0,0,0,0.08))",
+                fontFamily: "'Geist Mono', monospace",
+                fontSize: 10,
+                letterSpacing: "0.06em",
+                fontWeight: active ? 700 : 400,
+                cursor: "pointer",
+                transition: "background 120ms ease, color 120ms ease",
+              }}
+            >
+              <span style={{ fontFamily: "'Shippori Mincho', serif", fontSize: 12, fontWeight: 900 }}>
+                {t.label}
+              </span>
+              {active && (
+                <span style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: "var(--ink)" }} />
+              )}
             </button>
           );
         })}
