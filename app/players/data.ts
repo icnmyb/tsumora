@@ -1,4 +1,6 @@
 // app/players/data.ts
+export type OrgCode = "JPML" | "NPM" | "最高位戦" | "RMU" | "μ";
+
 export const MLEAGUE_TEAMS = [
   "BEAST X",
   "EX風林火山",

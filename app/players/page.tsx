@@ -753,13 +753,13 @@ export default function PlayersIndexPage() {
       )}
 
       <style>{`
-        .all-player-row:hover {
+        .all-player-row--clickable:hover {
           background: var(--paper-2);
         }
-        .all-player-row:hover .all-player-bar {
+        .all-player-row--clickable:hover .all-player-bar {
           width: 8px;
         }
-        .all-player-row:hover .all-player-arrow {
+        .all-player-row--clickable:hover .all-player-arrow {
           transform: translateX(4px);
           color: var(--ink);
         }
@@ -778,38 +778,37 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
   const meta = ORG_META[player.org];
   const years = CURRENT_YEAR - player.joinYear;
   const number = String(index + 1).padStart(3, "0");
+  const isMleaguer = !!player.mleagueTeam;
 
-  return (
-    <li>
-      <Link
-        href={player.href}
-        className="all-player-row"
+  const rowStyle: React.CSSProperties = {
+    position: "relative",
+    display: "grid",
+    gridTemplateColumns: "56px 1fr auto auto auto auto auto auto",
+    alignItems: "center",
+    gap: 16,
+    padding: "12px 16px 12px 0",
+    textDecoration: "none",
+    color: "var(--ink)",
+    borderBottom: isLast ? "none" : "1px solid var(--ink-5, rgba(0,0,0,0.08))",
+    overflow: "hidden",
+    cursor: isMleaguer ? "url('/cursor_hai.svg') 13 5, pointer" : "default",
+  };
+
+  const inner = (
+    <>
+      <span
+        aria-hidden
+        className="all-player-bar"
         style={{
-          position: "relative",
-          display: "grid",
-          gridTemplateColumns: "56px 1fr auto auto auto auto auto auto",
-          alignItems: "center",
-          gap: 16,
-          padding: "12px 16px 12px 0",
-          textDecoration: "none",
-          color: "var(--ink)",
-          borderBottom: isLast ? "none" : "1px solid var(--ink-5, rgba(0,0,0,0.08))",
-          overflow: "hidden",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: 4,
+          background: meta.color,
+          transition: "width 160ms ease",
         }}
-      >
-        <span
-          aria-hidden
-          className="all-player-bar"
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: 4,
-            background: meta.color,
-            transition: "width 160ms ease",
-          }}
-        />
+      />
         <span
           style={{
             fontFamily: "'Geist Mono', monospace",
@@ -956,14 +955,27 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
           style={{
             fontFamily: "'Geist Mono', monospace",
             fontSize: 16,
-            color: "var(--ink-3)",
+            color: isMleaguer ? "var(--ink-3)" : "transparent",
             paddingRight: 4,
             transition: "transform 160ms ease, color 160ms ease",
           }}
         >
           →
         </span>
-      </Link>
+    </>
+  );
+
+  return (
+    <li>
+      {isMleaguer ? (
+        <Link href={player.href} className="all-player-row all-player-row--clickable" style={rowStyle}>
+          {inner}
+        </Link>
+      ) : (
+        <div className="all-player-row" style={rowStyle}>
+          {inner}
+        </div>
+      )}
     </li>
   );
 }
