@@ -457,6 +457,32 @@ export default function PlayersIndexPage() {
                 </div>
               </div>
 
+              {/* 入会年 / プロ歴 / 誕生日 */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr",
+                  gap: 8,
+                  marginBottom: 14,
+                  padding: "10px 0",
+                  borderTop: "1px solid var(--ink-4)",
+                  borderBottom: "1px solid var(--ink-4)",
+                }}
+              >
+                <div>
+                  <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 3 }}>入会年</div>
+                  <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>{p.joinYear}</div>
+                </div>
+                <div>
+                  <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 3 }}>プロ歴</div>
+                  <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>{CURRENT_YEAR - p.joinYear + 1}年目</div>
+                </div>
+                <div>
+                  <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 3 }}>誕生日</div>
+                  <div style={{ fontFamily: "'Noto Sans JP', sans-serif", fontSize: 11, fontWeight: 600, color: "var(--ink)" }}>{p.birthday}</div>
+                </div>
+              </div>
+
               <div
                 style={{
                   display: "flex",
