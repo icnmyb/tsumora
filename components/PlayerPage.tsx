@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { type AllPlayer, ALL_PLAYERS, ORG_META } from "@/app/players/data";
+import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/players/data";
 import { BgLayers } from "@/components/BgLayers";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
 
@@ -36,25 +36,35 @@ function randomStyleBars(): { lab: string; en: string; width: number; cls: strin
   }));
 }
 
-function dummyCareerBars(count: number): { h: number; v: string; cls: string }[] {
-  const bars: { h: number; v: string; cls: string }[] = [];
-  for (let i = 0; i < count; i++) {
-    const h = Math.floor(Math.random() * 70) + 15;
-    const pts = Math.floor(h * 2.8);
-    const cls = Math.random() > 0.8 ? "champ" : Math.random() > 0.85 ? "fin" : "";
-    bars.push({ h, v: `+${pts}`, cls });
-  }
-  return bars;
+type CareerBar = { h: number; v: string; cls: string };
+
+function buildCareerChart(annualPoints: AnnualPoint[] | undefined): { bars: CareerBar[]; labels: string[] } {
+  if (!annualPoints || annualPoints.length === 0) return { bars: [], labels: [] };
+
+  const sorted = [...annualPoints].sort((a, b) => a.season.localeCompare(b.season));
+  const absMax = Math.max(...sorted.map((p) => Math.abs(p.points)), 1);
+
+  const bars: CareerBar[] = sorted.map((p) => {
+    const h = Math.max(8, Math.round((Math.abs(p.points) / absMax) * 92));
+    const sign = p.points >= 0 ? "+" : "−";
+    const v = `${sign}${Math.abs(Math.round(p.points))}`;
+    const base = p.note === "final" ? "champ" : p.note === "semifinal" ? "fin" : "";
+    const cls = p.points < 0 ? `${base} neg`.trim() : base;
+    return { h, v, cls };
+  });
+
+  const labels = sorted.map((p, i) => (i === 0 ? p.season.slice(0, 4) : `'${p.season.slice(2, 4)}`));
+  return { bars, labels };
 }
 
-function dummyCareerLabels(joinYear: number, count: number): string[] {
-  const labels: string[] = [];
-  const startYear = new Date().getFullYear() - count;
-  for (let i = 0; i < count; i++) {
-    const yr = startYear + i;
-    labels.push(i === 0 ? String(yr) : `'${String(yr).slice(2)}`);
-  }
-  return labels;
+function formatRate(n?: number): string {
+  if (n === undefined || n === null || Number.isNaN(n)) return "—";
+  return n.toFixed(1);
+}
+
+function formatBestScore(n?: number): string {
+  if (n === undefined || n === null || Number.isNaN(n)) return "—";
+  return n.toLocaleString();
 }
 
 function getTitleCount(player: AllPlayer): number {
@@ -90,11 +100,15 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
   const styleBars = randomStyleBars();
-  const barCount = Math.min(new Date().getFullYear() - player.joinYear, 8);
-  const careerBars = dummyCareerBars(barCount);
-  const careerLabels = dummyCareerLabels(player.joinYear, barCount);
+  const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints);
+  const hasCareerData = careerBars.length > 0;
   const titleCount = getTitleCount(player);
   const related = getRelatedPlayers(player);
+  const cs = player.currentSeason;
+  const csSeason = cs?.season ?? "";
+  const csPoints = cs?.season
+    ? player.annualPoints?.find((p) => p.season === cs.season)?.points
+    : undefined;
 
   return (
     <div className="wrap">
@@ -181,30 +195,44 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="stat-b dark">
           <div className="lb">
-            Top Rate <span className="en">今期Mリーグ 1着率</span>
+            Top Rate <span className="en">{csSeason ? `${csSeason} Mリーグ 1着率` : "今期Mリーグ 1着率"}</span>
           </div>
           <div className="v-num">
-            —<span className="u">%</span>
+            {formatRate(cs?.topRate)}<span className="u">%</span>
           </div>
-          <div className="sub">データ準備中</div>
+          <div className="sub">
+            {cs?.topRate !== undefined
+              ? `${csSeason} レギュラーシーズン`
+              : "データ準備中"}
+          </div>
         </div>
         <div className="stat-b">
           <div className="lb">
-            4th Avoidance <span className="en">今期Mリーグ 4着回避率</span>
+            4th Avoidance <span className="en">{csSeason ? `${csSeason} Mリーグ 4着回避率` : "今期Mリーグ 4着回避率"}</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
-            —<span className="u">%</span>
+            {formatRate(cs?.avoid4th)}<span className="u">%</span>
           </div>
-          <div className="sub">データ準備中</div>
+          <div className="sub">
+            {cs?.avoid4th !== undefined
+              ? `${csSeason} レギュラーシーズン`
+              : "データ準備中"}
+          </div>
         </div>
         <div className="stat-b">
           <div className="lb">
-            Best Score <span className="en">今期Mリーグ 最高スコア</span>
+            Best Score <span className="en">{csSeason ? `${csSeason} Mリーグ 最高スコア` : "今期Mリーグ 最高スコア"}</span>
           </div>
           <div className="v-num" style={{ fontSize: 36, marginTop: 14 }}>
-            —<span className="u">pt</span>
+            {formatBestScore(cs?.bestScore)}<span className="u">点</span>
           </div>
-          <div className="sub">データ準備中</div>
+          <div className="sub">
+            {cs?.bestScore !== undefined
+              ? csPoints !== undefined
+                ? `${csSeason} 通算 ${csPoints >= 0 ? "+" : ""}${csPoints.toFixed(1)}pt`
+                : `${csSeason} レギュラーシーズン`
+              : "データ準備中"}
+          </div>
         </div>
       </div>
 
@@ -367,36 +395,48 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         <span>キャリアハイライト</span>
         <span className="num">Career by Year</span>
         <span className="rule"></span>
-        <span className="more">{careerBars.length} YEARS OF DATA</span>
+        <span className="more">
+          {hasCareerData ? `${careerBars.length} SEASONS · Mリーグ REGULAR` : "DATA COMING SOON"}
+        </span>
       </h2>
       <section className="career-chart">
         <h3>
           年間獲得ポイント推移
           <span className="en">
-            Mリーグ Annual Point Trajectory · {new Date().getFullYear() - careerBars.length}–{new Date().getFullYear()}
+            {hasCareerData
+              ? `Mリーグ Annual Point Trajectory · ${careerLabels[0]}–${(player.annualPoints ?? []).slice(-1)[0]?.season ?? ""}`
+              : "Mリーグ Annual Point Trajectory"}
           </span>
         </h3>
-        <div className="cc-grid" style={{ gridTemplateColumns: `repeat(${careerBars.length}, 1fr)` }}>
-          {careerBars.map((b, i) => (
-            <div key={i} className={`cc-bar ${b.cls}`.trim()} style={{ height: `${b.h}%` }}>
-              {b.v}
+        {hasCareerData ? (
+          <>
+            <div className="cc-grid" style={{ gridTemplateColumns: `repeat(${careerBars.length}, 1fr)` }}>
+              {careerBars.map((b, i) => (
+                <div key={i} className={`cc-bar ${b.cls}`.trim()} style={{ height: `${b.h}%` }}>
+                  {b.v}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="cc-labels" style={{ gridTemplateColumns: `repeat(${careerLabels.length}, 1fr)` }}>
-          {careerLabels.map((l, i) => (
-            <span key={i}>{l}</span>
-          ))}
-        </div>
+            <div className="cc-labels" style={{ gridTemplateColumns: `repeat(${careerLabels.length}, 1fr)` }}>
+              {careerLabels.map((l, i) => (
+                <span key={i}>{l}</span>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div style={{ padding: "48px 0", textAlign: "center", color: "var(--ink-3)" }}>
+            Mリーグ個人ポイントデータ準備中
+          </div>
+        )}
         <div className="cc-legend">
           <span>
-            <span className="k" style={{ background: "var(--vermilion)" }}></span>タイトル獲得年
+            <span className="k" style={{ background: "var(--vermilion)" }}></span>ファイナル進出年
           </span>
           <span>
-            <span className="k" style={{ background: "#a07e28" }}></span>決定戦進出年
+            <span className="k" style={{ background: "#a07e28" }}></span>セミファイナル進出年
           </span>
           <span>
-            <span className="k" style={{ background: "var(--ink)" }}></span>通常シーズン
+            <span className="k" style={{ background: "var(--ink)" }}></span>レギュラー敗退年
           </span>
         </div>
       </section>
