@@ -58,6 +58,10 @@ const MLEAGUE_TEAM_TABS: MLeagueTeamTab[] = [
   { key: "KADOKAWAサクラナイツ",  label: "KADOKAWAサクラナイツ",  en: "Sakura Knights",      color: "#e8538f" },
 ];
 
+const MLEAGUE_TEAM_COLOR: Record<string, string> = Object.fromEntries(
+  MLEAGUE_TEAM_TABS.filter((t) => t.key !== "ALL").map((t) => [t.key, t.color]),
+);
+
 const CURRENT_YEAR = 2026;
 
 /** "YYYY/MM/DD" → そのまま表示。"MM/DD" → 月日のみ表示 */
@@ -318,6 +322,7 @@ export default function PlayersIndexPage() {
       >
         {featured.map((p, idx) => {
           const meta = ORG_META[p.org];
+          const teamColor = p.mleagueTeam ? MLEAGUE_TEAM_COLOR[p.mleagueTeam] ?? meta.color : meta.color;
           const glyph = p.name.charAt(0);
           const code = `${String(idx + 1).padStart(2, "0")} · ${p.nameEn.toUpperCase()}`;
           return (
@@ -346,7 +351,7 @@ export default function PlayersIndexPage() {
                   left: 0,
                   right: 0,
                   height: 6,
-                  background: meta.color,
+                  background: teamColor,
                 }}
               />
               <span
