@@ -85,7 +85,7 @@ function getRelatedPlayers(player: AllPlayer): { av: string; nm: string; meta: s
       related.push({
         av: p.name.charAt(0),
         nm: p.name,
-        meta: `${ORG_META[p.org].label} · ${p.title}`,
+        meta: p.title ? `${ORG_META[p.org].label} · ${p.title}` : ORG_META[p.org].label,
         tag: sameTeam ? "同チーム" : "同団体",
         href: p.href,
       });

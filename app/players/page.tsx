@@ -452,11 +452,11 @@ export default function PlayersIndexPage() {
                     fontFamily: "'Shippori Mincho', serif",
                     fontWeight: 800,
                     fontSize: 18,
-                    color: "var(--ink)",
+                    color: p.title ? "var(--ink)" : "var(--ink-3)",
                     lineHeight: 1.3,
                   }}
                 >
-                  {p.title}
+                  {p.title || "—"}
                 </div>
                 <div
                   style={{
@@ -870,7 +870,9 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
               textOverflow: "ellipsis",
             }}
           >
-            {player.title}
+            <span style={{ color: player.title ? "var(--ink-2)" : "var(--ink-3)" }}>
+              {player.title || "—"}
+            </span>
             <span style={{ color: "var(--ink-3)" }}> · {player.league}</span>
           </div>
         </div>
