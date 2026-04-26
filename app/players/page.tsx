@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { ALL_PLAYERS, ORG_META, type AllPlayer, type OrgCode, type Gender } from "./data";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { ALL_PLAYERS, ORG_META, getAllPlayers, type RosterPlayer, type OrgCode, type Gender } from "./data";
 
 type OrgFilter = "ALL" | OrgCode;
 type GenderFilter = "ALL" | Gender;
@@ -63,9 +64,10 @@ const MLEAGUE_TEAM_COLOR: Record<string, string> = Object.fromEntries(
 );
 
 const CURRENT_YEAR = 2026;
+const PER_PAGE = 50;
 
 /** "YYYY/MM/DD" → そのまま表示。"MM/DD" → 月日のみ表示 */
-function formatBirthday(b: string): string {
+function formatBirthday(b?: string): string {
   if (!b) return "—";
   const parts = b.split("/");
   if (parts.length === 2) return `${parts[0]}/${parts[1]}`; // MM/DD
@@ -73,9 +75,26 @@ function formatBirthday(b: string): string {
 }
 
 export default function PlayersIndexPage() {
+  return (
+    <Suspense fallback={null}>
+      <PlayersIndexInner />
+    </Suspense>
+  );
+}
+
+function PlayersIndexInner() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pageParam = parseInt(searchParams.get("page") ?? "1", 10);
+  const page = Number.isFinite(pageParam) && pageParam >= 1 ? pageParam : 1;
+
   const [orgFilter, setOrgFilter] = useState<OrgFilter>("ALL");
   const [genderFilter, setGenderFilter] = useState<GenderFilter>("ALL");
   const [mleagueTeamFilter, setMleagueTeamFilter] = useState<MLeagueTeamFilter>("ALL");
+  const [search, setSearch] = useState("");
+  const allListRef = useRef<HTMLHeadingElement | null>(null);
+
+  const allPlayers = useMemo(() => getAllPlayers(), []);
 
   const featured = useMemo(() => {
     return ALL_PLAYERS.filter((p) => {
@@ -87,16 +106,54 @@ export default function PlayersIndexPage() {
   }, [orgFilter, mleagueTeamFilter]);
 
   const filtered = useMemo(() => {
-    return ALL_PLAYERS.filter((p) => {
+    const q = search.trim().toLowerCase();
+    return allPlayers.filter((p) => {
       const orgOk = orgFilter === "ALL" || p.org === orgFilter;
       const genderOk = genderFilter === "ALL" || p.gender === genderFilter;
-      return orgOk && genderOk;
+      if (!orgOk || !genderOk) return false;
+      if (!q) return true;
+      if (p.name.toLowerCase().includes(q)) return true;
+      if (p.nameEn && p.nameEn.toLowerCase().includes(q)) return true;
+      return false;
     });
-  }, [orgFilter, genderFilter]);
+  }, [allPlayers, orgFilter, genderFilter, search]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
+  const pageStart = (currentPage - 1) * PER_PAGE;
+  const visible = filtered.slice(pageStart, pageStart + PER_PAGE);
+
+  // フィルタ・検索が変わったら page=1 に戻す (URLから page を落とす)
+  useEffect(() => {
+    if (page > 1) {
+      router.replace("/players");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orgFilter, genderFilter, search]);
+
+  // ページネーション後にスクロール (再レンダー後にレイアウトが確定してから実行)
+  const paginatingRef = useRef(false);
+  useEffect(() => {
+    if (!paginatingRef.current) return;
+    paginatingRef.current = false;
+    allListRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [currentPage]);
+
+  const goToPage = (n: number) => {
+    paginatingRef.current = true;
+    const url = n <= 1 ? "/players" : `/players?page=${n}`;
+    router.push(url, { scroll: false });
+  };
 
   return (
     <div className="wrap">
-      <section className="org-hero">
+      <section
+        className="org-hero"
+        style={{
+          ["--hero-watermark" as string]: `"雀"`,
+          ["--hero-watermark-color" as string]: "rgba(235,228,210,0.08)",
+        }}
+      >
         <div className="crumb">
           <Link href="/">Home</Link>
           <span className="sep">›</span>
@@ -105,7 +162,7 @@ export default function PlayersIndexPage() {
         <div className="top-grid">
           <div>
             <div className="org-code">
-              PLAYERS · {ALL_PLAYERS.length} PROS · ACROSS 5 BODIES
+              PLAYERS · {allPlayers.length.toLocaleString()} PROS · ACROSS 5 BODIES
             </div>
             <h1>
               選手一覧
@@ -124,7 +181,9 @@ export default function PlayersIndexPage() {
         </div>
       </section>
 
-      {/* FEATURED PLAYERS GRID */}
+      {/* FEATURED PLAYERS GRID — page 1 のみ表示 */}
+      {currentPage === 1 && (
+      <>
       <h2 className="sh">
         <span>Mリーガー</span>
         <span className="num">M.LEAGUE Players · Select one</span>
@@ -452,11 +511,11 @@ export default function PlayersIndexPage() {
                     fontFamily: "'Shippori Mincho', serif",
                     fontWeight: 800,
                     fontSize: 18,
-                    color: p.title ? "var(--ink)" : "var(--ink-3)",
+                    color: p.title ? "var(--ink)" : "var(--ink-2)",
                     lineHeight: 1.3,
                   }}
                 >
-                  {p.title || "—"}
+                  {p.title || p.league || "—"}
                 </div>
                 <div
                   style={{
@@ -545,9 +604,11 @@ export default function PlayersIndexPage() {
           );
         })}
       </div>
+      </>
+      )}
 
       {/* ALL PLAYERS LIST */}
-      <h2 className="sh">
+      <h2 className="sh" ref={allListRef}>
         <span>ALL PLAYERS — 選手一覧</span>
         <span className="num">All Registered Players</span>
         <span className="rule"></span>
@@ -566,10 +627,30 @@ export default function PlayersIndexPage() {
             fontWeight: 700,
           }}
         >
-          <span style={{ fontSize: 14, fontWeight: 900 }}>{ALL_PLAYERS.length}</span>
+          <span style={{ fontSize: 14, fontWeight: 900 }}>{allPlayers.length.toLocaleString()}</span>
           <span style={{ fontSize: 9.5, opacity: 0.75 }}>PROS</span>
         </span>
       </h2>
+
+      {/* SEARCH BOX */}
+      <div style={{ margin: "14px 0 12px" }}>
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="名前で検索 / Search by name (kanji or English)"
+          style={{
+            width: "100%",
+            padding: "10px 14px",
+            border: "1.5px solid var(--ink)",
+            background: "var(--paper)",
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontSize: 14,
+            color: "var(--ink)",
+            outline: "none",
+          }}
+        />
+      </div>
 
       {/* ORG FILTER TABS */}
       <nav
@@ -585,8 +666,8 @@ export default function PlayersIndexPage() {
           const active = orgFilter === f.key;
           const count =
             f.key === "ALL"
-              ? ALL_PLAYERS.length
-              : ALL_PLAYERS.filter((p) => p.org === f.key).length;
+              ? allPlayers.length
+              : allPlayers.filter((p) => p.org === f.key).length;
           return (
             <button
               key={`org-${f.key}`}
@@ -652,8 +733,8 @@ export default function PlayersIndexPage() {
           const active = genderFilter === g.key;
           const count =
             g.key === "ALL"
-              ? ALL_PLAYERS.length
-              : ALL_PLAYERS.filter((p) => p.gender === g.key).length;
+              ? allPlayers.length
+              : allPlayers.filter((p) => p.gender === g.key).length;
           return (
             <button
               key={`gender-${g.key}`}
@@ -716,8 +797,16 @@ export default function PlayersIndexPage() {
           marginBottom: 8,
         }}
       >
-        Showing {filtered.length} / {ALL_PLAYERS.length} players
+        Showing {filtered.length === 0 ? 0 : pageStart + 1}–{Math.min(pageStart + PER_PAGE, filtered.length)} of {filtered.length.toLocaleString()} (total {allPlayers.length.toLocaleString()})
       </div>
+
+      {filtered.length > PER_PAGE && (
+        <Pagination
+          page={currentPage}
+          totalPages={totalPages}
+          onChange={goToPage}
+        />
+      )}
 
       {/* LIST */}
       {filtered.length === 0 ? (
@@ -739,22 +828,30 @@ export default function PlayersIndexPage() {
         <ul
           style={{
             listStyle: "none",
-            margin: "0 0 48px",
+            margin: "0 0 16px",
             padding: 0,
             background: "var(--paper)",
             border: "var(--border)",
             boxShadow: "var(--shadow)",
           }}
         >
-          {filtered.map((p, idx) => (
+          {visible.map((p, idx) => (
             <PlayerRow
               key={p.id}
               player={p}
-              index={idx}
-              isLast={idx === filtered.length - 1}
+              index={pageStart + idx}
+              isLast={idx === visible.length - 1}
             />
           ))}
         </ul>
+      )}
+
+      {filtered.length > PER_PAGE && (
+        <Pagination
+          page={currentPage}
+          totalPages={totalPages}
+          onChange={goToPage}
+        />
       )}
 
       <style>{`
@@ -774,16 +871,17 @@ export default function PlayersIndexPage() {
 }
 
 interface PlayerRowProps {
-  player: AllPlayer;
+  player: RosterPlayer;
   index: number;
   isLast: boolean;
 }
 
 function PlayerRow({ player, index, isLast }: PlayerRowProps) {
   const meta = ORG_META[player.org];
-  const years = CURRENT_YEAR - player.joinYear;
-  const number = String(index + 1).padStart(3, "0");
+  const years = player.joinYear ? CURRENT_YEAR - player.joinYear : null;
+  const number = String(index + 1).padStart(4, "0");
   const isMleaguer = !!player.mleagueTeam;
+  const href = player.href ?? `/players/${player.id}`;
 
   const rowStyle: React.CSSProperties = {
     position: "relative",
@@ -796,7 +894,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
     color: "var(--ink)",
     borderBottom: isLast ? "none" : "1px solid var(--ink-5, rgba(0,0,0,0.08))",
     overflow: "hidden",
-    cursor: isMleaguer ? "url('/cursor_hai.svg') 13 5, pointer" : "default",
+    cursor: isMleaguer ? "url('/cursor_hai.svg') 13 5, pointer" : "pointer",
   };
 
   const inner = (
@@ -848,16 +946,18 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             >
               {player.name}
             </span>
-            <span
-              style={{
-                fontFamily: "'Instrument Serif', serif",
-                fontStyle: "italic",
-                fontSize: 12,
-                color: "var(--ink-3)",
-              }}
-            >
-              {player.nameEn}
-            </span>
+            {player.nameEn && (
+              <span
+                style={{
+                  fontFamily: "'Instrument Serif', serif",
+                  fontStyle: "italic",
+                  fontSize: 12,
+                  color: "var(--ink-3)",
+                }}
+              >
+                {player.nameEn}
+              </span>
+            )}
           </div>
           <div
             style={{
@@ -870,10 +970,12 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
               textOverflow: "ellipsis",
             }}
           >
-            <span style={{ color: player.title ? "var(--ink-2)" : "var(--ink-3)" }}>
-              {player.title || "—"}
+            <span style={{ color: "var(--ink-2)" }}>
+              {player.title || player.league || "—"}
             </span>
-            <span style={{ color: "var(--ink-3)" }}> · {player.league}</span>
+            {player.title && (
+              <span style={{ color: "var(--ink-3)" }}> · {player.league}</span>
+            )}
           </div>
         </div>
 
@@ -886,7 +988,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             whiteSpace: "nowrap",
           }}
         >
-          {player.joinYear}年入会
+          {player.joinYear ? `${player.joinYear}年入会` : "—"}
         </span>
 
         <span
@@ -899,8 +1001,14 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             whiteSpace: "nowrap",
           }}
         >
-          <span style={{ fontWeight: 700, color: "var(--ink-2)" }}>{years}</span>
-          <span style={{ marginLeft: 3 }}>年目</span>
+          {years !== null ? (
+            <>
+              <span style={{ fontWeight: 700, color: "var(--ink-2)" }}>{years}</span>
+              <span style={{ marginLeft: 3 }}>年目</span>
+            </>
+          ) : (
+            "—"
+          )}
         </span>
 
         <span
@@ -962,7 +1070,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
           style={{
             fontFamily: "'Geist Mono', monospace",
             fontSize: 16,
-            color: isMleaguer ? "var(--ink-3)" : "transparent",
+            color: isMleaguer ? "var(--ink-3)" : "var(--ink-4)",
             paddingRight: 4,
             transition: "transform 160ms ease, color 160ms ease",
           }}
@@ -974,15 +1082,109 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
 
   return (
     <li>
-      {isMleaguer ? (
-        <Link href={player.href} className="all-player-row all-player-row--clickable" style={rowStyle}>
-          {inner}
-        </Link>
-      ) : (
-        <div className="all-player-row" style={rowStyle}>
-          {inner}
-        </div>
-      )}
+      <Link href={href} className="all-player-row all-player-row--clickable" style={rowStyle}>
+        {inner}
+      </Link>
     </li>
   );
+}
+
+interface PaginationProps {
+  page: number;
+  totalPages: number;
+  onChange: (n: number) => void;
+}
+
+function Pagination({ page, totalPages, onChange }: PaginationProps) {
+  const pages = pageNumbers(page, totalPages);
+  const buttonStyle = (active: boolean): React.CSSProperties => ({
+    minWidth: 36,
+    padding: "6px 10px",
+    border: `1.5px solid ${active ? "var(--ink)" : "var(--ink-4)"}`,
+    background: active ? "var(--ink)" : "var(--paper)",
+    color: active ? "var(--paper)" : "var(--ink)",
+    fontFamily: "'Geist Mono', monospace",
+    fontSize: 11,
+    fontWeight: active ? 700 : 500,
+    cursor: "pointer",
+  });
+
+  return (
+    <nav
+      aria-label="Pagination"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 6,
+        margin: "0 0 48px",
+        alignItems: "center",
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => onChange(Math.max(1, page - 1))}
+        disabled={page <= 1}
+        style={{ ...buttonStyle(false), opacity: page <= 1 ? 0.4 : 1 }}
+      >
+        ←
+      </button>
+      {pages.map((p, i) =>
+        p === "..." ? (
+          <span
+            key={`gap-${i}`}
+            style={{
+              padding: "6px 4px",
+              fontFamily: "'Geist Mono', monospace",
+              fontSize: 11,
+              color: "var(--ink-3)",
+            }}
+          >
+            …
+          </span>
+        ) : (
+          <button
+            key={p}
+            type="button"
+            onClick={() => onChange(p)}
+            aria-current={p === page ? "page" : undefined}
+            style={buttonStyle(p === page)}
+          >
+            {p}
+          </button>
+        ),
+      )}
+      <button
+        type="button"
+        onClick={() => onChange(Math.min(totalPages, page + 1))}
+        disabled={page >= totalPages}
+        style={{ ...buttonStyle(false), opacity: page >= totalPages ? 0.4 : 1 }}
+      >
+        →
+      </button>
+      <span
+        style={{
+          marginLeft: "auto",
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: 10.5,
+          color: "var(--ink-3)",
+        }}
+      >
+        Page {page} / {totalPages}
+      </span>
+    </nav>
+  );
+}
+
+function pageNumbers(current: number, total: number): (number | "...")[] {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  const result: (number | "...")[] = [1];
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  if (start > 2) result.push("...");
+  for (let i = start; i <= end; i++) result.push(i);
+  if (end < total - 1) result.push("...");
+  result.push(total);
+  return result;
 }
