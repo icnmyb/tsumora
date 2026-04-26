@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
-import { ALL_PLAYERS } from "@/app/players/data";
+import { getAllPlayers, getPlayer, isFeaturedPlayer } from "@/app/players/data";
 import { PlayerPage } from "@/components/PlayerPage";
+import { RosterPlayerPage } from "@/components/RosterPlayerPage";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
-  return ALL_PLAYERS.map((p) => ({ id: p.id }));
+  return getAllPlayers().map((p) => ({ id: p.id }));
 }
 
 export async function generateMetadata({
@@ -13,11 +14,12 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const player = ALL_PLAYERS.find((p) => p.id === id);
+  const player = getPlayer(id);
   if (!player) return {};
+  const nameEn = player.nameEn ? `（${player.nameEn}）` : "";
   return {
-    title: `${player.name}（${player.nameEn}） — Hora.mg`,
-    description: `${player.name}のプロフィール・成績・タイトル歴。${player.org} ${player.league}所属。`,
+    title: `${player.name}${nameEn} — Hora.mg`,
+    description: `${player.name}のプロフィール。${player.org} ${player.league}所属。`,
   };
 }
 
@@ -27,7 +29,9 @@ export default async function PlayerDynamicPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const player = ALL_PLAYERS.find((p) => p.id === id);
+  const player = getPlayer(id);
   if (!player) notFound();
-  return <PlayerPage player={player} />;
+  return isFeaturedPlayer(player)
+    ? <PlayerPage player={player} />
+    : <RosterPlayerPage player={player} />;
 }
