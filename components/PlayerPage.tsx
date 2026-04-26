@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/players/data";
+import { TEAM_NAME_TO_SLUG } from "@/app/teams/data";
 import { BgLayers } from "@/components/BgLayers";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
 
@@ -85,7 +86,7 @@ function getRelatedPlayers(player: AllPlayer): { av: string; nm: string; meta: s
       related.push({
         av: p.name.charAt(0),
         nm: p.name,
-        meta: p.title ? `${ORG_META[p.org].label} · ${p.title}` : ORG_META[p.org].label,
+        meta: `${ORG_META[p.org].label} · ${p.title || p.league}`,
         tag: sameTeam ? "同チーム" : "同団体",
         href: p.href,
       });
@@ -379,12 +380,12 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                 </Link>
               ))
             ) : (
-              <a className="related-card" href="#">
+              <span className="related-card" aria-disabled="true">
                 <div className="avatar">—</div>
                 <div className="nm">関連選手データ</div>
                 <div className="meta">準備中</div>
                 <span className="tag">COMING SOON</span>
-              </a>
+              </span>
             )}
           </div>
         </div>
@@ -548,14 +549,22 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           </span>
         </Link>
         {player.mleagueTeam && (
-          <a className="related-card" href="#" style={{ boxShadow: "5px 5px 0 var(--ink)" }}>
+          <Link
+            className="related-card"
+            href={
+              TEAM_NAME_TO_SLUG[player.mleagueTeam]
+                ? `/teams/${TEAM_NAME_TO_SLUG[player.mleagueTeam]}`
+                : "/teams"
+            }
+            style={{ boxShadow: "5px 5px 0 var(--ink)" }}
+          >
             <div className="meta">Mリーグ</div>
             <div className="nm" style={{ fontSize: 22 }}>
               {player.mleagueTeam}
             </div>
-            <div className="meta">所属選手</div>
+            <div className="meta">チーム紹介</div>
             <span className="tag">Mリーグ</span>
-          </a>
+          </Link>
         )}
       </div>
     </div>
