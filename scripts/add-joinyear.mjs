@@ -12,16 +12,18 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 
-function jpFromPeriodN(period, base) {
+function jpFromPeriodN(period, base, foundingYear) {
   const m = period?.match(/第(\d+)期/);
   if (!m) return undefined;
   const n = parseInt(m[1], 10);
-  if (Number.isNaN(n) || n < 1 || n > 100) return undefined;
+  if (Number.isNaN(n) || n < 0 || n > 100) return undefined;
+  // 第0期 = 創設メンバー → 団体創設年
+  if (n === 0) return foundingYear;
   return base + n;
 }
 
-const saikouisenJoinYear = (period) => jpFromPeriodN(period, 1975);
-const npmJoinYear = (period) => jpFromPeriodN(period, 2000);
+const saikouisenJoinYear = (period) => jpFromPeriodN(period, 1975, 1976);
+const npmJoinYear = (period) => jpFromPeriodN(period, 2000, 2001);
 const muJoinYear = (period) => {
   const m = period?.match(/(\d{4})年度/);
   if (!m) return undefined;
