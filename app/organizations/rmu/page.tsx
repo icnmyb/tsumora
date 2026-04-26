@@ -1,294 +1,257 @@
-import Link from "next/link";
+import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
 
 const RMU_ACCENT = "#a07e28";
 
-type OrgInfoRow = { dt: string; dd: React.ReactNode };
-const ORG_INFO: OrgInfoRow[] = [
-  {
-    dt: "正式名称",
-    dd: (
+const RMU: OrgDetailPageData = {
+  crumbLabel: "RMU",
+  accent: RMU_ACCENT,
+  code: "RMU · REAL MAHJONG UNIT · EST. 2007",
+  nameJa: "RMU",
+  nameEn: "Real Mahjong Unit",
+  kite: "R",
+  highlightTag: "実力派志向",
+  extraTags: ["創設 2007年", "ライセンス制 · 約85名", "タイトル戦 5", "代表 多井 隆晴"],
+  meta: [
+    { label: "Founded", value: "2007", accent: true, sub: <>平成19年<br />多井隆晴が設立</> },
+    { label: "Active Pros", value: "85", unit: "名", sub: "ライセンス保持者ベース" },
+    { label: "Titles", value: "05", unit: "戦", sub: "令昭位 · クラウン · 太陽系シリーズ ほか" },
+    { label: "License", value: "SSS〜B", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "実力ベース 5階級" },
+    {
+      label: "Founder",
+      value: "多井",
+      valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 },
+      sub: "多井 隆晴 代表",
+    },
+  ],
+  about: {
+    en: "About RMU",
+    leadParagraphs: [
+      "RMU（Real Mahjong Unit）は、2007年に多井隆晴が中心となって設立された麻雀プロ団体である。「実力主義」を掲げ、ライセンス制（SSS・SS・S・A・B）による厳格な実力評価を採用する点が最大の特徴。",
+      "団体最高峰タイトルは令昭位戦（れいしょういせん）。A1リーグを頂点とした昇降級制で、2026年現在では多井隆晴がA1リーグでも上位常連となっている。",
+      "他にRMUクラウン・アースカップ・ネプチューンカップ・ペルセウスカップなど、太陽系シリーズと総称される独自のオープンタイトル戦を多数開催。アスリート選手枠（ライセンス未取得の登録選手）も含めると総会員数は150名超にのぼる。",
+      "Mリーグには代表の多井隆晴が渋谷ABEMASに所属。「麻雀星人」「最速最強」と呼ばれるその雀風はRMUのブランドそのものとなっている。",
+    ],
+    pullQuote: (
       <>
-        <b>RMU</b>
+        「実力ベースのライセンス制が貫く、純度の高い競技団体。」
         <br />
-        <span style={{ fontFamily: "'Instrument Serif'", fontStyle: "italic", color: "var(--ink-3)" }}>
-          Real Mahjong Unit
-        </span>
+        多井隆晴のリーダーシップのもと、若手育成と国際展開を進める。
       </>
     ),
   },
-  { dt: "略称", dd: "RMU" },
-  {
-    dt: "設立",
-    dd: (
-      <>
-        2007年
-        <br />
-        <span style={{ color: "var(--ink-3)", fontSize: 11 }}>多井隆晴が設立</span>
-      </>
-    ),
+  info: [
+    {
+      dt: "正式名称",
+      dd: (
+        <>
+          <b>RMU</b>
+          <br />
+          <span style={{ fontFamily: "'Instrument Serif'", fontStyle: "italic", color: "var(--ink-3)" }}>
+            Real Mahjong Unit
+          </span>
+        </>
+      ),
+    },
+    { dt: "略称", dd: "RMU" },
+    {
+      dt: "設立",
+      dd: (
+        <>
+          2007年
+          <br />
+          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>多井隆晴が設立</span>
+        </>
+      ),
+    },
+    { dt: "代表", dd: "多井 隆晴" },
+    { dt: "所属プロ", dd: "85名 (ライセンス) / 150名超 (登録選手込)" },
+    { dt: "本部", dd: "東京都" },
+    { dt: "ライセンス", dd: "SSS / SS / S / A / B の5階級" },
+    { dt: "主要タイトル", dd: "令昭位戦 · RMUクラウン · 太陽系シリーズ" },
+    { dt: "公式", dd: <span>rmu.jp</span> },
+  ],
+  titles: {
+    title: "主要タイトル戦",
+    en: "Major Titles · 5 Events",
+    cards: [
+      {
+        pill: "● LIVE",
+        pillLive: true,
+        kanji: "令",
+        rk: "01 · 最高峰タイトル",
+        title: "令昭位戦A1",
+        en: "The Reishōi A1",
+        since: "Since 2009 · 第18期 · 団体最高峰",
+        leaderName: "多井 隆晴",
+        leaderPt: "+82.7 首位",
+      },
+      {
+        pill: "進行中",
+        kanji: "ク",
+        rk: "02 · オープン",
+        title: "RMUクラウン",
+        en: "The RMU Crown",
+        since: "Since 2010 · 第16回 · オープン参加",
+        leaderName: "前覇者：藤中 慎一郎",
+        leaderPt: "予選 →",
+        leaderPtDone: true,
+      },
+      {
+        pill: "8月開始",
+        kanji: "ア",
+        rk: "03 · 太陽系シリーズ",
+        title: "アースカップ",
+        en: "Earth Cup",
+        since: "Since 2010 · オープン参加",
+        leaderName: "前覇者：多井 隆晴",
+        leaderPt: "エントリー中",
+        leaderPtDone: true,
+      },
+      {
+        pill: "予選中",
+        kanji: "ネ",
+        rk: "04 · 太陽系シリーズ",
+        title: "ネプチューンカップ",
+        en: "Neptune Cup",
+        since: "Since 2014 · オープン参加",
+        leaderName: "前覇者：多井 隆晴",
+        leaderPt: "予選 →",
+        leaderPtDone: true,
+      },
+      {
+        pill: "進行中",
+        kanji: "ペ",
+        rk: "05 · 限定大会",
+        title: "ペルセウスカップ",
+        en: "Perseus Cup",
+        since: "Since 2007 · ライセンス保持者限定",
+        leaderName: "前覇者：阿部 孝則",
+        leaderPt: "予選 →",
+        leaderPtDone: true,
+      },
+    ],
   },
-  { dt: "代表", dd: "多井 隆晴" },
-  { dt: "所属プロ", dd: "約120名" },
-  { dt: "主要タイトル", dd: "RMUクラシック · BEAST" },
-  { dt: "公式", dd: <a>rmu-mahjong.jp</a> },
-];
-
-type TitleCard = {
-  pill: string;
-  pillLive?: boolean;
-  kanji: string;
-  rk: string;
-  title: string;
-  en: string;
-  since: string;
-  leaderName: string;
-  leaderPt: string;
-  leaderPtDone?: boolean;
-  href?: string;
+  schedule: {
+    title: "今週の対局",
+    en: "This Week at RMU · 4 Matches",
+    cards: [
+      {
+        badge: "● LIVE 本日",
+        live: true,
+        dt: "04/21 · 19:00",
+        t: "令昭位戦A1 第10節",
+        sub: <>多井 / 阿部 / 谷井 / 藤中<br />RMU公式 (FRESH/YouTube)</>,
+      },
+      {
+        badge: "明日",
+        dt: "04/22 · 20:00",
+        t: "RMUクラウン 準決勝",
+        sub: <>4卓16名<br />FRESH LIVE</>,
+      },
+      {
+        badge: "金",
+        dt: "04/24 · 19:00",
+        t: "Bリーグ 第8節",
+        sub: <>4卓16名<br />会員限定配信</>,
+      },
+      {
+        badge: "土",
+        dt: "04/25 · 13:00",
+        t: "ペルセウスカップ 一次予選",
+        sub: <>16卓 · ライセンス保持者<br />会員配信</>,
+      },
+    ],
+  },
+  roster: {
+    totalCount: 85,
+    showingTitle: "ライセンス上位",
+    showingEn: "Top by License Tier",
+    primaryTitleClass: "t-jpml",
+    filters: [
+      { label: "ALL", active: true },
+      { label: "SSS" },
+      { label: "SS" },
+      { label: "S" },
+      { label: "A" },
+      { label: "Mリーグ" },
+    ],
+    rows: [
+      { rk: "一", top3: true, avatar: "多", avatarClass: "gold", name: "多井 隆晴", href: "/players/taii", sub: "1972生 · RMU代表 · 麻雀星人 · 渋谷ABEMAS", league: "SSS", leagueClass: "a1", titles: [{ kind: "primary", label: "令昭位×8" }, { kind: "plain", label: "最強位" }, { kind: "plain", label: "Mリーグ個人1位" }, { kind: "plain", label: "RMUアワード×9" }], rate: "2218", games: "5,847", top: "32.1%", avg: "2.31" },
+      { rk: "二", top3: true, avatar: "阿", name: "阿部 孝則", sub: "1967生 · RMU理事 · ライセンス SS", league: "SS", leagueClass: "a1", titles: [{ kind: "primary", label: "令昭位" }, { kind: "plain", label: "クラウン" }], rate: "2042", games: "4,128", top: "26.4%", avg: "2.45" },
+      { rk: "三", top3: true, avatar: "谷", avatarClass: "vermilion", name: "谷井 茂文", sub: "1978生 · ライセンス SS", league: "SS", leagueClass: "a1", titles: [{ kind: "primary", label: "クラウン×2" }], rate: "2012", games: "3,484", top: "25.8%", avg: "2.46" },
+      { rk: "四", avatar: "藤", name: "藤中 慎一郎", sub: "1981生 · ライセンス SS", league: "SS", leagueClass: "a1", titles: [{ kind: "primary", label: "クラウン" }], rate: "1994", games: "3,128", top: "25.4%", avg: "2.47" },
+      { rk: "五", avatar: "津", avatarClass: "moss", name: "津田 挙士", sub: "1980生 · ライセンス SS", league: "SS", leagueClass: "a1", titles: [{ kind: "plain", label: "Aリーグ通算" }], rate: "1968", games: "2,684", top: "24.8%", avg: "2.49" },
+      { rk: "六", avatar: "河", name: "河野 高志", sub: "1985生 · ライセンス S", league: "S", leagueClass: "a1", titles: [{ kind: "plain", label: "BEAST" }], rate: "1942", games: "2,418", top: "24.5%", avg: "2.50" },
+      { rk: "七", avatar: "松", name: "松ヶ瀬 隆弥", sub: "1980生 · ライセンス S", league: "S", leagueClass: "a1", titles: [{ kind: "plain", label: "Aリーグ通算" }], rate: "1928", games: "2,318", top: "24.0%", avg: "2.51" },
+      { rk: "八", avatar: "二", name: "二瓶 雄哉", sub: "1990生 · ライセンス A", league: "A", leagueClass: "a2", titles: [{ kind: "plain", label: "Bリーグ" }], rate: "1898", games: "1,842", top: "23.4%", avg: "2.53" },
+      { rk: "九", avatar: "楢", name: "楢原 和人", sub: "1984生 · ライセンス A", league: "A", leagueClass: "a2", titles: [{ kind: "plain", label: "クラウン" }], rate: "1882", games: "1,742", top: "23.1%", avg: "2.54" },
+      { rk: "十", avatar: "仲", name: "仲川 翔", sub: "1988生 · ライセンス A", league: "A", leagueClass: "a2", titles: [{ kind: "plain", label: "若手選抜" }], rate: "1862", games: "1,498", top: "22.8%", avg: "2.55" },
+    ],
+  },
+  milestones: [
+    { year: "2007", kind: "設立", title: "RMU、創設", desc: "多井隆晴を中心に「実力主義」を掲げて発足。ライセンス制を初めて導入したプロ団体。" },
+    { year: "2007", kind: "タイトル", title: "ペルセウスカップ 開始", desc: "ライセンス保持者限定の最初のタイトル戦が開催。" },
+    { year: "2009", kind: "最高峰", title: "令昭位戦 開始", desc: "団体最高峰タイトルとして第1期がスタート。" },
+    { year: "2010", kind: "オープン", title: "RMUクラウン 開始", desc: "オープン参加型のRMUクラウンが第1回開催。" },
+    { year: "2015", kind: "Mリーグ前夜", title: "RTDリーグ 多井優勝", desc: "RTDリーグ Avocadoカップで多井隆晴が優勝、Mリーグ前夜の象徴に。" },
+    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "多井隆晴が渋谷ABEMASのドラフト1巡目指名でMリーグ初年度から参戦。" },
+    { year: "2024", kind: "個人", title: "Mリーグ MVP獲得", desc: "多井隆晴がMリーグ2024-25シーズンでMVP相当の活躍。" },
+    { year: "2026", kind: "現在", title: "第18期令昭位戦 進行中", desc: "多井隆晴がA1リーグで首位独走、決定戦進出を窺う。" },
+  ],
+  champions: {
+    title: "歴代令昭位",
+    en: "Past Reishōi",
+    rows: [
+      { ep: "17", name: "多井 隆晴", note: "現令昭位 · 連覇", yr: "2025" },
+      { ep: "16", name: "多井 隆晴", note: "8度目", yr: "2024" },
+      { ep: "15", name: "藤中 慎一郎", yr: "2023" },
+      { ep: "14", name: "多井 隆晴", note: "7度目", yr: "2022" },
+      { ep: "13", name: "阿部 孝則", yr: "2021" },
+      { ep: "12", name: "多井 隆晴", note: "6度目", yr: "2020" },
+      { ep: "11", name: "多井 隆晴", note: "5度目", yr: "2019" },
+      { ep: "10", name: "谷井 茂文", yr: "2018" },
+      { ep: "09", name: "多井 隆晴", note: "4度目", yr: "2017" },
+      { ep: "08", name: "多井 隆晴", note: "3度目", yr: "2016" },
+    ],
+  },
+  media: {
+    title: "配信・メディア",
+    en: "Channels",
+    cards: [
+      {
+        iconClass: "ytb",
+        iconLabel: "Y",
+        title: "RMU公式 YouTube",
+        desc: "令昭位戦・クラウンを中心に多数の配信を無料公開。多井隆晴の解説回が高い人気を誇る。",
+        meta: [
+          { label: "登録", value: "98,400名" },
+          { label: "月間", value: "14本" },
+        ],
+      },
+      {
+        iconClass: "nico",
+        iconLabel: "F",
+        title: "FRESH LIVE",
+        desc: "Aリーグ・Bリーグの一部対局をリアルタイム配信。コメント機能を活かした視聴体験が特徴。",
+        meta: [
+          { label: "視聴", value: "週12,800UU" },
+          { label: "月間", value: "10配信" },
+        ],
+      },
+      {
+        iconClass: "abema",
+        iconLabel: "A",
+        title: "ABEMA · Mリーグ",
+        desc: "Mリーグ公式放送にて、多井隆晴が渋谷ABEMASの主軸として毎週放映。",
+        meta: [
+          { label: "週", value: "2対局" },
+          { label: "レギュラー", value: "10月〜5月" },
+        ],
+      },
+    ],
+  },
 };
-
-const TITLES: TitleCard[] = [
-  {
-    pill: "● LIVE",
-    pillLive: true,
-    kanji: "典",
-    rk: "01 · 伝統タイトル",
-    title: "RMUクラシック",
-    en: "The RMU Classic",
-    since: "古典ルール · 一発裏ドラなし · 実力派の真剣勝負",
-    leaderName: "現王者：多井 隆晴",
-    leaderPt: "決勝 進行中",
-  },
-  {
-    pill: "進行中",
-    kanji: "獣",
-    rk: "02 · 頂点タイトル",
-    title: "BEAST",
-    en: "The Beast",
-    since: "RMU最高峰 · 年間王者決定戦",
-    leaderName: "現BEAST：河野 高志",
-    leaderPt: "+41.8 首位",
-  },
-  {
-    pill: "予選中",
-    kanji: "王",
-    rk: "03 · リーグ戦",
-    title: "Aリーグ",
-    en: "The A-League",
-    since: "昇降級制 · 年間リーグ戦",
-    leaderName: "Aリーグ首位：多井 隆晴",
-    leaderPt: "予選 →",
-    leaderPtDone: true,
-  },
-];
-
-type PlayerCard = {
-  avatar: string;
-  avatarClass?: string;
-  name: string;
-  en: string;
-  sub: string;
-  tag: string;
-};
-
-const FEATURED_PLAYERS: PlayerCard[] = [
-  {
-    avatar: "多",
-    avatarClass: "gold",
-    name: "多井 隆晴",
-    en: "Takaharu Oi",
-    sub: "1972生 · RMU代表 · Mリーグ渋谷ABEMAS · 「最速最強」",
-    tag: "団体代表",
-  },
-  {
-    avatar: "醍",
-    name: "醍醐 大",
-    en: "Dai Daigo",
-    sub: "1974生 · RMU所属 · 実力派ベテラン · タイトル複数獲得",
-    tag: "ベテラン",
-  },
-  {
-    avatar: "松",
-    avatarClass: "vermilion",
-    name: "松本 吉弘",
-    en: "Yoshihiro Matsumoto",
-    sub: "1984生 · RMU所属 · Mリーグ TEAM RAIDEN/雷電 · 攻撃型",
-    tag: "Mリーガー",
-  },
-];
 
 export default function RmuPage() {
-  return (
-    <div className="wrap">
-      <section className="org-hero">
-        <div className="crumb">
-          <Link href="/">Home</Link>
-          <span className="sep">›</span>
-          <Link href="/organizations">Organizations</Link>
-          <span className="sep">›</span>
-          <span>RMU</span>
-        </div>
-        <div className="top-grid">
-          <div>
-            <div className="org-code" style={{ color: RMU_ACCENT }}>
-              RMU · REAL MAHJONG UNIT · EST. 2007
-            </div>
-            <h1>
-              RMU
-              <span className="en">Real Mahjong Unit</span>
-            </h1>
-            <div className="tags">
-              <span className="highlight" style={{ color: RMU_ACCENT }}>● 実力主義</span>
-              <span>創設 2007年</span>
-              <span>代表 多井隆晴</span>
-              <span>所属プロ 約120名</span>
-              <span>少数精鋭</span>
-            </div>
-          </div>
-          <div className="kite" style={{ color: RMU_ACCENT }}>
-            <div className="k-main">雀</div>
-          </div>
-        </div>
-        <div className="meta-row">
-          <div className="m">
-            <div className="l">Founded</div>
-            <div className="v accent" style={{ color: RMU_ACCENT }}>2007</div>
-            <div className="sub">
-              平成19年
-              <br />
-              多井隆晴が設立
-            </div>
-          </div>
-          <div className="m">
-            <div className="l">Active Pros</div>
-            <div className="v">
-              120
-              <span style={{ fontFamily: "'Noto Sans JP'", fontSize: 16, fontWeight: 500, marginLeft: 4 }}>名</span>
-            </div>
-            <div className="sub">少数精鋭</div>
-          </div>
-          <div className="m">
-            <div className="l">Titles</div>
-            <div className="v">
-              02
-              <span style={{ fontFamily: "'Noto Sans JP'", fontSize: 16, fontWeight: 500, marginLeft: 4 }}>戦</span>
-            </div>
-            <div className="sub">RMUクラシック · BEAST</div>
-          </div>
-          <div className="m">
-            <div className="l">Leader</div>
-            <div className="v" style={{ fontFamily: "'Noto Sans JP'", fontSize: 22, color: RMU_ACCENT }}>
-              多井
-            </div>
-            <div className="sub">
-              代表・多井隆晴
-              <br />
-              「最速最強」
-            </div>
-          </div>
-          <div className="m">
-            <div className="l">Style</div>
-            <div className="v" style={{ fontFamily: "'Noto Sans JP'", fontSize: 22 }}>実力</div>
-            <div className="sub">実力主義</div>
-          </div>
-        </div>
-      </section>
-
-      <div className="intro-block">
-        <div className="intro-main">
-          <h2>
-            団体紹介<span className="en">About RMU</span>
-          </h2>
-          <div className="lead">
-            <p>
-              RMU（Real Mahjong Unit）は、
-              <b>2007年に多井隆晴が設立した</b>
-              プロ麻雀団体である。所属プロは約120名。「Real」の名が示す通り、実力主義・少数精鋭を標榜し、競技麻雀における真剣勝負の場を追求してきた。
-            </p>
-            <p>
-              代表の多井隆晴は「最速最強」の異名で知られるトッププロで、MリーグではEX風林火山を経て渋谷ABEMASに所属。団体の顔として、そしてMリーガーとして、競技麻雀シーンを牽引し続けている。
-            </p>
-            <p>
-              主要タイトルは、古典ルールで行う
-              <b>RMUクラシック</b>
-              と、年間王者を決定する最高峰タイトル
-              <b>BEAST</b>
-              。少数精鋭ならではの濃密な勝負が展開される。醍醐大・松本吉弘ら実力派を擁し、人数は少ないが存在感は大きい。
-            </p>
-          </div>
-          <div className="pullquote">
-            「Realな麻雀を、少数精鋭で。」
-            <br />
-            多井隆晴が率いる、実力主義のプロ集団。
-          </div>
-        </div>
-        <div className="intro-side">
-          <h3>
-            団体情報<span className="en">At a Glance</span>
-          </h3>
-          <dl>
-            {ORG_INFO.map((row, i) => (
-              <span key={i} style={{ display: "contents" }}>
-                <dt>{row.dt}</dt>
-                <dd>{row.dd}</dd>
-              </span>
-            ))}
-          </dl>
-        </div>
-      </div>
-
-      <h2 className="sh">
-        <span>主要タイトル戦</span>
-        <span className="num">Major Titles · 2 Events</span>
-        <span className="rule"></span>
-        <span className="more">すべて見る →</span>
-      </h2>
-      <div className="title-grid">
-        {TITLES.map((t) => {
-          const inner = (
-            <>
-              <span className={`pill ${t.pillLive ? "live" : ""}`.trim()}>{t.pill}</span>
-              <span className="big-kanji">{t.kanji}</span>
-              <div className="rk">{t.rk}</div>
-              <h3>{t.title}</h3>
-              <div className="en">{t.en}</div>
-              <div className="since">{t.since}</div>
-              <div className="leader">
-                <span className="name">{t.leaderName}</span>
-                <span className={`pt ${t.leaderPtDone ? "done" : ""}`.trim()}>{t.leaderPt}</span>
-              </div>
-            </>
-          );
-          return t.href ? (
-            <Link key={t.title} href={t.href} className="t-card">
-              {inner}
-            </Link>
-          ) : (
-            <a key={t.title} className="t-card">
-              {inner}
-            </a>
-          );
-        })}
-      </div>
-
-      <h2 className="sh">
-        <span>注目選手</span>
-        <span className="num">Featured Players · 3</span>
-        <span className="rule"></span>
-        <span className="more">全120名 →</span>
-      </h2>
-      <div className="title-grid">
-        {FEATURED_PLAYERS.map((p) => (
-          <a key={p.name} className="t-card">
-            <span className="pill">{p.tag}</span>
-            <span className={`big-kanji ${p.avatarClass ?? ""}`.trim()}>{p.avatar}</span>
-            <div className="rk">Featured</div>
-            <h3>{p.name}</h3>
-            <div className="en">{p.en}</div>
-            <div className="since">{p.sub}</div>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
+  return <OrgDetailPage data={RMU} />;
 }

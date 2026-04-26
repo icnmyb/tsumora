@@ -97,7 +97,13 @@ const ORGS: OrgCard[] = [
 export default function OrganizationsIndexPage() {
   return (
     <div className="wrap">
-      <section className="org-hero">
+      <section
+        className="org-hero"
+        style={{
+          ["--hero-watermark" as string]: `"団"`,
+          ["--hero-watermark-color" as string]: "rgba(235,228,210,0.08)",
+        }}
+      >
         <div className="crumb">
           <Link href="/">Home</Link>
           <span className="sep">›</span>
