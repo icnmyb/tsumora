@@ -331,7 +331,7 @@ export default function HouoiPage() {
         <div className="crumb">
           <Link href="/">Home</Link>
           <span className="sep">›</span>
-          <Link href="#">Titles</Link>
+          <Link href="/titles">Titles</Link>
           <span className="sep">›</span>
           <Link href="/organizations/jpml">JPML</Link>
           <span className="sep">›</span>

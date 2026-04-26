@@ -10,9 +10,9 @@ const NAV_ITEMS = [
   { idx: "04", label: "選手", href: "/players", match: (p: string) => p.startsWith("/players") },
   { idx: "05", label: "ランキング", href: "/rankings", match: (p: string) => p.startsWith("/rankings") },
   { idx: "06", label: "Mリーグ", href: "/mleague", match: (p: string) => p.startsWith("/mleague") },
-  { idx: "07", label: "団体", href: "/organizations", match: (p: string) => p.startsWith("/organizations") },
-  { idx: "08", label: "ルール", href: "/rules", match: (p: string) => p.startsWith("/rules") },
-  { idx: "09", label: "ニュース", href: "#", match: () => false },
+  { idx: "07", label: "Mチーム", href: "/teams", match: (p: string) => p.startsWith("/teams") },
+  { idx: "08", label: "団体", href: "/organizations", match: (p: string) => p.startsWith("/organizations") },
+  { idx: "09", label: "ルール", href: "/rules", match: (p: string) => p.startsWith("/rules") },
 ];
 
 export function MainNav() {
