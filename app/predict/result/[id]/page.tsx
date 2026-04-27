@@ -204,33 +204,34 @@ function FanDonut() {
         );
       })}
 
-      {/* center 印鑑 (red square seal, rotated) */}
+      {/* center 印鑑: 多数派が的中 = chart's bottom-line conclusion */}
       <g transform={`rotate(-4 ${cx} ${cy})`}>
         <rect
-          x={cx - 32} y={cy - 32}
-          width="64" height="64"
+          x={cx - 36} y={cy - 32}
+          width="72" height="64"
           fill="#c8282a"
           stroke="#0b0b09" strokeWidth="2.5"
         />
         <rect
-          x={cx - 27} y={cy - 27}
-          width="54" height="54"
+          x={cx - 31} y={cy - 27}
+          width="62" height="54"
           fill="none"
           stroke="#ebe4d2" strokeWidth="1"
           opacity="0.45"
         />
         <text
-          x={cx} y={cy + 2}
+          x={cx} y={cy + 1}
           textAnchor="middle"
           fontFamily="'Shippori Mincho', serif"
-          fontSize="26"
+          fontSize="20"
           fontWeight="900"
           fill="#ebe4d2"
+          letterSpacing="-0.04em"
         >
-          和
+          的中
         </text>
         <text
-          x={cx} y={cy + 19}
+          x={cx} y={cy + 17}
           textAnchor="middle"
           fontFamily="'Geist Mono', ui-monospace, monospace"
           fontSize="9"
@@ -238,7 +239,7 @@ function FanDonut() {
           fill="#ebe4d2"
           letterSpacing="0.08em"
         >
-          +280pt
+          多数派 52.4%
         </text>
       </g>
 
