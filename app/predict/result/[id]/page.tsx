@@ -4,6 +4,255 @@ import "../../predict.css";
 import { getPlayer } from "@/app/players/data";
 import { getTeamBySlug } from "@/app/teams/data";
 
+// ── Donut chart geometry helpers ──
+const arcPos = (cx: number, cy: number, r: number, deg: number) => {
+  const rad = (deg * Math.PI) / 180;
+  return { x: cx + r * Math.sin(rad), y: cy - r * Math.cos(rad) };
+};
+const donutPath = (cx: number, cy: number, rIn: number, rOut: number, sd: number, ed: number) => {
+  const is = arcPos(cx, cy, rIn, sd);
+  const ie = arcPos(cx, cy, rIn, ed);
+  const os = arcPos(cx, cy, rOut, sd);
+  const oe = arcPos(cx, cy, rOut, ed);
+  const large = ed - sd > 180 ? 1 : 0;
+  return [
+    `M ${is.x.toFixed(2)} ${is.y.toFixed(2)}`,
+    `L ${os.x.toFixed(2)} ${os.y.toFixed(2)}`,
+    `A ${rOut} ${rOut} 0 ${large} 1 ${oe.x.toFixed(2)} ${oe.y.toFixed(2)}`,
+    `L ${ie.x.toFixed(2)} ${ie.y.toFixed(2)}`,
+    `A ${rIn} ${rIn} 0 ${large} 0 ${is.x.toFixed(2)} ${is.y.toFixed(2)}`,
+    "Z",
+  ].join(" ");
+};
+
+interface DonutSegment {
+  id: string;
+  short: string;
+  pct: number;
+  color: string;
+  count: string;
+  rank: number;
+  winner?: boolean;
+}
+
+const RAW_DONUT_SEGS: DonutSegment[] = [
+  { id: "taii", short: "多井", pct: 52.4, color: "#d4af37", rank: 1, count: "2,016人", winner: true },
+  { id: "sonoda", short: "園田", pct: 18.5, color: "#2f5c3f", rank: 2, count: "712人" },
+  { id: "katsumata", short: "勝又", pct: 14.6, color: "#c8282a", rank: 4, count: "561人" },
+  { id: "setokuma", short: "瀬戸熊", pct: 14.5, color: "#5a3aa5", rank: 3, count: "558人" },
+];
+
+interface ComputedSegment extends DonutSegment {
+  sd: number; ed: number; midDeg: number;
+}
+
+function computeDonutSegments(): ComputedSegment[] {
+  let cum = 0;
+  return RAW_DONUT_SEGS.map((s) => {
+    const sd = cum;
+    const sw = s.pct * 3.6;
+    const ed = cum + sw;
+    cum = ed;
+    return { ...s, sd, ed, midDeg: sd + sw / 2 };
+  });
+}
+
+function FanDonut() {
+  const segs = computeDonutSegments();
+  const cx = 140, cy = 140;
+  const rIn = 46, rOut = 96;
+  const PULL = 12;
+
+  return (
+    <svg viewBox="0 0 280 280" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="goldRich" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f5dc7a" />
+          <stop offset="55%" stopColor="#d4af37" />
+          <stop offset="100%" stopColor="#7e5f12" />
+        </linearGradient>
+        <filter id="brutalShadow" x="-15%" y="-15%" width="135%" height="135%">
+          <feDropShadow dx="4" dy="5" stdDeviation="0" floodColor="#0b0b09" floodOpacity="1" />
+        </filter>
+        <pattern id="hatch" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="5" stroke="#0b0b09" strokeWidth="1" opacity="0.18" />
+        </pattern>
+      </defs>
+
+      {/* paper-2 outer reference dotted ring */}
+      <circle cx={cx} cy={cy} r="118" fill="none" stroke="#0b0b09" strokeWidth="1" strokeDasharray="2,3" opacity="0.35" />
+
+      {/* losers grouped under one shadow */}
+      <g filter="url(#brutalShadow)">
+        {segs.filter((s) => !s.winner).map((s) => (
+          <g key={s.id}>
+            <path
+              d={donutPath(cx, cy, rIn, rOut, s.sd, s.ed)}
+              fill={s.color}
+              stroke="#0b0b09"
+              strokeWidth="2.5"
+            />
+            {/* hatching overlay for textured loser segments */}
+            <path
+              d={donutPath(cx, cy, rIn, rOut, s.sd, s.ed)}
+              fill="url(#hatch)"
+              stroke="none"
+            />
+          </g>
+        ))}
+      </g>
+
+      {/* winner segment, pulled out */}
+      {segs.filter((s) => s.winner).map((s) => {
+        const rad = (s.midDeg * Math.PI) / 180;
+        const dx = Math.sin(rad) * PULL;
+        const dy = -Math.cos(rad) * PULL;
+        const labelPos = arcPos(cx + dx, cy + dy, (rIn + rOut) / 2, s.midDeg);
+        return (
+          <g key={s.id}>
+            <g filter="url(#brutalShadow)" transform={`translate(${dx.toFixed(2)} ${dy.toFixed(2)})`}>
+              {/* outer halo on winner */}
+              <path
+                d={donutPath(cx, cy, rOut, rOut + 5, s.sd, s.ed)}
+                fill={s.color}
+                opacity="0.35"
+                stroke="none"
+              />
+              {/* gold gradient main slice */}
+              <path
+                d={donutPath(cx, cy, rIn, rOut, s.sd, s.ed)}
+                fill="url(#goldRich)"
+                stroke="#0b0b09"
+                strokeWidth="3"
+              />
+              {/* inner highlight strip */}
+              <path
+                d={donutPath(cx, cy, rOut - 10, rOut - 5, s.sd, s.ed)}
+                fill="#fde9a4"
+                opacity="0.55"
+                stroke="none"
+              />
+            </g>
+            {/* big % inside the pulled-out winner */}
+            <text
+              x={labelPos.x + dx}
+              y={labelPos.y + dy - 2}
+              textAnchor="middle"
+              fontFamily="'Shippori Mincho', serif"
+              fontSize="20"
+              fontWeight="900"
+              fill="#0b0b09"
+              letterSpacing="-0.02em"
+            >
+              52.4%
+            </text>
+            <text
+              x={labelPos.x + dx}
+              y={labelPos.y + dy + 14}
+              textAnchor="middle"
+              fontFamily="'Geist Mono', ui-monospace, monospace"
+              fontSize="9"
+              fontWeight="700"
+              fill="#0b0b09"
+              letterSpacing="0.06em"
+            >
+              2,016人
+            </text>
+          </g>
+        );
+      })}
+
+      {/* leader lines + outer labels for losers */}
+      {segs.filter((s) => !s.winner).map((s) => {
+        const inner = arcPos(cx, cy, rOut + 4, s.midDeg);
+        const outer = arcPos(cx, cy, rOut + 22, s.midDeg);
+        const isRight = outer.x >= cx;
+        const tx = outer.x + (isRight ? 4 : -4);
+        const tyBase = outer.y;
+        return (
+          <g key={s.id + "-leader"}>
+            <line
+              x1={inner.x.toFixed(2)} y1={inner.y.toFixed(2)}
+              x2={outer.x.toFixed(2)} y2={outer.y.toFixed(2)}
+              stroke="#0b0b09" strokeWidth="1.2"
+            />
+            <circle cx={inner.x.toFixed(2)} cy={inner.y.toFixed(2)} r="2" fill="#0b0b09" />
+            <text
+              x={tx.toFixed(2)}
+              y={(tyBase - 3).toFixed(2)}
+              textAnchor={isRight ? "start" : "end"}
+              fontFamily="'Geist Mono', ui-monospace, monospace"
+              fontSize="11"
+              fontWeight="700"
+              fill="#0b0b09"
+              letterSpacing="-0.01em"
+            >
+              {s.pct.toFixed(1)}%
+            </text>
+            <text
+              x={tx.toFixed(2)}
+              y={(tyBase + 11).toFixed(2)}
+              textAnchor={isRight ? "start" : "end"}
+              fontFamily="'Shippori Mincho', serif"
+              fontSize="11"
+              fontWeight="700"
+              fill="#5a564d"
+            >
+              {s.short} <tspan fontFamily="'Geist Mono', monospace" fontSize="9" fill="#8a8576">·</tspan> {s.rank}着
+            </text>
+          </g>
+        );
+      })}
+
+      {/* center 印鑑 (red square seal, rotated) */}
+      <g transform={`rotate(-4 ${cx} ${cy})`}>
+        <rect
+          x={cx - 32} y={cy - 32}
+          width="64" height="64"
+          fill="#c8282a"
+          stroke="#0b0b09" strokeWidth="2.5"
+        />
+        <rect
+          x={cx - 27} y={cy - 27}
+          width="54" height="54"
+          fill="none"
+          stroke="#ebe4d2" strokeWidth="1"
+          opacity="0.45"
+        />
+        <text
+          x={cx} y={cy + 2}
+          textAnchor="middle"
+          fontFamily="'Shippori Mincho', serif"
+          fontSize="26"
+          fontWeight="900"
+          fill="#ebe4d2"
+        >
+          和
+        </text>
+        <text
+          x={cx} y={cy + 19}
+          textAnchor="middle"
+          fontFamily="'Geist Mono', ui-monospace, monospace"
+          fontSize="9"
+          fontWeight="700"
+          fill="#ebe4d2"
+          letterSpacing="0.08em"
+        >
+          +280pt
+        </text>
+      </g>
+
+      {/* tick mark at 12 o'clock (orientation) */}
+      <line
+        x1={cx} y1={cy - rOut - 8}
+        x2={cx} y2={cy - rOut - 14}
+        stroke="#0b0b09"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
 export const metadata: Metadata = {
   title: "試合結果 — Hora.mg",
   description: "Mリーグ試合の結果ページ。順位表・ファンの予想分布・的中ユーザーリスト。",
@@ -145,71 +394,9 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
           <h3>ファンの予想分布<span className="en">Fan Predictions</span></h3>
           <div className="cap">予想者 <b>3,847人</b> · 多数派が的中（多井 1着 = 52.4%）</div>
 
-          {/* Stacked distribution bar (replaces pie chart) */}
-          <div className="dist-frame">
-            <span className="dist-stamp">HIT 多井</span>
-            <div className="dist-bar">
-              <div
-                className="seg winner"
-                style={{
-                  ["--w" as never]: 52.4,
-                  ["--c" as never]: "#d4af37",
-                  ["--fg" as never]: "#0b0b09",
-                  ["--fg-2" as never]: "rgba(11,11,9,.6)",
-                }}
-              >
-                <span className="seg-pct">52.4%</span>
-                <span className="seg-nm">多井 隆晴</span>
-                <span className="seg-rank">1着 · 2,016人</span>
-              </div>
-              <div
-                className="seg tight"
-                style={{
-                  ["--w" as never]: 18.5,
-                  ["--c" as never]: "#2f5c3f",
-                  ["--fg" as never]: "#ebe4d2",
-                  ["--fg-2" as never]: "rgba(235,228,210,.7)",
-                }}
-              >
-                <span className="seg-pct">18.5%</span>
-                <span className="seg-nm">園田 賢</span>
-                <span className="seg-rank">2着</span>
-              </div>
-              <div
-                className="seg tight"
-                style={{
-                  ["--w" as never]: 14.6,
-                  ["--c" as never]: "#c8282a",
-                  ["--fg" as never]: "#ebe4d2",
-                  ["--fg-2" as never]: "rgba(235,228,210,.7)",
-                }}
-              >
-                <span className="seg-pct">14.6%</span>
-                <span className="seg-nm">勝又 健志</span>
-                <span className="seg-rank">4着</span>
-              </div>
-              <div
-                className="seg tight"
-                style={{
-                  ["--w" as never]: 14.5,
-                  ["--c" as never]: "#5a3aa5",
-                  ["--fg" as never]: "#ebe4d2",
-                  ["--fg-2" as never]: "rgba(235,228,210,.7)",
-                }}
-              >
-                <span className="seg-pct">14.5%</span>
-                <span className="seg-nm">瀬戸熊</span>
-                <span className="seg-rank">3着</span>
-              </div>
-            </div>
-            <div className="dist-meta">
-              <span>0%</span>
-              <span><b>52.4%</b> 多数派的中ライン</span>
-              <span>100%</span>
-            </div>
-          </div>
-
-          <div className="pie-legend">
+          <div className="pie-row">
+            <FanDonut />
+            <div className="pie-legend">
             <div className="lg-row">
               <span className="swatch x" style={{ ["--c" as never]: "#d4af37" }} />
               <div className="nm you">多井 隆晴 <small>● ABEMAS · 1着</small></div>
@@ -229,6 +416,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
               <span className="swatch" style={{ ["--c" as never]: "#5a3aa5" }} />
               <div className="nm">瀬戸熊 直樹 <small>● 雷電 · 3着</small></div>
               <div className="pct">14.5%<small>558人</small></div>
+            </div>
             </div>
           </div>
         </div>

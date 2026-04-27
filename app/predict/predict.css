@@ -2144,99 +2144,22 @@
 }
 .pie-card .cap b { color: var(--ink); }
 .pie-row {
-  display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: center;
-}
-.pie-row svg { width: 200px; height: 200px; }
-
-/* ── distribution stacked bar (replaces pie) ── */
-.dist-frame {
-  position: relative;
-  margin: 22px 0 18px;
-  padding-top: 18px;
-}
-.dist-stamp {
-  position: absolute;
-  top: -2px;
-  right: -8px;
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--vermilion); color: var(--paper);
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px; letter-spacing: 0.16em; font-weight: 700;
-  padding: 5px 12px;
-  transform: rotate(3deg);
-  box-shadow: 3px 3px 0 var(--ink);
-  z-index: 2;
-}
-.dist-stamp::before {
-  content: "✓"; font-family: "Shippori Mincho", serif;
-  font-size: 14px; font-weight: 900;
-}
-.dist-bar {
-  display: flex; align-items: stretch;
-  height: 88px;
-  border: 2.5px solid var(--ink);
-  background: var(--paper-2);
-  position: relative;
-}
-.dist-bar .seg {
-  flex: var(--w, 1) 0 0;
-  background: var(--c, var(--ink));
-  position: relative;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 6px 4px;
+  display: block;
   text-align: center;
-  border-right: 2px solid var(--ink);
-  overflow: hidden;
-  min-width: 0;
+  padding: 8px 0 4px;
 }
-.dist-bar .seg:last-child { border-right: 0; }
-.dist-bar .seg .seg-pct {
-  font-family: "Shippori Mincho", serif;
-  font-weight: 900; font-size: 28px;
-  line-height: 1; letter-spacing: -0.03em;
-  color: var(--fg, var(--ink));
+.pie-row svg {
+  display: inline-block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
 }
-.dist-bar .seg .seg-nm {
-  font-family: "Shippori Mincho", serif;
-  font-weight: 700; font-size: 12px;
-  margin-top: 4px;
-  color: var(--fg, var(--ink));
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 100%;
+.pie-row .pie-legend {
+  text-align: left;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1.5px dotted var(--ink-4);
 }
-.dist-bar .seg .seg-rank {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em;
-  margin-top: 4px;
-  color: var(--fg-2, rgba(11,11,9,.65));
-  text-transform: uppercase;
-}
-.dist-bar .seg.winner {
-  outline: 3px solid var(--vermilion);
-  outline-offset: -2px;
-}
-.dist-bar .seg.tight .seg-pct { font-size: 18px; }
-.dist-bar .seg.tight .seg-nm { font-size: 10.5px; }
-
-.dist-meta {
-  display: flex; justify-content: space-between; align-items: baseline;
-  margin-top: 8px;
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10.5px; letter-spacing: 0.08em;
-  color: var(--ink-3); font-weight: 600;
-}
-.dist-meta b {
-  color: var(--ink);
-  font-family: "Shippori Mincho", serif;
-  font-weight: 900; font-size: 14px;
-  letter-spacing: -0.01em;
-}
-
-/* legend now stretches full width below the bar */
-.pie-card .pie-legend { width: 100%; }
 .pie-legend { font-size: 12.5px; }
 .pie-legend .lg-row {
   display: grid; grid-template-columns: 14px 1fr auto;
