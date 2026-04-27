@@ -107,7 +107,7 @@ function PlayersIndexInner() {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return allPlayers.filter((p) => {
+    const arr = allPlayers.filter((p) => {
       const orgOk = orgFilter === "ALL" || p.org === orgFilter;
       const genderOk = genderFilter === "ALL" || p.gender === genderFilter;
       if (!orgOk || !genderOk) return false;
@@ -116,6 +116,9 @@ function PlayersIndexInner() {
       if (p.nameEn && p.nameEn.toLowerCase().includes(q)) return true;
       return false;
     });
+    // 五十音順 (player ID は yomi のローマ字表記なので、IDアルファベット順 ≒ 五十音順)
+    arr.sort((a, b) => a.id.localeCompare(b.id));
+    return arr;
   }, [allPlayers, orgFilter, genderFilter, search]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));

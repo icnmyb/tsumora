@@ -2,7 +2,6 @@ import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 
 export const runtime = "edge";
-export const contentType = "image/png";
 
 const ORG_COLOR: Record<string, string> = {
   JPML: "#c8282a",
