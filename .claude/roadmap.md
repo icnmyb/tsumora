@@ -18,6 +18,10 @@
 - ✅ joinYear 補完 (saikouisen 1012 / NPM 743 / μ 87) — RMU のみ未対応
 - ✅ gender 補完 (全5団体・2,934名 完全カバー: 男2,297 / 女637)
 - ✅ nameEn 補完 (JPML 1047 / saikouisen 1012 / NPM 743 / μ 87) — RMU 30名のみ未対応
+- ✅ Roster データ品質修正 (#11): NPM出身地suffix 11件、二階堂亜樹の期/joinYear訂正
+- ✅ Roster ページUX改善 (#12): league:"—" を「現リーグ未登録」に、関連プロ空時は隠す
+- ✅ ホーム → /players 導線 (#13): 全プロ数CTA + 団体別実データカウント
+- ✅ SEO強化 (#14): rich generateMetadata + 動的OG画像 (/api/og/player)
 - ✅ Mリーグ予想ゲーム (`/predict`) 5画面実装 — claude design からの handoff
   - ホーム / 予想投稿 / マイページ / シーズンランキング / 試合結果
 - ✅ 案A の獲得ptルール定義 + 全ページ整合
@@ -48,10 +52,9 @@
 - 将来 RMU site が復旧したら自動補完可
 - 表記順 (surname-given vs given-surname) の不統一はサイト全体の課題として別途整理
 
-#### #11 Roster データ品質バグ
-- NPM 出身地に「富山県日本」のような余計な suffix
-- RMU はライセンス保持者のみ取得 (45名)、アスリート選手 etc. 未取得
-- 二階堂瑠美の roster 期表記 "第16期" は正しいか要確認 (姉妹の二階堂亜樹と同期)
+~~#11 Roster データ品質バグ~~ → 完了 (NPM suffix・二階堂亜樹訂正)
+- 残: RMU はライセンス保持者のみ取得 (45名)、アスリート選手 etc. 未取得
+  → 公式サイトの構造変更待ち
 
 ### ★★ 中優先 — 大型ページがモック [完了済み 2026-04-27]
 
@@ -60,20 +63,10 @@
 ~~#6 `/mleague`~~ → 動的計算化
 ~~#7 `/titles` 配下~~ → 動的ルート化
 
-### ★ 低優先 — UI 磨き
-
-#### #12 Roster ページの体験改善
-- `league: "—"` (引退/休場/未登録) の表示を「現リーグ未登録」「在籍中」等に置換
-- 関連選手カードの "準備中" placeholder の扱い再考 (非表示でも可)
-
-#### #13 ホームページ導線
-- `/players` の検索機能や 2,975 名規模を home から見せる導線無し
-- HERO の `2,975 PROS` カウントとリンク先の一致確認 (動的になっているか)
-
-#### #14 SEO
-- Roster 選手の `generateMetadata` description が薄い (`{name}のプロフィール。{org} {league}所属。`)
-- Open Graph 画像未設定
-- 動的 OG 画像 (Vercel OG Image) で団体カラー + 名前を生成すると良い
+### ~~★ 低優先 — UI 磨き~~ [完了済 2026-04-28]
+~~#12 Roster ページ体験改善~~ → "—"表示改善・準備中placeholder廃止
+~~#13 ホームページ導線~~ → /players CTA + 実データカウント
+~~#14 SEO~~ → 動的OG画像 + rich metadata
 
 ### ★ 低優先 — レジェンド対応
 
