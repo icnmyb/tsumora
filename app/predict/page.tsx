@@ -375,7 +375,7 @@ export default function PredictHomePage() {
             <div className="s">
               <div className="l">Total</div>
               <div className="v gold">2,847<span className="u">pt</span></div>
-              <div className="sub">+128 今週</div>
+              <div className="sub">+600 今週</div>
             </div>
             <div className="s">
               <div className="l">的中率</div>
@@ -400,7 +400,7 @@ export default function PredictHomePage() {
             高宮まり
             <small>@takamiya_fan · since 2024</small>
           </div>
-          <div className="pts">本日獲得可能 <b>最大 +200pt</b></div>
+          <div className="pts">本日獲得可能 <b>最大 +600pt</b></div>
         </div>
       </section>
 
@@ -424,7 +424,7 @@ export default function PredictHomePage() {
             <div className="ic">
               <div className="label">獲得pt仕組み</div>
               <h3>1着的中で +100pt</h3>
-              <p>少数派予想ボーナス +50pt、5戦連続的中で +200pt。配信視聴中の予想は獲得2倍。</p>
+              <p>少数派 (予想率25%未満) +50pt、3/5/10戦連続的中で +50/+100/+200pt、X連携で全体×2。</p>
               <span className="arrow">仕組みを見る →</span>
             </div>
             <div className="ic">

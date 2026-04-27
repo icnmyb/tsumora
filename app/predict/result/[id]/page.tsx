@@ -289,11 +289,11 @@ const STANDINGS: StandingPlayer[] = [
 ];
 
 const HITTERS: { rank: string; mono: string; name: string; sub: string; bonus: { label: string; variant?: "gold" | "x" | "minor" }; pts: string; isYou?: boolean }[] = [
-  { rank: "1", mono: "紅", name: "紅雀", sub: "@kurenai_pai · 通算8,920pt", bonus: { label: "12連続的中", variant: "gold" }, pts: "340" },
-  { rank: "2", mono: "蒼", name: "蒼天", sub: "@aozora_pai", bonus: { label: "8連続" }, pts: "300" },
-  { rank: "…", mono: "高", name: "高宮 まり", sub: "@takamiya_fan · YOU", bonus: { label: "𝕏 連携2倍", variant: "x" }, pts: "280", isYou: true },
-  { rank: "…", mono: "飛", name: "飛龍", sub: "@hiryu_mleague · 推し: 多井", bonus: { label: "5連続" }, pts: "200" },
-  { rank: "…", mono: "月", name: "月見草", sub: "@tsukimi_so", bonus: { label: "推し的中" }, pts: "150" },
+  { rank: "1", mono: "紅", name: "紅雀", sub: "@kurenai_pai · 通算8,920pt", bonus: { label: "10連続+ ×𝕏", variant: "gold" }, pts: "600" },
+  { rank: "2", mono: "蒼", name: "蒼天", sub: "@aozora_pai", bonus: { label: "5連続+ ×𝕏" }, pts: "400" },
+  { rank: "…", mono: "高", name: "高宮 まり", sub: "@takamiya_fan · YOU", bonus: { label: "3連続+ ×𝕏", variant: "x" }, pts: "300", isYou: true },
+  { rank: "…", mono: "飛", name: "飛龍", sub: "@hiryu_mleague", bonus: { label: "5連続" }, pts: "200" },
+  { rank: "…", mono: "月", name: "月見草", sub: "@tsukimi_so", bonus: { label: "3連続" }, pts: "150" },
   { rank: "…", mono: "珈", name: "珈琲党", sub: "@coffee_jong", bonus: { label: "基本のみ", variant: "minor" }, pts: "100" },
   { rank: "…", mono: "雷", name: "雷光", sub: "@raikou1992", bonus: { label: "基本のみ", variant: "minor" }, pts: "100" },
 ];
@@ -376,7 +376,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
             </div>
             <div className="reward">
               <div className="verdict hit">的中 ✓</div>
-              <div className="pts up">280pt</div>
+              <div className="pts up">300pt</div>
             </div>
           </div>
         </div>
@@ -453,8 +453,8 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
       <div className="h2h">
         <div className="item">
           <div className="l">最大配当</div>
-          <h4>+340pt · 紅雀</h4>
-          <p>12連続的中ボーナス +200pt + X連携2倍 + 基本100pt</p>
+          <h4>+600pt · 紅雀</h4>
+          <p>10連続+ボーナス +200pt と基本配当 +100pt の合計 (300) を X連携で ×2 = 600pt</p>
         </div>
         <div className="item">
           <div className="l">少数派的中</div>
@@ -477,7 +477,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
         <div className="x-mark">𝕏</div>
         <div className="text">
           <h4>結果をXにシェアしよう</h4>
-          <p>多井 隆晴 を1着予想 → 的中 ✓ +280pt 獲得！ #ホラMG #第{matchNo}戦 #Mリーグ</p>
+          <p>多井 隆晴 を1着予想 → 的中 ✓ +300pt 獲得！ #ホラMG #第{matchNo}戦 #Mリーグ</p>
         </div>
         <button className="cta">𝕏 で共有 ▸</button>
       </div>
@@ -512,7 +512,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
               <div className="pl-mini" style={{ ["--tc" as never]: "#a07e28" }}>瀬<small>3着</small></div>
               <div className="pl-mini" style={{ ["--tc" as never]: "#c8282a" }}>勝<small>4着</small></div>
             </div>
-            <div className="your-pred hit">あなたの予想：<b style={{ color: "var(--vermilion)", fontWeight: 900 }}>多井隆晴 → 的中 +280pt</b></div>
+            <div className="your-pred hit">あなたの予想：<b style={{ color: "var(--vermilion)", fontWeight: 900 }}>多井隆晴 → 的中 +300pt</b></div>
           </Link>
           <Link href="/predict/match/112" className="rel-card">
             <div className="gm-tag next">次の試合 · 第112戦 ▸</div>

@@ -203,13 +203,13 @@ export default async function PredictMatchPage({ params }: { params: Promise<{ i
           <div className="col right">
             <div className="l">的中時 想定獲得</div>
             <div className="v big gold">
-              +200<span style={{ fontSize: 14, fontFamily: "Noto Sans JP, sans-serif", fontWeight: 500, color: "rgba(235,228,210,.65)" }}>pt</span>
+              +300<span style={{ fontSize: 14, fontFamily: "Noto Sans JP, sans-serif", fontWeight: 500, color: "rgba(235,228,210,.65)" }}>pt</span>
             </div>
             <div className="breakdown" style={{ textAlign: "left", minWidth: 240 }}>
               <div className="row"><span>基本配当</span><span>+100</span></div>
-              <div className="row"><span>3連勝ボーナス</span><span>+50</span></div>
-              <div className="row bonus"><span>X連携2倍</span><span>×2</span></div>
-              <div className="row total"><span>合計</span><span>+200pt</span></div>
+              <div className="row"><span>3連続ボーナス</span><span>+50</span></div>
+              <div className="row bonus"><span>X連携 ×2</span><span>×2</span></div>
+              <div className="row total"><span>合計 (100+50)×2</span><span>+300pt</span></div>
             </div>
           </div>
         </div>

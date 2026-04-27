@@ -31,7 +31,7 @@ const HISTORY: HistoryRow[] = [
     matchNo: "第112戦", matchSection: "第3節 1試合",
     pickedId: "taii", teamSlug: "abemas", monogram: "多",
     pickedNote: "● ABEMAS · 1着率 47%",
-    status: "live", pts: "+200予", ptsClass: "live", rowClass: "live",
+    status: "live", pts: "+300予", ptsClass: "live", rowClass: "live",
   },
   {
     date: "04/27", dayLabel: "MON 21:00",
@@ -44,8 +44,8 @@ const HISTORY: HistoryRow[] = [
     date: "04/24", dayLabel: "FRI 19:00",
     matchNo: "第111戦", matchSection: "第2節 4試合",
     pickedId: "taii", teamSlug: "abemas", monogram: "多",
-    pickedNote: "● ABEMAS",
-    status: "hit", actualNote: "多井 1着", pts: "280", ptsClass: "up",
+    pickedNote: "● ABEMAS · X連携2倍",
+    status: "hit", actualNote: "多井 1着", pts: "300", ptsClass: "up",
   },
   {
     date: "04/24", dayLabel: "FRI 21:00",
@@ -59,7 +59,7 @@ const HISTORY: HistoryRow[] = [
     matchNo: "第109戦", matchSection: "第2節 2試合",
     pickedId: "suzuki-y", teamSlug: "pirates", monogram: "鈴",
     pickedNote: "● PIRATES",
-    status: "hit", actualNote: "鈴木 1着", pts: "60", ptsClass: "up",
+    status: "hit", actualNote: "鈴木 1着", pts: "100", ptsClass: "up",
   },
   {
     date: "04/23", dayLabel: "THU 21:00",
@@ -191,7 +191,7 @@ export default function MyPage() {
           <div className="s">
             <div className="l">通算ポイント</div>
             <div className="v gold">2,847<span className="u">pt</span></div>
-            <div className="sub up">+128 今週</div>
+            <div className="sub up">+600 今週</div>
           </div>
           <div className="s">
             <div className="l">的中率</div>
@@ -241,23 +241,32 @@ export default function MyPage() {
           <div className="chart-card">
             <h3>
               獲得ポイント推移
-              <span className="en">Apr 21 → Apr 27 / +428pt</span>
+              <span className="en">Apr 21 → Apr 27 / +600pt 確定 + 予 300</span>
             </h3>
-            <div className="cap">5/7戦的中 · 的中率 <b>71.4%</b> · ピーク 4/24 +280pt</div>
+            <div className="cap">4/6戦的中 · 的中率 <b>67%</b> · ピーク 4/24 +400pt (X連携 ×2)</div>
             <svg className="chart-svg" viewBox="0 0 700 180" preserveAspectRatio="none">
-              <line x1="0" y1="30" x2="700" y2="30" stroke="#d4cdb9" strokeWidth="1" strokeDasharray="2,3" />
-              <line x1="0" y1="80" x2="700" y2="80" stroke="#d4cdb9" strokeWidth="1" strokeDasharray="2,3" />
-              <line x1="0" y1="130" x2="700" y2="130" stroke="#d4cdb9" strokeWidth="1" strokeDasharray="2,3" />
+              {/* y=20 = +400, y=160 = 0; scale 0.35 px/pt */}
+              <line x1="0" y1="55" x2="700" y2="55" stroke="#d4cdb9" strokeWidth="1" strokeDasharray="2,3" />
+              <line x1="0" y1="90" x2="700" y2="90" stroke="#d4cdb9" strokeWidth="1" strokeDasharray="2,3" />
+              <line x1="0" y1="125" x2="700" y2="125" stroke="#d4cdb9" strokeWidth="1" strokeDasharray="2,3" />
               <line x1="0" y1="160" x2="700" y2="160" stroke="#0b0b09" strokeWidth="2" />
-              <g><rect x="20" y="120" width="60" height="40" fill="#c8282a" /><text x="50" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">21</text><text x="50" y="113" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#0b0b09" fontWeight="700">+40</text></g>
-              <g><rect x="120" y="155" width="60" height="5" fill="#8a8576" /><text x="150" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">22</text><text x="150" y="148" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">0</text></g>
-              <g><rect x="220" y="100" width="60" height="60" fill="#c8282a" /><text x="250" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">23</text><text x="250" y="93" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#0b0b09" fontWeight="700">+60</text></g>
-              <g><rect x="320" y="20" width="60" height="140" fill="#c8282a" /><text x="350" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">24</text><text x="350" y="14" textAnchor="middle" fontFamily="Geist Mono" fontSize="11" fill="#0b0b09" fontWeight="700">+280</text></g>
-              <g><rect x="420" y="155" width="60" height="5" fill="#8a8576" /><text x="450" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">25</text><text x="450" y="148" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">0</text></g>
-              <g><rect x="520" y="155" width="60" height="5" fill="#8a8576" /><text x="550" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">26</text><text x="550" y="148" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">0</text></g>
-              <g><rect x="620" y="125" width="60" height="35" fill="#a07e28" stroke="#0b0b09" strokeWidth="2" strokeDasharray="3,2" /><text x="650" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">27</text><text x="650" y="118" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#a07e28" fontWeight="700">予 +200</text></g>
-              <line x1="0" y1="65" x2="700" y2="65" stroke="#2f5c3f" strokeWidth="1.5" strokeDasharray="6,4" />
-              <text x="690" y="60" textAnchor="end" fontFamily="Geist Mono" fontSize="9" fill="#2f5c3f" fontWeight="700">AVG +68pt/day</text>
+              {/* 4/21 +100 */}
+              <g><rect x="20" y="125" width="60" height="35" fill="#c8282a" /><text x="50" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">21</text><text x="50" y="118" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#0b0b09" fontWeight="700">+100</text></g>
+              {/* 4/22 no game */}
+              <g><rect x="120" y="155" width="60" height="5" fill="#8a8576" /><text x="150" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">22</text><text x="150" y="148" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">休</text></g>
+              {/* 4/23 +100 */}
+              <g><rect x="220" y="125" width="60" height="35" fill="#c8282a" /><text x="250" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">23</text><text x="250" y="118" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#0b0b09" fontWeight="700">+100</text></g>
+              {/* 4/24 +400 (300+100, X連携2倍含む) */}
+              <g><rect x="320" y="20" width="60" height="140" fill="#c8282a" /><text x="350" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">24</text><text x="350" y="14" textAnchor="middle" fontFamily="Geist Mono" fontSize="11" fill="#0b0b09" fontWeight="700">+400</text></g>
+              {/* 4/25 no game */}
+              <g><rect x="420" y="155" width="60" height="5" fill="#8a8576" /><text x="450" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">25</text><text x="450" y="148" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">休</text></g>
+              {/* 4/26 no game */}
+              <g><rect x="520" y="155" width="60" height="5" fill="#8a8576" /><text x="550" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">26</text><text x="550" y="148" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">休</text></g>
+              {/* 4/27 予+300 (進行中) */}
+              <g><rect x="620" y="55" width="60" height="105" fill="#a07e28" stroke="#0b0b09" strokeWidth="2" strokeDasharray="3,2" /><text x="650" y="174" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#5a564d" fontWeight="700">27</text><text x="650" y="48" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#a07e28" fontWeight="700">予 +300</text></g>
+              {/* AVG +200/active day at y = 160 - 200*0.35 = 90 */}
+              <line x1="0" y1="90" x2="700" y2="90" stroke="#2f5c3f" strokeWidth="1.5" strokeDasharray="6,4" />
+              <text x="690" y="85" textAnchor="end" fontFamily="Geist Mono" fontSize="9" fill="#2f5c3f" fontWeight="700">AVG +200pt/開催日</text>
             </svg>
             <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1.5px dotted var(--ink-4)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
