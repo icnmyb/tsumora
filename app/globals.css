@@ -74,20 +74,26 @@ body > *:not(.bg-layer) { position: relative; z-index: 1; }
   50% { opacity: .92; filter: blur(.4px); transform: translate(.5px, -.3px); }
 }
 
-/* 2. hero tile stacking */
-.hero-lead { isolation: isolate; }
-.hero-lead .bg-tiles {
+/* 2. hero tile stacking — 旧 .hero-lead と新 .home-hero-lead 両方で動作 */
+.hero-lead, .home-hero-lead { isolation: isolate; }
+.hero-lead .bg-tiles,
+.home-hero-lead .bg-tiles {
   position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; opacity: .18;
 }
-.hero-lead .bg-tiles .tile {
+.home-hero-lead .bg-tiles { opacity: .22; }
+.hero-lead .bg-tiles .tile,
+.home-hero-lead .bg-tiles .tile {
   position: absolute; width: 38px; height: 54px; border-radius: 4px;
   background: linear-gradient(170deg, #faf4e4 0%, #d4c398 100%);
   box-shadow: inset 0 -4px 0 rgba(130,105,55,.55), inset 0 1px 0 rgba(255,255,255,.7), 0 3px 6px rgba(0,0,0,.3);
   animation: tile-fall linear infinite; will-change: transform, opacity;
 }
-.hero-lead .bg-tiles .tile.red { color: #c8282a; }
-.hero-lead .bg-tiles .tile.green { color: #2f5c3f; }
-.hero-lead .bg-tiles .tile::after {
+.hero-lead .bg-tiles .tile.red,
+.home-hero-lead .bg-tiles .tile.red { color: #c8282a; }
+.hero-lead .bg-tiles .tile.green,
+.home-hero-lead .bg-tiles .tile.green { color: #2f5c3f; }
+.hero-lead .bg-tiles .tile::after,
+.home-hero-lead .bg-tiles .tile::after {
   content: attr(data-glyph); position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
   font-family: "Shippori Mincho"; font-weight: 900; font-size: 26px; color: inherit;
@@ -98,10 +104,12 @@ body > *:not(.bg-layer) { position: relative; z-index: 1; }
   85% { opacity: .95; }
   100% { transform: translateY(520px) rotate(var(--r, 0deg)); opacity: 0; }
 }
-.hero-lead > :not(.bg-tiles) { position: relative; z-index: 1; }
+.hero-lead > :not(.bg-tiles),
+.home-hero-lead > :not(.bg-tiles) { position: relative; z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-tenbo .lane, .bg-smoke .blob, .title-card .big-kanji, .masthead h1, .hero-lead .bg-tiles .tile { animation: none; }
+  .bg-tenbo .lane, .bg-smoke .blob, .title-card .big-kanji, .masthead h1,
+  .hero-lead .bg-tiles .tile, .home-hero-lead .bg-tiles .tile { animation: none; }
 }
 
 body {
@@ -3052,13 +3060,6 @@ footer.main .cr {
     radial-gradient(ellipse at top right, rgba(200,40,42,.18), transparent 60%),
     radial-gradient(ellipse at bottom left, rgba(160,126,40,.10), transparent 50%);
   pointer-events: none;
-}
-.home-hero-lead .bg-tiles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 0.11;
 }
 .home-hero-lead .hh-kicker {
   position: relative;
