@@ -17,6 +17,7 @@
 - ✅ 全10チーム fact-check (Wikipedia ベース) + チーム個別ページ
 - ✅ joinYear 補完 (saikouisen 1012 / NPM 743 / μ 87) — RMU のみ未対応
 - ✅ gender 補完 (全5団体・2,934名 完全カバー: 男2,297 / 女637)
+- ✅ nameEn 補完 (JPML 1047 / saikouisen 1012 / NPM 743 / μ 87) — RMU 30名のみ未対応
 - ✅ Mリーグ予想ゲーム (`/predict`) 5画面実装 — claude design からの handoff
   - ホーム / 予想投稿 / マイページ / シーズンランキング / 試合結果
 - ✅ 案A の獲得ptルール定義 + 全ページ整合
@@ -41,9 +42,11 @@
 
 ~~#9 JPML 以外の gender 未取得~~ → 完了 (2,934名 100%)
 
-#### #10 JPML 大半の `nameEn` 欠損 (1047中48のみ)
-- ふりがなから romaji 生成すれば全員カバー (`scripts/romaji.mjs` 既存)
-- saikouisen の `nameEn` 表記順 (surname-given e.g. "Kayamori Sayaka") と Featured order (given-surname e.g. "Sho Sonoda") の不揃いも要決定
+#### #10 RMU 30名の `nameEn` 欠損
+- 4団体 (JPML/saikouisen/NPM/μ) は 100%カバー済み (2,889名)
+- RMU 30/45 のみ欠損: 公式 prof ページが現在 404 で yomi 取得不可
+- 将来 RMU site が復旧したら自動補完可
+- 表記順 (surname-given vs given-surname) の不統一はサイト全体の課題として別途整理
 
 #### #11 Roster データ品質バグ
 - NPM 出身地に「富山県日本」のような余計な suffix
