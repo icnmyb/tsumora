@@ -154,7 +154,7 @@ export default function Home() {
               Today&apos;s Tables
             </span>
           </span>
-          <span className="r">07 MATCHES · 2026.04.21</span>
+          <span className="r">{TODAY_ITEMS.length} TABLES · {new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()).replace(/-/g, ".")}</span>
         </div>
         <div className="today-items">
           {TODAY_ITEMS.map((t, i) => (

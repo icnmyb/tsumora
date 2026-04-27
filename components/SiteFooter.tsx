@@ -1,6 +1,26 @@
 import Link from "next/link";
 
+const LAUNCH_DATE = new Date("2025-09-01T00:00:00+09:00");
+
+function getVolNumber(now: Date): number {
+  const diffDays = Math.floor((now.getTime() - LAUNCH_DATE.getTime()) / (1000 * 60 * 60 * 24));
+  return Math.max(1, Math.floor(diffDays / 7) + 1);
+}
+
+function getJSTYmd(now: Date): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+}
+
 export function SiteFooter() {
+  const now = new Date();
+  const vol = getVolNumber(now);
+  const issueDate = getJSTYmd(now);
+  const year = issueDate.slice(0, 4);
   return (
     <footer className="main">
       <div className="wrap">
@@ -60,8 +80,8 @@ export function SiteFooter() {
           </ul>
         </div>
         <div className="cr">
-          <span>© 2026 Hora.mg · データは各公式サイトより集約 · 1日1回更新</span>
-          <span>VOL.142 · ISSUE 2026-04-21</span>
+          <span>© {year} Hora.mg · データは各公式サイトより集約 · 1日1回更新</span>
+          <span>VOL.{vol} · ISSUE {issueDate}</span>
         </div>
       </div>
     </footer>
