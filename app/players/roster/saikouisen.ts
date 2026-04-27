@@ -6,7 +6,6 @@ import type { RosterPlayer } from "../data";
 export const SAIKOUISEN_ROSTER: RosterPlayer[] = [
   { id: "sakamoto_toshihiko", name: "阪元俊彦", org: "最高位戦", league: "D3", gender: "male", nameEn: "Sakamoto Toshihiko", period: "第5期", birthday: "1952/03/15", href: "/players/sakamoto_toshihiko", joinYear: 1980 },
   { id: "kaneko_masateru", name: "金子正輝", org: "最高位戦", league: "—", gender: "male", nameEn: "Kaneko Masateru", period: "第6期", birthday: "1956/01/17", birthplace: "新潟県長岡市", bloodType: "B型", href: "/players/kaneko_masateru", joinYear: 1981 },
-  { id: "iida_masahito", name: "飯田正人", org: "最高位戦", league: "—", gender: "male", nameEn: "Iida Masahito", period: "第6期", birthday: "1949/04/05", birthplace: "富山県", bloodType: "A型", href: "/players/iida_masahito", joinYear: 1981 },
   { id: "shimizu_akira", name: "清水昭", org: "最高位戦", league: "—", gender: "male", nameEn: "Shimizu Akira", period: "第6期", birthday: "1949/11/24", birthplace: "長野県", bloodType: "B型", href: "/players/shimizu_akira", joinYear: 1981 },
   { id: "niitsu_kiyoshi", name: "新津潔", org: "最高位戦", league: "—", gender: "male", nameEn: "Niitsu Kiyoshi", period: "第7期", birthday: "1956/01/28", birthplace: "東京都", bloodType: "AB型", href: "/players/niitsu_kiyoshi", joinYear: 1982 },
   { id: "ito_eiichiro", name: "伊藤英一郎", org: "最高位戦", league: "—", gender: "male", nameEn: "Ito Eiichiro", period: "第8期", birthday: "1958/08/21", birthplace: "東京都", bloodType: "O型", href: "/players/ito_eiichiro", joinYear: 1983 },
