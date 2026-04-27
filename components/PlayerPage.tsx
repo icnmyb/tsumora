@@ -3,6 +3,7 @@ import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/p
 import { TEAM_NAME_TO_SLUG } from "@/app/teams/data";
 import { BgLayers } from "@/components/BgLayers";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
+import { PlayerVideoSection } from "@/components/PlayerVideoSection";
 
 function calcProYears(joinYear: number): number {
   return new Date().getFullYear() - joinYear;
@@ -390,6 +391,19 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           </div>
         </div>
       </div>
+
+      {/* ── 3.5 VIDEOS (only Featured players that have videos) ── */}
+      {player.videos && player.videos.length > 0 && (
+        <>
+          <h2 className="sh">
+            <span>ハイライト動画</span>
+            <span className="num">Highlights · {player.videos.length}本厳選</span>
+            <span className="rule"></span>
+            <span className="more">YouTube埋め込み</span>
+          </h2>
+          <PlayerVideoSection videos={player.videos} playerName={player.name} />
+        </>
+      )}
 
       {/* ── 4. CAREER CHART ── */}
       <h2 className="sh">
