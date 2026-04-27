@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { idx: "07", label: "Mチーム", href: "/teams", match: (p: string) => p.startsWith("/teams") },
   { idx: "08", label: "団体", href: "/organizations", match: (p: string) => p.startsWith("/organizations") },
   { idx: "09", label: "ルール", href: "/rules", match: (p: string) => p.startsWith("/rules") },
+  { idx: "10", label: "Hora.mg", href: "/predict", match: (p: string) => p.startsWith("/predict") },
 ];
 
 export function MainNav() {
