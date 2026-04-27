@@ -1,6 +1,6 @@
 # Hora.mg ロードマップ / 未実装要件
 
-最終更新: 2026-04-26
+最終更新: 2026-04-27
 
 ## 完了済みのマイルストーン
 
@@ -14,6 +14,12 @@
 - ✅ Org ページの所属プロ・主要タイトル戦の他団体混入を整理
 - ✅ Featured レジェンド7名削除 → 該当者を Roster へ移行
 - ✅ 死リンク (`href="#"`) 全箇所修正
+- ✅ 全10チーム fact-check (Wikipedia ベース) + チーム個別ページ
+- ✅ joinYear 補完 (saikouisen 1012 / NPM 743 / μ 87) — RMU のみ未対応
+- ✅ Mリーグ予想ゲーム (`/predict`) 5画面実装 — claude design からの handoff
+  - ホーム / 予想投稿 / マイページ / シーズンランキング / 試合結果
+- ✅ 案A の獲得ptルール定義 + 全ページ整合
+  - `(基本100 + 少数派50 + 連続50/100/200) × X連携(2 or 1)`
 
 ---
 
@@ -84,6 +90,109 @@ Mリーグ順位表モック。
 #### #16 故人の Hall of Fame セクション
 - 飯田正人 (最高位戦)、前原雄大 (連盟、2024年逝去) など故人を「殿堂」セクションで紹介する案
 - Roster 側で `league: "—"` 扱いになっているため、現状は埋もれている
+
+---
+
+## Mリーグ予想ゲーム (Hora.mg) — 残タスク
+
+UI は claude design からの handoff を元に5画面 (`/predict`, `/predict/match/[id]`,
+`/predict/me`, `/predict/ranking`, `/predict/result/[id]`) を実装済み。
+獲得ptルールは案A (`(基本100 + 少数派50 + 連続50/100/200) × X連携(2 or 1)`) で
+全ページ整合。以下が「動かす」ために必要な残タスク。
+
+### ★★★ 高優先 — バックエンド (Supabase接続)
+
+#### #G1 Supabase スキーマ + マイグレーション
+- 必須テーブル: `profiles` / `matches` / `match_results` / `predictions` / `prediction_scores`
+- Auth は Supabase 標準 (auth.users) + X (Twitter) OAuth プロバイダ
+- RLS ポリシー: 試合開始 (`starts_at`) を過ぎたら predictions の INSERT/UPDATE 不可
+- 設計詳細は会話ログ (2026-04-27 Mリーグ予想ゲーム DB 設計) 参照
+
+#### #G2 X (Twitter) OAuth ログイン導線
+- 「未ログイン状態」カードのCTAを Supabase Auth の `signInWithOAuth({ provider: 'twitter' })` に接続
+- ログイン後ユーザーを `profiles` テーブルに upsert (handle, avatar)
+
+#### #G3 試合スケジュール データ投入機構
+- Mリーグ公式 (m-league.jp/schedule) はJS描画なのでスクレイプ困難
+- **第一案:** 管理画面 (`/admin/predict/matches`) を作って週次手入力
+- **第二案:** ABEMA番組表RSSをパースして自動投入
+- 1シーズン80試合 × 4選手 = 400レコード/シーズン
+
+#### #G4 試合結果入力 + スコア計算
+- 試合終了後に1着〜4着 + 点数 (素点) を `match_results` に登録
+- 登録時にトリガー or サーバー側ジョブで `prediction_scores` を一括更新
+- スコアロジック: 案A 計算式をTSで実装 (`lib/predict/scoring.ts`)
+
+#### #G5 予想投稿フォームの実動作化
+- 現状 `<button className="btn-predict">` は飾り → onClick で投稿API叩く
+- `app/api/predict/[matchId]/route.ts` で POST → predictions テーブル INSERT
+- 締切過ぎたら 403 (UI でも disable)
+- 投稿後リダイレクト or トースト表示
+
+### ★★ 中優先 — UX / インタラクティブ要素
+
+#### #G6 予想ページの X連携トグルを動的に
+- 現状: `.toggle.on` 静的、合計 +300pt 固定表示
+- 期待: トグル切替で reward-block の合計表示が `+300 ↔ +150` 切り替わる
+- `"use client"` コンポーネントとして再実装、useState で管理
+
+#### #G7 ptルール説明モーダル
+- info-strip の「仕組みを見る →」リンク先が現状ない
+- ルールを画面で見られるダイアログ or 専用 `/predict/rules` ページ
+- 4種ボーナスの内訳 + 計算式 + 例 + ファイナル進出ライン
+
+#### #G8 ファイナル進出ラインの確定
+- ホームのサイドバー「ファイナル進出ライン +340pt」は仮値
+- 実運用想定: 80試合 × 平均的中率 35% × 平均150pt ≒ 4,200pt → 5,000pt前後が目安
+- /predict ホームと /predict/me の表示を統一
+
+#### #G9 ランキングのフィルタ実動作
+- /predict/ranking の pill (期間/対象/並び) は現状 className="on" 静的
+- URL state (`?period=week&sort=hit`) と Supabase クエリに接続
+
+### ★ 低優先 — 拡張機能
+
+#### #G10 推し雀士フォロー機能
+- /predict/me の「推し雀士」枠 (現状3名固定) を実機能化
+- フォロー/フォロー解除ボタン (各 PlayerPage 上にも)
+- Supabase に `follows(user_id, player_id)` テーブル追加
+
+#### #G11 推し雀士ボーナス (案Aには現状なし)
+- 案Aから外したが、追加するなら +30pt or X連携前 +50pt
+- スコアロジック更新が必要
+
+#### #G12 通知システム (推し選手出場・試合結果)
+- /predict/me のベル + 「新着通知」枠を実機能化
+- 候補: メール (Resend) / Web Push / X DM
+- `notifications(user_id, type, payload, read_at)` テーブル
+
+#### #G13 バッジシステムの実動作
+- /predict/me の「獲得バッジ 7/24」は静的
+- 実装には: バッジ定義テーブル + 達成判定ロジック (cron or trigger)
+
+#### #G14 共有機能 (X 投稿テンプレ)
+- 結果ページの「𝕏 で共有」ボタン → Twitter Web Intent
+- 予想時の自動投稿 (X連携2倍ボーナスの前提条件)
+- Twitter Developer App 取得 + access token 管理
+
+#### #G15 Mリーグオフシーズン対応
+- Mリーグは 9〜5月開催。6〜8月は試合がない
+- ホームの「試合のない日」状態をオフシーズン全体で表示
+- オフシーズン中は前シーズンランキングを参照モードに
+
+### コスト見積もり (運用後)
+- Supabase free tier: 500MB DB / 50k MAU → 初年度カバー可能
+- 5,000ユーザー × 80試合 × 1予想 = 40万行 ≈ 80MB. 余裕
+- Pro ($25/月) は 50k MAU 超 or DB 8GB 超で必要
+
+### 実装順序 (推奨)
+1. #G1 Supabase スキーマ
+2. #G2 X OAuth
+3. #G3 + #G4 試合データ + 結果入力 (管理画面込み)
+4. #G5 予想投稿
+5. #G6 X連携トグル + #G7 ptルール表示
+6. (シーズン開幕に間に合わせる) — 2025-26 開幕は 9〜10月
+7. 順次 #G8〜#G15
 
 ---
 
