@@ -108,7 +108,9 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>
               {org.label}
             </span>
-            <span className="tag-chip">{player.league}リーグ</span>
+            <span className="tag-chip">
+              {player.league === "—" ? "現リーグ未登録" : `${player.league}リーグ`}
+            </span>
             {player.period && <span className="tag-chip">{player.period}</span>}
             {(player.tags ?? []).map((t) => (
               <span key={t} className="tag-chip">{t}</span>
@@ -184,7 +186,9 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
               </li>
               <li>
                 <span className="l">League リーグ</span>
-                <span className="v">{player.league}</span>
+                <span className="v">
+                  {player.league === "—" ? "現リーグ未登録" : player.league}
+                </span>
               </li>
               {player.title && (
                 <li>
@@ -197,30 +201,25 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
         </div>
 
         <div>
-          <h2 className="sh">
-            <span>関連プロ</span>
-            <span className="num">Related</span>
-            <span className="rule"></span>
-          </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            {related.length > 0 ? (
-              related.map((r) => (
-                <Link key={r.href} className="related-card" href={r.href}>
-                  <div className="avatar">{r.av}</div>
-                  <div className="nm">{r.nm}</div>
-                  <div className="meta">{r.meta}</div>
-                  <span className="tag">{r.tag}</span>
-                </Link>
-              ))
-            ) : (
-              <span className="related-card">
-                <div className="avatar">—</div>
-                <div className="nm">関連選手データ</div>
-                <div className="meta">準備中</div>
-                <span className="tag">COMING SOON</span>
-              </span>
-            )}
-          </div>
+          {related.length > 0 && (
+            <>
+              <h2 className="sh">
+                <span>関連プロ</span>
+                <span className="num">Related · 同団体・同期</span>
+                <span className="rule"></span>
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                {related.map((r) => (
+                  <Link key={r.href} className="related-card" href={r.href}>
+                    <div className="avatar">{r.av}</div>
+                    <div className="nm">{r.nm}</div>
+                    <div className="meta">{r.meta}</div>
+                    <span className="tag">{r.tag}</span>
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 

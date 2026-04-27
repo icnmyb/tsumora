@@ -1,6 +1,15 @@
 import Link from "next/link";
+import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 
 type Tile = { glyph: string; variant?: "red" | "green"; left: string; duration: string; delay: string; rotate: string };
+
+// Compute org-by-org count from real data (Featured + Roster combined)
+const _ORG_COUNTS: Record<string, number> = {};
+for (const p of [...ALL_PLAYERS, ...ROSTER_PLAYERS]) {
+  _ORG_COUNTS[p.org] = (_ORG_COUNTS[p.org] ?? 0) + 1;
+}
+const ORG_COUNTS = _ORG_COUNTS;
+const TOTAL_PROS = Object.values(ORG_COUNTS).reduce((a, b) => a + b, 0);
 
 const HERO_TILES: Tile[] = [
   { glyph: "一", left: "8%", duration: "9s", delay: "0s", rotate: "-8deg" },
@@ -317,11 +326,11 @@ export default function Home() {
             </h2>
             <div className="orgs-grid">
               {[
-                { c: "#c8282a", idx: "01", code: "JPML · 1981", jp: ["日本プロ麻雀", "連盟"], pros: "612", titles: "14", main: "鳳凰位戦 · 十段位戦 · 王位戦 · 女流桜花", href: "/organizations/jpml" },
-                { c: "#1d4ed8", idx: "02", code: "NPM · 2001", jp: ["日本プロ麻雀", "協会"], pros: "298", titles: "9", main: "雀王戦 · 雀竜位戦 · 日本オープン", href: "/organizations/npm" },
-                { c: "#0b0b09", idx: "03", code: "SAIKOUISEN · 1976", jp: ["最高位戦", "日本プロ麻雀協会"], pros: "215", titles: "7", main: "最高位決定戦 · Classic · 發王戦", href: "/organizations/saikouisen" },
-                { c: "#c8a030", idx: "04", code: "RMU · 2007", jp: ["RMU"], pros: "156", titles: "8", main: "令昭位戦 · RMUクラウン · 闘魂杯", href: "/organizations/rmu" },
-                { c: "#4b2a7a", idx: "05", code: "μ · 1997", jp: ["麻将連合", "-μ-"], pros: "124", titles: "9", main: "μリーグ · BIG1カップ · 将妃戦", href: "/organizations/mu" },
+                { c: "#c8282a", idx: "01", code: "JPML · 1981", jp: ["日本プロ麻雀", "連盟"], pros: ORG_COUNTS["JPML"]?.toLocaleString() ?? "—", titles: "14", main: "鳳凰位戦 · 十段位戦 · 王位戦 · 女流桜花", href: "/organizations/jpml" },
+                { c: "#1d4ed8", idx: "02", code: "NPM · 2001", jp: ["日本プロ麻雀", "協会"], pros: ORG_COUNTS["NPM"]?.toLocaleString() ?? "—", titles: "9", main: "雀王戦 · 雀竜位戦 · 日本オープン", href: "/organizations/npm" },
+                { c: "#0b0b09", idx: "03", code: "SAIKOUISEN · 1976", jp: ["最高位戦", "日本プロ麻雀協会"], pros: ORG_COUNTS["最高位戦"]?.toLocaleString() ?? "—", titles: "7", main: "最高位決定戦 · Classic · 發王戦", href: "/organizations/saikouisen" },
+                { c: "#c8a030", idx: "04", code: "RMU · 2007", jp: ["RMU"], pros: ORG_COUNTS["RMU"]?.toLocaleString() ?? "—", titles: "8", main: "令昭位戦 · RMUクラウン · 闘魂杯", href: "/organizations/rmu" },
+                { c: "#4b2a7a", idx: "05", code: "μ · 1997", jp: ["麻将連合", "-μ-"], pros: ORG_COUNTS["μ"]?.toLocaleString() ?? "—", titles: "9", main: "μリーグ · BIG1カップ · 将妃戦", href: "/organizations/mu" },
               ].map((o, i) => {
                 const inner = (
                   <>
@@ -375,6 +384,85 @@ export default function Home() {
               })}
             </div>
           </section>
+
+          {/* PLAYERS DIRECTORY CTA */}
+          <Link
+            href="/players"
+            className="related-card"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr auto",
+              alignItems: "center",
+              gap: 18,
+              background: "var(--ink)",
+              color: "var(--paper)",
+              padding: "20px 26px",
+              border: "var(--border)",
+              boxShadow: "5px 5px 0 var(--vermilion)",
+              marginBottom: 28,
+              textDecoration: "none",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontFamily: "Geist Mono, ui-monospace, monospace",
+                  fontSize: 11,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "rgba(235,228,210,.6)",
+                  fontWeight: 700,
+                }}
+              >
+                PLAYERS DIRECTORY · {TOTAL_PROS.toLocaleString()} PROS
+              </div>
+              <div
+                style={{
+                  fontFamily: "Shippori Mincho, serif",
+                  fontWeight: 900,
+                  fontSize: 28,
+                  letterSpacing: "-0.02em",
+                  marginTop: 4,
+                }}
+              >
+                プロ雀士 {TOTAL_PROS.toLocaleString()}名 を全員検索
+                <span
+                  style={{
+                    fontFamily: "Instrument Serif, serif",
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    fontSize: 16,
+                    color: "#f0c86d",
+                    marginLeft: 14,
+                  }}
+                >
+                  Search every Japanese pro
+                </span>
+              </div>
+              <div
+                style={{
+                  fontFamily: "Noto Sans JP, sans-serif",
+                  fontSize: 13,
+                  color: "rgba(235,228,210,.7)",
+                  marginTop: 6,
+                  lineHeight: 1.6,
+                }}
+              >
+                JPML {ORG_COUNTS["JPML"]?.toLocaleString()} · 最高位戦 {ORG_COUNTS["最高位戦"]?.toLocaleString()} · NPM {ORG_COUNTS["NPM"]?.toLocaleString()} · μ {ORG_COUNTS["μ"]} · RMU {ORG_COUNTS["RMU"]}
+                {" — "}名前 / リーグ / 段位 / 入会年で絞り込み可能
+              </div>
+            </div>
+            <span
+              style={{
+                fontFamily: "Shippori Mincho, serif",
+                fontWeight: 900,
+                fontSize: 32,
+                color: "var(--vermilion)",
+              }}
+            >
+              →
+            </span>
+          </Link>
 
           {/* RANKINGS */}
           <section className="ranks-box">

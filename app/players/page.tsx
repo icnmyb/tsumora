@@ -515,7 +515,7 @@ function PlayersIndexInner() {
                     lineHeight: 1.3,
                   }}
                 >
-                  {p.title || p.league || "—"}
+                  {p.title || (p.league && p.league !== "—" ? p.league : "現役")}
                 </div>
                 <div
                   style={{
@@ -971,9 +971,9 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             }}
           >
             <span style={{ color: "var(--ink-2)" }}>
-              {player.title || player.league || "—"}
+              {player.title || (player.league && player.league !== "—" ? player.league : "現役")}
             </span>
-            {player.title && (
+            {player.title && player.league && player.league !== "—" && (
               <span style={{ color: "var(--ink-3)" }}> · {player.league}</span>
             )}
           </div>
