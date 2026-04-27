@@ -469,10 +469,10 @@ export default function PredictHomePage() {
 
           {/* QUICK LINKS */}
           <div className="quick-grid">
-            <Link href="/predict#predict"><div className="lbl">02 / 予想する</div><h4>予想モーダル</h4><p>1試合詳細＋分布</p></Link>
-            <Link href="/predict#mypage"><div className="lbl">03 / マイページ</div><h4>あなたの履歴</h4><p>成績と推し雀士</p></Link>
-            <Link href="/predict#ranking"><div className="lbl">04 / ランキング</div><h4>シーズン順位</h4><p>TOP100 + 自分</p></Link>
-            <Link href="/predict#result"><div className="lbl">05 / 試合結果</div><h4>結果詳細</h4><p>分布と的中者</p></Link>
+            <Link href="/predict/match/112"><div className="lbl">02 / 予想する</div><h4>予想モーダル</h4><p>1試合詳細＋分布</p></Link>
+            <Link href="/predict/me"><div className="lbl">03 / マイページ</div><h4>あなたの履歴</h4><p>成績と推し雀士</p></Link>
+            <Link href="/predict/ranking"><div className="lbl">04 / ランキング</div><h4>シーズン順位</h4><p>TOP100 + 自分</p></Link>
+            <Link href="/predict/result/111"><div className="lbl">05 / 試合結果</div><h4>結果詳細</h4><p>分布と的中者</p></Link>
           </div>
         </div>
 
