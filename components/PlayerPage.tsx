@@ -397,7 +397,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         <>
           <h2 className="sh">
             <span>ハイライト動画</span>
-            <span className="num">Highlights · {player.videos.length}本厳選</span>
+            <span className="num">Highlights</span>
             <span className="rule"></span>
             <span className="more">YouTube埋め込み</span>
           </h2>
