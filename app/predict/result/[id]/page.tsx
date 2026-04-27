@@ -144,43 +144,91 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
         <div className="pie-card">
           <h3>ファンの予想分布<span className="en">Fan Predictions</span></h3>
           <div className="cap">予想者 <b>3,847人</b> · 多数派が的中（多井 1着 = 52.4%）</div>
-          <div className="pie-row">
-            <svg viewBox="0 0 200 200">
-              {/* 多井 52.4% */}
-              <path d="M 100 100 L 100 12 A 88 88 0 0 1 187.84 96.94 Z" fill="#d4af37" stroke="#0b0b09" strokeWidth="2.5" />
-              <path d="M 100 100 L 187.84 96.94 A 88 88 0 0 1 91.42 187.55 Z" fill="#d4af37" stroke="#0b0b09" strokeWidth="2.5" />
-              {/* 園田 18.5% */}
-              <path d="M 100 100 L 91.42 187.55 A 88 88 0 0 1 16.78 137.32 Z" fill="#2f5c3f" stroke="#0b0b09" strokeWidth="2.5" />
-              {/* 勝又 14.6% */}
-              <path d="M 100 100 L 16.78 137.32 A 88 88 0 0 1 26.49 49.27 Z" fill="#c8282a" stroke="#0b0b09" strokeWidth="2.5" />
-              {/* 瀬戸熊 14.5% */}
-              <path d="M 100 100 L 26.49 49.27 A 88 88 0 0 1 100 12 Z" fill="#a07e28" stroke="#0b0b09" strokeWidth="2.5" />
-              <circle cx="100" cy="100" r="38" fill="#ebe4d2" stroke="#0b0b09" strokeWidth="2.5" />
-              <text x="100" y="96" textAnchor="middle" fontFamily="Geist Mono" fontSize="9" fill="#5a564d" fontWeight="700" letterSpacing="0.1em">YOUR PICK</text>
-              <text x="100" y="112" textAnchor="middle" fontFamily="Shippori Mincho" fontSize="16" fill="#c8282a" fontWeight="900">多井</text>
-              <text x="100" y="6" textAnchor="middle" fontFamily="Geist Mono" fontSize="10" fill="#0b0b09" fontWeight="700">52.4%</text>
-            </svg>
-            <div className="pie-legend">
-              <div className="lg-row">
-                <span className="swatch x" style={{ ["--c" as never]: "#d4af37" }} />
-                <div className="nm you">多井 隆晴 <small>● ABEMAS · 1着</small></div>
-                <div className="pct">52.4%<small>2,016人</small></div>
+
+          {/* Stacked distribution bar (replaces pie chart) */}
+          <div className="dist-frame">
+            <span className="dist-stamp">HIT 多井</span>
+            <div className="dist-bar">
+              <div
+                className="seg winner"
+                style={{
+                  ["--w" as never]: 52.4,
+                  ["--c" as never]: "#d4af37",
+                  ["--fg" as never]: "#0b0b09",
+                  ["--fg-2" as never]: "rgba(11,11,9,.6)",
+                }}
+              >
+                <span className="seg-pct">52.4%</span>
+                <span className="seg-nm">多井 隆晴</span>
+                <span className="seg-rank">1着 · 2,016人</span>
               </div>
-              <div className="lg-row">
-                <span className="swatch" style={{ ["--c" as never]: "#2f5c3f" }} />
-                <div className="nm">園田 賢 <small>● DRIVENS · 2着</small></div>
-                <div className="pct">18.5%<small>712人</small></div>
+              <div
+                className="seg tight"
+                style={{
+                  ["--w" as never]: 18.5,
+                  ["--c" as never]: "#2f5c3f",
+                  ["--fg" as never]: "#ebe4d2",
+                  ["--fg-2" as never]: "rgba(235,228,210,.7)",
+                }}
+              >
+                <span className="seg-pct">18.5%</span>
+                <span className="seg-nm">園田 賢</span>
+                <span className="seg-rank">2着</span>
               </div>
-              <div className="lg-row">
-                <span className="swatch" style={{ ["--c" as never]: "#c8282a" }} />
-                <div className="nm">勝又 健志 <small>● 風林火山 · 4着</small></div>
-                <div className="pct">14.6%<small>561人</small></div>
+              <div
+                className="seg tight"
+                style={{
+                  ["--w" as never]: 14.6,
+                  ["--c" as never]: "#c8282a",
+                  ["--fg" as never]: "#ebe4d2",
+                  ["--fg-2" as never]: "rgba(235,228,210,.7)",
+                }}
+              >
+                <span className="seg-pct">14.6%</span>
+                <span className="seg-nm">勝又 健志</span>
+                <span className="seg-rank">4着</span>
               </div>
-              <div className="lg-row">
-                <span className="swatch" style={{ ["--c" as never]: "#a07e28" }} />
-                <div className="nm">瀬戸熊 直樹 <small>● 雷電 · 3着</small></div>
-                <div className="pct">14.5%<small>558人</small></div>
+              <div
+                className="seg tight"
+                style={{
+                  ["--w" as never]: 14.5,
+                  ["--c" as never]: "#5a3aa5",
+                  ["--fg" as never]: "#ebe4d2",
+                  ["--fg-2" as never]: "rgba(235,228,210,.7)",
+                }}
+              >
+                <span className="seg-pct">14.5%</span>
+                <span className="seg-nm">瀬戸熊</span>
+                <span className="seg-rank">3着</span>
               </div>
+            </div>
+            <div className="dist-meta">
+              <span>0%</span>
+              <span><b>52.4%</b> 多数派的中ライン</span>
+              <span>100%</span>
+            </div>
+          </div>
+
+          <div className="pie-legend">
+            <div className="lg-row">
+              <span className="swatch x" style={{ ["--c" as never]: "#d4af37" }} />
+              <div className="nm you">多井 隆晴 <small>● ABEMAS · 1着</small></div>
+              <div className="pct">52.4%<small>2,016人</small></div>
+            </div>
+            <div className="lg-row">
+              <span className="swatch" style={{ ["--c" as never]: "#2f5c3f" }} />
+              <div className="nm">園田 賢 <small>● DRIVENS · 2着</small></div>
+              <div className="pct">18.5%<small>712人</small></div>
+            </div>
+            <div className="lg-row">
+              <span className="swatch" style={{ ["--c" as never]: "#c8282a" }} />
+              <div className="nm">勝又 健志 <small>● 風林火山 · 4着</small></div>
+              <div className="pct">14.6%<small>561人</small></div>
+            </div>
+            <div className="lg-row">
+              <span className="swatch" style={{ ["--c" as never]: "#5a3aa5" }} />
+              <div className="nm">瀬戸熊 直樹 <small>● 雷電 · 3着</small></div>
+              <div className="pct">14.5%<small>558人</small></div>
             </div>
           </div>
         </div>
