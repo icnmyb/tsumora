@@ -45,17 +45,34 @@ const MLEAGUE_LOGO_COLORS: Record<string, string> = {
 
 const KANJI_RANK = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
 
+// 各主要団体から1タイトルずつ厳選 (4団体 → 4タイトル)
+const ORG_PRIORITY = ["JPML", "NPM", "SAIKOUISEN", "RMU"] as const;
+
 export default function Home() {
   const standings = computeMleagueStandings();
   const leader = standings[0];
   const titleRanking = computeTitleRanking().slice(0, 5);
   const currentTitlists = getCurrentTitlists();
 
+  // 団体ごとに最も代表的なタイトル戦を1つずつ選んで4つに
+  const featuredTitles = ORG_PRIORITY.map((org) => TITLES.find((t) => t.org === org)).filter(
+    (t): t is NonNullable<typeof t> => Boolean(t),
+  );
+
+  // HERO上部 4団体それぞれの現タイトル保持者
+  const heroTitlists = ORG_PRIORITY.map((org) => {
+    const titlist = currentTitlists.find((t) => t.title.org === org);
+    return titlist;
+  }).filter((t): t is NonNullable<typeof t> => Boolean(t));
+
+  // ファイナル進出ライン (top 4 がファイナル進出という Mリーグルール)
+  const FINAL_LINE = 4;
+
   return (
     <div className="wrap">
-      {/* HERO: 現タイトル保持者 + Mリーグ今期首位 */}
-      <section className="hero" style={{ marginBottom: 14 }}>
-        <div className="hero-lead">
+      {/* HERO: 編集タイポ + 現タイトル保持者 banzuke */}
+      <section className="home-hero" style={{ marginBottom: 22 }}>
+        <div className="home-hero-lead">
           <div className="bg-tiles">
             {HERO_TILES.map((t, i) => (
               <div
@@ -73,102 +90,71 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="kicker">Current Titlists · 現タイトル保持者</div>
-          <h2>
-            7冠の<span className="em">いま。</span>
-            <span className="en">The state of Japan&apos;s major mahjong titles.</span>
+          <div className="hh-kicker">
+            <span className="hh-k-tag">●</span>
+            CURRENT TITLISTS · 現タイトル保持者{" "}
+            <span className="hh-k-en">{currentTitlists.length} CROWNS · {ORG_PRIORITY.length} ORGS</span>
+          </div>
+          <h2 className="hh-title">
+            7冠<span className="hh-comma">、</span>
+            <br />
+            <span className="hh-em">いま。</span>
           </h2>
-          <div className="lead-body">
-            主要7タイトル戦の現保持者。連盟・協会・最高位戦・RMU の4団体から、
-            Mリーグ参戦選手も多数。各タイトルカードをクリックで歴代優勝者・ルール
-            ・主要マイルストーンへ。
-          </div>
-          <div
-            style={{
-              marginTop: 18,
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-              gap: 10,
-            }}
-          >
-            {currentTitlists.slice(0, 4).map((t) => (
-              <Link
-                key={t.title.slug}
-                href={`/titles/${t.title.slug}`}
-                style={{
-                  background: "rgba(235,228,210,.05)",
-                  border: "1.5px solid rgba(235,228,210,.2)",
-                  padding: "10px 12px",
-                  textDecoration: "none",
-                  color: "var(--paper)",
-                  display: "block",
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "Geist Mono, ui-monospace, monospace",
-                    fontSize: 9.5,
-                    letterSpacing: "0.14em",
-                    color: t.title.color,
-                    fontWeight: 700,
-                    marginBottom: 4,
-                  }}
-                >
-                  ● {t.title.shortName ?? t.title.name}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "Shippori Mincho, serif",
-                    fontWeight: 900,
-                    fontSize: 18,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  {t.holder.name}
-                </div>
-                {t.holder.note && (
-                  <div
-                    style={{
-                      fontFamily: "Geist Mono, ui-monospace, monospace",
-                      fontSize: 9,
-                      color: "rgba(235,228,210,.55)",
-                      marginTop: 3,
-                      letterSpacing: "0.04em",
-                    }}
-                  >
-                    {t.holder.note}
-                  </div>
-                )}
-              </Link>
-            ))}
-          </div>
+          <p className="hh-en-line">
+            The state of Japan&apos;s major mahjong titles, today.
+          </p>
         </div>
 
-        <div className="hero-scores">
-          <div className="hd">
-            <span>M.LEAGUE STANDINGS</span>
-            <span className="live">● 2025-26 進行中</span>
-          </div>
-          <div className="body">
-            <div className="sub">M.LEAGUE · 2025-26 シーズン</div>
-            <h3>{leader.team.name}</h3>
-            <div className="h-note">
-              現首位 · {leader.rosterPlayers.length}名のptを合算
+        {/* 4団体それぞれのタイトル保持者を big banzuke で */}
+        <div className="home-hero-grid">
+          {heroTitlists.slice(0, 4).map((t, idx) => (
+            <Link
+              key={t.title.slug}
+              href={`/titles/${t.title.slug}`}
+              className="hh-card"
+              style={
+                {
+                  ["--c" as string]: t.title.color,
+                  ["--idx" as string]: idx + 1,
+                } as React.CSSProperties
+              }
+            >
+              <div className="hh-card-rank">{String(idx + 1).padStart(2, "0")}</div>
+              <div className="hh-card-glyph">{t.title.glyph}</div>
+              <div className="hh-card-org">{t.title.org}</div>
+              <div className="hh-card-title">{t.title.shortName ?? t.title.name}</div>
+              <div className="hh-card-holder">{t.holder.name}</div>
+              {t.holder.note && (
+                <div className="hh-card-note">{t.holder.note}</div>
+              )}
+              <div className="hh-card-meta">{t.title.formatLabel?.split("(")[0]?.trim() ?? "リーグ戦"}</div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Mリーグ leader strip — 横長で目立たせる */}
+        <Link href="/mleague" className="home-hero-mleague">
+          <div className="hhm-left">
+            <div className="hhm-tag">M.LEAGUE 2025-26</div>
+            <div className="hhm-headline">
+              現首位 ·{" "}
+              <span className="hhm-team">{leader.team.shortName}</span>
             </div>
-
-            {standings.slice(0, 4).map((s, idx) => (
-              <div key={s.team.slug} className={`score-row${idx === 0 ? " lead" : ""}`}>
-                <span className="rk">{KANJI_RANK[idx]}</span>
-                <span className="name">{s.team.shortName}</span>
-                <span className={`pt${s.totalPts < 0 ? " m" : ""}`}>{fmtPts(s.totalPts)}</span>
-              </div>
-            ))}
+            <div className="hhm-sub">
+              {leader.rosterPlayers.map((p) => p.name).join(" / ")}
+            </div>
           </div>
-          <div className="score-footer">
-            <span>順位は選手のannualPointsから算出</span>
-            <Link href="/mleague" style={{ color: "var(--vermilion)" }}>▶ 詳細</Link>
+          <div className="hhm-pt-block">
+            <div className="hhm-pt-label">SEASON PT</div>
+            <div className={`hhm-pt-value${leader.totalPts >= 0 ? "" : " m"}`}>
+              {fmtPts(leader.totalPts)}
+            </div>
           </div>
-        </div>
+          <div className="hhm-tail">
+            <span>標識</span>
+            <strong>→</strong>
+          </div>
+        </Link>
       </section>
 
       {/* DATA NOTE: 試合データ未整備 */}
@@ -207,46 +193,58 @@ export default function Home() {
 
       <div className="grid-2col">
         <div className="col">
-          {/* TITLES (動的データ) */}
-          <section className="titles-section">
-            <h2>
-              <span>タイトル戦</span>
-              <span className="num italic">Title Races</span>
-              <span className="rule"></span>
-              <Link href="/titles" className="more">ALL TITLES →</Link>
+          {/* TITLES (4団体 bento) */}
+          <section className="home-titles-section">
+            <h2 className="home-section-h">
+              <span className="hsh-num">01</span>
+              <span className="hsh-jp">主要タイトル戦</span>
+              <span className="hsh-en">Major Championships · 4 Bodies</span>
+              <span className="hsh-rule"></span>
+              <Link href="/titles" className="hsh-more">ALL 7 TITLES →</Link>
             </h2>
-            <div className="titles-grid">
-              {TITLES.slice(0, 3).map((t) => {
-                const recentChamps = t.pastChampions.slice(0, 4);
+            <div className="home-titles-bento">
+              {featuredTitles.map((t) => {
+                const recentChamps = t.pastChampions.slice(0, 3);
                 return (
                   <div
                     key={t.slug}
-                    className="title-card"
+                    className="home-title-card"
                     style={{ ["--c" as string]: t.color } as React.CSSProperties}
                   >
-                    <div className="org-tag"><span className="sw"></span>{t.org} · {t.orgLabel}</div>
-                    <div className="big-kanji">{t.glyph}</div>
-                    <h3><Link href={`/titles/${t.slug}`}>{t.name}</Link></h3>
-                    <div className="edition">
-                      {t.formatLabel}
+                    <div className="htc-glyph">{t.glyph}</div>
+                    <div className="htc-org-tag">
+                      <span className="htc-org-sw"></span>
+                      {t.org} · {t.orgLabel}
                     </div>
-                    <div className="standings">
-                      <div className="sr l">
-                        <span className="r">現</span>
-                        <span className="nm">{t.holder?.name ?? "—"}</span>
-                        <span className="pt plus">保持者</span>
+                    <h3 className="htc-name">
+                      <Link href={`/titles/${t.slug}`}>{t.name}</Link>
+                    </h3>
+                    <div className="htc-en">{t.en}</div>
+                    {t.holder && (
+                      <div className="htc-holder">
+                        <div className="htc-holder-l">CURRENT</div>
+                        <div className="htc-holder-name">
+                          {t.holder.href ? (
+                            <Link href={t.holder.href}>{t.holder.name}</Link>
+                          ) : (
+                            t.holder.name
+                          )}
+                        </div>
+                        {t.holder.note && <div className="htc-holder-note">{t.holder.note}</div>}
                       </div>
-                      {recentChamps.slice(0, 4).map((c, i) => (
-                        <div key={`${c.ep}-${c.name}-${i}`} className="sr">
-                          <span className="r">{c.ep}</span>
-                          <span className="nm">{c.name}</span>
-                          <span className="pt">{c.year}</span>
+                    )}
+                    <div className="htc-history">
+                      {recentChamps.map((c, i) => (
+                        <div key={`${c.ep}-${i}`} className="htc-history-row">
+                          <span className="htc-h-ep">第{c.ep}期</span>
+                          <span className="htc-h-name">{c.name}</span>
+                          <span className="htc-h-year">&apos;{c.year.slice(-2)}</span>
                         </div>
                       ))}
                     </div>
-                    <div className="prize">
-                      <span>FOUNDED <b>{t.founded ?? "—"}</b></span>
-                      <span>WINNERS <b>{t.pastChampions.length}件</b></span>
+                    <div className="htc-foot">
+                      <span>{t.founded}年創設</span>
+                      <span>{t.pastChampions.length}件記録</span>
                     </div>
                   </div>
                 );
@@ -394,128 +392,121 @@ export default function Home() {
             </span>
           </Link>
 
-          {/* RANKINGS (動的データ) */}
-          <section className="ranks-box">
-            <div className="hd">
-              <span>
-                通算タイトル数 ランキング <span className="en">Top Title Holders</span>
-              </span>
-              <Link
-                href="/rankings"
-                style={{
-                  color: "#f0c86d",
-                  fontFamily: "'Geist Mono'",
-                  fontSize: 11,
-                  letterSpacing: "0.12em",
-                }}
-              >
-                ALL →
-              </Link>
+          {/* RANKINGS — 番付ポディウム */}
+          <section className="home-ranking-section">
+            <h2 className="home-section-h">
+              <span className="hsh-num">02</span>
+              <span className="hsh-jp">通算タイトル数 番付</span>
+              <span className="hsh-en">Career Title Counts · Featured 40</span>
+              <span className="hsh-rule"></span>
+              <Link href="/rankings" className="hsh-more">FULL RANKING →</Link>
+            </h2>
+            <div className="home-ranking-podium">
+              {/* 上位3を podium */}
+              {titleRanking.slice(0, 3).map((entry, i) => {
+                const team = TEAMS.find((t) => t.name === entry.player.mleagueTeam);
+                return (
+                  <Link
+                    key={entry.player.id}
+                    href={entry.player.href}
+                    className={`hrp-podium hrp-rk${i + 1}`}
+                  >
+                    <div className="hrp-medal">{KANJI_RANK[i]}</div>
+                    <div
+                      className="hrp-avatar"
+                      style={{
+                        background: team?.color ?? "var(--paper-2)",
+                        color: team?.colorOnDark ?? "var(--ink)",
+                      }}
+                    >
+                      {entry.player.name.charAt(0)}
+                    </div>
+                    <div className="hrp-name">{entry.player.name}</div>
+                    <div className="hrp-meta">
+                      {team?.shortName ?? entry.player.org} · {entry.notable.length > 18 ? entry.notable.slice(0, 18) + "…" : entry.notable}
+                    </div>
+                    <div className="hrp-count">
+                      {entry.count}
+                      <span className="hrp-count-u">冠</span>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
-            <div className="ranks-tabs">
-              <span className="on">獲得タイトル数</span>
-              <span style={{ opacity: 0.5 }}>勝率 (準備中)</span>
-              <span style={{ opacity: 0.5 }}>素点 (準備中)</span>
-              <span className="end"></span>
+            {/* 4-5位は補助行 */}
+            <div className="home-ranking-list">
+              {titleRanking.slice(3, 5).map((entry, i) => {
+                const team = TEAMS.find((t) => t.name === entry.player.mleagueTeam);
+                return (
+                  <Link
+                    key={entry.player.id}
+                    href={entry.player.href}
+                    className="hrl-row"
+                  >
+                    <span className="hrl-rk">{KANJI_RANK[i + 3]}</span>
+                    <span
+                      className="hrl-avatar"
+                      style={{
+                        background: team?.color ?? "var(--paper-2)",
+                        color: team?.colorOnDark ?? "var(--ink)",
+                      }}
+                    >
+                      {entry.player.name.charAt(0)}
+                    </span>
+                    <span className="hrl-name">{entry.player.name}</span>
+                    <span className="hrl-meta">{team?.shortName ?? entry.player.org}</span>
+                    <span className="hrl-cnt">
+                      {entry.count}<small>冠</small>
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
-            <table className="ranks-table">
-              <tbody>
-                {titleRanking.map((entry, i) => {
-                  const team = TEAMS.find((t) => t.name === entry.player.mleagueTeam);
-                  const rkCls = i === 0 ? "r1" : i === 1 ? "r2" : i === 2 ? "r3" : "";
-                  return (
-                    <tr key={entry.player.id}>
-                      <td className={`rk ${rkCls}`.trim()}>{KANJI_RANK[i]}</td>
-                      <td>
-                        <div className="player">
-                          <span className="avatar">{entry.player.name.charAt(0)}</span>
-                          <div>
-                            <div className="name">
-                              <Link
-                                href={entry.player.href}
-                                style={{ color: "inherit", textDecoration: "none" }}
-                              >
-                                {entry.player.name}
-                              </Link>
-                              <span
-                                className="org"
-                                style={{
-                                  background: "var(--ink)",
-                                  color: "var(--paper)",
-                                  marginLeft: 6,
-                                }}
-                              >
-                                {entry.player.org}
-                              </span>
-                            </div>
-                            <span className="sub">
-                              {team?.shortName ? `${team.shortName} · ` : ""}
-                              {entry.notable}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="cnt">
-                        {entry.count}
-                        <span className="u">冠</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
           </section>
         </div>
 
         {/* RIGHT SIDEBAR */}
         <div className="col">
-          {/* M-LEAGUE STANDINGS (動的データ) */}
-          <section className="mleague">
-            <div className="mhd">
-              <h2>
-                Mリーグ 番付
-                <span className="en">2025-26 Standings</span>
-              </h2>
-              <div className="race">
-                <span>進行中</span>
-                <b>レギュラー</b>
+          {/* M-LEAGUE STANDINGS — チーム色帯 + ファイナル進出ライン */}
+          <section className="home-mleague-block">
+            <div className="hmb-header">
+              <div>
+                <h2 className="hmb-title">Mリーグ番付</h2>
+                <div className="hmb-en">2025-26 · After Round X · TOP {FINAL_LINE} → FINAL</div>
+              </div>
+              <Link href="/mleague" className="hmb-more">標識 →</Link>
+            </div>
+            <div className="hmb-list">
+              {standings.map((s, idx) => {
+                const rank = idx + 1;
+                const inFinal = rank <= FINAL_LINE;
+                const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
+                return (
+                  <Link
+                    key={s.team.slug}
+                    href={`/teams/${s.team.slug}`}
+                    className={`hmb-row${inFinal ? " in-final" : ""}`}
+                    style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
+                  >
+                    <span className="hmb-strip"></span>
+                    <span className="hmb-rk">{KANJI_RANK[idx]}</span>
+                    <div className="hmb-team-block">
+                      <span className="hmb-team-name">{s.team.shortName}</span>
+                      <span className="hmb-team-sub">
+                        {inFinal ? "F進出圏" : rank <= 6 ? "S進出圏" : "圏外"}
+                      </span>
+                    </div>
+                    <span className={`hmb-pt${s.totalPts >= 0 ? " p" : " m"}`}>
+                      {fmtPts(s.totalPts)}
+                    </span>
+                  </Link>
+                );
+              })}
+              {/* ファイナル進出ライン */}
+              <div className="hmb-final-line" style={{ top: `calc(${FINAL_LINE} * var(--row-h))` }}>
+                <span>FINAL LINE — TOP {FINAL_LINE}</span>
               </div>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>順</th>
-                  <th>チーム</th>
-                  <th style={{ textAlign: "right" }}>合計pt</th>
-                  <th style={{ textAlign: "right" }}>選手</th>
-                </tr>
-              </thead>
-              <tbody>
-                {standings.map((s, idx) => {
-                  const rkCls = idx === 0 ? "r1" : idx === 1 ? "r2" : idx === 2 ? "r3" : "";
-                  return (
-                    <tr key={s.team.slug}>
-                      <td className={`rk ${rkCls}`.trim()}>{KANJI_RANK[idx]}</td>
-                      <td>
-                        <div className="team">
-                          <span className="logo" style={{ background: MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color }}></span>
-                          <Link
-                            href={`/teams/${s.team.slug}`}
-                            style={{ color: "inherit", textDecoration: "none" }}
-                          >
-                            {s.team.shortName}
-                          </Link>
-                        </div>
-                      </td>
-                      <td className={`pts ${s.totalPts >= 0 ? "p" : "m"}`}>{fmtPts(s.totalPts)}</td>
-                      <td className="delta" style={{ color: "var(--ink-3)" }}>
-                        {s.rosterPlayers.length}名
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
           </section>
 
           {/* CURRENT TITLE HOLDERS list */}

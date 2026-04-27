@@ -2980,6 +2980,837 @@ footer.main .cr {
   }
 }
 
+/* ============ HOME 2026: editorial 強化 ============ */
+
+/* common section header */
+.home-section-h {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 30px 0 18px;
+  padding-bottom: 10px;
+  border-bottom: 2.5px solid var(--ink);
+}
+.home-section-h .hsh-num {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 4px 9px;
+}
+.home-section-h .hsh-jp {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.home-section-h .hsh-en {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-3);
+}
+.home-section-h .hsh-rule {
+  flex: 1;
+  height: 1.5px;
+  background: var(--ink-4);
+  margin: 0 8px;
+}
+.home-section-h .hsh-more {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--vermilion);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--vermilion);
+}
+
+/* HERO redesign */
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.home-hero-lead {
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--border);
+  box-shadow: 7px 7px 0 var(--vermilion);
+  padding: 38px 44px 38px;
+  position: relative;
+  overflow: hidden;
+}
+.home-hero-lead::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at top right, rgba(200,40,42,.18), transparent 60%),
+    radial-gradient(ellipse at bottom left, rgba(160,126,40,.10), transparent 50%);
+  pointer-events: none;
+}
+.home-hero-lead .bg-tiles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.11;
+}
+.home-hero-lead .hh-kicker {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--vermilion);
+  padding: 6px 12px;
+  text-transform: uppercase;
+  margin-bottom: 26px;
+}
+.home-hero-lead .hh-k-tag {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--paper);
+  display: inline-block;
+}
+.home-hero-lead .hh-k-en {
+  margin-left: 8px;
+  color: rgba(235,228,210,.75);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+.home-hero-lead .hh-title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: clamp(80px, 11vw, 160px);
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--paper);
+}
+.home-hero-lead .hh-comma {
+  color: var(--vermilion);
+  font-size: 0.7em;
+}
+.home-hero-lead .hh-em {
+  color: #f0c86d;
+}
+.home-hero-lead .hh-en-line {
+  position: relative;
+  z-index: 1;
+  margin: 24px 0 0;
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 24px;
+  color: rgba(235,228,210,.7);
+  letter-spacing: 0.005em;
+  border-top: 1.5px solid rgba(235,228,210,.18);
+  padding-top: 16px;
+}
+
+.home-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.hh-card {
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 22px 22px 20px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+  display: block;
+  transition: transform .14s ease, box-shadow .14s ease;
+  min-height: 240px;
+}
+.hh-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--c);
+}
+.hh-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+.hh-card-rank {
+  position: absolute;
+  top: 16px; right: 16px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--ink-3);
+}
+.hh-card-glyph {
+  position: absolute;
+  right: -16px;
+  bottom: -28px;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 180px;
+  line-height: 0.85;
+  color: var(--c);
+  opacity: 0.10;
+  letter-spacing: -0.05em;
+  pointer-events: none;
+}
+.hh-card-org {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--c);
+  margin-top: 8px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.hh-card-title {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  position: relative;
+  margin-bottom: 18px;
+}
+.hh-card-holder {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  position: relative;
+  margin-top: auto;
+  border-top: 1.5px solid var(--ink-4);
+  padding-top: 12px;
+}
+.hh-card-note {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  margin-top: 4px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  position: relative;
+}
+.hh-card-meta {
+  position: absolute;
+  bottom: 14px;
+  right: 18px;
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* Mリーグ leader strip */
+.home-hero-mleague {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 28px;
+  align-items: center;
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: 5px 5px 0 var(--gold);
+  padding: 18px 26px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.home-hero-mleague:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--gold);
+}
+.hhm-tag {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.hhm-headline {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.hhm-team {
+  color: var(--vermilion);
+}
+.hhm-sub {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+.hhm-pt-block {
+  text-align: right;
+  border-left: 1.5px solid var(--ink-4);
+  border-right: 1.5px solid var(--ink-4);
+  padding: 0 22px;
+}
+.hhm-pt-label {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  color: var(--ink-3);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.hhm-pt-value {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  color: var(--vermilion);
+  line-height: 1;
+}
+.hhm-pt-value.m {
+  color: var(--ink);
+}
+.hhm-tail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+.hhm-tail strong {
+  font-family: "Shippori Mincho", serif;
+  font-size: 28px;
+  color: var(--vermilion);
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* TITLES bento (4 cards) */
+.home-titles-bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.home-title-card {
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: 5px 5px 0 var(--c);
+  padding: 24px 26px 22px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+.htc-glyph {
+  position: absolute;
+  top: -32px;
+  right: -20px;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 240px;
+  line-height: 0.85;
+  color: var(--c);
+  opacity: 0.07;
+  letter-spacing: -0.05em;
+  pointer-events: none;
+}
+.htc-org-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 2px solid var(--ink);
+  padding: 4px 10px;
+  background: var(--paper);
+  margin-bottom: 18px;
+  color: var(--ink);
+  width: max-content;
+  position: relative;
+}
+.htc-org-sw {
+  width: 10px;
+  height: 10px;
+  background: var(--c);
+}
+.htc-name {
+  position: relative;
+  margin: 0;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.htc-name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.htc-en {
+  position: relative;
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-3);
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+.htc-holder {
+  position: relative;
+  border-top: 2.5px solid var(--ink);
+  padding-top: 12px;
+  margin-bottom: 14px;
+}
+.htc-holder-l {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  color: var(--ink-3);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.htc-holder-name {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.htc-holder-name a {
+  color: var(--ink);
+  border-bottom: 2px dotted var(--c);
+  text-decoration: none;
+}
+.htc-holder-note {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  color: var(--c);
+  font-weight: 600;
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+}
+.htc-history {
+  position: relative;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1.5px dotted var(--ink-4);
+}
+.htc-history-row {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 10px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 12.5px;
+  padding: 4px 0;
+  border-bottom: 1px dotted rgba(11,11,9,.08);
+  color: var(--ink-2);
+}
+.htc-history-row:last-child {
+  border-bottom: 0;
+}
+.htc-h-ep {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  color: var(--ink);
+}
+.htc-h-name {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 500;
+}
+.htc-h-year {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 700;
+  color: var(--ink-3);
+  font-size: 11px;
+}
+.htc-foot {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 2px dashed var(--ink-4);
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* RANKING podium */
+.home-ranking-podium {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+.hrp-podium {
+  background: var(--paper);
+  border: var(--border);
+  text-decoration: none;
+  color: var(--ink);
+  padding: 16px 16px 18px;
+  position: relative;
+  text-align: center;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.hrp-podium:hover {
+  transform: translate(-2px, -2px);
+}
+.hrp-rk1 {
+  grid-column: 2;
+  grid-row: 1;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 6px 6px 0 var(--vermilion);
+  padding: 26px 18px 22px;
+  order: 2;
+}
+.hrp-rk2 {
+  grid-column: 1;
+  grid-row: 1;
+  box-shadow: 4px 4px 0 var(--gold);
+  padding-top: 36px;
+  order: 1;
+}
+.hrp-rk3 {
+  grid-column: 3;
+  grid-row: 1;
+  box-shadow: 4px 4px 0 var(--ink);
+  padding-top: 42px;
+  order: 3;
+}
+.hrp-podium:hover {
+  box-shadow: 8px 8px 0 var(--vermilion);
+}
+.hrp-rk2:hover { box-shadow: 6px 6px 0 var(--gold); }
+.hrp-rk3:hover { box-shadow: 6px 6px 0 var(--ink); }
+
+.hrp-medal {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.hrp-rk1 .hrp-medal {
+  color: var(--vermilion);
+  font-size: 50px;
+}
+.hrp-avatar {
+  width: 64px; height: 64px;
+  margin: 0 auto 12px;
+  border: 2.5px solid var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 30px;
+}
+.hrp-rk1 .hrp-avatar {
+  width: 84px; height: 84px;
+  font-size: 38px;
+  border-color: var(--paper);
+  box-shadow: 0 0 0 4px var(--vermilion);
+}
+.hrp-name {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.hrp-rk1 .hrp-name {
+  font-size: 22px;
+}
+.hrp-meta {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  min-height: 28px;
+}
+.hrp-rk1 .hrp-meta {
+  color: rgba(235,228,210,.7);
+}
+.hrp-count {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 42px;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  line-height: 1;
+}
+.hrp-rk1 .hrp-count {
+  color: #f0c86d;
+  font-size: 56px;
+}
+.hrp-count-u {
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  margin-left: 3px;
+  color: var(--ink-3);
+}
+.hrp-rk1 .hrp-count-u {
+  color: rgba(235,228,210,.55);
+}
+
+.home-ranking-list {
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+}
+.hrl-row {
+  display: grid;
+  grid-template-columns: 40px 40px 1fr 130px 70px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--ink-4);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background .12s ease;
+}
+.hrl-row:last-child { border-bottom: 0; }
+.hrl-row:hover { background: var(--paper-2); }
+.hrl-rk {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--ink-3);
+  text-align: center;
+}
+.hrl-avatar {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--ink);
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 14px;
+}
+.hrl-name {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+.hrl-meta {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.hrl-cnt {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  text-align: right;
+}
+.hrl-cnt small {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-3);
+  margin-left: 2px;
+}
+
+/* Mリーグ番付 — チーム色帯 + ファイナル進出ライン */
+.home-mleague-block {
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--border);
+  box-shadow: 5px 5px 0 var(--vermilion);
+  margin-bottom: 18px;
+}
+.hmb-header {
+  padding: 16px 20px;
+  border-bottom: 3px solid var(--vermilion);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.hmb-title {
+  margin: 0;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+}
+.hmb-en {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(235,228,210,.6);
+  margin-top: 4px;
+  font-weight: 600;
+}
+.hmb-more {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #f0c86d;
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 1.5px solid #f0c86d;
+}
+.hmb-list {
+  position: relative;
+  --row-h: 36px;
+}
+.hmb-row {
+  display: grid;
+  grid-template-columns: 6px 32px 1fr 90px;
+  gap: 12px;
+  align-items: center;
+  padding: 0 16px;
+  height: var(--row-h);
+  border-bottom: 1px solid rgba(235,228,210,.06);
+  text-decoration: none;
+  color: var(--paper);
+  transition: background .12s ease;
+}
+.hmb-row:hover { background: rgba(235,228,210,.04); }
+.hmb-row:last-child { border-bottom: 0; }
+.hmb-strip {
+  width: 100%;
+  height: 22px;
+  background: var(--team-c);
+}
+.hmb-rk {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 18px;
+  text-align: center;
+  color: rgba(235,228,210,.6);
+}
+.hmb-row.in-final .hmb-rk {
+  color: #f0c86d;
+}
+.hmb-row.in-final:nth-child(1) .hmb-rk {
+  color: var(--vermilion);
+}
+.hmb-team-block {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+.hmb-team-name {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hmb-team-sub {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(235,228,210,.45);
+  font-weight: 600;
+}
+.hmb-row.in-final .hmb-team-sub {
+  color: #f0c86d;
+}
+.hmb-pt {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: right;
+  letter-spacing: -0.01em;
+}
+.hmb-pt.p { color: #6ee7a7; }
+.hmb-pt.m { color: #ff8a72; }
+.hmb-final-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 0;
+  border-top: 2px dashed #f0c86d;
+  pointer-events: none;
+  z-index: 1;
+}
+.hmb-final-line span {
+  position: absolute;
+  right: 16px;
+  top: -10px;
+  background: var(--ink);
+  padding: 2px 8px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: #f0c86d;
+  font-weight: 700;
+  border: 1px solid #f0c86d;
+}
+
+@media (max-width: 980px) {
+  .home-hero-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-titles-bento {
+    grid-template-columns: 1fr;
+  }
+  .home-ranking-podium {
+    grid-template-columns: 1fr;
+  }
+  .hrp-rk1, .hrp-rk2, .hrp-rk3 {
+    grid-column: 1;
+    grid-row: auto;
+    order: unset;
+    padding-top: 16px;
+  }
+  .home-hero-mleague {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+@media (max-width: 600px) {
+  .home-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ============ 1万点棒 SCROLLBAR ============ */
 /* ネイティブスクロールバー非表示 → CustomScrollbar.tsxで代替 */
 html { scrollbar-width: none; }

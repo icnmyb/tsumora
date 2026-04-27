@@ -308,6 +308,7 @@ export const TITLES: TitleData[] = [
     org: "RMU",
     orgLabel: "Real Mahjong Unit",
     orgHref: "/organizations/rmu",
+    holder: { name: "河野 高志", note: "第16期 (2024) 戴冠" },
     season: "通年 · A1〜B制",
     tags: ["RMU最高峰", "リーグ戦", "Aルール"],
     founded: 2009,
