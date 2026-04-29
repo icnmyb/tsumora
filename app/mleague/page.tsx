@@ -316,8 +316,10 @@ export default function MleaguePage() {
       </section>
 
       <h2 className="sh">
-        <span>全{ALL_TEAMS.length}チーム</span>
-        <span className="num">Teams · {ALL_TEAMS.length} Franchises</span>
+        <span className="sh-desk">全{ALL_TEAMS.length}チーム</span>
+        <span className="sh-mob">順位表</span>
+        <span className="num sh-desk-num">Teams · {ALL_TEAMS.length} Franchises</span>
+        <span className="num sh-mob-num">Standings · {CURRENT_SEASON}</span>
         <span className="rule"></span>
         <Link href="/teams" className="more" style={{ textDecoration: "none", color: "var(--ink-3)" }}>
           チーム一覧 →
@@ -326,13 +328,14 @@ export default function MleaguePage() {
       <div className="team-grid">
         {standings.map((s, idx) => {
           const isEliminated = idx >= 6;
+          const isBorder = idx === 3;
           const accent = s.team.colorOnDark ?? s.team.color;
           const avText = getContrastText(s.team.color);
           return (
             <div
               key={s.team.slug}
               data-team={s.team.slug}
-              className={`team-card${isEliminated ? " is-eliminated" : ""}`}
+              className={`team-card${isEliminated ? " is-eliminated" : ""}${isBorder ? " is-border" : ""}`}
               style={
                 {
                   ["--tc" as string]: s.team.color,
@@ -358,9 +361,6 @@ export default function MleaguePage() {
                   <h3 className="head-name">
                     <Link href={`/teams/${s.team.slug}`}>{s.team.name}</Link>
                   </h3>
-                  <div className="head-sponsor">
-                    {s.team.parentCompany} · {s.team.joinedSeason}〜
-                  </div>
                 </div>
                 <div className="head-pts">
                   <div className={`pt-val ${s.totalPts >= 0 ? "p" : "m"}`}>
@@ -370,9 +370,38 @@ export default function MleaguePage() {
                 </div>
               </div>
 
+              <div className="team-stats">
+                <div
+                  className={`stat ${
+                    isBorder
+                      ? "diff-zero"
+                      : (s.totalPts - borderPts) > 0
+                        ? "diff-lead"
+                        : "diff-chase"
+                  }`}
+                >
+                  <span className="lbl">ボーダー差</span>
+                  <span className="val">
+                    {isBorder ? "±0.0" : fmtPts(s.totalPts - borderPts)}
+                  </span>
+                </div>
+                <div className="stat">
+                  <span className="lbl">平均1位率</span>
+                  <span className="val">
+                    {s.topRateAvg > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
+                  </span>
+                </div>
+                <div className="stat">
+                  <span className="lbl">最高素点</span>
+                  <span className="val">
+                    {s.bestScore > 0 ? s.bestScore.toLocaleString() : "—"}
+                  </span>
+                </div>
+              </div>
+
               <details className="team-roster">
                 <summary className="roster-summary">
-                  <span className="lbl">選手 {s.rosterPlayers.length}名</span>
+                  <span className="lbl">各選手成績</span>
                   <span className="chev" aria-hidden="true">▾</span>
                 </summary>
                 <ul className="roster">
