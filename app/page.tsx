@@ -258,16 +258,26 @@ export default function Home() {
           </div>
           <Link href="/mleague" className="hmb-more">標識 →</Link>
         </div>
+        <div className="hmb-collabel">
+          <span className="hmb-collabel-team">CHIMU · チーム</span>
+          <span className="hmb-collabel-pts">
+            <span>合計 PTS</span>
+            <span className="hmb-collabel-sep">/</span>
+            <span>vs ボーダー</span>
+          </span>
+        </div>
         <div className="hmb-list">
           {sfStandings.map((s, idx) => {
             const rank = idx + 1;
             const inFinal = rank <= sf.finalLine;
+            const isBorder = rank === sf.finalLine;
             const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
+            const diff = s.total - borderPts;
             return (
               <Link
                 key={s.team.slug}
                 href={`/teams/${s.team.slug}`}
-                className={`hmb-row${inFinal ? " in-final" : ""}`}
+                className={`hmb-row${inFinal ? " in-final" : ""}${isBorder ? " is-border" : ""}`}
                 style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
               >
                 <span className="hmb-strip"></span>
@@ -275,34 +285,28 @@ export default function Home() {
                 <div className="hmb-team-block">
                   <span className="hmb-team-name">{s.team.shortName}</span>
                   <span className="hmb-team-sub">
-                    {inFinal ? "F進出圏" : "圏外"}
+                    {isBorder ? "ボーダー" : inFinal ? "F進出圏" : "圏外"}
                   </span>
                 </div>
                 <span className="hmb-pt-stack">
                   <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
                     {fmtPts(s.total)}
                   </span>
-                  {rank === sf.finalLine ? (
-                    <span className="hmb-bd hmb-bd--line">BORDER</span>
-                  ) : rank < sf.finalLine ? (
-                    <span className="hmb-bd hmb-bd--lead">
-                      <span className="hmb-bd-lbl">B</span>
-                      {fmtPts(s.total - borderPts)}
-                    </span>
-                  ) : (
-                    <span className="hmb-bd hmb-bd--chase">
-                      <span className="hmb-bd-lbl">B</span>
-                      {fmtPts(s.total - borderPts)}
-                    </span>
-                  )}
+                  <span
+                    className={`hmb-bd ${
+                      isBorder
+                        ? "hmb-bd--zero"
+                        : diff > 0
+                          ? "hmb-bd--lead"
+                          : "hmb-bd--chase"
+                    }`}
+                  >
+                    {isBorder ? "—" : fmtPts(diff)}
+                  </span>
                 </span>
               </Link>
             );
           })}
-          {/* ファイナル進出ライン */}
-          <div className="hmb-final-line" style={{ top: `calc(${sf.finalLine} * var(--row-h))` }}>
-            <span>FINAL LINE — TOP {sf.finalLine}</span>
-          </div>
         </div>
       </section>
 
@@ -584,16 +588,26 @@ export default function Home() {
               </div>
               <Link href="/mleague" className="hmb-more">標識 →</Link>
             </div>
+            <div className="hmb-collabel">
+              <span className="hmb-collabel-team">CHIMU · チーム</span>
+              <span className="hmb-collabel-pts">
+                <span>合計 PTS</span>
+                <span className="hmb-collabel-sep">/</span>
+                <span>vs ボーダー</span>
+              </span>
+            </div>
             <div className="hmb-list">
               {sfStandings.map((s, idx) => {
                 const rank = idx + 1;
                 const inFinal = rank <= sf.finalLine;
+                const isBorder = rank === sf.finalLine;
                 const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
+                const diff = s.total - borderPts;
                 return (
                   <Link
                     key={s.team.slug}
                     href={`/teams/${s.team.slug}`}
-                    className={`hmb-row${inFinal ? " in-final" : ""}`}
+                    className={`hmb-row${inFinal ? " in-final" : ""}${isBorder ? " is-border" : ""}`}
                     style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
                   >
                     <span className="hmb-strip"></span>
@@ -601,19 +615,28 @@ export default function Home() {
                     <div className="hmb-team-block">
                       <span className="hmb-team-name">{s.team.shortName}</span>
                       <span className="hmb-team-sub">
-                        {inFinal ? "F進出圏" : "圏外"}
+                        {isBorder ? "ボーダー" : inFinal ? "F進出圏" : "圏外"}
                       </span>
                     </div>
-                    <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
-                      {fmtPts(s.total)}
+                    <span className="hmb-pt-stack">
+                      <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
+                        {fmtPts(s.total)}
+                      </span>
+                      <span
+                        className={`hmb-bd ${
+                          isBorder
+                            ? "hmb-bd--zero"
+                            : diff > 0
+                              ? "hmb-bd--lead"
+                              : "hmb-bd--chase"
+                        }`}
+                      >
+                        {isBorder ? "—" : fmtPts(diff)}
+                      </span>
                     </span>
                   </Link>
                 );
               })}
-              {/* ファイナル進出ライン */}
-              <div className="hmb-final-line" style={{ top: `calc(${sf.finalLine} * var(--row-h))` }}>
-                <span>FINAL LINE — TOP {sf.finalLine}</span>
-              </div>
             </div>
           </section>
 
