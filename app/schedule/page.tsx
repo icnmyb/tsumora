@@ -30,223 +30,140 @@ type ScheduledEvent = {
   channel: string;
   tagColor: string;
   tagTextColor?: string;
+  link?: string; // 押下で遷移する放送・公式情報ページ
 };
 
+// 放送ページ URL（押下で遷移）
+const URL_M_LEAGUE = "https://m-league.jp/games/";
+const URL_NPM_SCHEDULE = "https://npm2001.com/schedule/";
+
 const EVENTS: ScheduledEvent[] = [
-  // ── Mリーグ 2025-26 セミファイナル（毎週月火木金 19:00 ABEMA）──
+  // ── Mリーグ 2025-26 セミファイナル（4/6–4/30 月火木金 全15日 30試合）──
+  // 1日2試合制（19:00-21:00 + 21:00-22:30）を1イベントとして表示
   {
     date: "2026-04-27",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ SF 第1試合",
-    sub: "赤坂ドリブンズ vs セガサミーフェニックス vs TEAM雷電 vs BEAST X",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-04-27",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ SF 第2試合",
-    sub: "同4チーム",
+    title: "Mリーグ セミファイナル 13/15",
+    sub: "赤坂ドリブンズ vs セガサミーフェニックス vs TEAM雷電 vs BEAST X · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-04-28",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ SF 第1試合",
-    sub: "EX風林火山 vs KONAMI麻雀格闘倶楽部 vs セガサミーフェニックス vs TEAM雷電",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-04-28",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ SF 第2試合",
-    sub: "同4チーム",
+    title: "Mリーグ セミファイナル 14/15",
+    sub: "EX風林火山 vs KONAMI麻雀格闘倶楽部 vs セガサミーフェニックス vs TEAM雷電 · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-04-30",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ SF 第1試合",
-    sub: "赤坂ドリブンズ vs EX風林火山 vs KONAMI麻雀格闘倶楽部 vs BEAST X",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-04-30",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ SF 第2試合",
-    sub: "同4チーム · SF 最終日",
+    title: "Mリーグ セミファイナル 15/15",
+    sub: "赤坂ドリブンズ vs EX風林火山 vs KONAMI麻雀格闘倶楽部 vs BEAST X · 2試合 · SF最終日",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
 
-  // ── Mリーグ 2025-26 ファイナル（5/4-5/15 月火木金 8日 16試合）──
-  // 進出チームは SF 最終日（4/30）後に発表予定
+  // ── Mリーグ 2025-26 ファイナル（5/4-5/15 月火木金 全8日 16試合）──
+  // 進出チームは SF 最終日（4/30）後に発表
   {
     date: "2026-05-04",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ Final Day1 第1試合",
-    sub: "ファイナル進出4チーム · 発表待ち",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-05-04",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ Final Day1 第2試合",
-    sub: "同4チーム",
+    title: "Mリーグ ファイナル 1/8",
+    sub: "ファイナル進出4チーム発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-05-05",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ Final Day2 第1試合",
-    sub: "対戦カード発表待ち",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-05-05",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ Final Day2 第2試合",
-    sub: "対戦カード発表待ち",
+    title: "Mリーグ ファイナル 2/8",
+    sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-05-07",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ Final Day3 第1試合",
-    sub: "対戦カード発表待ち",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-05-07",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ Final Day3 第2試合",
-    sub: "対戦カード発表待ち",
+    title: "Mリーグ ファイナル 3/8",
+    sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-05-08",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ Final Day4 第1試合",
-    sub: "対戦カード発表待ち",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-05-08",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ Final Day4 第2試合",
-    sub: "対戦カード発表待ち",
+    title: "Mリーグ ファイナル 4/8",
+    sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-05-11",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ Final Day5 第1試合",
-    sub: "対戦カード発表待ち",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-05-11",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ Final Day5 第2試合",
-    sub: "対戦カード発表待ち",
+    title: "Mリーグ ファイナル 5/8",
+    sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-05-12",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ Final Day6 第1試合",
-    sub: "対戦カード発表待ち",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-05-12",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ Final Day6 第2試合",
-    sub: "対戦カード発表待ち",
+    title: "Mリーグ ファイナル 6/8",
+    sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-05-14",
     startTime: "19:00",
-    endTime: "21:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ Final Day7 第1試合",
-    sub: "対戦カード発表待ち",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-  },
-  {
-    date: "2026-05-14",
-    startTime: "21:00",
     endTime: "22:30",
     org: "M-LEAGUE",
-    title: "Mリーグ Final Day7 第2試合",
-    sub: "対戦カード発表待ち",
+    title: "Mリーグ ファイナル 7/8",
+    sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
+    link: URL_M_LEAGUE,
   },
   {
     date: "2026-05-15",
     startTime: "17:00",
     endTime: "23:00",
     org: "M-LEAGUE",
-    title: "Mリーグ Final 最終決戦",
+    title: "Mリーグ ファイナル 8/8 最終決戦",
     sub: "対戦カード発表待ち · 表彰式併催 · ベルサール東京日本橋でPV",
     channel: "ABEMA + PV",
     tagColor: "#c8282a",
     tagTextColor: "#ebe4d2",
+    link: URL_M_LEAGUE,
   },
 
   // ── NPM（日本プロ麻雀協会）放送対局 ──────────────────────
@@ -262,6 +179,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
+    link: URL_NPM_SCHEDULE,
   },
   {
     date: "2026-05-04",
@@ -273,6 +191,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
+    link: URL_NPM_SCHEDULE,
   },
   {
     date: "2026-05-11",
@@ -284,6 +203,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
+    link: URL_NPM_SCHEDULE,
   },
   {
     date: "2026-05-18",
@@ -295,6 +215,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "協会チャンネル",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
+    link: URL_NPM_SCHEDULE,
   },
   {
     date: "2026-05-25",
@@ -306,6 +227,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
+    link: URL_NPM_SCHEDULE,
   },
   {
     date: "2026-05-25",
@@ -317,6 +239,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
+    link: URL_NPM_SCHEDULE,
   },
   {
     date: "2026-05-25",
@@ -328,6 +251,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "協会チャンネル",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
+    link: URL_NPM_SCHEDULE,
   },
 ];
 
@@ -532,8 +456,8 @@ export default function SchedulePage() {
                     {events.map((ev, idx) => {
                       const top = timeToY(ev.startTime);
                       const height = durationHeight(ev.startTime, ev.endTime);
-                      return (
-                        <div key={idx} className="event" style={{ top, height }}>
+                      const inner = (
+                        <>
                           <div className="tm">
                             {ev.startTime} – {ev.endTime}
                           </div>
@@ -545,6 +469,22 @@ export default function SchedulePage() {
                           >
                             {ev.channel}
                           </span>
+                        </>
+                      );
+                      return ev.link ? (
+                        <a
+                          key={idx}
+                          href={ev.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="event"
+                          style={{ top, height, textDecoration: "none", color: "inherit" }}
+                        >
+                          {inner}
+                        </a>
+                      ) : (
+                        <div key={idx} className="event" style={{ top, height }}>
+                          {inner}
                         </div>
                       );
                     })}
@@ -598,7 +538,13 @@ export default function SchedulePage() {
                     <div className="status upcoming">予定</div>
                     <div className="title">
                       <h4>
-                        <a>{m.title}</a>
+                        {m.link ? (
+                          <a href={m.link} target="_blank" rel="noopener noreferrer">
+                            {m.title}
+                          </a>
+                        ) : (
+                          <span>{m.title}</span>
+                        )}
                       </h4>
                       <div className="sub">{m.sub}</div>
                     </div>
