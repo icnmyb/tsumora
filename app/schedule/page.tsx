@@ -4,380 +4,426 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "対局スケジュール — TSUMORA",
   description:
-    "Mリーグ・各団体タイトル戦の年間スケジュール。鳳凰位戦・十段位戦・最高位戦・雀王戦 ほか、主要対局カレンダー。",
+    "Mリーグ・各団体タイトル戦の対局スケジュール。確定情報のみ表示、毎日の更新で常に最新の今週分を反映。",
   openGraph: {
     title: "対局スケジュール — TSUMORA",
-    description: "Mリーグ・タイトル戦の年間スケジュール。",
+    description: "Mリーグ・タイトル戦の対局スケジュール。",
     siteName: "TSUMORA",
     type: "website",
   },
 };
 
-type CalEvent = {
-  top: number;
-  height: number;
-  left?: number;
-  right?: number;
-  live?: boolean;
-  time: string;
+// ============================================================
+// 確定対局イベントデータ
+// 出典: m-league.jp/games / kinmaweb.jp / m-league.jp/news202604131200/
+// JPML / NPM / 最高位戦 / RMU / μ の個別対局日時は公式公開が限定的なため
+// 段階的に追加していく（ scrape pipeline は別プロジェクトで進行中）
+// ============================================================
+
+type ScheduledEvent = {
+  date: string; // YYYY-MM-DD (JST)
+  startTime: string; // "19:00"
+  endTime: string; // "21:00"
+  org: "M-LEAGUE" | "JPML" | "NPM" | "SAIKOUISEN" | "RMU" | "MU";
   title: string;
-  sub?: string;
+  sub: string;
+  channel: string;
   tagColor: string;
   tagTextColor?: string;
-  tag: string;
 };
 
-type DayCol = { today?: boolean; events: CalEvent[] };
+const EVENTS: ScheduledEvent[] = [
+  // ── Mリーグ 2025-26 セミファイナル（毎週月火木金 19:00 ABEMA）──
+  {
+    date: "2026-04-27",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ SF 第1試合",
+    sub: "赤坂ドリブンズ vs セガサミーフェニックス vs TEAM雷電 vs BEAST X",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-04-27",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ SF 第2試合",
+    sub: "同4チーム",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-04-28",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ SF 第1試合",
+    sub: "EX風林火山 vs KONAMI麻雀格闘倶楽部 vs セガサミーフェニックス vs TEAM雷電",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-04-28",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ SF 第2試合",
+    sub: "同4チーム",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-04-30",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ SF 第1試合",
+    sub: "赤坂ドリブンズ vs EX風林火山 vs KONAMI麻雀格闘倶楽部 vs BEAST X",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-04-30",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ SF 第2試合",
+    sub: "同4チーム · SF 最終日",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
 
-const DAY_COLS: DayCol[] = [
-  // Mon 20
+  // ── Mリーグ 2025-26 ファイナル（5/4-5/15 月火木金 8日 16試合）──
+  // 進出チームは SF 最終日（4/30）後に発表予定
   {
-    events: [
-      { top: 144, height: 138, time: "19:00 – 21:20", title: "Mリーグ第111戦", sub: "雷電 vs BEAST X vs EARTH JETS vs Pirates", tagColor: "#a07e28", tag: "M·League" },
-      { top: 360, height: 95, time: "22:00", title: "μリーグ A 3卓", sub: "忍田幸夫・古久根英孝 他", tagColor: "#4b2a7a", tag: "μ" },
-    ],
+    date: "2026-05-04",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day1 第1試合",
+    sub: "ファイナル進出4チーム · 発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
   },
-  // Tue 21 TODAY
   {
-    today: true,
-    events: [
-      { top: 180, height: 150, live: true, time: "19:30 – ▶ LIVE", title: "鳳凰位戦A1 第5節B卓", sub: "瀬戸熊・前原・滝沢・佐々木", tagColor: "#f0c86d", tagTextColor: "#0b0b09", tag: "JPML" },
-      { top: 234, height: 155, left: 50, right: 4, live: true, time: "20:15 – ▶ LIVE", title: "Mリーグ第112戦", sub: "フェニックス・ドリブンズ", tagColor: "#f0c86d", tagTextColor: "#0b0b09", tag: "M·L" },
-      { top: 288, height: 72, left: 4, right: 50, time: "21:00", title: "雀王A 2卓", sub: "金子・矢島", tagColor: "#1d4ed8", tag: "NPM" },
-      { top: 360, height: 95, time: "22:00 決勝", title: "Classic決勝", sub: "村上淳・石井一馬・渋川難波・多井隆晴", tagColor: "#0b0b09", tag: "SAIKOU" },
-      { top: 360, height: 72, left: 50, right: 4, time: "22:00", title: "女流桜花A", sub: "宮内・手塚 他", tagColor: "#c8282a", tag: "JPML" },
-      { top: 432, height: 60, left: 4, right: 50, time: "22:30", title: "闘魂杯予選", tagColor: "#a07e28", tag: "RMU" },
-    ],
+    date: "2026-05-04",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day1 第2試合",
+    sub: "同4チーム",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
   },
-  // Wed 22
   {
-    events: [
-      { top: 144, height: 138, time: "19:00 – 21:20", title: "Mリーグ第113戦", sub: "格闘倶楽部・Pirates・サクラナイツ・雷電", tagColor: "#a07e28", tag: "M·L" },
-      { top: 180, height: 95, left: 50, right: 4, time: "19:30", title: "十段位戦本戦", sub: "1回戦", tagColor: "#c8282a", tag: "JPML" },
-      { top: 360, height: 110, time: "22:00", title: "雀竜位戦予選", sub: "Cリーグ 3卓", tagColor: "#1d4ed8", tag: "NPM" },
-    ],
+    date: "2026-05-05",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day2 第1試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
   },
-  // Thu 23
   {
-    events: [
-      { top: 144, height: 138, time: "19:00", title: "Mリーグ第114戦", sub: "BEAST X・EARTH JETS・ABEMAS・フェニックス", tagColor: "#a07e28", tag: "M·L" },
-      { top: 198, height: 95, left: 50, right: 4, time: "19:45", title: "最高位戦B1", sub: "第4節", tagColor: "#0b0b09", tag: "SAIKOU" },
-      { top: 360, height: 72, time: "22:00", title: "BIG1カップ予選", tagColor: "#4b2a7a", tag: "μ" },
-    ],
+    date: "2026-05-05",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day2 第2試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
   },
-  // Fri 24
   {
-    events: [
-      { top: 144, height: 138, time: "19:00", title: "Mリーグ第115戦", sub: "格闘倶楽部・ドリブンズ・風林火山・サクラナイツ", tagColor: "#a07e28", tag: "M·L" },
-      { top: 180, height: 110, left: 50, right: 4, time: "19:30 決勝", title: "王位戦決勝", sub: "魚谷・和久津・松本", tagColor: "#c8282a", tag: "JPML" },
-      { top: 360, height: 72, time: "22:00", title: "令昭位戦A", sub: "第5節", tagColor: "#a07e28", tag: "RMU" },
-    ],
+    date: "2026-05-07",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day3 第1試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
   },
-  // Sat 25
   {
-    events: [
-      { top: 72, height: 72, time: "18:00", title: "雀王戦A 最終節", tagColor: "#1d4ed8", tag: "NPM" },
-      { top: 144, height: 215, time: "19:00 – 22:30 決勝", title: "闘魂杯 本戦", sub: "雀魂使用オンライン · トーナメント", tagColor: "#a07e28", tag: "RMU" },
-      { top: 360, height: 95, time: "22:00", title: "將妃戦本戦", tagColor: "#4b2a7a", tag: "μ" },
-    ],
+    date: "2026-05-07",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day3 第2試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
   },
-  // Sun 26
   {
-    events: [
-      { top: 72, height: 155, time: "18:00 – 20:30", title: "新人王戦決勝", sub: "連盟若手8名による", tagColor: "#c8282a", tag: "JPML" },
-      { top: 252, height: 120, time: "21:00 決勝", title: "日本オープン決勝", sub: "協会選抜", tagColor: "#1d4ed8", tag: "NPM" },
-    ],
+    date: "2026-05-08",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day4 第1試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-08",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day4 第2試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-11",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day5 第1試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-11",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day5 第2試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-12",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day6 第1試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-12",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day6 第2試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-14",
+    startTime: "19:00",
+    endTime: "21:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day7 第1試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-14",
+    startTime: "21:00",
+    endTime: "22:30",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final Day7 第2試合",
+    sub: "対戦カード発表待ち",
+    channel: "ABEMA",
+    tagColor: "#d4b94e",
+  },
+  {
+    date: "2026-05-15",
+    startTime: "17:00",
+    endTime: "23:00",
+    org: "M-LEAGUE",
+    title: "Mリーグ Final 最終決戦",
+    sub: "対戦カード発表待ち · 表彰式併催 · ベルサール東京日本橋でPV",
+    channel: "ABEMA + PV",
+    tagColor: "#c8282a",
+    tagTextColor: "#ebe4d2",
+  },
+
+  // ── NPM（日本プロ麻雀協会）放送対局 ──────────────────────
+  // 出典: npm2001.com/schedule/ 配信先「ABEMA」または「協会チャンネル」と記載のある対局のみ
+  // 開始/終了時刻は公式公開待ち、暫定的に 12:00–20:00
+  {
+    date: "2026-04-27",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "NPM",
+    title: "雀王戦A1リーグ 第1節C卓",
+    sub: "出場者・詳細時刻 公式公開待ち",
+    channel: "ABEMA",
+    tagColor: "#1d4ed8",
+    tagTextColor: "#ebe4d2",
+  },
+  {
+    date: "2026-05-04",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "NPM",
+    title: "雀王戦A1リーグ 第2節A卓",
+    sub: "出場者・詳細時刻 公式公開待ち",
+    channel: "ABEMA",
+    tagColor: "#1d4ed8",
+    tagTextColor: "#ebe4d2",
+  },
+  {
+    date: "2026-05-11",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "NPM",
+    title: "雀王戦A1リーグ 第2節B卓",
+    sub: "出場者・詳細時刻 公式公開待ち",
+    channel: "ABEMA",
+    tagColor: "#1d4ed8",
+    tagTextColor: "#ebe4d2",
+  },
+  {
+    date: "2026-05-18",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "NPM",
+    title: "雀王戦A1リーグ 第2節C卓",
+    sub: "出場者・詳細時刻 公式公開待ち",
+    channel: "協会チャンネル",
+    tagColor: "#1d4ed8",
+    tagTextColor: "#ebe4d2",
+  },
+  {
+    date: "2026-05-25",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "NPM",
+    title: "雀王戦A1リーグ 第3節A卓",
+    sub: "出場者・詳細時刻 公式公開待ち",
+    channel: "ABEMA",
+    tagColor: "#1d4ed8",
+    tagTextColor: "#ebe4d2",
+  },
+  {
+    date: "2026-05-25",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "NPM",
+    title: "雀王戦A1リーグ 第3節B卓",
+    sub: "出場者・詳細時刻 公式公開待ち",
+    channel: "ABEMA",
+    tagColor: "#1d4ed8",
+    tagTextColor: "#ebe4d2",
+  },
+  {
+    date: "2026-05-25",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "NPM",
+    title: "女流雀王戦Aリーグ 第1節 配信卓",
+    sub: "出場者・詳細時刻 公式公開待ち",
+    channel: "協会チャンネル",
+    tagColor: "#1d4ed8",
+    tagTextColor: "#ebe4d2",
   },
 ];
 
-type DayHeader = { dow: string; label: string; today?: boolean; sat?: boolean; sun?: boolean };
-const DAY_HEADERS: DayHeader[] = [
-  { dow: "Mon · 月", label: "20" },
-  { dow: "Tue · 火 · TODAY", label: "21", today: true },
-  { dow: "Wed · 水", label: "22" },
-  { dow: "Thu · 木", label: "23" },
-  { dow: "Fri · 金", label: "24" },
-  { dow: "Sat · 土", label: "25", sat: true },
-  { dow: "Sun · 日", label: "26", sun: true },
+// ============================================================
+// 日付ユーティリティ（JSTタイムゾーン）
+// ============================================================
+
+const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+function nowJst(): Date {
+  const now = new Date();
+  return new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + JST_OFFSET_MS);
+}
+
+function fmtDateISO(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function getWeekDatesJst(now: Date): Date[] {
+  const d = new Date(now);
+  d.setHours(0, 0, 0, 0);
+  const dow = d.getDay();
+  const monOffset = dow === 0 ? -6 : 1 - dow;
+  const monday = new Date(d);
+  monday.setDate(d.getDate() + monOffset);
+  return Array.from({ length: 7 }, (_, i) => {
+    const wd = new Date(monday);
+    wd.setDate(monday.getDate() + i);
+    return wd;
+  });
+}
+
+const DOW_SHORT_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const DOW_JA = ["日", "月", "火", "水", "木", "金", "土"];
+const MONTH_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// 時刻 "HH:MM" → グリッド top px (12:00 起点、1時間 = 72px)
+const GRID_START_HOUR = 12;
+const HOUR_PX = 72;
+
+function timeToY(time: string): number {
+  const [h, m] = time.split(":").map(Number);
+  const hours = (h ?? GRID_START_HOUR) - GRID_START_HOUR;
+  const mins = m ?? 0;
+  return hours * HOUR_PX + mins * (HOUR_PX / 60);
+}
+
+function durationHeight(startTime: string, endTime: string): number {
+  return Math.max(60, timeToY(endTime) - timeToY(startTime));
+}
+
+const HOURS = [
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
+  "19:00",
+  "20:00",
+  "21:00",
+  "22:00",
+  "23:00",
 ];
 
-type MatchRow = {
-  oc: string;
-  time: string;
-  dur?: string;
-  statusKind: "live" | "upcoming";
-  statusLabel: string;
-  titleText: string;
-  titleHref?: string;
-  sub: string;
-  players: Array<{ name: string; lead?: boolean }>;
-  org: string;
-  action: string;
-  actionWatch?: boolean;
-  ch: string;
-};
-
-type DaySection = {
-  big: string;
-  dow: string;
-  meta: string;
-  today?: boolean;
-  matches: MatchRow[];
-};
-
-const DAY_SECTIONS: DaySection[] = [
-  {
-    big: "04.21",
-    dow: "TUE · 火 · TODAY",
-    meta: "LIVE NOW · 19:32 JST",
-    today: true,
-    matches: [
-      {
-        oc: "#f0c86d",
-        time: "19:30",
-        dur: "〜 22:00",
-        statusKind: "live",
-        statusLabel: "LIVE",
-        titleText: "鳳凰位戦A1 第5節B卓",
-        sub: "第42期 · 第3回戦 東4局 · 連盟チャンネル",
-        players: [{ name: "瀬戸熊", lead: true }, { name: "前原" }, { name: "滝沢" }, { name: "佐々木" }],
-        org: "JPML · 鳳凰位",
-        action: "▶ 視聴",
-        actionWatch: true,
-        ch: "連盟チャンネル",
-      },
-      {
-        oc: "#d4b94e",
-        time: "20:15",
-        dur: "〜 22:45",
-        statusKind: "live",
-        statusLabel: "LIVE",
-        titleText: "Mリーグ第112戦",
-        sub: "第8シーズン · レギュラー · ABEMA",
-        players: [{ name: "魚谷" }, { name: "園田" }, { name: "日向" }, { name: "二階堂" }],
-        org: "M·LEAGUE",
-        action: "▶ 視聴",
-        actionWatch: true,
-        ch: "ABEMA",
-      },
-      {
-        oc: "#1d4ed8",
-        time: "21:00",
-        dur: "〜 23:00",
-        statusKind: "upcoming",
-        statusLabel: "予定",
-        titleText: "雀王戦A 2卓",
-        sub: "第25期 · 第9節 · 協会チャンネル",
-        players: [{ name: "金子" }, { name: "矢島" }, { name: "浅井" }, { name: "水巻" }],
-        org: "NPM · 雀王",
-        action: "通知",
-        ch: "28分後",
-      },
-      {
-        oc: "#0b0b09",
-        time: "22:00",
-        dur: "決勝",
-        statusKind: "upcoming",
-        statusLabel: "決勝",
-        titleText: "最高位戦Classic 決勝",
-        titleHref: "/titles/houou-isen",
-        sub: "第23回 · 4名による最終卓 · 最高位戦ch",
-        players: [{ name: "村上" }, { name: "石井" }, { name: "渋川" }, { name: "多井" }],
-        org: "SAIKOUISEN",
-        action: "通知",
-        ch: "1時間28分後",
-      },
-      {
-        oc: "#c8282a",
-        time: "22:00",
-        dur: "〜 0:30",
-        statusKind: "upcoming",
-        statusLabel: "予定",
-        titleText: "女流桜花A 第6節",
-        sub: "連盟 · 女流最高峰タイトル",
-        players: [{ name: "宮内" }, { name: "手塚" }, { name: "清水" }, { name: "優月" }],
-        org: "JPML · 桜花",
-        action: "通知",
-        ch: "連盟ch",
-      },
-      {
-        oc: "#a07e28",
-        time: "22:30",
-        dur: "予選",
-        statusKind: "upcoming",
-        statusLabel: "予定",
-        titleText: "闘魂杯 予選オンライン",
-        sub: "雀魂使用 · 本戦進出4名決定",
-        players: [{ name: "多井" }, { name: "阿部" }, { name: "河野" }, { name: "他" }],
-        org: "RMU · 闘魂杯",
-        action: "通知",
-        ch: "雀魂観戦",
-      },
-      {
-        oc: "#4b2a7a",
-        time: "23:00",
-        dur: "道場対抗",
-        statusKind: "upcoming",
-        statusLabel: "予定",
-        titleText: "μ 道場対抗戦 第3戦",
-        sub: "新宿道場 vs 横浜道場",
-        players: [{ name: "小林" }, { name: "忍田" }, { name: "古久根" }, { name: "他" }],
-        org: "MUJIN · μ",
-        action: "通知",
-        ch: "μ-TV",
-      },
-    ],
-  },
-  {
-    big: "04.22",
-    dow: "WED · 水 · 明日",
-    meta: "4 MATCHES",
-    matches: [
-      {
-        oc: "#d4b94e", time: "19:00", dur: "〜 21:30", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "Mリーグ第113戦", sub: "第8シーズン · ABEMA",
-        players: [{ name: "佐々木" }, { name: "鈴木優" }, { name: "内川" }, { name: "黒沢" }],
-        org: "M·LEAGUE", action: "通知", ch: "ABEMA",
-      },
-      {
-        oc: "#c8282a", time: "19:30", dur: "本戦", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "十段位戦本戦 1回戦", sub: "第63期 · 前原・森山など8名",
-        players: [{ name: "前原" }, { name: "森山" }, { name: "藤崎" }, { name: "他" }],
-        org: "JPML · 十段", action: "通知", ch: "連盟ch",
-      },
-      {
-        oc: "#1d4ed8", time: "22:00", dur: "予選", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "雀竜位戦C 3卓", sub: "第25期 · 第7節",
-        players: [{ name: "仲林" }, { name: "浅井" }, { name: "鈴木" }, { name: "他" }],
-        org: "NPM", action: "通知", ch: "協会ch",
-      },
-      {
-        oc: "#4b2a7a", time: "23:00", dur: "道場対抗", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "μ 道場対抗戦 第4戦", sub: "大阪道場 vs 仙台道場",
-        players: [{ name: "忍田" }, { name: "古久根" }, { name: "他" }],
-        org: "MUJIN · μ", action: "通知", ch: "μ-TV",
-      },
-    ],
-  },
-  {
-    big: "04.23", dow: "THU · 木", meta: "3 MATCHES",
-    matches: [
-      {
-        oc: "#d4b94e", time: "19:00", dur: "〜 21:30", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "Mリーグ第114戦", sub: "第8シーズン · ABEMA",
-        players: [{ name: "中田" }, { name: "和久津" }, { name: "松本" }, { name: "醍醐" }],
-        org: "M·LEAGUE", action: "通知", ch: "ABEMA",
-      },
-      {
-        oc: "#0b0b09", time: "19:45", dur: "B1", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "最高位戦B1 第4節", sub: "第50期 · 村上淳 他",
-        players: [{ name: "村上" }, { name: "石井" }, { name: "近藤" }, { name: "他" }],
-        org: "SAIKOUISEN", action: "通知", ch: "最高位戦ch",
-      },
-      {
-        oc: "#4b2a7a", time: "22:00", dur: "予選", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "BIG1カップ予選", sub: "第36回 · μ選抜",
-        players: [{ name: "小林" }, { name: "忍田" }, { name: "他" }],
-        org: "MUJIN · μ", action: "通知", ch: "μ-TV",
-      },
-    ],
-  },
-  {
-    big: "04.24", dow: "FRI · 金", meta: "3 MATCHES · 1 決勝",
-    matches: [
-      {
-        oc: "#d4b94e", time: "19:00", dur: "〜 21:30", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "Mリーグ第115戦", sub: "第8シーズン · ABEMA",
-        players: [{ name: "佐々木" }, { name: "園田" }, { name: "二階堂" }, { name: "内川" }],
-        org: "M·LEAGUE", action: "通知", ch: "ABEMA",
-      },
-      {
-        oc: "#c8282a", time: "19:30", dur: "決勝", statusKind: "upcoming", statusLabel: "決勝",
-        titleText: "王位戦決勝", sub: "第48期 · 連盟女流3番勝負 第2戦",
-        players: [{ name: "魚谷" }, { name: "和久津" }, { name: "松本" }],
-        org: "JPML · 王位", action: "通知", ch: "連盟ch",
-      },
-      {
-        oc: "#a07e28", time: "22:00", dur: "第5節", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "令昭位戦A 第5節", sub: "第18期 · RMUチャンネル",
-        players: [{ name: "多井" }, { name: "阿部" }, { name: "河野" }, { name: "他" }],
-        org: "RMU · 令昭", action: "通知", ch: "RMUch",
-      },
-    ],
-  },
-  {
-    big: "04.25", dow: "SAT · 土", meta: "3 MATCHES · 1 本戦",
-    matches: [
-      {
-        oc: "#1d4ed8", time: "18:00", dur: "最終節", statusKind: "upcoming", statusLabel: "予定",
-        titleText: "雀王戦A 最終節", sub: "第25期 · 昇降級決定 · 協会ch",
-        players: [{ name: "金子", lead: true }, { name: "矢島" }, { name: "浅井" }, { name: "水巻" }],
-        org: "NPM · 雀王", action: "通知", ch: "協会ch",
-      },
-      {
-        oc: "#a07e28", time: "19:00", dur: "〜 22:30 本戦", statusKind: "upcoming", statusLabel: "本戦",
-        titleText: "RMU 闘魂杯 本戦", sub: "雀魂オンライン · トーナメント · 優勝者決定戦",
-        players: [{ name: "多井" }, { name: "阿部" }, { name: "河野" }, { name: "他" }],
-        org: "RMU · 闘魂杯", action: "通知", ch: "雀魂観戦",
-      },
-      {
-        oc: "#4b2a7a", time: "22:00", dur: "本戦", statusKind: "upcoming", statusLabel: "本戦",
-        titleText: "將妃戦本戦", sub: "第22回 · μ女流タイトル",
-        players: [{ name: "櫻田" }, { name: "松本" }, { name: "他" }],
-        org: "MUJIN · 將妃", action: "通知", ch: "μ-TV",
-      },
-    ],
-  },
-  {
-    big: "04.26", dow: "SUN · 日", meta: "2 MATCHES · 2 決勝",
-    matches: [
-      {
-        oc: "#c8282a", time: "18:00", dur: "決勝", statusKind: "upcoming", statusLabel: "決勝",
-        titleText: "新人王戦決勝", sub: "連盟若手若手最強決定戦 · 8名トーナメント",
-        players: [{ name: "本田" }, { name: "優月" }, { name: "黒田" }, { name: "他" }],
-        org: "JPML · 新人王", action: "通知", ch: "連盟ch",
-      },
-      {
-        oc: "#1d4ed8", time: "21:00", dur: "決勝", statusKind: "upcoming", statusLabel: "決勝",
-        titleText: "日本オープン決勝", sub: "第32回 · 協会選抜 4名",
-        players: [{ name: "矢島" }, { name: "浅井" }, { name: "水巻" }, { name: "仲林" }],
-        org: "NPM · 日本オープン", action: "通知", ch: "協会ch",
-      },
-    ],
-  },
-];
-
-type MiniDay = { label: string; kind?: "other" | "has" | "selected has" | "today has" };
-const MINI_DAYS: MiniDay[] = [
-  { label: "31", kind: "other" }, { label: "1", kind: "has" }, { label: "2", kind: "has" }, { label: "3" }, { label: "4", kind: "has" }, { label: "5", kind: "has" }, { label: "6", kind: "has" },
-  { label: "7", kind: "has" }, { label: "8", kind: "has" }, { label: "9", kind: "has" }, { label: "10", kind: "has" }, { label: "11", kind: "has" }, { label: "12", kind: "has" }, { label: "13", kind: "has" },
-  { label: "14", kind: "has" }, { label: "15", kind: "has" }, { label: "16", kind: "has" }, { label: "17", kind: "has" }, { label: "18", kind: "has" }, { label: "19", kind: "has" }, { label: "20", kind: "has" },
-  { label: "21", kind: "selected has" }, { label: "22", kind: "has" }, { label: "23", kind: "has" }, { label: "24", kind: "has" }, { label: "25", kind: "has" }, { label: "26", kind: "has" }, { label: "27", kind: "has" },
-  { label: "28", kind: "today has" }, { label: "29", kind: "has" }, { label: "30", kind: "has" }, { label: "1", kind: "other" }, { label: "2", kind: "other" }, { label: "3", kind: "other" }, { label: "4", kind: "other" },
-];
-
-type JumpItem = { d: string; dow: string; title: string; sub: string; c: string };
-const JUMPS: JumpItem[] = [
-  { d: "21", dow: "TUE", title: "最高位戦Classic 決勝", sub: "22:00 · 4名最終卓", c: "今日" },
-  { d: "24", dow: "FRI", title: "王位戦 決勝 第2戦", sub: "19:30 · 連盟女流3番勝負", c: "+3日" },
-  { d: "25", dow: "SAT", title: "RMU闘魂杯 本戦", sub: "19:00 · 雀魂オンライン", c: "+4日" },
-  { d: "26", dow: "SUN", title: "日本オープン 決勝", sub: "21:00 · 第32回", c: "+5日" },
-  { d: "28", dow: "TUE", title: "鳳凰位戦A1 第6節", sub: "19:30 · 瀬戸熊 独走中", c: "+7日" },
-];
-
-type Channel = { badge: React.ReactNode; name: string; sub: string; status: React.ReactNode };
-const CHANNELS: Channel[] = [
-  { badge: "ABEMA", name: "Mリーグ", sub: "月〜金 19:00〜 · 無料", status: <div className="live-tag">● LIVE</div> },
-  { badge: <>連盟<br />CH</>, name: "麻雀連盟チャンネル", sub: "鳳凰位・十段位・王位・桜花", status: <div className="live-tag">● LIVE</div> },
-  { badge: <>協会<br />CH</>, name: "協会チャンネル", sub: "雀王・雀竜位・日本オープン", status: <div style={{ fontFamily: "'Geist Mono'", fontSize: 10, color: "var(--ink-3)", fontWeight: 600 }}>21:00〜</div> },
-  { badge: <>最高<br />位戦</>, name: "最高位戦ch", sub: "最高位・Classic・發王", status: <div style={{ fontFamily: "'Geist Mono'", fontSize: 10, color: "var(--ink-3)", fontWeight: 600 }}>22:00〜</div> },
-  { badge: <>RMU<br />ch</>, name: "RMUチャンネル", sub: "令昭位・クラウン・闘魂杯", status: <div style={{ fontFamily: "'Geist Mono'", fontSize: 10, color: "var(--ink-3)", fontWeight: 600 }}>22:30〜</div> },
-  { badge: <>μ-<br />TV</>, name: "麻将連合TV", sub: "μリーグ・BIG1・將妃", status: <div style={{ fontFamily: "'Geist Mono'", fontSize: 10, color: "var(--ink-3)", fontWeight: 600 }}>23:00〜</div> },
-];
-
-const HOURS = ["17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+// ============================================================
+// レンダリング
+// ============================================================
 
 export default function SchedulePage() {
+  const today = nowJst();
+  const todayISO = fmtDateISO(today);
+  const week = getWeekDatesJst(today);
+  const weekISO = week.map(fmtDateISO);
+
+  const weekStartLabel = `${week[0].getMonth() + 1}月${week[0].getDate()}日`;
+  const weekEndLabel = `${week[6].getMonth() + 1}月${week[6].getDate()}日`;
+  const weekYear = week[0].getFullYear();
+  const startOfYear = new Date(weekYear, 0, 1);
+  const weekNumber = Math.ceil(((week[0].getTime() - startOfYear.getTime()) / 86400000 + 1) / 7);
+
+  const eventsByDate: ScheduledEvent[][] = weekISO.map((d) =>
+    EVENTS.filter((e) => e.date === d).sort((a, b) =>
+      a.startTime.localeCompare(b.startTime),
+    ),
+  );
+
+  const totalMatches = eventsByDate.reduce((acc, arr) => acc + arr.length, 0);
+  const todayIdx = week.findIndex((d) => fmtDateISO(d) === todayISO);
+  const todayMatches = todayIdx >= 0 ? (eventsByDate[todayIdx]?.length ?? 0) : 0;
+  const todayEvents = todayIdx >= 0 ? (eventsByDate[todayIdx] ?? []) : [];
+
   return (
     <div className="wrap">
       <section className="sc-hero">
@@ -390,81 +436,80 @@ export default function SchedulePage() {
           対局スケジュール<span className="en">Match Schedule</span>
         </h1>
         <div className="range">
-          <button className="navbtn">‹</button>
           <div className="wk">
-            4月20日 ― 4月26日<span className="sub">Week 17 · 2026 · April</span>
+            {weekStartLabel} ― {weekEndLabel}
+            <span className="sub">
+              Week {weekNumber} · {weekYear} · {MONTH_EN[week[0].getMonth()]}
+            </span>
           </div>
-          <button className="navbtn">›</button>
           <div className="counts">
             <div className="c">
               <div className="l">This Week</div>
               <div className="v">
-                31
-                <span style={{ fontSize: 16, fontFamily: "'Noto Sans JP'", fontWeight: 500, marginLeft: 4 }}>試合</span>
+                {String(totalMatches).padStart(2, "0")}
+                <span
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "'Noto Sans JP'",
+                    fontWeight: 500,
+                    marginLeft: 4,
+                  }}
+                >
+                  試合
+                </span>
               </div>
             </div>
             <div className="c">
-              <div className="l">Live Now</div>
-              <div className="v red">02</div>
-            </div>
-            <div className="c">
               <div className="l">Today</div>
-              <div className="v gold">07</div>
+              <div className="v gold">{String(todayMatches).padStart(2, "0")}</div>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="filter-bar">
-        <span className="label">Org</span>
-        <div className="pills">
-          <span className="pill on">すべて</span>
-          <span className="pill"><span className="dot" style={{ background: "#c8282a" }}></span>連盟</span>
-          <span className="pill"><span className="dot" style={{ background: "#1d4ed8" }}></span>協会</span>
-          <span className="pill"><span className="dot" style={{ background: "#0b0b09" }}></span>最高位戦</span>
-          <span className="pill"><span className="dot" style={{ background: "#a07e28" }}></span>RMU</span>
-          <span className="pill"><span className="dot" style={{ background: "#4b2a7a" }}></span>μ</span>
-          <span className="pill"><span className="dot" style={{ background: "#d4b94e" }}></span>Mリーグ</span>
-        </div>
-        <div className="sep-v"></div>
-        <span className="label">Tier</span>
-        <div className="pills">
-          <span className="pill on">All</span>
-          <span className="pill">タイトル戦</span>
-          <span className="pill">リーグ</span>
-          <span className="pill">予選</span>
-        </div>
-        <div className="sep-v"></div>
-        <span className="label">Status</span>
-        <div className="pills">
-          <span className="pill on">配信あり</span>
-          <span className="pill">観戦券</span>
-        </div>
-        <div className="view">
-          <button className="on">週</button>
-          <button>日</button>
-          <button>月</button>
-          <button>リスト</button>
-        </div>
-      </div>
+      <section
+        style={{
+          background: "var(--paper)",
+          border: "var(--border)",
+          boxShadow: "var(--shadow-sm)",
+          padding: "16px 22px",
+          marginBottom: 18,
+          fontFamily: "Noto Sans JP, sans-serif",
+          fontSize: 13,
+          color: "var(--ink-2)",
+          lineHeight: 1.7,
+        }}
+      >
+        <strong style={{ color: "var(--vermilion)" }}>● データ整備状況</strong> ──
+        現在 <strong>Mリーグ確定対局のみ</strong>{" "}
+        正確な日時で表示しています。JPML（鳳凰位戦・十段位戦・王位戦）、NPM（雀王戦・雀竜位戦）、最高位戦、RMU（令昭位戦）、μ（将王戦）の個別対局日時は、各団体公式の連携準備中です。今後段階的に追加していきます。
+      </section>
 
       <div className="cal-two">
         <div>
           <section className="cal-wrap">
             <div className="cal-head-row">
               <div className="corner">JST</div>
-              {DAY_HEADERS.map((h) => (
-                <div
-                  key={h.label}
-                  className={["day", h.today ? "today" : "", h.sat ? "sat" : "", h.sun ? "sun" : ""].filter(Boolean).join(" ")}
-                >
-                  <div className="dow">{h.dow}</div>
-                  <div className="dt">
-                    {h.label}
-                    <span className="n">April</span>
+              {week.map((d, i) => {
+                const isToday = fmtDateISO(d) === todayISO;
+                const isSat = d.getDay() === 6;
+                const isSun = d.getDay() === 0;
+                const cls = ["day", isToday ? "today" : "", isSat ? "sat" : "", isSun ? "sun" : ""]
+                  .filter(Boolean)
+                  .join(" ");
+                return (
+                  <div key={i} className={cls}>
+                    <div className="dow">
+                      {DOW_SHORT_EN[d.getDay()]} · {DOW_JA[d.getDay()]}
+                      {isToday ? " · TODAY" : ""}
+                    </div>
+                    <div className="dt">
+                      {d.getDate()}
+                      <span className="n">{MONTH_EN[d.getMonth()]}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="cal-body">
@@ -476,183 +521,292 @@ export default function SchedulePage() {
                 ))}
               </div>
 
-              {DAY_COLS.map((col, i) => (
-                <div key={i} className={`day-col ${col.today ? "today" : ""}`.trim()}>
-                  {HOURS.map((_, idx) => (
-                    <div key={idx} className="hour"></div>
-                  ))}
-                  {col.events.map((ev, idx) => {
-                    const style: React.CSSProperties = {
-                      top: ev.top,
-                      height: ev.height,
-                    };
-                    if (ev.left !== undefined) style.left = `${ev.left}%`;
-                    if (ev.right !== undefined) style.right = `${ev.right}%`;
-                    return (
-                      <div key={idx} className={`event ${ev.live ? "live" : ""}`.trim()} style={style}>
-                        <div className="tm">{ev.time}</div>
-                        <div className="tl">{ev.title}</div>
-                        {ev.sub && <div className="sub">{ev.sub}</div>}
-                        <span
-                          className="org-tag"
-                          style={{ background: ev.tagColor, color: ev.tagTextColor }}
-                        >
-                          {ev.tag}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-
-              <div className="now-line" style={{ top: 189 }}>
-                <span className="now-label">NOW 19:32</span>
-              </div>
+              {week.map((d, i) => {
+                const isToday = fmtDateISO(d) === todayISO;
+                const events = eventsByDate[i] ?? [];
+                return (
+                  <div key={i} className={`day-col ${isToday ? "today" : ""}`.trim()}>
+                    {HOURS.map((_, idx) => (
+                      <div key={idx} className="hour"></div>
+                    ))}
+                    {events.map((ev, idx) => {
+                      const top = timeToY(ev.startTime);
+                      const height = durationHeight(ev.startTime, ev.endTime);
+                      return (
+                        <div key={idx} className="event" style={{ top, height }}>
+                          <div className="tm">
+                            {ev.startTime} – {ev.endTime}
+                          </div>
+                          <div className="tl">{ev.title}</div>
+                          {ev.sub && <div className="sub">{ev.sub}</div>}
+                          <span
+                            className="org-tag"
+                            style={{ background: ev.tagColor, color: ev.tagTextColor }}
+                          >
+                            {ev.channel}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
           </section>
 
           <section className="list-wrap">
             <div className="list-head">
               <div className="ttl">
-                本日の対局<span className="en">Today · Tuesday, April 21</span>
+                本日の対局
+                <span className="en">
+                  Today · {DOW_SHORT_EN[today.getDay()]}, {MONTH_EN[today.getMonth()]}{" "}
+                  {today.getDate()}
+                </span>
               </div>
-              <div className="count">7 MATCHES · 2 LIVE</div>
+              <div className="count">
+                {String(todayMatches).padStart(2, "0")} MATCHES
+              </div>
             </div>
 
-            {DAY_SECTIONS.map((ds) => (
-              <div key={ds.big} className="day-section">
-                <div className={`day-header ${ds.today ? "today" : ""}`.trim()}>
-                  <span className="big">{ds.big}</span>
-                  <span className="dow">{ds.dow}</span>
-                  <span className="meta">{ds.meta}</span>
-                </div>
-                {ds.matches.map((m, idx) => (
+            {todayMatches === 0 ? (
+              <div
+                style={{
+                  padding: "28px 22px",
+                  textAlign: "center",
+                  fontFamily: "Noto Sans JP, sans-serif",
+                  fontSize: 14,
+                  color: "var(--ink-3)",
+                  background: "var(--paper)",
+                  border: "var(--border)",
+                  marginTop: 12,
+                }}
+              >
+                本日の確定対局はありません。
+              </div>
+            ) : (
+              <div className="day-section">
+                {todayEvents.map((m, idx) => (
                   <div
                     key={idx}
                     className="match-row"
-                    style={{ ["--oc" as string]: m.oc } as React.CSSProperties}
+                    style={{ ["--oc" as string]: m.tagColor } as React.CSSProperties}
                   >
                     <div className="time">
-                      {m.time}
-                      {m.dur && <span className="dur">{m.dur}</span>}
+                      {m.startTime}
+                      <span className="dur">{m.endTime}</span>
                     </div>
-                    <div className={`status ${m.statusKind}`}>{m.statusLabel}</div>
+                    <div className="status upcoming">予定</div>
                     <div className="title">
                       <h4>
-                        {m.titleHref ? (
-                          <Link href={m.titleHref}>{m.titleText}</Link>
-                        ) : (
-                          <a>{m.titleText}</a>
-                        )}
+                        <a>{m.title}</a>
                       </h4>
                       <div className="sub">{m.sub}</div>
                     </div>
-                    <div className="players">
-                      {m.players.map((p, i) => (
-                        <span key={i} className={`p ${p.lead ? "lead" : ""}`.trim()}>
-                          {p.name}
-                        </span>
-                      ))}
-                    </div>
                     <div className="org-tag">
                       <span className="bar"></span>
-                      {m.org}
-                    </div>
-                    <div className={`action ${m.actionWatch ? "watch" : ""}`.trim()}>
-                      {m.action}
-                      <span className="ch">{m.ch}</span>
+                      {m.channel}
                     </div>
                   </div>
                 ))}
               </div>
-            ))}
+            )}
           </section>
         </div>
 
         <aside>
           <section className="side-card">
             <h3>
-              月間カレンダー<span className="en">April 2026</span>
-            </h3>
-            <div className="mini-cal">
-              <div className="dow-h">M</div>
-              <div className="dow-h">T</div>
-              <div className="dow-h">W</div>
-              <div className="dow-h">T</div>
-              <div className="dow-h">F</div>
-              <div className="dow-h sat">S</div>
-              <div className="dow-h sun">S</div>
-              {MINI_DAYS.map((d, i) => (
-                <div key={i} className={`d ${d.kind ?? ""}`.trim()}>
-                  {d.label}
-                </div>
-              ))}
-            </div>
-            <div
-              style={{
-                marginTop: 14,
-                paddingTop: 12,
-                borderTop: "1px dotted var(--ink-4)",
-                display: "flex",
-                gap: 14,
-                fontSize: 10.5,
-                color: "var(--ink-3)",
-              }}
-            >
-              <span>
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: 5,
-                    height: 5,
-                    borderRadius: "50%",
-                    background: "var(--vermilion)",
-                    marginRight: 5,
-                  }}
-                ></span>
-                対局あり
-              </span>
-              <span style={{ border: "1.5px solid var(--ink)", padding: "0 3px" }}>今日</span>
-              <span style={{ background: "var(--vermilion)", color: "var(--paper)", padding: "0 4px" }}>選択中</span>
-            </div>
-          </section>
-
-          <section className="side-card">
-            <h3>
-              今月のハイライト<span className="en">Key Dates</span>
+              今期の主要タイトル戦
+              <span className="en">Major Titles in Progress</span>
             </h3>
             <div className="jump-list">
-              {JUMPS.map((j) => (
-                <div key={j.d + j.title} className="jump-item">
-                  <div className="d">
-                    {j.d}
-                    <small>{j.dow}</small>
-                  </div>
-                  <div className="t">
-                    {j.title}
-                    <small>{j.sub}</small>
-                  </div>
-                  <div className="c">{j.c}</div>
+              <div className="jump-item">
+                <div className="d">
+                  5/4
+                  <small>月</small>
                 </div>
-              ))}
+                <div className="t">
+                  Mリーグ Final 開幕
+                  <small>5/4 – 5/15 · 月火木金 8日 16試合</small>
+                </div>
+                <div className="c">M·L</div>
+              </div>
+              <div className="jump-item">
+                <div className="d">
+                  5/15
+                  <small>金</small>
+                </div>
+                <div className="t">
+                  Mリーグ Final 最終決戦
+                  <small>17:00 開始 · 表彰式併催 · ベルサール東京日本橋PV</small>
+                </div>
+                <div className="c">M·L</div>
+              </div>
+              <div className="jump-item">
+                <div className="d">
+                  43期
+                  <small>JPML</small>
+                </div>
+                <div className="t">
+                  鳳凰戦
+                  <small>A1〜D 5部制リーグ 進行中</small>
+                </div>
+                <div className="c">JPML</div>
+              </div>
+              <div className="jump-item">
+                <div className="d">
+                  23期
+                  <small>NPM</small>
+                </div>
+                <div className="t">
+                  雀王戦
+                  <small>A〜D 4部制リーグ 進行中</small>
+                </div>
+                <div className="c">NPM</div>
+              </div>
+              <div className="jump-item">
+                <div className="d">
+                  51期
+                  <small>最高位戦</small>
+                </div>
+                <div className="t">
+                  最高位戦
+                  <small>A〜D 部制リーグ 進行中</small>
+                </div>
+                <div className="c">SKO</div>
+              </div>
+              <div className="jump-item">
+                <div className="d">
+                  18期
+                  <small>RMU</small>
+                </div>
+                <div className="t">
+                  令昭位戦
+                  <small>A1〜E 多部制リーグ 進行中</small>
+                </div>
+                <div className="c">RMU</div>
+              </div>
+              <div className="jump-item">
+                <div className="d">
+                  22期
+                  <small>μ</small>
+                </div>
+                <div className="t">
+                  将王戦
+                  <small>認定プロ上位10名 短期決戦 進行中</small>
+                </div>
+                <div className="c">μ</div>
+              </div>
             </div>
           </section>
 
           <section className="side-card">
             <h3>
-              配信チャンネル<span className="en">Broadcasters</span>
+              配信チャンネル
+              <span className="en">Broadcasters</span>
             </h3>
             <div className="ch-list">
-              {CHANNELS.map((c, i) => (
-                <div key={i} className="ch-item">
-                  <div className="badge">{c.badge}</div>
-                  <div className="nm">
-                    {c.name}
-                    <small>{c.sub}</small>
-                  </div>
-                  {c.status}
+              <div className="ch-item">
+                <div className="badge">ABEMA</div>
+                <div className="nm">
+                  ABEMA 麻雀チャンネル
+                  <small>Mリーグ · 各団体タイトル戦</small>
                 </div>
-              ))}
+                <div
+                  style={{
+                    fontFamily: "'Geist Mono'",
+                    fontSize: 10,
+                    color: "var(--ink-3)",
+                    fontWeight: 600,
+                  }}
+                >
+                  主に19:00〜
+                </div>
+              </div>
+              <div className="ch-item">
+                <div className="badge">
+                  連盟
+                  <br />
+                  CH
+                </div>
+                <div className="nm">
+                  麻雀連盟チャンネル
+                  <small>鳳凰位 · 十段位 · 王位 · 桜花</small>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Geist Mono'",
+                    fontSize: 10,
+                    color: "var(--ink-3)",
+                    fontWeight: 600,
+                  }}
+                >
+                  OPENREC他
+                </div>
+              </div>
+              <div className="ch-item">
+                <div className="badge">
+                  最高
+                  <br />
+                  位戦
+                </div>
+                <div className="nm">
+                  最高位戦チャンネル
+                  <small>最高位 · Classic · 發王</small>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Geist Mono'",
+                    fontSize: 10,
+                    color: "var(--ink-3)",
+                    fontWeight: 600,
+                  }}
+                >
+                  YouTube
+                </div>
+              </div>
+              <div className="ch-item">
+                <div className="badge">
+                  RMU
+                  <br />
+                  ch
+                </div>
+                <div className="nm">
+                  RMUチャンネル
+                  <small>令昭位 · クラウン · 闘魂杯</small>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Geist Mono'",
+                    fontSize: 10,
+                    color: "var(--ink-3)",
+                    fontWeight: 600,
+                  }}
+                >
+                  YouTube
+                </div>
+              </div>
+              <div className="ch-item">
+                <div className="badge">
+                  μ-
+                  <br />
+                  TV
+                </div>
+                <div className="nm">
+                  麻将連合TV
+                  <small>将王 · BIG1 · μ-M1</small>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Geist Mono'",
+                    fontSize: 10,
+                    color: "var(--ink-3)",
+                    fontWeight: 600,
+                  }}
+                >
+                  FRESH
+                </div>
+              </div>
             </div>
           </section>
         </aside>
