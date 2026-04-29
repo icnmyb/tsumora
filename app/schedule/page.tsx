@@ -37,6 +37,7 @@ type ScheduledEvent = {
 const URL_M_LEAGUE = "https://m-league.jp/games/";
 const URL_NPM_SCHEDULE = "https://npm2001.com/schedule/";
 const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
+const URL_SAIKOUISEN_A1 = "https://saikouisen.com/results/league/league-a";
 const URL_SAIKOUISEN_A2 = "https://saikouisen.com/results/league/league-a2/";
 const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
 
@@ -292,6 +293,59 @@ const EVENTS: ScheduledEvent[] = [
     tagColor: "#c8282a",
     tagTextColor: "#ebe4d2",
     link: URL_JPML_YOUTUBE,
+  },
+
+  // ── 最高位戦 第51期 A1リーグ（ABEMA 配信）────────────────
+  // 出典: saikouisen.com/results/league/league-a の卓組表
+  // ※ 画像の青色マーク = ABEMA 放送卓（公式注: 全卓ABEMAにて放送、青色箇所が放送卓）
+  // 開始/終了時刻は公式公開待ち、暫定 12:00–20:00
+  {
+    date: "2026-04-29",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A1リーグ 第4節 卓3",
+    sub: "村上 淳・平賀 聡彦・鈴木 優・中嶋 和正",
+    channel: "ABEMA",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A1,
+  },
+  {
+    date: "2026-05-06",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A1リーグ 第4節 卓4",
+    sub: "鈴木 たろう・鈴木 聡一郎・坂井 秀隆・日向 藍子",
+    channel: "ABEMA",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A1,
+  },
+  {
+    date: "2026-05-13",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A1リーグ 第5節 卓1",
+    sub: "石井 一馬・平賀 聡彦・坂井 秀隆・立花 裕",
+    channel: "ABEMA",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A1,
+  },
+  {
+    date: "2026-05-27",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A1リーグ 第5節 卓3",
+    sub: "園田 賢・鈴木 聡一郎・鈴木 優・馬場 翔平",
+    channel: "ABEMA",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A1,
   },
 
   // ── 最高位戦 第51期 A2リーグ（最高位戦ch / YouTube 配信）─────
