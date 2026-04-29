@@ -1294,43 +1294,27 @@ footer.main .cr {
   .st-table .t-name a { color: inherit; border-bottom: 1px dotted transparent; }
   .st-table .t-name a:hover { border-bottom-color: var(--ink); }
 
-  /* DARK系チーム（gradient）の左セル — ライト文字 */
+  /* DARK系チーム（左ソリッド）の左セル — ライト文字 */
   .st-table tbody tr[data-team="konami"] td:nth-child(-n+2),
-  .st-table tbody tr[data-team="beast-x"] td:nth-child(-n+2) {
+  .st-table tbody tr[data-team="beast-x"] td:nth-child(-n+2),
+  .st-table tbody tr[data-team="furinkazan"] td:nth-child(-n+2) {
     color: rgba(255,255,255,0.95);
   }
   .st-table tbody tr[data-team="konami"] .rk,
-  .st-table tbody tr[data-team="beast-x"] .rk {
+  .st-table tbody tr[data-team="beast-x"] .rk,
+  .st-table tbody tr[data-team="furinkazan"] .rk {
     color: rgba(255,255,255,0.95);
   }
   .st-table tbody tr[data-team="konami"] .rk.top3,
-  .st-table tbody tr[data-team="beast-x"] .rk.top3 {
+  .st-table tbody tr[data-team="beast-x"] .rk.top3,
+  .st-table tbody tr[data-team="furinkazan"] .rk.top3 {
     color: #ffd680;
   }
   .st-table tbody tr[data-team="konami"] .t-name small,
-  .st-table tbody tr[data-team="beast-x"] .t-name small {
+  .st-table tbody tr[data-team="beast-x"] .t-name small,
+  .st-table tbody tr[data-team="furinkazan"] .t-name small {
     color: rgba(255,255,255,0.72);
   }
-
-  /* 風林火山 — チーム背景ソリッド (#5a0000) → 行全体ライト文字に */
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) td {
-    color: rgba(255,255,255,0.92);
-    border-bottom-color: rgba(255,255,255,0.08);
-  }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .rk { color: rgba(255,255,255,0.95); }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .rk.top3 { color: #ffd680; }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .t-name a { color: inherit; }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .t-name small { color: rgba(255,255,255,0.65); }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .pts.p { color: #ff9a9a; }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .pts.m { color: #b9e09c; }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .diff-lead { color: #ffc0c0; }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .diff-chase { color: #cce8b3; }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .diff-zero { color: rgba(255,255,255,0.45); }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .bar {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.15);
-  }
-  .st-table tbody tr[data-team="furinkazan"]:not(.is-eliminated) .bar-axis { background: rgba(255,255,255,0.4); }
   .st-table .n { text-align: right; font-family: "Geist Mono"; font-weight: 600; }
   .st-table .n.pts { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
   .st-table .n.pts.p { color: var(--vermilion); }
@@ -1515,35 +1499,19 @@ footer.main .cr {
     text-overflow: ellipsis;
   }
 
-  /* DARK系チーム（gradient）のモバイルカード — ライト文字 */
+  /* DARK系チーム（左ソリッド）のモバイルカード — ライト文字 */
   .st-card[data-team="konami"] .st-card-rk,
-  .st-card[data-team="beast-x"] .st-card-rk { color: rgba(255,255,255,0.95); }
+  .st-card[data-team="beast-x"] .st-card-rk,
+  .st-card[data-team="furinkazan"] .st-card-rk { color: rgba(255,255,255,0.95); }
   .st-card[data-team="konami"] .st-card-rk.top3,
-  .st-card[data-team="beast-x"] .st-card-rk.top3 { color: #ffd680; }
+  .st-card[data-team="beast-x"] .st-card-rk.top3,
+  .st-card[data-team="furinkazan"] .st-card-rk.top3 { color: #ffd680; }
   .st-card[data-team="konami"] .st-card-team,
-  .st-card[data-team="beast-x"] .st-card-team { color: rgba(255,255,255,0.96); }
+  .st-card[data-team="beast-x"] .st-card-team,
+  .st-card[data-team="furinkazan"] .st-card-team { color: rgba(255,255,255,0.96); }
   .st-card[data-team="konami"] .st-card-roster,
-  .st-card[data-team="beast-x"] .st-card-roster { color: rgba(255,255,255,0.7); }
-
-  /* 風林火山 — チーム背景ソリッド → カード全体ライト文字に */
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-rk { color: rgba(255,255,255,0.95); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-rk.top3 { color: #ffd680; }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-team { color: rgba(255,255,255,0.96); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-roster { color: rgba(255,255,255,0.65); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-total.p { color: #ff9a9a; }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-total.m { color: #b9e09c; }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-diff .lbl { color: rgba(255,255,255,0.5); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-diff.diff-lead .val { color: #ffc0c0; }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-diff.diff-chase .val { color: #cce8b3; }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-diff.diff-zero .val { color: rgba(255,255,255,0.5); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-stats { border-top-color: rgba(255,255,255,0.12); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-stats .lbl { color: rgba(255,255,255,0.5); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-stats .val { color: rgba(255,255,255,0.92); }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-bar {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.18);
-  }
-  .st-card[data-team="furinkazan"]:not(.is-eliminated) .st-card-bar .bar-axis { background: rgba(255,255,255,0.4); }
+  .st-card[data-team="beast-x"] .st-card-roster,
+  .st-card[data-team="furinkazan"] .st-card-roster { color: rgba(255,255,255,0.7); }
 
   .st-card-bar {
     position: relative;
