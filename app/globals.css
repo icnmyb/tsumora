@@ -5715,6 +5715,10 @@ footer.main .cr {
 /* ネイティブスクロールバー非表示 → CustomScrollbar.tsxで代替 */
 html { scrollbar-width: none; }
 html::-webkit-scrollbar { display: none; }
+/* モバイルでは 1万点棒 スクロールバーも非表示 */
+@media (max-width: 720px) {
+  .custom-scrollbar { display: none; }
+}
 
 /* /predict Coming Soon */
 .predict-soon { padding: 60px 0 100px; }

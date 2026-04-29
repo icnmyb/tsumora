@@ -29,6 +29,7 @@ export function CustomScrollbar() {
 
   return (
     <div
+      className="custom-scrollbar"
       style={{
         position: "fixed",
         right: "10px",
