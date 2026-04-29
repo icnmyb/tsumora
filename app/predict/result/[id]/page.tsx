@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import "../../predict.css";
 import { getPlayer } from "@/app/players/data";
 import { getTeamBySlug } from "@/app/teams/data";
@@ -330,6 +331,9 @@ function StandingRow({ p }: { p: StandingPlayer }) {
 }
 
 export default async function ResultPage({ params }: { params: Promise<{ id: string }> }) {
+  // /predict が Coming Soon につき本ページも 404 を返す。
+  // 来季 2026-09 Mリーグ 2026-27 開幕で predict 本ローンチ時、この notFound() 行を削除して復活。
+  notFound();
   const { id } = await params;
   const matchNo = id.replace(/[^0-9]/g, "") || "111";
   return (
