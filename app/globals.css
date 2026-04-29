@@ -1256,13 +1256,13 @@ footer.main .cr {
   .st-table td { padding: 10px 14px; border-bottom: 1px dotted var(--ink-4); vertical-align: middle; position: relative; }
   /* チーム別 tint — 大和証券Mリーグ公式バナー準拠の左→右グラデ。左端を濃く */
   .st-table tbody tr[data-team="furinkazan"] {
-    background: linear-gradient(90deg, rgba(216,40,40,0.82) 0%, rgba(15,0,0,0.55) 32%, rgba(15,0,0,0.18) 65%, transparent 95%);
+    background: linear-gradient(90deg, rgba(216,40,40,0.92) 0%, rgba(15,0,0,0.62) 32%, rgba(15,0,0,0.22) 65%, transparent 95%);
   }
   .st-table tbody tr[data-team="konami"] {
     background: linear-gradient(90deg, rgba(232,52,60,0.78) 0%, rgba(180,30,40,0.4) 50%, transparent 95%);
   }
   .st-table tbody tr[data-team="beast-x"] {
-    background: linear-gradient(90deg, rgba(15,75,120,0.82) 0%, rgba(20,80,90,0.42) 45%, rgba(45,63,35,0.2) 75%, transparent 95%);
+    background: linear-gradient(90deg, rgba(15,75,120,0.92) 0%, rgba(20,80,90,0.5) 45%, rgba(45,63,35,0.24) 75%, transparent 95%);
   }
   .st-table tbody tr[data-team="drivens"] {
     background: linear-gradient(90deg, rgba(95,200,90,0.74) 0%, rgba(150,220,90,0.38) 55%, transparent 95%);
@@ -1408,13 +1408,13 @@ footer.main .cr {
   }
   /* チーム別 tint — モバイルは少し濃いめ */
   .st-card[data-team="furinkazan"] {
-    background: linear-gradient(90deg, rgba(216,40,40,0.85) 0%, rgba(15,0,0,0.6) 32%, rgba(15,0,0,0.22) 70%, transparent 95%);
+    background: linear-gradient(90deg, rgba(216,40,40,0.95) 0%, rgba(15,0,0,0.68) 32%, rgba(15,0,0,0.26) 70%, transparent 95%);
   }
   .st-card[data-team="konami"] {
     background: linear-gradient(90deg, rgba(232,52,60,0.85) 0%, rgba(180,30,40,0.42) 55%, transparent 95%);
   }
   .st-card[data-team="beast-x"] {
-    background: linear-gradient(90deg, rgba(15,75,120,0.85) 0%, rgba(20,80,90,0.46) 45%, rgba(45,63,35,0.24) 75%, transparent 95%);
+    background: linear-gradient(90deg, rgba(15,75,120,0.95) 0%, rgba(20,80,90,0.54) 45%, rgba(45,63,35,0.28) 75%, transparent 95%);
   }
   .st-card[data-team="drivens"] {
     background: linear-gradient(90deg, rgba(95,200,90,0.78) 0%, rgba(150,220,90,0.42) 55%, transparent 95%);
