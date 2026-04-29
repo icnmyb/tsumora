@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import type { Metadata } from "next";
 import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
+import { SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
 
 export const metadata: Metadata = {
   title: "Mリーグ 2025-26 — TSUMORA",
@@ -111,6 +112,14 @@ export default function MleaguePage() {
   const totalPlayers = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
   // バーは max abs で正規化、片側 50% にキャップしてはみ出しを防ぐ
   const maxAbs = Math.max(...standings.map((s) => Math.abs(s.totalPts)), 1);
+  // SEMIFINAL の試合数を team-slug でルックアップ可能にする
+  const sfGamesByTeam = new Map<string, { gamesPlayed: number; gamesTotal: number }>();
+  for (const ss of SEMIFINAL_2025_26.standings) {
+    sfGamesByTeam.set(ss.teamSlug, {
+      gamesPlayed: ss.gamesPlayed,
+      gamesTotal: ss.gamesTotal,
+    });
+  }
   // F進出ライン (4位) のポイント — ボーダー差計算に使用
   const borderPts = standings[3]?.totalPts ?? 0;
 
@@ -173,6 +182,7 @@ export default function MleaguePage() {
               <th style={{ width: 88 }}>ライン</th>
               <th className="pts-th">ポイント</th>
               <th className="n">ボーダー差</th>
+              <th className="n">試合数</th>
               <th className="n">平均1位率</th>
               <th className="n">最高素点</th>
             </tr>
@@ -227,6 +237,12 @@ export default function MleaguePage() {
                     }`}
                   >
                     {isBorder ? "—" : fmtPts(diff)}
+                  </td>
+                  <td className="n">
+                    {(() => {
+                      const sf = sfGamesByTeam.get(s.team.slug);
+                      return sf ? `${sf.gamesPlayed}/${sf.gamesTotal}` : "—";
+                    })()}
                   </td>
                   <td className="n">
                     {s.topRateAvg > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
@@ -384,6 +400,15 @@ export default function MleaguePage() {
                   <span className="lbl">ボーダー差</span>
                   <span className="val">
                     {isBorder ? "±0.0" : fmtPts(s.totalPts - borderPts)}
+                  </span>
+                </div>
+                <div className="stat">
+                  <span className="lbl">試合数</span>
+                  <span className="val">
+                    {(() => {
+                      const sf = sfGamesByTeam.get(s.team.slug);
+                      return sf ? `${sf.gamesPlayed}/${sf.gamesTotal}` : "—";
+                    })()}
                   </span>
                 </div>
                 <div className="stat">
