@@ -1377,12 +1377,10 @@ footer.main .cr {
   .st-table .diff-chase { color: var(--moss); opacity: 0.85; }
   .st-table .diff-zero { color: var(--ink-4); font-size: 16px; font-weight: 400; }
 
-  /* ボーダー行 — 4位を視覚的に強調 */
+  /* ボーダー行 — 4位を視覚的に強調（チーム tint は残し dashed のみ） */
   .st-table tr.is-border td {
-    background: rgba(160,126,40,.06);
     border-bottom: 2px dashed rgba(160,126,40,.5);
   }
-  .st-table tr.is-border:hover td { background: rgba(160,126,40,.1); }
 
   .standings-wrap .line-tag {
     display: inline-block; font-family: "Geist Mono", ui-monospace, monospace;
@@ -1455,7 +1453,6 @@ footer.main .cr {
   }
   .st-card:last-child { border-bottom: 0; }
   .st-card.is-border {
-    background: rgba(160,126,40,.08);
     border-bottom: 2px dashed rgba(160,126,40,.55);
   }
   .st-card.is-eliminated .st-card-link {
