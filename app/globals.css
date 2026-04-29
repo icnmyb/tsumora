@@ -4719,15 +4719,7 @@ footer.main .cr {
   .hmb-collabel-top { font-size: 10px; }
   .hmb-collabel-sub { font-size: 9px; }
   .hmb-bd { font-size: 10px; }
-  /* Mobile: チーム名とサブを縦積みにして折り返し回避 */
-  .hmb-team-block {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-    justify-content: center;
-  }
   .hmb-team-name { font-size: 14px; }
-  .hmb-team-sub { font-size: 9px; letter-spacing: 0.1em; }
 }
 .hmb-list {
   position: relative;
@@ -4778,16 +4770,6 @@ footer.main .cr {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.hmb-team-sub {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  color: rgba(235,228,210,.45);
-  font-weight: 600;
-}
-.hmb-row.in-final .hmb-team-sub {
-  color: #f0c86d;
 }
 .hmb-pt {
   font-family: "Geist Mono", ui-monospace, monospace;
@@ -4851,11 +4833,6 @@ footer.main .cr {
   background: rgba(240,200,109,.04);
   border-bottom: 2px dashed rgba(240,200,109,.45);
 }
-.hmb-row.is-border .hmb-team-sub {
-  color: rgba(240,200,109,.65);
-  font-weight: 700;
-}
-
 @media (max-width: 980px) {
   .home-hero-grid {
     grid-template-columns: repeat(2, 1fr);

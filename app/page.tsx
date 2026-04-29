@@ -282,9 +282,6 @@ export default function Home() {
                 <span className="hmb-rk">{KANJI_RANK[idx]}</span>
                 <div className="hmb-team-block">
                   <span className="hmb-team-name">{s.team.shortName}</span>
-                  <span className="hmb-team-sub">
-                    {isBorder ? "ボーダー" : inFinal ? "F進出圏" : "圏外"}
-                  </span>
                 </div>
                 <span className="hmb-pt-stack">
                   <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
@@ -587,11 +584,9 @@ export default function Home() {
               <Link href="/mleague" className="hmb-more">標識 →</Link>
             </div>
             <div className="hmb-collabel">
-              <span className="hmb-collabel-team">CHIMU · チーム</span>
               <span className="hmb-collabel-pts">
-                <span>合計 PTS</span>
-                <span className="hmb-collabel-sep">/</span>
-                <span>vs ボーダー</span>
+                <span className="hmb-collabel-top">合計ポイント</span>
+                <span className="hmb-collabel-sub">ボーダーとの差</span>
               </span>
             </div>
             <div className="hmb-list">
@@ -612,9 +607,6 @@ export default function Home() {
                     <span className="hmb-rk">{KANJI_RANK[idx]}</span>
                     <div className="hmb-team-block">
                       <span className="hmb-team-name">{s.team.shortName}</span>
-                      <span className="hmb-team-sub">
-                        {isBorder ? "ボーダー" : inFinal ? "F進出圏" : "圏外"}
-                      </span>
                     </div>
                     <span className="hmb-pt-stack">
                       <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
