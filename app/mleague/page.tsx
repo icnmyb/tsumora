@@ -186,29 +186,21 @@ export default function MleaguePage() {
               const lineClass = top4 ? "f" : top6 ? "s" : "x";
               const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
               const diff = s.totalPts - borderPts;
-              const markText = getContrastText(s.team.color);
               return (
                 <tr
                   key={s.team.slug}
                   className={`${isBorder ? "is-border" : ""}${isEliminated ? " is-eliminated" : ""}`.trim()}
+                  style={{ ["--team-c" as string]: s.team.color } as React.CSSProperties}
                 >
                   <td className={`rk ${idx < 3 ? "top3" : ""}`.trim()}>
                     {KANJI_RANK[idx] ?? `${idx + 1}`}
                   </td>
                   <td>
-                    <div className="team-cell">
-                      <span
-                        className="team-mark"
-                        style={{ background: s.team.color, color: markText }}
-                      >
-                        {s.team.kanji}
-                      </span>
-                      <div className="t-name">
-                        <Link href={`/teams/${s.team.slug}`}>{s.team.name}</Link>
-                        <small>
-                          {s.rosterPlayers.map((p) => p.name).join(" / ") || "選手データ準備中"}
-                        </small>
-                      </div>
+                    <div className="t-name">
+                      <Link href={`/teams/${s.team.slug}`}>{s.team.name}</Link>
+                      <small>
+                        {s.rosterPlayers.map((p) => p.name).join(" / ") || "選手データ準備中"}
+                      </small>
                     </div>
                   </td>
                   <td>
@@ -258,11 +250,11 @@ export default function MleaguePage() {
             const lineClass = top4 ? "f" : top6 ? "s" : "x";
             const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
             const diff = s.totalPts - borderPts;
-            const markText = getContrastText(s.team.color);
             return (
               <li
                 key={s.team.slug}
                 className={`st-card${isBorder ? " is-border" : ""}${isEliminated ? " is-eliminated" : ""}`}
+                style={{ ["--team-c" as string]: s.team.color } as React.CSSProperties}
               >
                 <Link
                   href={`/teams/${s.team.slug}`}
@@ -271,15 +263,6 @@ export default function MleaguePage() {
                   <div className="st-card-top">
                     <span className={`st-card-rk${idx < 3 ? " top3" : ""}`}>
                       {KANJI_RANK[idx] ?? `${idx + 1}`}
-                    </span>
-                    <span
-                      className="st-card-mark"
-                      style={{
-                        background: s.team.color,
-                        color: markText,
-                      }}
-                    >
-                      {s.team.kanji}
                     </span>
                     <div className="st-card-name">
                       <span className="st-card-team">{s.team.name}</span>
