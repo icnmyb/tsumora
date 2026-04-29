@@ -1677,7 +1677,7 @@ footer.main .cr {
   .team-card {
     border: var(--border);
     box-shadow: var(--shadow-sm);
-    padding: 22px 28px 18px;
+    padding: 22px 24px 18px;
     position: relative;
     overflow: hidden;
     transition: transform .15s ease, box-shadow .15s ease;
@@ -1690,14 +1690,13 @@ footer.main .cr {
     position: absolute; top: 0; left: 0; right: 0;
     height: 5px;
     background: var(--tc);
-    z-index: 2;
   }
   .team-card .watermark {
     position: absolute;
-    top: 8px; right: -24px;
+    top: 8px; right: -16px;
     font-family: "Shippori Mincho", serif;
     font-weight: 900;
-    font-size: 180px;
+    font-size: 200px;
     line-height: 0.85;
     color: var(--tc);
     opacity: 0.16;
@@ -1708,7 +1707,9 @@ footer.main .cr {
   }
 
   .team-card > .head,
-  .team-card > .roster {
+  .team-card .roster,
+  .team-card .team-roster,
+  .team-card .team-stats {
     position: relative;
     z-index: 1;
   }
@@ -1750,9 +1751,6 @@ footer.main .cr {
     text-transform: uppercase;
     opacity: 0.6;
     margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .team-card .head-name {
     margin: 0;
@@ -1786,8 +1784,6 @@ footer.main .cr {
     font-size: 22px;
     letter-spacing: -0.02em;
     line-height: 1;
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum" 1;
   }
   .team-card .head-pts .pt-val.p { color: #ff6b6b; }
   .team-card .head-pts .pt-val.m { color: #a3c78c; }
@@ -1895,7 +1891,8 @@ footer.main .cr {
     list-style: none;
     margin: 0;
     padding: 12px 0 0;
-    border-top: 1px solid rgba(255,255,255,0.18);
+    border-top: 1px solid currentColor;
+    border-top-color: rgba(255,255,255,0.18);
   }
   /* デスクトップ: details を透明化、summary 非表示で roster を直接表示 */
   @media (min-width: 721px) {
@@ -1959,8 +1956,9 @@ footer.main .cr {
     transition: opacity .25s ease, filter .25s ease;
   }
   .team-card.is-eliminated:hover {
-    opacity: 0.85;
-    filter: saturate(0.7);
+    opacity: 0.9;
+    filter: saturate(0.75);
+    transform: translate(-2px, -2px);
   }
   .team-card.is-eliminated:has(.team-roster[open]) {
     opacity: 1;
@@ -1974,7 +1972,7 @@ footer.main .cr {
     .team-card .head { grid-template-columns: auto 1fr auto; gap: 10px; margin-bottom: 8px; padding-top: 2px; }
     .team-card .head-rank .rk-num { font-size: 26px; }
     .team-card .head-rank .rk-unit { font-size: 12px; }
-    .team-card .head-meta { font-size: 9px; margin-bottom: 2px; }
+    .team-card .head-meta { font-size: 9px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .team-card .head-name { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: clip; }
     /* スマホはスポンサー情報を非表示 */
     .team-card .head-sponsor { display: none; }
