@@ -352,7 +352,7 @@ export default function MleaguePage() {
             <Fragment key={s.team.slug}>
             <div
               data-team={s.team.slug}
-              className={`team-card${isEliminated ? " is-eliminated" : ""}`}
+              className={`team-card${isEliminated ? " is-eliminated" : ""}${isBorder ? " is-border" : ""}`}
               style={
                 {
                   ["--tc" as string]: s.team.color,
@@ -378,12 +378,15 @@ export default function MleaguePage() {
                   <h3 className="head-name">
                     <Link href={`/teams/${s.team.slug}`}>{s.team.name}</Link>
                   </h3>
+                  <div className="head-sponsor">
+                    {s.team.parentCompany} · {s.team.joinedSeason}〜
+                  </div>
                 </div>
                 <div className="head-pts">
-                  <span className="pt-lbl">合計 PTS</span>
                   <span className={`pt-val ${s.totalPts >= 0 ? "p" : "m"}`}>
                     {fmtPts(s.totalPts)}
                   </span>
+                  <span className="pt-lbl">合計 PTS</span>
                 </div>
               </div>
 
