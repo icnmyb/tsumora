@@ -37,7 +37,7 @@ type ScheduledEvent = {
 const URL_M_LEAGUE = "https://m-league.jp/games/";
 const URL_NPM_SCHEDULE = "https://npm2001.com/schedule/";
 const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
-const URL_ABEMA_MAHJONG = "https://abema.tv/channels/mahjong";
+const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
 
 // 当日かつ ABEMA 配信の場合は ABEMA 麻雀チャンネルへ遷移、それ以外は既定リンク
 function resolveEventLink(ev: ScheduledEvent, todayISO: string): string | undefined {
