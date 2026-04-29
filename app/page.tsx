@@ -76,32 +76,32 @@ function MLeagueStandingsCard({
     <>
       <div className="hmb-head">
         <div className="hmb-head-top">
-          <h2 className="hmb-title">Mリーグ順位表</h2>
+          <div className="hmb-title-group">
+            <h2 className="hmb-title">Mリーグ順位表</h2>
+            <span className="hmb-phase-chip">SEMIFINAL</span>
+          </div>
           <Link href="/mleague" className="hmb-more">
             標識 →
           </Link>
         </div>
-        <div className="hmb-phase-line">
-          <span className="hmb-phase-chip">
-            <span className="hmb-phase-en">SEMIFINAL</span>
-          </span>
-          <span className="hmb-phase-meta">
+        <div className="hmb-progress-row">
+          <div className="hmb-progress-track">
+            <div
+              className="hmb-progress-fill"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
+          <span className="hmb-progress-count">
             <b>{sf.gamesPlayed}</b>
             <span className="hmb-meta-slash">/</span>
             <span className="hmb-meta-total">{sf.totalGames}</span>
             <span className="hmb-meta-unit">試合</span>
           </span>
         </div>
-        <div className="hmb-progress-track">
-          <div
-            className="hmb-progress-fill"
-            style={{ width: `${progressPct}%` }}
-          />
-        </div>
-        <div className="hmb-progress-meta">
+        <div className="hmb-meta-row">
           <span>2025-26 · 残り {remaining} 試合</span>
-          <span className="hmb-progress-line">
-            上位 {sf.finalLine} チーム → FINAL進出
+          <span className="hmb-meta-final">
+            上位 {sf.finalLine} → FINAL
           </span>
         </div>
       </div>
