@@ -3573,8 +3573,13 @@ footer.main .cr {
 
 .home-hero-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
+}
+@media (max-width: 1180px) {
+  .home-hero-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 @media (max-width: 880px) {
   .home-hero-grid {

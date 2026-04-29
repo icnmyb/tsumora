@@ -2,7 +2,7 @@
 // 7タイトル戦のデータ。歴代優勝者は app/players/data.ts の Featured 選手 titles[]
 // + Wikipedia / 各団体公式サイトから検証して掲載。確信度の低い項目は省く。
 
-export type OrgCode = "JPML" | "NPM" | "SAIKOUISEN" | "RMU";
+export type OrgCode = "JPML" | "NPM" | "SAIKOUISEN" | "RMU" | "MU";
 
 export interface PastChampion {
   ep: string;        // "42" / "23" など (期数)
@@ -400,6 +400,36 @@ export const TITLES: TitleData[] = [
       { slug: "houou-isen", name: "鳳凰位戦" },
     ],
   },
+
+  // ── 8. 将王戦 (MU 麻将連合-μ-) ────────────────────────────
+  {
+    slug: "shouou-isen",
+    href: "/titles/shouou-isen",
+    code: "08 · SHŌŌ",
+    name: "将王戦",
+    shortName: "将王",
+    en: "The Shōō Championship",
+    glyph: "将",
+    color: "#2f5c3f",
+    org: "MU",
+    orgLabel: "麻将連合-μ-",
+    orgHref: "/organizations/mu",
+    holder: { name: "忍田 幸夫" },
+    season: "通年 · 短期決戦",
+    tags: ["μ最高峰", "短期決戦", "認定プロ上位10名"],
+    formatLabel: "認定プロ上位10名による短期決戦",
+    about: [
+      "将王戦は麻将連合-μ- (MU) が主催する団体最高峰のタイトル戦。認定プロ上位10名で行われる短期決戦で、年に一度の将王を決める。",
+      "現将王は忍田幸夫。長らく君臨している。",
+    ],
+    pastChampions: [
+      // 詳細データは調査中（μ公式の歴代記録要確認）
+    ],
+    relatedTitles: [
+      { slug: "houou-isen", name: "鳳凰位戦" },
+      { slug: "saikouisen", name: "最高位戦" },
+    ],
+  },
 ];
 
 export type FilterTab = {
@@ -415,6 +445,7 @@ export const TITLE_FILTERS: FilterTab[] = [
   { key: "NPM", label: "NPM", en: "協会", color: "#2563eb" },
   { key: "SAIKOUISEN", label: "最高位戦", en: "Saikōisen", color: "#7c3aed" },
   { key: "RMU", label: "RMU", en: "Real Mahjong Unit", color: "var(--gold)" },
+  { key: "MU", label: "μ", en: "麻将連合-μ-", color: "#2f5c3f" },
 ];
 
 export function getTitleBySlug(slug: string): TitleData | undefined {

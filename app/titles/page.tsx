@@ -31,8 +31,8 @@ export default function TitlesIndexPage() {
               <span className="en">Major Mahjong Championships</span>
             </h1>
             <div className="tags">
-              <span className="highlight">● 主要タイトル 7冠</span>
-              <span>4団体横断</span>
+              <span className="highlight">● 主要タイトル 8冠</span>
+              <span>5団体横断</span>
               <span>リーグ戦・トーナメント</span>
               <span>現保持者情報</span>
             </div>

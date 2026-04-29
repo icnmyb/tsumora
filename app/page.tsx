@@ -47,8 +47,8 @@ const MLEAGUE_LOGO_COLORS: Record<string, string> = {
 
 const KANJI_RANK = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
 
-// 各主要団体から1タイトルずつ厳選 (4団体 → 4タイトル)
-const ORG_PRIORITY = ["JPML", "NPM", "SAIKOUISEN", "RMU"] as const;
+// 各主要団体から最高峰タイトルを1つずつ厳選 (5団体 → 5タイトル)
+const ORG_PRIORITY = ["JPML", "NPM", "SAIKOUISEN", "RMU", "MU"] as const;
 
 const DOW_JA = ["日", "月", "火", "水", "木", "金", "土"];
 function dayLabel(dateIso: string): string {
@@ -91,12 +91,12 @@ export default function Home() {
   const topStory = sortedNews[0];
   const otherNews = sortedNews.slice(1, 3);
 
-  // 団体ごとに最も代表的なタイトル戦を1つずつ選んで4つに
+  // 団体ごとに最も代表的なタイトル戦を1つずつ選んで5つに
   const featuredTitles = ORG_PRIORITY.map((org) => TITLES.find((t) => t.org === org)).filter(
     (t): t is NonNullable<typeof t> => Boolean(t),
   );
 
-  // HERO上部 4団体それぞれの現タイトル保持者
+  // HERO上部 5団体それぞれの現タイトル保持者
   const heroTitlists = ORG_PRIORITY.map((org) => {
     const titlist = currentTitlists.find((t) => t.title.org === org);
     return titlist;
@@ -247,7 +247,7 @@ export default function Home() {
         </aside>
       </section>
 
-      {/* 現タイトル保持者 — 4団体 banzuke */}
+      {/* 現タイトル保持者 — 5団体 banzuke */}
       <section className="home-titlists" style={{ marginBottom: 22 }}>
         <header className="ht-head">
           <div className="ht-kicker">
@@ -256,7 +256,7 @@ export default function Home() {
           </div>
         </header>
         <div className="home-hero-grid">
-          {heroTitlists.slice(0, 4).map((t, idx) => (
+          {heroTitlists.slice(0, 5).map((t, idx) => (
             <Link
               key={t.title.slug}
               href={`/titles/${t.title.slug}`}
@@ -317,14 +317,14 @@ export default function Home() {
 
       <div className="grid-2col">
         <div className="col">
-          {/* TITLES (4団体 bento) */}
+          {/* TITLES (5団体 bento) */}
           <section className="home-titles-section">
             <h2 className="home-section-h">
               <span className="hsh-num">01</span>
               <span className="hsh-jp">主要タイトル戦</span>
-              <span className="hsh-en">Major Championships · 4 Bodies</span>
+              <span className="hsh-en">Major Championships · 5 Bodies</span>
               <span className="hsh-rule"></span>
-              <Link href="/titles" className="hsh-more">ALL 7 TITLES →</Link>
+              <Link href="/titles" className="hsh-more">ALL 8 TITLES →</Link>
             </h2>
             <div className="home-titles-bento">
               {featuredTitles.map((t) => {
