@@ -343,36 +343,49 @@ export default function MleaguePage() {
       <div className="team-grid">
         {standings.map((s, idx) => {
           const isEliminated = idx >= 6;
-          const markText = getContrastText(s.team.color);
+          const accent = s.team.colorOnDark ?? s.team.color;
+          const avText = getContrastText(s.team.color);
           return (
             <div
               key={s.team.slug}
               className={`team-card${isEliminated ? " is-eliminated" : ""}`}
-              style={{ ["--tc" as string]: s.team.color } as React.CSSProperties}
+              style={
+                {
+                  ["--tc" as string]: s.team.color,
+                  ["--tc-text" as string]: accent,
+                  background: s.team.background ?? "var(--paper)",
+                  color: accent,
+                } as React.CSSProperties
+              }
             >
-              <div className="band"></div>
+              <span className="band" aria-hidden="true" />
+              <span className="watermark" aria-hidden="true">
+                {s.team.kanji}
+              </span>
               <div className="head">
-                <div
-                  className="mark"
-                  style={{ background: s.team.color, color: markText }}
-                >
-                  {s.team.kanji}
+                <div className="head-rank">
+                  <span className="rk-num">{idx + 1}</span>
+                  <span className="rk-unit">位</span>
                 </div>
-                <div className="head-text">
-                  <h3>
-                    <Link href={`/teams/${s.team.slug}`} style={{ color: "inherit", textDecoration: "none" }}>
-                      {s.team.name}
-                    </Link>
+                <div className="head-info">
+                  <div className="head-meta">
+                    {String(idx + 1).padStart(2, "0")} · {s.team.nameEn.toUpperCase()}
+                  </div>
+                  <h3 className="head-name">
+                    <Link href={`/teams/${s.team.slug}`}>{s.team.name}</Link>
                   </h3>
-                  <div className="sponsor">{s.team.parentCompany}</div>
-                </div>
-                <div className="rk-pt">
-                  <div className="head-rk">{idx + 1}位</div>
-                  <div className={`head-pt ${s.totalPts >= 0 ? "p" : "m"}`}>
-                    {fmtPts(s.totalPts)}
+                  <div className="head-sponsor">
+                    {s.team.parentCompany} · {s.team.joinedSeason}〜
                   </div>
                 </div>
+                <div className="head-pts">
+                  <div className={`pt-val ${s.totalPts >= 0 ? "p" : "m"}`}>
+                    {fmtPts(s.totalPts)}
+                  </div>
+                  <div className="pt-lbl">合計 PTS</div>
+                </div>
               </div>
+
               <ul className="roster">
                 {s.rosterPlayers.map((p) => {
                   const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
@@ -381,7 +394,7 @@ export default function MleaguePage() {
                     <li key={p.id} className="p">
                       <span
                         className="av"
-                        style={{ background: s.team.color, color: markText }}
+                        style={{ background: s.team.color, color: avText }}
                       >
                         {getMonogram(p.name)}
                       </span>
