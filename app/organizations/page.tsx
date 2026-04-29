@@ -1,4 +1,17 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "プロ団体 — TSUMORA",
+  description:
+    "日本のプロ麻雀5団体（JPML / 最高位戦 / NPM / RMU / μ）の概要・主要タイトル戦・所属プロ。",
+  openGraph: {
+    title: "プロ団体 — TSUMORA",
+    description: "日本のプロ麻雀5団体一覧。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 type OrgCard = {
   slug: string;

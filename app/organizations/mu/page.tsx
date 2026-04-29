@@ -1,4 +1,17 @@
+import type { Metadata } from "next";
 import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
+
+export const metadata: Metadata = {
+  title: "麻将連合-μ- — TSUMORA",
+  description:
+    "1997年設立、麻将連合-μ-の概要・主要タイトル戦（μリーグ / BIG1カップ / 将妃戦 ほか）・所属プロ。",
+  openGraph: {
+    title: "麻将連合-μ- — TSUMORA",
+    description: "μ の概要・主要タイトル戦・所属プロ。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 const MU_ACCENT = "#2f5c3f";
 

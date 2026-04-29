@@ -1,4 +1,17 @@
+import type { Metadata } from "next";
 import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
+
+export const metadata: Metadata = {
+  title: "麻雀競技連盟（RMU）— TSUMORA",
+  description:
+    "2007年設立、麻雀競技連盟（RMU）の概要・主要タイトル戦（令昭位戦 / RMUクラウン / 闘魂杯 ほか）・所属プロ。",
+  openGraph: {
+    title: "麻雀競技連盟（RMU）— TSUMORA",
+    description: "RMU の概要・主要タイトル戦・所属プロ。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 const RMU_ACCENT = "#a07e28";
 

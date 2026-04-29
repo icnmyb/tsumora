@@ -1,4 +1,17 @@
+import type { Metadata } from "next";
 import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
+
+export const metadata: Metadata = {
+  title: "最高位戦日本プロ麻雀協会 — TSUMORA",
+  description:
+    "1976年設立、最高位戦日本プロ麻雀協会の概要・主要タイトル戦（最高位戦 / Classic / 發王戦 ほか）・所属プロ。",
+  openGraph: {
+    title: "最高位戦日本プロ麻雀協会 — TSUMORA",
+    description: "最高位戦の概要・主要タイトル戦・所属プロ。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 const SAIKOUISEN_ACCENT = "#7c3aed";
 

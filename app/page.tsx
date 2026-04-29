@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
@@ -56,6 +57,19 @@ function dayLabel(dateIso: string): string {
   const dt = new Date(Date.UTC(y, m - 1, d));
   return DOW_JA[dt.getUTCDay()] ?? "—";
 }
+
+export const metadata: Metadata = {
+  title: "TSUMORA — The Pro Mahjong Review",
+  description:
+    "5つのプロ団体（JPML / 最高位戦 / NPM / RMU / μ）と Mリーグの選手・タイトル戦・対局を1つの編集視点で扱うポータル。JPML 39期・鷹見としや 運営。",
+  openGraph: {
+    title: "TSUMORA — The Pro Mahjong Review",
+    description:
+      "5つのプロ団体と Mリーグを横断する編集ポータル。JPML 現役プロが運営。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 export default function Home() {
   const sf = SEMIFINAL_2025_26;

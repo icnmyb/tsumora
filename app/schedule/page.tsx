@@ -1,4 +1,17 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "対局スケジュール — TSUMORA",
+  description:
+    "Mリーグ・各団体タイトル戦の年間スケジュール。鳳凰位戦・十段位戦・最高位戦・雀王戦 ほか、主要対局カレンダー。",
+  openGraph: {
+    title: "対局スケジュール — TSUMORA",
+    description: "Mリーグ・タイトル戦の年間スケジュール。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 type CalEvent = {
   top: number;

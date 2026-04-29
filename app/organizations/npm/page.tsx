@@ -1,4 +1,17 @@
+import type { Metadata } from "next";
 import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
+
+export const metadata: Metadata = {
+  title: "日本プロ麻雀協会（NPM）— TSUMORA",
+  description:
+    "2001年設立、日本プロ麻雀協会（NPM）の概要・主要タイトル戦（雀王戦 / 雀竜位戦 ほか）・所属プロ。",
+  openGraph: {
+    title: "日本プロ麻雀協会（NPM）— TSUMORA",
+    description: "NPM の概要・主要タイトル戦・所属プロ。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 const NPM_ACCENT = "#2563eb";
 

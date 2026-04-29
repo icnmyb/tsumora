@@ -1,4 +1,17 @@
+import type { Metadata } from "next";
 import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
+
+export const metadata: Metadata = {
+  title: "日本プロ麻雀連盟（JPML）— TSUMORA",
+  description:
+    "1981年設立、日本プロ麻雀連盟（JPML）の概要・主要タイトル戦（鳳凰位 / 十段位 / 王位 / 女流桜花 ほか）・所属プロ。",
+  openGraph: {
+    title: "日本プロ麻雀連盟（JPML）— TSUMORA",
+    description: "JPML の概要・主要タイトル戦・所属プロ。",
+    siteName: "TSUMORA",
+    type: "website",
+  },
+};
 
 const JPML: OrgDetailPageData = {
   crumbLabel: "日本プロ麻雀連盟",
