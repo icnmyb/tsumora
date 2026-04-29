@@ -4715,8 +4715,19 @@ footer.main .cr {
   .hmb-title { font-size: 18px; }
   .hmb-en { font-size: 9px; }
   .hmb-row { padding: 0 14px; gap: 8px; grid-template-columns: 6px 28px 1fr 96px; }
-  .hmb-collabel { padding: 8px 14px 6px; gap: 8px; grid-template-columns: 6px 28px 1fr 96px; font-size: 8px; letter-spacing: 0.14em; }
+  .hmb-collabel { padding: 10px 14px 8px; gap: 8px; grid-template-columns: 6px 28px 1fr 96px; }
+  .hmb-collabel-top { font-size: 10px; }
+  .hmb-collabel-sub { font-size: 9px; }
   .hmb-bd { font-size: 10px; }
+  /* Mobile: チーム名とサブを縦積みにして折り返し回避 */
+  .hmb-team-block {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    justify-content: center;
+  }
+  .hmb-team-name { font-size: 14px; }
+  .hmb-team-sub { font-size: 9px; letter-spacing: 0.1em; }
 }
 .hmb-list {
   position: relative;
@@ -4805,34 +4816,34 @@ footer.main .cr {
 .hmb-bd--chase { color: rgba(255,138,114,.9); }
 .hmb-bd--zero { color: rgba(235,228,210,.4); font-size: 14px; }
 
-/* Column label row above standings */
+/* Column label row above standings — 値スタックと同じ右寄せ */
 .hmb-collabel {
   display: grid;
   grid-template-columns: 6px 32px 1fr 110px;
   gap: 12px;
   align-items: center;
-  padding: 8px 16px 6px;
+  padding: 10px 16px 8px;
   border-bottom: 1px solid rgba(235,228,210,.08);
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: rgba(235,228,210,.4);
-  text-transform: uppercase;
-}
-.hmb-collabel-team {
-  grid-column: 3 / 4;
 }
 .hmb-collabel-pts {
   grid-column: 4 / 5;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  line-height: 1;
+  font-family: "Shippori Mincho", serif;
+  letter-spacing: 0.04em;
 }
-.hmb-collabel-sep {
-  color: rgba(235,228,210,.25);
+.hmb-collabel-top {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(235,228,210,.85);
+}
+.hmb-collabel-sub {
+  font-size: 10px;
   font-weight: 400;
+  color: rgba(235,228,210,.45);
 }
 
 /* Border row — subtle highlight (the row that defines the FINAL LINE) */
