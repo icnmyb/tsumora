@@ -4,7 +4,8 @@ import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
 import { NEWS, getCategoryLabel } from "@/app/news/data";
-import { SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
+import { SEMIFINAL_2025_26, type SemifinalState, type SFTeamStanding } from "@/app/mleague/sf-data";
+import type { TeamData } from "@/app/teams/data";
 import {
   computeTitleRanking,
   fmtPts,
@@ -56,6 +57,100 @@ function dayLabel(dateIso: string): string {
   if (!y || !m || !d) return "—";
   const dt = new Date(Date.UTC(y, m - 1, d));
   return DOW_JA[dt.getUTCDay()] ?? "—";
+}
+
+type EnrichedSFStanding = SFTeamStanding & { team: TeamData };
+
+function MLeagueStandingsCard({
+  sf,
+  sfStandings,
+  borderPts,
+}: {
+  sf: SemifinalState;
+  sfStandings: EnrichedSFStanding[];
+  borderPts: number;
+}) {
+  const remaining = sf.totalGames - sf.gamesPlayed;
+  const progressPct = (sf.gamesPlayed / sf.totalGames) * 100;
+  return (
+    <>
+      <div className="hmb-head">
+        <div className="hmb-head-top">
+          <h2 className="hmb-title">Mリーグ順位表</h2>
+          <Link href="/mleague" className="hmb-more">
+            標識 →
+          </Link>
+        </div>
+        <div className="hmb-phase-line">
+          <span className="hmb-phase-chip">
+            <span className="hmb-phase-en">SEMIFINAL</span>
+            <span className="hmb-phase-jp">準決勝</span>
+          </span>
+          <span className="hmb-phase-meta">
+            <b>{sf.gamesPlayed}</b>
+            <span className="hmb-meta-slash">/</span>
+            <span className="hmb-meta-total">{sf.totalGames}</span>
+            <span className="hmb-meta-unit">試合</span>
+          </span>
+        </div>
+        <div className="hmb-progress-track">
+          <div
+            className="hmb-progress-fill"
+            style={{ width: `${progressPct}%` }}
+          />
+        </div>
+        <div className="hmb-progress-meta">
+          <span>2025-26 · 残り {remaining} 試合</span>
+          <span className="hmb-progress-line">
+            上位 {sf.finalLine} チーム → FINAL進出
+          </span>
+        </div>
+      </div>
+
+      <ul className="hmb-list">
+        {sfStandings.map((s, idx) => {
+          const rank = idx + 1;
+          const inFinal = rank <= sf.finalLine;
+          const isBorder = rank === sf.finalLine;
+          const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
+          const diff = s.total - borderPts;
+          return (
+            <li
+              key={s.team.slug}
+              className={`hmb-row${inFinal ? " in-final" : ""}${isBorder ? " is-border" : ""}`}
+              style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
+            >
+              <Link href={`/teams/${s.team.slug}`} className="hmb-row-link">
+                <span className="hmb-strip" aria-hidden="true"></span>
+                <span className="hmb-rk">{KANJI_RANK[idx]}</span>
+                <span className="hmb-team-name">{s.team.shortName}</span>
+                <span className="hmb-pt-stack">
+                  <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
+                    {fmtPts(s.total)}
+                  </span>
+                  {isBorder ? (
+                    <span className="hmb-bd hmb-bd--zero">
+                      <span className="hmb-bd-lbl">ボーダー</span>
+                      <span className="hmb-bd-val">±0.0</span>
+                    </span>
+                  ) : (
+                    <span
+                      className={`hmb-bd ${
+                        diff > 0 ? "hmb-bd--lead" : "hmb-bd--chase"
+                      }`}
+                    >
+                      <span className="hmb-bd-lbl">ボーダー</span>
+                      <span className="hmb-bd-val">{fmtPts(diff)}</span>
+                    </span>
+                  )}
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
 }
 
 export const metadata: Metadata = {
@@ -250,59 +345,12 @@ export default function Home() {
       </section>
 
       {/* M-LEAGUE SF STANDINGS — モバイルのみ Mリーグセクション直下に配置 */}
-      <section className="home-mleague-block home-mleague-block--mobile" style={{ marginBottom: 22 }}>
-        <div className="hmb-header">
-          <div>
-            <h2 className="hmb-title">Mリーグ順位表</h2>
-            <div className="hmb-en">2025-26 · {sf.gamesPlayed}/{sf.totalGames} 試合 · TOP {sf.finalLine} → FINAL</div>
-          </div>
-          <Link href="/mleague" className="hmb-more">標識 →</Link>
-        </div>
-        <div className="hmb-collabel">
-          <span className="hmb-collabel-pts">
-            <span className="hmb-collabel-top">合計ポイント</span>
-            <span className="hmb-collabel-sub">ボーダーとの差</span>
-          </span>
-        </div>
-        <div className="hmb-list">
-          {sfStandings.map((s, idx) => {
-            const rank = idx + 1;
-            const inFinal = rank <= sf.finalLine;
-            const isBorder = rank === sf.finalLine;
-            const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
-            const diff = s.total - borderPts;
-            return (
-              <Link
-                key={s.team.slug}
-                href={`/teams/${s.team.slug}`}
-                className={`hmb-row${inFinal ? " in-final" : ""}${isBorder ? " is-border" : ""}`}
-                style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
-              >
-                <span className="hmb-strip"></span>
-                <span className="hmb-rk">{KANJI_RANK[idx]}</span>
-                <div className="hmb-team-block">
-                  <span className="hmb-team-name">{s.team.shortName}</span>
-                </div>
-                <span className="hmb-pt-stack">
-                  <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
-                    {fmtPts(s.total)}
-                  </span>
-                  <span
-                    className={`hmb-bd ${
-                      isBorder
-                        ? "hmb-bd--zero"
-                        : diff > 0
-                          ? "hmb-bd--lead"
-                          : "hmb-bd--chase"
-                    }`}
-                  >
-                    {isBorder ? "—" : fmtPts(diff)}
-                  </span>
-                </span>
-              </Link>
-            );
-          })}
-        </div>
+      <section
+        className="home-mleague-block home-mleague-block--mobile"
+        style={{ marginBottom: 22 }}
+        aria-label="Mリーグ 2025-26 セミファイナル順位表"
+      >
+        <MLeagueStandingsCard sf={sf} sfStandings={sfStandings} borderPts={borderPts} />
       </section>
 
       {/* 現タイトル保持者 — 5団体 banzuke */}
@@ -575,59 +623,11 @@ export default function Home() {
         {/* RIGHT SIDEBAR */}
         <div className="col">
           {/* M-LEAGUE SF STANDINGS — デスクトップのみサイドバーに表示 */}
-          <section className="home-mleague-block home-mleague-block--desktop">
-            <div className="hmb-header">
-              <div>
-                <h2 className="hmb-title">Mリーグ順位表</h2>
-                <div className="hmb-en">2025-26 · {sf.gamesPlayed}/{sf.totalGames} 試合 · TOP {sf.finalLine} → FINAL</div>
-              </div>
-              <Link href="/mleague" className="hmb-more">標識 →</Link>
-            </div>
-            <div className="hmb-collabel">
-              <span className="hmb-collabel-pts">
-                <span className="hmb-collabel-top">合計ポイント</span>
-                <span className="hmb-collabel-sub">ボーダーとの差</span>
-              </span>
-            </div>
-            <div className="hmb-list">
-              {sfStandings.map((s, idx) => {
-                const rank = idx + 1;
-                const inFinal = rank <= sf.finalLine;
-                const isBorder = rank === sf.finalLine;
-                const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
-                const diff = s.total - borderPts;
-                return (
-                  <Link
-                    key={s.team.slug}
-                    href={`/teams/${s.team.slug}`}
-                    className={`hmb-row${inFinal ? " in-final" : ""}${isBorder ? " is-border" : ""}`}
-                    style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
-                  >
-                    <span className="hmb-strip"></span>
-                    <span className="hmb-rk">{KANJI_RANK[idx]}</span>
-                    <div className="hmb-team-block">
-                      <span className="hmb-team-name">{s.team.shortName}</span>
-                    </div>
-                    <span className="hmb-pt-stack">
-                      <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
-                        {fmtPts(s.total)}
-                      </span>
-                      <span
-                        className={`hmb-bd ${
-                          isBorder
-                            ? "hmb-bd--zero"
-                            : diff > 0
-                              ? "hmb-bd--lead"
-                              : "hmb-bd--chase"
-                        }`}
-                      >
-                        {isBorder ? "—" : fmtPts(diff)}
-                      </span>
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
+          <section
+            className="home-mleague-block home-mleague-block--desktop"
+            aria-label="Mリーグ 2025-26 セミファイナル順位表"
+          >
+            <MLeagueStandingsCard sf={sf} sfStandings={sfStandings} borderPts={borderPts} />
           </section>
 
           {/* CURRENT TITLE HOLDERS list */}

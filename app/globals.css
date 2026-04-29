@@ -4663,27 +4663,33 @@ footer.main .cr {
 }
 
 /* Mリーグ番付 — チーム色帯 + ファイナル進出ライン */
+/* ============ HOME — Mリーグ順位表 ============ */
 .home-mleague-block {
   background: var(--ink);
   color: var(--paper);
   border: var(--border);
   box-shadow: 5px 5px 0 var(--vermilion);
   margin-bottom: 18px;
+  position: relative;
 }
-/* PC: サイドバー版を表示、モバイル版を隠す */
 .home-mleague-block--mobile { display: none; }
 .home-mleague-block--desktop { display: block; }
 @media (max-width: 880px) {
-  /* モバイル: 上部に出す版を表示、サイドバー版を隠す */
   .home-mleague-block--mobile { display: block; }
   .home-mleague-block--desktop { display: none; }
 }
-.hmb-header {
-  padding: 16px 20px;
+
+/* HEAD — title row + phase chip + progress */
+.hmb-head {
+  padding: 18px 20px 14px;
   border-bottom: 3px solid var(--vermilion);
+}
+.hmb-head-top {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
 }
 .hmb-title {
   margin: 0;
@@ -4693,14 +4699,6 @@ footer.main .cr {
   letter-spacing: -0.02em;
   color: var(--paper);
 }
-.hmb-en {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: rgba(235,228,210,.6);
-  margin-top: 4px;
-  font-weight: 600;
-}
 .hmb-more {
   font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 11px;
@@ -4709,129 +4707,226 @@ footer.main .cr {
   text-decoration: none;
   font-weight: 700;
   border-bottom: 1.5px solid #f0c86d;
+  padding-bottom: 1px;
+  white-space: nowrap;
 }
-@media (max-width: 480px) {
-  .hmb-header { padding: 14px 14px; }
-  .hmb-title { font-size: 18px; }
-  .hmb-en { font-size: 9px; }
-  .hmb-row { padding: 0 14px; gap: 8px; grid-template-columns: 6px 28px 1fr 96px; }
-  .hmb-collabel { padding: 10px 14px 8px; gap: 8px; grid-template-columns: 6px 28px 1fr 96px; }
-  .hmb-collabel-top { font-size: 10px; }
-  .hmb-collabel-sub { font-size: 9px; }
-  .hmb-bd { font-size: 10px; }
-  .hmb-team-name { font-size: 14px; }
+
+/* PHASE — bilingual SEMIFINAL · 準決勝 chip + 試合数 */
+.hmb-phase-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
 }
-.hmb-list {
+.hmb-phase-chip {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1.5px solid var(--vermilion);
+  flex-shrink: 0;
+}
+.hmb-phase-en {
+  background: var(--vermilion);
+  color: var(--paper);
+  padding: 4px 9px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+.hmb-phase-jp {
+  padding: 4px 9px;
+  font-family: "Shippori Mincho", serif;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--vermilion);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+.hmb-phase-meta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+}
+.hmb-phase-meta b {
+  font-family: "Shippori Mincho", serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--paper);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.hmb-meta-slash {
+  font-size: 14px;
+  color: rgba(235,228,210,.3);
+  margin: 0 1px;
+}
+.hmb-meta-total {
+  font-size: 12px;
+  color: rgba(235,228,210,.55);
+  font-weight: 700;
+}
+.hmb-meta-unit {
+  font-size: 10px;
+  color: rgba(235,228,210,.45);
+  margin-left: 5px;
+  letter-spacing: 0.16em;
+}
+
+/* PROGRESS — thin track with vermilion fill */
+.hmb-progress-track {
+  height: 3px;
+  background: rgba(235,228,210,.1);
   position: relative;
-  --row-h: 44px;
+  overflow: hidden;
+}
+.hmb-progress-fill {
+  height: 100%;
+  background: var(--vermilion);
+  transition: width 0.6s ease;
+}
+.hmb-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: rgba(235,228,210,.5);
+  text-transform: uppercase;
+}
+.hmb-progress-line {
+  color: #f0c86d;
+  font-weight: 700;
+}
+
+/* LIST — standings rows */
+.hmb-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .hmb-row {
-  display: grid;
-  grid-template-columns: 6px 32px 1fr 110px;
-  gap: 12px;
-  align-items: center;
-  padding: 0 16px;
-  height: var(--row-h);
+  --row-h: 50px;
+  position: relative;
   border-bottom: 1px solid rgba(235,228,210,.06);
-  text-decoration: none;
-  color: var(--paper);
   transition: background .12s ease;
 }
 .hmb-row:hover { background: rgba(235,228,210,.04); }
 .hmb-row:last-child { border-bottom: 0; }
+.hmb-row.is-border {
+  background: rgba(240,200,109,.05);
+  border-bottom: 2px dashed rgba(240,200,109,.5);
+}
+.hmb-row-link {
+  display: grid;
+  grid-template-columns: 6px 28px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 16px;
+  min-height: var(--row-h);
+  text-decoration: none;
+  color: var(--paper);
+}
 .hmb-strip {
   width: 100%;
-  height: 22px;
+  height: 28px;
   background: var(--team-c);
 }
 .hmb-rk {
   font-family: "Shippori Mincho", serif;
   font-weight: 900;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
-  color: rgba(235,228,210,.6);
+  color: rgba(235,228,210,.55);
+  letter-spacing: -0.04em;
+  line-height: 1;
 }
-.hmb-row.in-final .hmb-rk {
-  color: #f0c86d;
-}
-.hmb-row.in-final:nth-child(1) .hmb-rk {
-  color: var(--vermilion);
-}
-.hmb-team-block {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  min-width: 0;
-}
+.hmb-row.in-final .hmb-rk { color: #f0c86d; }
+.hmb-row.in-final:nth-child(1) .hmb-rk { color: var(--vermilion); }
 .hmb-team-name {
   font-family: "Shippori Mincho", serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
-.hmb-pt {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-weight: 700;
-  font-size: 14px;
-  text-align: right;
-  letter-spacing: -0.01em;
-}
-.hmb-pt.p { color: #6ee7a7; }
-.hmb-pt.m { color: #ff8a72; }
+
+/* PT STACK — total + inline ボーダー差 */
 .hmb-pt-stack {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 3px;
+  gap: 4px;
   line-height: 1;
+  min-width: 130px;
 }
-.hmb-bd {
+.hmb-pt {
   font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.02em;
   line-height: 1;
 }
-.hmb-bd--lead { color: #f0c86d; }
-.hmb-bd--chase { color: rgba(255,138,114,.9); }
-.hmb-bd--zero { color: rgba(235,228,210,.4); font-size: 14px; }
-
-/* Column label row above standings — 値スタックと同じ右寄せ */
-.hmb-collabel {
-  display: grid;
-  grid-template-columns: 6px 32px 1fr 110px;
-  gap: 12px;
-  align-items: center;
-  padding: 10px 16px 8px;
-  border-bottom: 1px solid rgba(235,228,210,.08);
-}
-.hmb-collabel-pts {
-  grid-column: 4 / 5;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
+.hmb-pt.p { color: #6ee7a7; }
+.hmb-pt.m { color: #ff8a72; }
+.hmb-bd {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
   line-height: 1;
+}
+.hmb-bd-lbl {
   font-family: "Shippori Mincho", serif;
-  letter-spacing: 0.04em;
-}
-.hmb-collabel-top {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 700;
-  color: rgba(235,228,210,.85);
-}
-.hmb-collabel-sub {
-  font-size: 10px;
-  font-weight: 400;
+  letter-spacing: 0.12em;
   color: rgba(235,228,210,.45);
 }
+.hmb-bd-val {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.hmb-bd--lead .hmb-bd-val { color: #f0c86d; }
+.hmb-bd--lead .hmb-bd-lbl { color: rgba(240,200,109,.6); }
+.hmb-bd--chase .hmb-bd-val { color: rgba(255,138,114,.95); }
+.hmb-bd--chase .hmb-bd-lbl { color: rgba(255,138,114,.55); }
+.hmb-bd--zero .hmb-bd-val { color: rgba(235,228,210,.5); }
+.hmb-bd--zero .hmb-bd-lbl { color: rgba(235,228,210,.4); }
 
-/* Border row — subtle highlight (the row that defines the FINAL LINE) */
-.hmb-row.is-border {
-  background: rgba(240,200,109,.04);
-  border-bottom: 2px dashed rgba(240,200,109,.45);
+/* NARROW — desktop sidebar (340px) and small mobile share these */
+@media (max-width: 480px) {
+  .hmb-head { padding: 16px 14px 12px; }
+  .hmb-head-top { margin-bottom: 12px; }
+  .hmb-title { font-size: 19px; }
+  .hmb-phase-line { gap: 10px; margin-bottom: 10px; }
+  .hmb-phase-en { font-size: 8px; letter-spacing: 0.18em; padding: 4px 7px; }
+  .hmb-phase-jp { font-size: 12px; padding: 4px 7px; }
+  .hmb-phase-meta b { font-size: 18px; }
+  .hmb-meta-slash { font-size: 12px; }
+  .hmb-meta-total { font-size: 11px; }
+  .hmb-progress-meta { font-size: 8px; letter-spacing: 0.14em; }
+  .hmb-row-link { padding: 8px 14px; gap: 10px; grid-template-columns: 5px 26px 1fr auto; }
+  .hmb-row { --row-h: 48px; }
+  .hmb-rk { font-size: 18px; }
+  .hmb-team-name { font-size: 13px; }
+  .hmb-pt { font-size: 15px; }
+  .hmb-pt-stack { min-width: 110px; gap: 3px; }
+  .hmb-bd-lbl { font-size: 8px; letter-spacing: 0.1em; }
+  .hmb-bd-val { font-size: 10px; }
 }
 @media (max-width: 980px) {
   .home-hero-grid {
