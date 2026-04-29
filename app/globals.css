@@ -1287,12 +1287,34 @@ footer.main .cr {
   }
   /* hover はベースに alpha を上乗せ */
   .st-table tbody tr:hover { filter: brightness(0.96) saturate(1.08); }
-  .st-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; text-align: center; width: 44px; color: var(--ink-4); line-height: 1; }
+  .st-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; text-align: center; width: 44px; color: var(--ink); line-height: 1; }
   .st-table .rk.top3 { color: var(--vermilion); }
-  .st-table .t-name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
-  .st-table .t-name small { display: block; font-family: "Noto Sans JP"; font-size: 10.5px; font-weight: 400; color: var(--ink-3); margin-top: 2px; }
-  .st-table .t-name a { border-bottom: 1px dotted transparent; }
+  .st-table .t-name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; color: var(--ink); }
+  .st-table .t-name small { display: block; font-family: "Noto Sans JP"; font-size: 10.5px; font-weight: 500; color: var(--ink-2); margin-top: 2px; }
+  .st-table .t-name a { color: inherit; border-bottom: 1px dotted transparent; }
   .st-table .t-name a:hover { border-bottom-color: var(--ink); }
+
+  /* DARK系チームの左セル（順位 + チーム名）— ライト文字に切替して可読性確保 */
+  .st-table tbody tr[data-team="furinkazan"] td:nth-child(-n+2),
+  .st-table tbody tr[data-team="konami"] td:nth-child(-n+2),
+  .st-table tbody tr[data-team="beast-x"] td:nth-child(-n+2) {
+    color: rgba(255,255,255,0.95);
+  }
+  .st-table tbody tr[data-team="furinkazan"] .rk,
+  .st-table tbody tr[data-team="konami"] .rk,
+  .st-table tbody tr[data-team="beast-x"] .rk {
+    color: rgba(255,255,255,0.95);
+  }
+  .st-table tbody tr[data-team="furinkazan"] .rk.top3,
+  .st-table tbody tr[data-team="konami"] .rk.top3,
+  .st-table tbody tr[data-team="beast-x"] .rk.top3 {
+    color: #ffd680;
+  }
+  .st-table tbody tr[data-team="furinkazan"] .t-name small,
+  .st-table tbody tr[data-team="konami"] .t-name small,
+  .st-table tbody tr[data-team="beast-x"] .t-name small {
+    color: rgba(255,255,255,0.72);
+  }
   .st-table .n { text-align: right; font-family: "Geist Mono"; font-weight: 600; }
   .st-table .n.pts { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
   .st-table .n.pts.p { color: var(--vermilion); }
@@ -1356,13 +1378,13 @@ footer.main .cr {
   .standings-wrap .line-tag.s { background: var(--gold); color: var(--paper); }
   .standings-wrap .line-tag.x { background: transparent; color: var(--ink-4); border: 1px solid var(--ink-4); }
 
-  /* 敗退チーム（7-10位）— グレーアウト */
+  /* 敗退チーム（7-10位）— グレーアウト + tint を paper overlay で若干薄く */
   .st-table tr.is-eliminated td {
     color: var(--ink-4);
-    background: rgba(0,0,0,.015);
+    background: rgba(235,228,210,0.28);
   }
   .st-table tr.is-eliminated:hover td {
-    background: rgba(0,0,0,.04);
+    background: rgba(235,228,210,0.18);
   }
   .st-table tr.is-eliminated .rk { color: rgba(0,0,0,.18); }
   .st-table tr.is-eliminated .team-mark { opacity: 0.55; filter: saturate(.6); }
@@ -1421,7 +1443,7 @@ footer.main .cr {
     border-bottom: 2px dashed rgba(160,126,40,.55);
   }
   .st-card.is-eliminated .st-card-link {
-    background: rgba(0,0,0,.015);
+    background: rgba(235,228,210,0.28);
   }
   .st-card.is-eliminated .st-card-rk { color: rgba(0,0,0,.18); }
   .st-card.is-eliminated .st-card-team,
@@ -1450,7 +1472,7 @@ footer.main .cr {
     font-weight: 900;
     font-size: 26px;
     text-align: center;
-    color: var(--ink-4);
+    color: var(--ink);
     letter-spacing: -0.04em;
     line-height: 1;
   }
@@ -1466,6 +1488,7 @@ footer.main .cr {
     font-weight: 700;
     font-size: 14px;
     letter-spacing: -0.01em;
+    color: var(--ink);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1473,10 +1496,32 @@ footer.main .cr {
   .st-card-roster {
     font-family: "Noto Sans JP", sans-serif;
     font-size: 10px;
-    color: var(--ink-3);
+    color: var(--ink-2);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* DARK系チームのモバイルカード — ライト文字に切替 */
+  .st-card[data-team="furinkazan"] .st-card-rk,
+  .st-card[data-team="konami"] .st-card-rk,
+  .st-card[data-team="beast-x"] .st-card-rk {
+    color: rgba(255,255,255,0.95);
+  }
+  .st-card[data-team="furinkazan"] .st-card-rk.top3,
+  .st-card[data-team="konami"] .st-card-rk.top3,
+  .st-card[data-team="beast-x"] .st-card-rk.top3 {
+    color: #ffd680;
+  }
+  .st-card[data-team="furinkazan"] .st-card-team,
+  .st-card[data-team="konami"] .st-card-team,
+  .st-card[data-team="beast-x"] .st-card-team {
+    color: rgba(255,255,255,0.96);
+  }
+  .st-card[data-team="furinkazan"] .st-card-roster,
+  .st-card[data-team="konami"] .st-card-roster,
+  .st-card[data-team="beast-x"] .st-card-roster {
+    color: rgba(255,255,255,0.7);
   }
 
   .st-card-bar {
