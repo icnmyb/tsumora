@@ -97,6 +97,10 @@ export default function MleaguePage() {
   const leaders = computeIndividualLeaders(standings).slice(0, 10);
   const leader = standings[0];
   const totalPlayers = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
+  // バーは max abs で正規化、片側 50% にキャップしてはみ出しを防ぐ
+  const maxAbs = Math.max(...standings.map((s) => Math.abs(s.totalPts)), 1);
+  // F進出ライン (4位) のポイント — ボーダー差計算に使用
+  const borderPts = standings[3]?.totalPts ?? 0;
 
   return (
     <div className="wrap">
@@ -155,9 +159,9 @@ export default function MleaguePage() {
             <tr>
               <th>順位</th>
               <th>チーム</th>
-              <th style={{ width: 90 }}>ライン</th>
-              <th>ポイント</th>
-              <th className="n">選手</th>
+              <th style={{ width: 88 }}>ライン</th>
+              <th className="pts-th">ポイント</th>
+              <th className="n">ボーダー差</th>
               <th className="n">平均1位率</th>
               <th className="n">最高素点</th>
             </tr>
@@ -166,11 +170,13 @@ export default function MleaguePage() {
             {standings.map((s, idx) => {
               const top4 = idx < 4;
               const top6 = idx < 6;
+              const isBorder = idx === 3;
               const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "圏外";
               const lineClass = top4 ? "f" : top6 ? "s" : "p";
-              const fillWidthRaw = Math.min(80, Math.abs(s.totalPts) / 10);
+              const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
+              const diff = s.totalPts - borderPts;
               return (
-                <tr key={s.team.slug}>
+                <tr key={s.team.slug} className={isBorder ? "is-border" : ""}>
                   <td className={`rk ${idx < 3 ? "top3" : ""}`.trim()}>
                     {KANJI_RANK[idx] ?? `${idx + 1}`}
                   </td>
@@ -193,23 +199,27 @@ export default function MleaguePage() {
                   <td>
                     <span className={`line-tag ${lineClass}`}>{lineLabel}</span>
                   </td>
-                  <td>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span
-                        className={`n pts ${s.totalPts >= 0 ? "p" : "m"}`}
-                        style={{ minWidth: 70 }}
-                      >
+                  <td className="pts-cell">
+                    <div className="pts-row">
+                      <span className={`n pts ${s.totalPts >= 0 ? "p" : "m"}`}>
                         {fmtPts(s.totalPts)}
                       </span>
-                      <div className="bar" style={{ flex: 1 }}>
+                      <div className="bar" aria-hidden="true">
+                        <div className="bar-axis"></div>
                         <div
                           className={`fill ${s.totalPts >= 0 ? "p" : "m"}`}
-                          style={{ width: `${fillWidthRaw}%` }}
+                          style={{ width: `${fillPct}%` }}
                         ></div>
                       </div>
                     </div>
                   </td>
-                  <td className="n">{s.rosterPlayers.length}</td>
+                  <td
+                    className={`n diff ${
+                      isBorder ? "diff-zero" : diff > 0 ? "diff-lead" : "diff-chase"
+                    }`}
+                  >
+                    {isBorder ? "—" : fmtPts(diff)}
+                  </td>
                   <td className="n">
                     {s.topRateAvg > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
                   </td>

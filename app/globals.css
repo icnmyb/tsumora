@@ -1264,16 +1264,58 @@ footer.main .cr {
   .st-table .t-name a { border-bottom: 1px dotted transparent; }
   .st-table .t-name a:hover { border-bottom-color: var(--ink); }
   .st-table .n { text-align: right; font-family: "Geist Mono"; font-weight: 600; }
-  .st-table .n.pts { font-size: 16px; font-weight: 700; }
+  .st-table .n.pts { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
   .st-table .n.pts.p { color: var(--vermilion); }
   .st-table .n.pts.m { color: var(--moss); }
-  .st-table .bar-cell { width: 160px; padding-right: 18px; }
-  .st-table .bar {
-    height: 6px; background: var(--paper-2); position: relative; border: 1px solid var(--ink-4);
+
+  /* POINTS CELL — 数値 + 中央軸ありのバー、はみ出し防止 */
+  .st-table .pts-th { width: 320px; }
+  .st-table .pts-cell { width: 320px; padding-right: 22px; }
+  .st-table .pts-row {
+    display: flex; align-items: center; gap: 14px;
   }
-  .st-table .bar .fill { position: absolute; top: 0; bottom: 0; left: 50%; }
-  .st-table .bar .fill.p { background: var(--vermilion); }
-  .st-table .bar .fill.m { background: var(--moss); right: 50%; left: auto; }
+  .st-table .pts-row .pts {
+    flex: 0 0 76px; min-width: 76px;
+  }
+  .st-table .bar {
+    flex: 1; min-width: 0;
+    height: 8px; position: relative;
+    background: var(--paper-2);
+    border: 1px solid var(--ink-4);
+    overflow: hidden;
+  }
+  .st-table .bar-axis {
+    position: absolute; top: -2px; bottom: -2px;
+    left: 50%; width: 1px;
+    background: var(--ink);
+    transform: translateX(-0.5px);
+  }
+  .st-table .bar .fill {
+    position: absolute; top: 0; bottom: 0;
+    /* width is set inline as % of bar (capped at 50% via maxAbs normalization) */
+  }
+  .st-table .bar .fill.p {
+    left: 50%;
+    background: linear-gradient(90deg, rgba(200,40,42,.7), var(--vermilion));
+  }
+  .st-table .bar .fill.m {
+    right: 50%; left: auto;
+    background: linear-gradient(90deg, var(--moss), rgba(78,90,42,.7));
+  }
+
+  /* DIFF (ボーダー差) — 4位との差を色付きで */
+  .st-table .diff { font-size: 13px; font-weight: 700; }
+  .st-table .diff-lead { color: var(--vermilion); }
+  .st-table .diff-chase { color: var(--moss); opacity: 0.85; }
+  .st-table .diff-zero { color: var(--ink-4); font-size: 16px; font-weight: 400; }
+
+  /* ボーダー行 — 4位を視覚的に強調 */
+  .st-table tr.is-border td {
+    background: rgba(160,126,40,.06);
+    border-bottom: 2px dashed rgba(160,126,40,.5);
+  }
+  .st-table tr.is-border:hover td { background: rgba(160,126,40,.1); }
+
   .st-table .line-tag {
     display: inline-block; font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.1em;
     padding: 2px 6px; font-weight: 700;
