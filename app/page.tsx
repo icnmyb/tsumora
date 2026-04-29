@@ -247,6 +247,48 @@ export default function Home() {
         </aside>
       </section>
 
+      {/* M-LEAGUE SF STANDINGS — 6チーム + ファイナル進出ライン */}
+      <section className="home-mleague-block" style={{ marginBottom: 22 }}>
+        <div className="hmb-header">
+          <div>
+            <h2 className="hmb-title">Mリーグ順位表</h2>
+            <div className="hmb-en">2025-26 · {sf.gamesPlayed}/{sf.totalGames} 試合 · TOP {sf.finalLine} → FINAL</div>
+          </div>
+          <Link href="/mleague" className="hmb-more">標識 →</Link>
+        </div>
+        <div className="hmb-list">
+          {sfStandings.map((s, idx) => {
+            const rank = idx + 1;
+            const inFinal = rank <= sf.finalLine;
+            const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
+            return (
+              <Link
+                key={s.team.slug}
+                href={`/teams/${s.team.slug}`}
+                className={`hmb-row${inFinal ? " in-final" : ""}`}
+                style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
+              >
+                <span className="hmb-strip"></span>
+                <span className="hmb-rk">{KANJI_RANK[idx]}</span>
+                <div className="hmb-team-block">
+                  <span className="hmb-team-name">{s.team.shortName}</span>
+                  <span className="hmb-team-sub">
+                    {inFinal ? "F進出圏" : "圏外"}
+                  </span>
+                </div>
+                <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
+                  {fmtPts(s.total)}
+                </span>
+              </Link>
+            );
+          })}
+          {/* ファイナル進出ライン */}
+          <div className="hmb-final-line" style={{ top: `calc(${sf.finalLine} * var(--row-h))` }}>
+            <span>FINAL LINE — TOP {sf.finalLine}</span>
+          </div>
+        </div>
+      </section>
+
       {/* 現タイトル保持者 — 5団体 banzuke */}
       <section className="home-titlists" style={{ marginBottom: 22 }}>
         <header className="ht-head">
@@ -516,48 +558,6 @@ export default function Home() {
 
         {/* RIGHT SIDEBAR */}
         <div className="col">
-          {/* M-LEAGUE SF STANDINGS — 6チーム + ファイナル進出ライン */}
-          <section className="home-mleague-block">
-            <div className="hmb-header">
-              <div>
-                <h2 className="hmb-title">Mリーグ順位表</h2>
-                <div className="hmb-en">2025-26 · {sf.gamesPlayed}/{sf.totalGames} 試合 · TOP {sf.finalLine} → FINAL</div>
-              </div>
-              <Link href="/mleague" className="hmb-more">標識 →</Link>
-            </div>
-            <div className="hmb-list">
-              {sfStandings.map((s, idx) => {
-                const rank = idx + 1;
-                const inFinal = rank <= sf.finalLine;
-                const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
-                return (
-                  <Link
-                    key={s.team.slug}
-                    href={`/teams/${s.team.slug}`}
-                    className={`hmb-row${inFinal ? " in-final" : ""}`}
-                    style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
-                  >
-                    <span className="hmb-strip"></span>
-                    <span className="hmb-rk">{KANJI_RANK[idx]}</span>
-                    <div className="hmb-team-block">
-                      <span className="hmb-team-name">{s.team.shortName}</span>
-                      <span className="hmb-team-sub">
-                        {inFinal ? "F進出圏" : "圏外"}
-                      </span>
-                    </div>
-                    <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
-                      {fmtPts(s.total)}
-                    </span>
-                  </Link>
-                );
-              })}
-              {/* ファイナル進出ライン */}
-              <div className="hmb-final-line" style={{ top: `calc(${sf.finalLine} * var(--row-h))` }}>
-                <span>FINAL LINE — TOP {sf.finalLine}</span>
-              </div>
-            </div>
-          </section>
-
           {/* CURRENT TITLE HOLDERS list */}
           <section
             style={{

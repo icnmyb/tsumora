@@ -204,15 +204,14 @@ img { max-width: 100%; display: block; }
 @media (max-width: 720px) {
   .masthead { padding: 14px 0 12px; }
   .masthead-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .masthead-left { gap: 12px; }
-  .masthead h1 { font-size: 56px; }
-  .masthead h1 .en { font-size: 16px; }
+  .masthead-left { flex-direction: column; align-items: flex-start; gap: 10px; width: 100%; }
+  .masthead h1 { font-size: clamp(34px, 11vw, 52px); max-width: 100%; }
+  .masthead h1 .en { font-size: clamp(13px, 3.6vw, 16px); }
   .masthead-right { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; width: 100%; }
   .masthead-right .kv { gap: 6px; font-size: 10px; }
   .masthead-right .big { font-size: 18px; margin-top: 0; margin-left: auto; }
 }
 @media (max-width: 380px) {
-  .masthead h1 { font-size: 44px; }
   .masthead-right .kv:nth-child(3) { display: none; }
 }
 
