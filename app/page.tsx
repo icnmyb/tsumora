@@ -61,11 +61,11 @@ function dayLabel(dateIso: string): string {
 export const metadata: Metadata = {
   title: "TSUMORA — The Pro Mahjong Review",
   description:
-    "5つのプロ団体（JPML / 最高位戦 / NPM / RMU / μ）と Mリーグの選手・タイトル戦・対局を1つの編集視点で扱うポータル。JPML 39期・鷹見としや 運営。",
+    "5つのプロ団体（JPML / 最高位戦 / NPM / RMU / μ）と Mリーグの選手・タイトル戦・対局を1つの編集視点で扱うポータル。",
   openGraph: {
     title: "TSUMORA — The Pro Mahjong Review",
     description:
-      "5つのプロ団体と Mリーグを横断する編集ポータル。JPML 現役プロが運営。",
+      "5つのプロ団体と Mリーグを横断する編集ポータル。",
     siteName: "TSUMORA",
     type: "website",
   },

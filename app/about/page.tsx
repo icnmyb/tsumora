@@ -5,11 +5,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About — TSUMORA",
   description:
-    "TSUMORA は日本のプロ麻雀界を横断する編集ポータル。JPML 39期・鷹見としや が運営。",
+    "TSUMORA は日本のプロ麻雀界を横断する編集ポータル。",
   openGraph: {
     title: "About — TSUMORA",
     description:
-      "JPML 39期・鷹見としや が運営する、プロ麻雀の編集ポータル。",
+      "TSUMORA — プロ麻雀の編集ポータル。",
     siteName: "TSUMORA",
     type: "website",
   },
