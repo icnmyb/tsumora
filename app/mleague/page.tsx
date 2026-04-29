@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
@@ -84,7 +85,7 @@ function computeIndividualLeaders(standings: ComputedStanding[]): IndividualLead
 const KANJI_RANK = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
 
 function fmtPts(pts: number): string {
-  const sign = pts >= 0 ? "+" : "−";
+  const sign = pts >= 0 ? "+" : "-";
   return `${sign}${Math.abs(pts).toFixed(1)}`;
 }
 
@@ -332,10 +333,10 @@ export default function MleaguePage() {
           const accent = s.team.colorOnDark ?? s.team.color;
           const avText = getContrastText(s.team.color);
           return (
+            <Fragment key={s.team.slug}>
             <div
-              key={s.team.slug}
               data-team={s.team.slug}
-              className={`team-card${isEliminated ? " is-eliminated" : ""}${isBorder ? " is-border" : ""}`}
+              className={`team-card${isEliminated ? " is-eliminated" : ""}`}
               style={
                 {
                   ["--tc" as string]: s.team.color,
@@ -363,10 +364,10 @@ export default function MleaguePage() {
                   </h3>
                 </div>
                 <div className="head-pts">
-                  <div className={`pt-val ${s.totalPts >= 0 ? "p" : "m"}`}>
+                  <span className="pt-lbl">合計 PTS</span>
+                  <span className={`pt-val ${s.totalPts >= 0 ? "p" : "m"}`}>
                     {fmtPts(s.totalPts)}
-                  </div>
-                  <div className="pt-lbl">合計 PTS</div>
+                  </span>
                 </div>
               </div>
 
@@ -429,6 +430,12 @@ export default function MleaguePage() {
                 </ul>
               </details>
             </div>
+            {isBorder && (
+              <div className="grid-border-line" aria-label="ファイナル進出ライン">
+                <span>FINAL進出ライン</span>
+              </div>
+            )}
+            </Fragment>
           );
         })}
       </div>

@@ -54,7 +54,8 @@ export function computeTitleRanking(): TitleCountEntry[] {
 }
 
 export function fmtPts(pts: number): string {
-  const sign = pts >= 0 ? "+" : "−";
+  // ASCII "-" を使用（mono フォントで "+/-" が同じ幅になり右余白がズレない）
+  const sign = pts >= 0 ? "+" : "-";
   return `${sign}${Math.abs(pts).toFixed(1)}`;
 }
 

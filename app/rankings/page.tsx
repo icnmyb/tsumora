@@ -117,7 +117,7 @@ const ORG_COLOR: Record<string, string> = {
 };
 
 function fmtPts(pts: number): string {
-  const sign = pts >= 0 ? "+" : "−";
+  const sign = pts >= 0 ? "+" : "-";
   return `${sign}${Math.abs(pts).toFixed(1)}`;
 }
 
