@@ -1619,33 +1619,6 @@ footer.main .cr {
     z-index: 0;
   }
 
-  /* BEAST X — woodland camo（公式ユニフォームの緑+タン+ダーク緑の迷彩） */
-  .team-card[data-team="beast-x"]::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    /* チャンキーなブロブ感を出すため stop を狭めにしてエッジを立てる */
-    background-image:
-      /* タン/カーキ patch */
-      radial-gradient(ellipse 22% 18% at 18% 20%, #a08456 0%, #a08456 38%, transparent 62%),
-      radial-gradient(ellipse 16% 14% at 75% 35%, #b8985a 0%, #b8985a 35%, transparent 60%),
-      radial-gradient(ellipse 18% 16% at 45% 78%, #a08456 0%, #a08456 35%, transparent 60%),
-      /* ダーク緑/黒 patch */
-      radial-gradient(ellipse 24% 20% at 80% 18%, #1c2814 0%, #1c2814 40%, transparent 65%),
-      radial-gradient(ellipse 20% 22% at 25% 60%, #1c2814 0%, #1c2814 38%, transparent 62%),
-      radial-gradient(ellipse 18% 16% at 88% 72%, #1c2814 0%, #1c2814 38%, transparent 62%),
-      /* ミッド緑 patch */
-      radial-gradient(ellipse 22% 18% at 55% 30%, #4a6b3c 0%, #4a6b3c 40%, transparent 65%),
-      radial-gradient(ellipse 20% 18% at 12% 88%, #5a7d4a 0%, #5a7d4a 38%, transparent 62%),
-      radial-gradient(ellipse 16% 14% at 68% 92%, #4a6b3c 0%, #4a6b3c 38%, transparent 62%),
-      /* 小さな突き */
-      radial-gradient(ellipse 8% 6% at 38% 12%, #1c2814 0%, transparent 70%),
-      radial-gradient(ellipse 7% 6% at 92% 50%, #a08456 0%, transparent 70%),
-      radial-gradient(ellipse 6% 5% at 58% 60%, #b8985a 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-    mix-blend-mode: normal;
-  }
   .team-card > .head,
   .team-card > .roster {
     position: relative;

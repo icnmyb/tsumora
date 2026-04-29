@@ -42,7 +42,7 @@ const MLEAGUE_LOGO_COLORS: Record<string, string> = {
   drivens: "#c6ff4d",
   furinkazan: "#ff4040",
   raiden: "#ffd91a",
-  "beast-x": "#6b7a3c",
+  "beast-x": "#002953",
   "earth-jets": "#1E9627",
 };
 
