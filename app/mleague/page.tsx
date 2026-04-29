@@ -161,9 +161,8 @@ export default function MleaguePage() {
       <section className="standings-wrap">
         <div className="st-head">
           <div className="ttl">
-            順位表<span className="en">Standings · {CURRENT_SEASON} (個人pt合算)</span>
+            順位表<span className="en">Standings · {CURRENT_SEASON}</span>
           </div>
-          <div className="as-of">SOURCE · 各選手の年間獲得pt実績合算</div>
         </div>
         <table className="st-table st-desktop-table">
           <thead>
