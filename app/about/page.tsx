@@ -19,16 +19,7 @@ export default function AboutPage() {
   return (
     <div className="wrap about-page">
       <section className="about-hero">
-        <div className="about-kicker">
-          <span>●</span> ABOUT
-        </div>
-        <h1 className="about-title">
-          TSUMORA<span className="comma">、</span>
-          <span className="em">という編集メディア。</span>
-        </h1>
-        <p className="about-en">
-          The Pro Mahjong Review — Edited by a JPML pro.
-        </p>
+        <h1 className="about-title">About</h1>
       </section>
 
       <section className="about-editor">
