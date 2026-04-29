@@ -192,7 +192,7 @@ export default function MleaguePage() {
                   data-team={s.team.slug}
                   className={`${isBorder ? "is-border" : ""}${isEliminated ? " is-eliminated" : ""}`.trim()}
                   style={
-                    !isEliminated
+                    s.team.slug === "furinkazan" && !isEliminated
                       ? ({ background: s.team.background ?? "var(--paper)" } as React.CSSProperties)
                       : undefined
                   }
@@ -261,7 +261,7 @@ export default function MleaguePage() {
                 data-team={s.team.slug}
                 className={`st-card${isBorder ? " is-border" : ""}${isEliminated ? " is-eliminated" : ""}`}
                 style={
-                  !isEliminated
+                  s.team.slug === "furinkazan" && !isEliminated
                     ? ({ background: s.team.background ?? "var(--paper)" } as React.CSSProperties)
                     : undefined
                 }
