@@ -190,7 +190,11 @@ export default function MleaguePage() {
                 <tr
                   key={s.team.slug}
                   className={`${isBorder ? "is-border" : ""}${isEliminated ? " is-eliminated" : ""}`.trim()}
-                  style={{ ["--team-c" as string]: s.team.color } as React.CSSProperties}
+                  style={
+                    {
+                      ["--team-c" as string]: s.team.background ?? s.team.color,
+                    } as React.CSSProperties
+                  }
                 >
                   <td className={`rk ${idx < 3 ? "top3" : ""}`.trim()}>
                     {KANJI_RANK[idx] ?? `${idx + 1}`}
@@ -254,7 +258,11 @@ export default function MleaguePage() {
               <li
                 key={s.team.slug}
                 className={`st-card${isBorder ? " is-border" : ""}${isEliminated ? " is-eliminated" : ""}`}
-                style={{ ["--team-c" as string]: s.team.color } as React.CSSProperties}
+                style={
+                  {
+                    ["--team-c" as string]: s.team.background ?? s.team.color,
+                  } as React.CSSProperties
+                }
               >
                 <Link
                   href={`/teams/${s.team.slug}`}

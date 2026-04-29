@@ -1254,12 +1254,12 @@ footer.main .cr {
   }
   .st-table th.n { text-align: right; }
   .st-table td { padding: 10px 14px; border-bottom: 1px dotted var(--ink-4); vertical-align: middle; position: relative; }
-  /* チームカラーのグラデ tint（左から右にフェード） */
+  /* チームカラー(team.background)のグラデ tint — 左→右にフェード */
   .st-table tbody tr {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 22%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 6%, transparent) 50%, transparent 90%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 50%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 18%, transparent) 55%, transparent 95%);
   }
   .st-table tbody tr:hover {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 32%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 10%, transparent) 50%, rgba(200,40,42,.03) 90%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 65%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 25%, transparent) 55%, transparent 95%);
   }
   .st-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; text-align: center; width: 44px; color: var(--ink-4); line-height: 1; }
   .st-table .rk.top3 { color: var(--vermilion); }
@@ -1357,7 +1357,7 @@ footer.main .cr {
   }
   .st-card {
     border-bottom: 1px dotted var(--ink-4);
-    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 25%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 7%, transparent) 55%, transparent 95%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 55%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 20%, transparent) 60%, transparent 95%);
   }
   .st-card:last-child { border-bottom: 0; }
   .st-card.is-border {
