@@ -104,7 +104,7 @@ export default function RankingPage() {
     <div className="wrap predict-page">
       <section className="rk-hero">
         <div className="crumb">
-          <Link href="/predict">TSUMORA</Link>
+          <Link href="/predict">予想</Link>
           <span className="sep">›</span>
           <span style={{ color: "var(--paper)" }}>SEASON RANKING</span>
         </div>

@@ -655,7 +655,7 @@ export default function Home() {
                 marginBottom: 6,
               }}
             >
-              TSUMORA · Mリーグ予想ゲーム
+              Mリーグ予想ゲーム
             </div>
             <div
               style={{

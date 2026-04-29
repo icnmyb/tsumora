@@ -336,7 +336,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
     <div className="wrap predict-page">
       <section className="res-hero">
         <div className="crumb">
-          <Link href="/predict">TSUMORA</Link>
+          <Link href="/predict">予想</Link>
           <span className="sep">›</span>
           <span style={{ color: "rgba(235,228,210,.6)" }}>試合結果</span>
           <span className="sep">›</span>
