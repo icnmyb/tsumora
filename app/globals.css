@@ -4728,22 +4728,11 @@ footer.main .cr {
 .hmb-phase-en {
   background: var(--vermilion);
   color: var(--paper);
-  padding: 4px 9px;
+  padding: 5px 10px 4px;
   font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.22em;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-}
-.hmb-phase-jp {
-  padding: 4px 9px;
-  font-family: "Shippori Mincho", serif;
-  font-size: 13px;
-  font-weight: 900;
-  color: var(--vermilion);
-  letter-spacing: 0.04em;
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -4913,8 +4902,7 @@ footer.main .cr {
   .hmb-head-top { margin-bottom: 12px; }
   .hmb-title { font-size: 19px; }
   .hmb-phase-line { gap: 10px; margin-bottom: 10px; }
-  .hmb-phase-en { font-size: 8px; letter-spacing: 0.18em; padding: 4px 7px; }
-  .hmb-phase-jp { font-size: 12px; padding: 4px 7px; }
+  .hmb-phase-en { font-size: 9px; letter-spacing: 0.18em; padding: 4px 8px; }
   .hmb-phase-meta b { font-size: 18px; }
   .hmb-meta-slash { font-size: 12px; }
   .hmb-meta-total { font-size: 11px; }

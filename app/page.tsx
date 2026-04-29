@@ -84,7 +84,6 @@ function MLeagueStandingsCard({
         <div className="hmb-phase-line">
           <span className="hmb-phase-chip">
             <span className="hmb-phase-en">SEMIFINAL</span>
-            <span className="hmb-phase-jp">準決勝</span>
           </span>
           <span className="hmb-phase-meta">
             <b>{sf.gamesPlayed}</b>
