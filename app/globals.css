@@ -1894,10 +1894,11 @@ footer.main .cr {
     border-top: 1px solid currentColor;
     border-top-color: rgba(255,255,255,0.18);
   }
-  /* デスクトップ: details を透明化、summary 非表示で roster を直接表示 */
+  /* デスクトップ: details を透明化、summary 非表示、roster を強制表示 */
   @media (min-width: 721px) {
     .team-card .team-roster { display: contents; }
     .team-card .team-roster > .roster-summary { display: none; }
+    .team-card .team-roster > .roster { display: block; }
   }
   .team-card .p {
     display: grid;
