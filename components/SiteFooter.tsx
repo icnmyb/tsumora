@@ -26,7 +26,7 @@ export function SiteFooter() {
       <div className="wrap">
         <div>
           <div className="big-mark">
-            Hora<span className="dot">.mg</span>
+            TSUMORA<span className="dot">.com</span>
           </div>
           <div
             style={{
@@ -72,15 +72,29 @@ export function SiteFooter() {
             サイト情報<span className="en">About</span>
           </h4>
           <ul>
-            <li>このサイトについて</li>
-            <li>データ更新について</li>
-            <li>お問い合わせ</li>
-            <li>運営会社</li>
-            <li>利用規約</li>
+            <li><Link href="/about">このサイトについて</Link></li>
+            <li>
+              <a
+                href="https://x.com/tt_23_mm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                お問い合わせ（X DM）
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://x.com/tt_23_mm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Founding Sponsor
+              </a>
+            </li>
           </ul>
         </div>
         <div className="cr">
-          <span>© {year} Hora.mg · データは各公式サイトより集約 · 1日1回更新</span>
+          <span>© {year} TSUMORA · データは各公式サイトより集約 · 1日1回更新</span>
           <span>VOL.{vol} · ISSUE {issueDate}</span>
         </div>
       </div>
