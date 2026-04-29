@@ -92,6 +92,17 @@ function getMonogram(name: string): string {
   return name.replace(/\s/g, "").charAt(0);
 }
 
+// 背景色から文字色を自動決定（YIQ で輝度判定）
+function getContrastText(hex: string): string {
+  const h = hex.replace("#", "");
+  if (h.length !== 6) return "#fff";
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  return yiq >= 150 ? "#1a1a1a" : "#ffffff";
+}
+
 export default function MleaguePage() {
   const standings = computeStandings();
   const leaders = computeIndividualLeaders(standings).slice(0, 10);
@@ -171,12 +182,17 @@ export default function MleaguePage() {
               const top4 = idx < 4;
               const top6 = idx < 6;
               const isBorder = idx === 3;
-              const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "圏外";
-              const lineClass = top4 ? "f" : top6 ? "s" : "p";
+              const isEliminated = idx >= 6;
+              const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "敗退";
+              const lineClass = top4 ? "f" : top6 ? "s" : "x";
               const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
               const diff = s.totalPts - borderPts;
+              const markText = getContrastText(s.team.color);
               return (
-                <tr key={s.team.slug} className={isBorder ? "is-border" : ""}>
+                <tr
+                  key={s.team.slug}
+                  className={`${isBorder ? "is-border" : ""}${isEliminated ? " is-eliminated" : ""}`.trim()}
+                >
                   <td className={`rk ${idx < 3 ? "top3" : ""}`.trim()}>
                     {KANJI_RANK[idx] ?? `${idx + 1}`}
                   </td>
@@ -184,7 +200,7 @@ export default function MleaguePage() {
                     <div className="team-cell">
                       <span
                         className="team-mark"
-                        style={{ background: s.team.color, color: s.team.colorOnDark ?? "#fff" }}
+                        style={{ background: s.team.color, color: markText }}
                       >
                         {s.team.kanji}
                       </span>
@@ -238,14 +254,16 @@ export default function MleaguePage() {
             const top4 = idx < 4;
             const top6 = idx < 6;
             const isBorder = idx === 3;
-            const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "圏外";
-            const lineClass = top4 ? "f" : top6 ? "s" : "p";
+            const isEliminated = idx >= 6;
+            const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "敗退";
+            const lineClass = top4 ? "f" : top6 ? "s" : "x";
             const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
             const diff = s.totalPts - borderPts;
+            const markText = getContrastText(s.team.color);
             return (
               <li
                 key={s.team.slug}
-                className={`st-card${isBorder ? " is-border" : ""}`}
+                className={`st-card${isBorder ? " is-border" : ""}${isEliminated ? " is-eliminated" : ""}`}
               >
                 <Link
                   href={`/teams/${s.team.slug}`}
@@ -259,7 +277,7 @@ export default function MleaguePage() {
                       className="st-card-mark"
                       style={{
                         background: s.team.color,
-                        color: s.team.colorOnDark ?? "#fff",
+                        color: markText,
                       }}
                     >
                       {s.team.kanji}
@@ -324,54 +342,64 @@ export default function MleaguePage() {
         </Link>
       </h2>
       <div className="team-grid">
-        {standings.map((s) => (
-          <div
-            key={s.team.slug}
-            className="team-card"
-            style={{ ["--tc" as string]: s.team.color } as React.CSSProperties}
-          >
-            <div className="band"></div>
-            <div className="head">
-              <div className="mark" style={{ background: s.team.color, color: s.team.colorOnDark ?? "#fff" }}>
-                {s.team.kanji}
-              </div>
-              <div className="head-text">
-                <h3>
-                  <Link href={`/teams/${s.team.slug}`} style={{ color: "inherit", textDecoration: "none" }}>
-                    {s.team.name}
-                  </Link>
-                </h3>
-                <div className="sponsor">
-                  {s.team.parentCompany} · {s.team.tagline ?? ""}
+        {standings.map((s, idx) => {
+          const isEliminated = idx >= 6;
+          const markText = getContrastText(s.team.color);
+          return (
+            <div
+              key={s.team.slug}
+              className={`team-card${isEliminated ? " is-eliminated" : ""}`}
+              style={{ ["--tc" as string]: s.team.color } as React.CSSProperties}
+            >
+              <div className="band"></div>
+              <div className="head">
+                <div
+                  className="mark"
+                  style={{ background: s.team.color, color: markText }}
+                >
+                  {s.team.kanji}
                 </div>
-              </div>
-              <div className="rk-pt">
-                <div className="head-rk">{standings.indexOf(s) + 1}位</div>
-                <div className={`head-pt ${s.totalPts >= 0 ? "p" : "m"}`}>
-                  {fmtPts(s.totalPts)}
+                <div className="head-text">
+                  <h3>
+                    <Link href={`/teams/${s.team.slug}`} style={{ color: "inherit", textDecoration: "none" }}>
+                      {s.team.name}
+                    </Link>
+                  </h3>
+                  <div className="sponsor">{s.team.parentCompany}</div>
                 </div>
-              </div>
-            </div>
-            <div className="roster">
-              {s.rosterPlayers.map((p) => {
-                const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
-                const pts = ap?.points ?? 0;
-                return (
-                  <div key={p.id} className="p">
-                    <span className="av" style={{ background: s.team.color, color: s.team.colorOnDark ?? "#fff" }}>
-                      {getMonogram(p.name)}
-                    </span>
-                    <div className="nm">
-                      <Link href={p.href}>{p.name}</Link>
-                      <small>{p.org} · {p.title || p.league}</small>
-                    </div>
-                    <span className={`pt ${pts >= 0 ? "p" : "m"}`}>{fmtPts(pts)}</span>
+                <div className="rk-pt">
+                  <div className="head-rk">{idx + 1}位</div>
+                  <div className={`head-pt ${s.totalPts >= 0 ? "p" : "m"}`}>
+                    {fmtPts(s.totalPts)}
                   </div>
-                );
-              })}
+                </div>
+              </div>
+              <ul className="roster">
+                {s.rosterPlayers.map((p) => {
+                  const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
+                  const pts = ap?.points ?? 0;
+                  return (
+                    <li key={p.id} className="p">
+                      <span
+                        className="av"
+                        style={{ background: s.team.color, color: markText }}
+                      >
+                        {getMonogram(p.name)}
+                      </span>
+                      <div className="nm">
+                        <Link href={p.href}>{p.name}</Link>
+                        <small>{p.org}</small>
+                      </div>
+                      <span className={`pt ${pts >= 0 ? "p" : "m"}`}>
+                        {fmtPts(pts)}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="two-col">
@@ -382,7 +410,7 @@ export default function MleaguePage() {
           {leaders.map((l, i) => (
             <div key={l.player.id} className="lead-row">
               <span className={`rk ${i < 3 ? "top" : ""}`.trim()}>{i + 1}</span>
-              <span className="av" style={{ background: l.team.color, color: l.team.colorOnDark ?? "#fff" }}>
+              <span className="av" style={{ background: l.team.color, color: getContrastText(l.team.color) }}>
                 {getMonogram(l.player.name)}
               </span>
               <div className="nm">
@@ -487,5 +515,4 @@ const RULE_ROWS: { l: string; v: React.ReactNode }[] = [
   { l: "Ippatsu", v: <b>あり</b> },
   { l: "Uradora", v: <b>あり</b> },
   { l: "Kuitan", v: <>喰いタン <b>あり</b></> },
-  { l: "Time Limit", v: <>打牌 <b>5秒</b> · 長考3回</> },
 ];
