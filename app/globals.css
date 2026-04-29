@@ -4670,6 +4670,14 @@ footer.main .cr {
   box-shadow: 5px 5px 0 var(--vermilion);
   margin-bottom: 18px;
 }
+/* PC: サイドバー版を表示、モバイル版を隠す */
+.home-mleague-block--mobile { display: none; }
+.home-mleague-block--desktop { display: block; }
+@media (max-width: 880px) {
+  /* モバイル: 上部に出す版を表示、サイドバー版を隠す */
+  .home-mleague-block--mobile { display: block; }
+  .home-mleague-block--desktop { display: none; }
+}
 .hmb-header {
   padding: 16px 20px;
   border-bottom: 3px solid var(--vermilion);
@@ -4706,15 +4714,15 @@ footer.main .cr {
   .hmb-header { padding: 14px 14px; }
   .hmb-title { font-size: 18px; }
   .hmb-en { font-size: 9px; }
-  .hmb-row { padding: 0 14px; gap: 8px; grid-template-columns: 6px 28px 1fr 80px; }
+  .hmb-row { padding: 0 14px; gap: 8px; grid-template-columns: 6px 28px 1fr 96px; }
 }
 .hmb-list {
   position: relative;
-  --row-h: 36px;
+  --row-h: 44px;
 }
 .hmb-row {
   display: grid;
-  grid-template-columns: 6px 32px 1fr 90px;
+  grid-template-columns: 6px 32px 1fr 110px;
   gap: 12px;
   align-items: center;
   padding: 0 16px;
@@ -4777,6 +4785,46 @@ footer.main .cr {
 }
 .hmb-pt.p { color: #6ee7a7; }
 .hmb-pt.m { color: #ff8a72; }
+.hmb-pt-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  line-height: 1;
+}
+.hmb-bd {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.hmb-bd-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  padding: 1px 4px;
+  border-radius: 1px;
+  background: rgba(235,228,210,.08);
+  color: rgba(235,228,210,.55);
+}
+.hmb-bd--lead { color: #f0c86d; }
+.hmb-bd--lead .hmb-bd-lbl { background: rgba(240,200,109,.14); color: #f0c86d; }
+.hmb-bd--chase { color: rgba(255,138,114,.85); }
+.hmb-bd--chase .hmb-bd-lbl { background: rgba(255,138,114,.14); color: #ff8a72; }
+.hmb-bd--line {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 2px 6px;
+  border: 1px dashed #f0c86d;
+  color: #f0c86d;
+  background: rgba(240,200,109,.06);
+}
 .hmb-final-line {
   position: absolute;
   left: 0; right: 0;

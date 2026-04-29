@@ -78,6 +78,8 @@ export default function Home() {
     team: getTeamBySlug(s.teamSlug),
   })).filter((s): s is typeof s & { team: NonNullable<typeof s.team> } => Boolean(s.team));
   const sfLeader = sfStandings[0];
+  // ファイナル進出ボーダー（TOP {finalLine} に入れる最低ライン）= ボーダーチームのポイント
+  const borderPts = sfStandings[sf.finalLine - 1]?.total ?? 0;
   const nextMatch = sf.upcoming.find((m) => m.teamSlugs.length > 0);
   const nextMatchTeams = nextMatch
     ? nextMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
@@ -247,8 +249,8 @@ export default function Home() {
         </aside>
       </section>
 
-      {/* M-LEAGUE SF STANDINGS — 6チーム + ファイナル進出ライン */}
-      <section className="home-mleague-block" style={{ marginBottom: 22 }}>
+      {/* M-LEAGUE SF STANDINGS — モバイルのみ Mリーグセクション直下に配置 */}
+      <section className="home-mleague-block home-mleague-block--mobile" style={{ marginBottom: 22 }}>
         <div className="hmb-header">
           <div>
             <h2 className="hmb-title">Mリーグ順位表</h2>
@@ -276,8 +278,23 @@ export default function Home() {
                     {inFinal ? "F進出圏" : "圏外"}
                   </span>
                 </div>
-                <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
-                  {fmtPts(s.total)}
+                <span className="hmb-pt-stack">
+                  <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
+                    {fmtPts(s.total)}
+                  </span>
+                  {rank === sf.finalLine ? (
+                    <span className="hmb-bd hmb-bd--line">BORDER</span>
+                  ) : rank < sf.finalLine ? (
+                    <span className="hmb-bd hmb-bd--lead">
+                      <span className="hmb-bd-lbl">B</span>
+                      {fmtPts(s.total - borderPts)}
+                    </span>
+                  ) : (
+                    <span className="hmb-bd hmb-bd--chase">
+                      <span className="hmb-bd-lbl">B</span>
+                      {fmtPts(s.total - borderPts)}
+                    </span>
+                  )}
                 </span>
               </Link>
             );
@@ -558,6 +575,48 @@ export default function Home() {
 
         {/* RIGHT SIDEBAR */}
         <div className="col">
+          {/* M-LEAGUE SF STANDINGS — デスクトップのみサイドバーに表示 */}
+          <section className="home-mleague-block home-mleague-block--desktop">
+            <div className="hmb-header">
+              <div>
+                <h2 className="hmb-title">Mリーグ順位表</h2>
+                <div className="hmb-en">2025-26 · {sf.gamesPlayed}/{sf.totalGames} 試合 · TOP {sf.finalLine} → FINAL</div>
+              </div>
+              <Link href="/mleague" className="hmb-more">標識 →</Link>
+            </div>
+            <div className="hmb-list">
+              {sfStandings.map((s, idx) => {
+                const rank = idx + 1;
+                const inFinal = rank <= sf.finalLine;
+                const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
+                return (
+                  <Link
+                    key={s.team.slug}
+                    href={`/teams/${s.team.slug}`}
+                    className={`hmb-row${inFinal ? " in-final" : ""}`}
+                    style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
+                  >
+                    <span className="hmb-strip"></span>
+                    <span className="hmb-rk">{KANJI_RANK[idx]}</span>
+                    <div className="hmb-team-block">
+                      <span className="hmb-team-name">{s.team.shortName}</span>
+                      <span className="hmb-team-sub">
+                        {inFinal ? "F進出圏" : "圏外"}
+                      </span>
+                    </div>
+                    <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
+                      {fmtPts(s.total)}
+                    </span>
+                  </Link>
+                );
+              })}
+              {/* ファイナル進出ライン */}
+              <div className="hmb-final-line" style={{ top: `calc(${sf.finalLine} * var(--row-h))` }}>
+                <span>FINAL LINE — TOP {sf.finalLine}</span>
+              </div>
+            </div>
+          </section>
+
           {/* CURRENT TITLE HOLDERS list */}
           <section
             style={{
