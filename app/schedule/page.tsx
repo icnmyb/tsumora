@@ -33,21 +33,11 @@ type ScheduledEvent = {
   link?: string; // 押下で遷移する放送・公式情報ページ
 };
 
-// 放送ページ URL（押下で遷移）
-const URL_M_LEAGUE = "https://m-league.jp/games/";
-const URL_NPM_SCHEDULE = "https://npm2001.com/schedule/";
-const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
-const URL_SAIKOUISEN_A1 = "https://saikouisen.com/results/league/league-a";
-const URL_SAIKOUISEN_A2 = "https://saikouisen.com/results/league/league-a2/";
+// 放送先（チャンネル）URL — クリック時に直接放送ページへ遷移
 const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
-
-// 当日かつ ABEMA 配信の場合は ABEMA 麻雀チャンネルへ遷移、それ以外は既定リンク
-function resolveEventLink(ev: ScheduledEvent, todayISO: string): string | undefined {
-  if (ev.date === todayISO && ev.channel.includes("ABEMA")) {
-    return URL_ABEMA_MAHJONG;
-  }
-  return ev.link;
-}
+const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
+const URL_NPM_YOUTUBE = "https://www.youtube.com/channel/UCEPKIiiunLb64uYqDnN4pmA";
+const URL_SAIKOUISEN_YOUTUBE = "https://www.youtube.com/channel/UCaq8_fXw680ljFOPgzGJuOw";
 
 const EVENTS: ScheduledEvent[] = [
   // ── Mリーグ 2025-26 セミファイナル（4/6–4/30 月火木金 全15日 30試合）──
@@ -61,7 +51,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "赤坂ドリブンズ vs セガサミーフェニックス vs TEAM雷電 vs BEAST X · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-04-28",
@@ -72,7 +62,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "EX風林火山 vs KONAMI麻雀格闘倶楽部 vs セガサミーフェニックス vs TEAM雷電 · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-04-30",
@@ -83,7 +73,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "赤坂ドリブンズ vs EX風林火山 vs KONAMI麻雀格闘倶楽部 vs BEAST X · 2試合 · SF最終日",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
 
   // ── Mリーグ 2025-26 ファイナル（5/4-5/15 月火木金 全8日 16試合）──
@@ -97,7 +87,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "ファイナル進出4チーム発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-05",
@@ -108,7 +98,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-07",
@@ -119,7 +109,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-08",
@@ -130,7 +120,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-11",
@@ -141,7 +131,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-12",
@@ -152,7 +142,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-14",
@@ -163,7 +153,7 @@ const EVENTS: ScheduledEvent[] = [
     sub: "対戦カード発表待ち · 2試合",
     channel: "ABEMA",
     tagColor: "#d4b94e",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-15",
@@ -175,7 +165,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA + PV",
     tagColor: "#c8282a",
     tagTextColor: "#ebe4d2",
-    link: URL_M_LEAGUE,
+    link: URL_ABEMA_MAHJONG,
   },
 
   // ── NPM（日本プロ麻雀協会）放送対局 ──────────────────────
@@ -191,7 +181,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
-    link: URL_NPM_SCHEDULE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-04",
@@ -203,7 +193,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
-    link: URL_NPM_SCHEDULE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-11",
@@ -215,7 +205,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
-    link: URL_NPM_SCHEDULE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-18",
@@ -227,7 +217,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "協会チャンネル",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
-    link: URL_NPM_SCHEDULE,
+    link: URL_NPM_YOUTUBE,
   },
   {
     date: "2026-05-25",
@@ -239,7 +229,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
-    link: URL_NPM_SCHEDULE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-25",
@@ -251,7 +241,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
-    link: URL_NPM_SCHEDULE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-25",
@@ -263,7 +253,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "協会チャンネル",
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
-    link: URL_NPM_SCHEDULE,
+    link: URL_NPM_YOUTUBE,
   },
 
   // ── JPML（日本プロ麻雀連盟）放送対局 ──────────────────────
@@ -280,7 +270,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#c8282a",
     tagTextColor: "#ebe4d2",
-    link: URL_JPML_YOUTUBE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-04-29",
@@ -292,7 +282,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#c8282a",
     tagTextColor: "#ebe4d2",
-    link: URL_JPML_YOUTUBE,
+    link: URL_ABEMA_MAHJONG,
   },
 
   // ── 最高位戦 第51期 A1リーグ（ABEMA 配信）────────────────
@@ -309,7 +299,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A1,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-06",
@@ -321,7 +311,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A1,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-13",
@@ -333,7 +323,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A1,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-27",
@@ -345,7 +335,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "ABEMA",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A1,
+    link: URL_ABEMA_MAHJONG,
   },
 
   // ── 最高位戦 第51期 A2リーグ（最高位戦ch / YouTube 配信）─────
@@ -362,7 +352,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-02",
@@ -374,7 +364,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-08",
@@ -386,7 +376,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-09",
@@ -398,7 +388,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-16",
@@ -410,7 +400,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-22",
@@ -422,7 +412,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-23",
@@ -434,7 +424,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-29",
@@ -446,7 +436,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
   {
     date: "2026-05-30",
@@ -458,7 +448,7 @@ const EVENTS: ScheduledEvent[] = [
     channel: "最高位戦ch",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_A2,
+    link: URL_SAIKOUISEN_YOUTUBE,
   },
 ];
 
@@ -663,7 +653,7 @@ export default function SchedulePage() {
                     {events.map((ev, idx) => {
                       const top = timeToY(ev.startTime);
                       const height = durationHeight(ev.startTime, ev.endTime);
-                      const link = resolveEventLink(ev, todayISO);
+                      const link = ev.link;
                       const inner = (
                         <>
                           <div className="tm">
@@ -734,7 +724,7 @@ export default function SchedulePage() {
             ) : (
               <div className="day-section">
                 {todayEvents.map((m, idx) => {
-                  const link = resolveEventLink(m, todayISO);
+                  const link = m.link;
                   return (
                     <div
                       key={idx}
