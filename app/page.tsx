@@ -659,17 +659,6 @@ export default function Home() {
             </div>
             <div
               style={{
-                fontFamily: "Shippori Mincho, serif",
-                fontWeight: 900,
-                fontSize: 22,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.2,
-              }}
-            >
-              今日も、和了る。
-            </div>
-            <div
-              style={{
                 fontFamily: "Noto Sans JP, sans-serif",
                 fontSize: 12,
                 marginTop: 8,
