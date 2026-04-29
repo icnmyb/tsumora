@@ -2103,9 +2103,28 @@ footer.main .cr {
   .rule-sheet h3 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; margin: 0 0 18px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; }
   .rule-sheet h3 .en { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-size: 14px; color: var(--ink-3); }
   .rule-sheet .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-  .rule-sheet .r .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 4px; }
-  .rule-sheet .r .v { font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px; color: var(--ink); }
+  .rule-sheet .r { display: flex; flex-direction: column; gap: 6px; }
+  .rule-sheet .r .l { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 4px; white-space: nowrap; }
+  .rule-sheet .r .v { font-family: "Shippori Mincho"; font-weight: 700; font-size: 15px; color: var(--ink); line-height: 1.5; }
   .rule-sheet .r .v b { color: var(--vermilion); }
+  @media (max-width: 720px) {
+    .rule-sheet { padding: 18px 18px; }
+    .rule-sheet h3 { font-size: 17px; margin-bottom: 14px; padding-bottom: 8px; }
+    .rule-sheet h3 .en { font-size: 11px; }
+    /* モバイル: ラベルと値を 横並び 1行 / 1ルール行 */
+    .rule-sheet .grid { grid-template-columns: 1fr; gap: 0; }
+    .rule-sheet .r {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      align-items: baseline;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px dotted var(--ink-4);
+    }
+    .rule-sheet .r:last-child { border-bottom: 0; }
+    .rule-sheet .r .l { margin-bottom: 0; font-size: 9px; }
+    .rule-sheet .r .v { font-size: 14px; line-height: 1.4; }
+  }
   /* ============ HERO ============ */
   .sc-hero {
     background: var(--ink); color: var(--paper);

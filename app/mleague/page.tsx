@@ -570,7 +570,7 @@ export default function MleaguePage() {
 
       <section className="rule-sheet">
         <h3>
-          公式ルール<span className="en">Official M.League Rules</span>
+          Mリーグルール<span className="en">M.League Rules</span>
         </h3>
         <div className="grid">
           {RULE_ROWS.map((r) => (
