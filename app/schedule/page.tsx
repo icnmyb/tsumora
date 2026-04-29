@@ -37,6 +37,15 @@ type ScheduledEvent = {
 const URL_M_LEAGUE = "https://m-league.jp/games/";
 const URL_NPM_SCHEDULE = "https://npm2001.com/schedule/";
 const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
+const URL_ABEMA_MAHJONG = "https://abema.tv/channels/mahjong";
+
+// 当日かつ ABEMA 配信の場合は ABEMA 麻雀チャンネルへ遷移、それ以外は既定リンク
+function resolveEventLink(ev: ScheduledEvent, todayISO: string): string | undefined {
+  if (ev.date === todayISO && ev.channel.includes("ABEMA")) {
+    return URL_ABEMA_MAHJONG;
+  }
+  return ev.link;
+}
 
 const EVENTS: ScheduledEvent[] = [
   // ── Mリーグ 2025-26 セミファイナル（4/6–4/30 月火木金 全15日 30試合）──
@@ -486,6 +495,7 @@ export default function SchedulePage() {
                     {events.map((ev, idx) => {
                       const top = timeToY(ev.startTime);
                       const height = durationHeight(ev.startTime, ev.endTime);
+                      const link = resolveEventLink(ev, todayISO);
                       const inner = (
                         <>
                           <div className="tm">
@@ -501,10 +511,10 @@ export default function SchedulePage() {
                           </span>
                         </>
                       );
-                      return ev.link ? (
+                      return link ? (
                         <a
                           key={idx}
-                          href={ev.link}
+                          href={link}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="event"
@@ -555,35 +565,38 @@ export default function SchedulePage() {
               </div>
             ) : (
               <div className="day-section">
-                {todayEvents.map((m, idx) => (
-                  <div
-                    key={idx}
-                    className="match-row"
-                    style={{ ["--oc" as string]: m.tagColor } as React.CSSProperties}
-                  >
-                    <div className="time">
-                      {m.startTime}
-                      <span className="dur">{m.endTime}</span>
+                {todayEvents.map((m, idx) => {
+                  const link = resolveEventLink(m, todayISO);
+                  return (
+                    <div
+                      key={idx}
+                      className="match-row"
+                      style={{ ["--oc" as string]: m.tagColor } as React.CSSProperties}
+                    >
+                      <div className="time">
+                        {m.startTime}
+                        <span className="dur">{m.endTime}</span>
+                      </div>
+                      <div className="status upcoming">予定</div>
+                      <div className="title">
+                        <h4>
+                          {link ? (
+                            <a href={link} target="_blank" rel="noopener noreferrer">
+                              {m.title}
+                            </a>
+                          ) : (
+                            <span>{m.title}</span>
+                          )}
+                        </h4>
+                        <div className="sub">{m.sub}</div>
+                      </div>
+                      <div className="org-tag">
+                        <span className="bar"></span>
+                        {m.channel}
+                      </div>
                     </div>
-                    <div className="status upcoming">予定</div>
-                    <div className="title">
-                      <h4>
-                        {m.link ? (
-                          <a href={m.link} target="_blank" rel="noopener noreferrer">
-                            {m.title}
-                          </a>
-                        ) : (
-                          <span>{m.title}</span>
-                        )}
-                      </h4>
-                      <div className="sub">{m.sub}</div>
-                    </div>
-                    <div className="org-tag">
-                      <span className="bar"></span>
-                      {m.channel}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </section>
