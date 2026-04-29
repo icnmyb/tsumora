@@ -348,6 +348,7 @@ export default function MleaguePage() {
           return (
             <div
               key={s.team.slug}
+              data-team={s.team.slug}
               className={`team-card${isEliminated ? " is-eliminated" : ""}`}
               style={
                 {

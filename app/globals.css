@@ -1589,7 +1589,7 @@ footer.main .cr {
   .team-card {
     border: var(--border);
     box-shadow: var(--shadow-sm);
-    padding: 22px 24px 18px;
+    padding: 22px 28px 18px;
     position: relative;
     overflow: hidden;
     transition: transform .15s ease, box-shadow .15s ease;
@@ -1602,19 +1602,36 @@ footer.main .cr {
     position: absolute; top: 0; left: 0; right: 0;
     height: 5px;
     background: var(--tc);
+    z-index: 2;
   }
   .team-card .watermark {
     position: absolute;
-    top: 8px; right: -16px;
+    top: 8px; right: -24px;
     font-family: "Shippori Mincho", serif;
     font-weight: 900;
-    font-size: 200px;
+    font-size: 180px;
     line-height: 0.85;
     color: var(--tc);
     opacity: 0.16;
     letter-spacing: -0.06em;
     pointer-events: none;
     user-select: none;
+    z-index: 0;
+  }
+
+  /* BEAST X — 迷彩オーバーレイ（公式ユニフォームのカモ柄を踏襲） */
+  .team-card[data-team="beast-x"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 38% 28% at 18% 22%, rgba(0,0,0,0.55), transparent 70%),
+      radial-gradient(ellipse 32% 26% at 78% 18%, rgba(255,255,255,0.08), transparent 70%),
+      radial-gradient(ellipse 42% 32% at 58% 55%, rgba(0,0,0,0.5), transparent 75%),
+      radial-gradient(ellipse 35% 30% at 22% 78%, rgba(255,255,255,0.09), transparent 70%),
+      radial-gradient(ellipse 30% 24% at 88% 82%, rgba(0,0,0,0.45), transparent 70%),
+      radial-gradient(ellipse 28% 22% at 50% 92%, rgba(212,167,44,0.06), transparent 70%);
+    pointer-events: none;
     z-index: 0;
   }
   .team-card > .head,
