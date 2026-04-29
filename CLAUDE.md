@@ -3,6 +3,36 @@
 このファイルは Claude Code がこの repo で作業する際の前提知識・規約・ハマりどころをまとめたもの。
 ユーザー向け概要は `README.md`、タスク追跡は `.claude/roadmap.md` を参照。
 
+---
+
+## 🟢 現在の状態（最終更新: 2026-04-30）
+
+**この欄はセッション終わりに必ず更新する。次セッションで `/clear` しても引き継げるように。**
+
+### 進行中タスク
+- ✅ Mリーグページ スマホUI 全面改修
+  - team-card 折りたたみロスター（checkbox + label の CSS のみ実装）
+  - FINAL進出ライン: 4位カードと5位カードの間に `.grid-border-line` 独立要素
+  - ボーダー差・試合数・1位率・最高素点をカード内 stats 行に
+  - 個人成績Top10 とリーグ概要を縦積み（two-col → 1fr）
+  - ルールシート Mリーグルール改題、ラベル+値の縦並び 2列に
+  - 1万点棒スクロールバーをモバイル非表示
+- ✅ 順位表 tint: 各チームの dark identity 色を左ソリッド → 右フェード
+- ✅ BEAST X 配色: ドーンブルー (#002953) + dark forest green bg (#2d3f23)
+
+### 直近の主要決定
+- **fmtPts**: 負号は ASCII "-" に統一（U+2212 だと mono フォントで幅ズレ）
+- **PC team-card は 153f80e 時点と pixel 一致**（モバイル改修は @media 内に閉じ込める鉄則）
+- **モバイル順位表**: standings-wrap 非表示、team-grid を順位表として使用、見出しは「順位表」に切替
+
+### 触ってはいけない箇所 / 注意
+- `/predict` は Coming Soon、subpages は `notFound()` のまま
+- PC view を変更する時は必ず @media (max-width: 720px) 内に閉じ込める。base CSS をいじると PC に漏れる
+- `team-card` 内の Link は z-index 2 必須（モバイル overlay より前面）
+- `.two-col` のモバイル化は line 2076 と 3477 の **両方**に @media 必要（cascade で後ろが勝つ）
+
+---
+
 ## ブランド前提（2026-04-29 確定）
 
 - **正式名称**: TSUMORA / ツモーラ
