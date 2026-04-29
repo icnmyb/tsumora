@@ -36,6 +36,7 @@ type ScheduledEvent = {
 // 放送ページ URL（押下で遷移）
 const URL_M_LEAGUE = "https://m-league.jp/games/";
 const URL_NPM_SCHEDULE = "https://npm2001.com/schedule/";
+const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
 
 const EVENTS: ScheduledEvent[] = [
   // ── Mリーグ 2025-26 セミファイナル（4/6–4/30 月火木金 全15日 30試合）──
@@ -252,6 +253,35 @@ const EVENTS: ScheduledEvent[] = [
     tagColor: "#1d4ed8",
     tagTextColor: "#ebe4d2",
     link: URL_NPM_SCHEDULE,
+  },
+
+  // ── JPML（日本プロ麻雀連盟）放送対局 ──────────────────────
+  // 出典: JPML 連盟チャンネル YouTube RSS で確認できた直近放送
+  // パターン: A1 毎週水曜・A2 毎週火曜配信。詳細時刻は連盟YouTube要確認
+  // 将来分は卓・節の特定が困難なため随時追加予定
+  {
+    date: "2026-04-28",
+    startTime: "12:00",
+    endTime: "18:00",
+    org: "JPML",
+    title: "第43期鳳凰戦 A2リーグ 第1節D卓",
+    sub: "出場者・詳細時刻 連盟YouTubeチャンネル参照",
+    channel: "連盟YouTube",
+    tagColor: "#c8282a",
+    tagTextColor: "#ebe4d2",
+    link: URL_JPML_YOUTUBE,
+  },
+  {
+    date: "2026-04-29",
+    startTime: "12:00",
+    endTime: "18:00",
+    org: "JPML",
+    title: "第43期鳳凰戦 A1リーグ 第2節C卓",
+    sub: "出場者・詳細時刻 連盟YouTubeチャンネル参照",
+    channel: "連盟YouTube",
+    tagColor: "#c8282a",
+    tagTextColor: "#ebe4d2",
+    link: URL_JPML_YOUTUBE,
   },
 ];
 
