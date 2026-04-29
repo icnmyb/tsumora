@@ -73,9 +73,9 @@ export async function generateMetadata({
   if (!player) return {};
 
   const nameEn = player.nameEn ? `（${player.nameEn}）` : "";
-  const title = `${player.name}${nameEn} — Hora.mg`;
+  const title = `${player.name}${nameEn} — TSUMORA`;
   const description = buildDescription(player);
-  const url = `https://hora.mg${player.href}`;
+  const url = `https://tsumora.com${player.href}`;
 
   // Build dynamic OG image URL using Vercel OG handler
   const orgLabel = ORG_LABEL[player.org] ?? player.org;
@@ -97,7 +97,7 @@ export async function generateMetadata({
       title,
       description,
       url,
-      siteName: "Hora.mg",
+      siteName: "TSUMORA",
       type: "profile",
       locale: "ja_JP",
       images: [
@@ -105,7 +105,7 @@ export async function generateMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${player.name} プロフィール - Hora.mg`,
+          alt: `${player.name} プロフィール - TSUMORA`,
         },
       ],
     },

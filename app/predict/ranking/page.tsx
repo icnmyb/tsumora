@@ -4,7 +4,7 @@ import "../predict.css";
 import { getTeamBySlug } from "@/app/teams/data";
 
 export const metadata: Metadata = {
-  title: "シーズンランキング — Hora.mg",
+  title: "シーズンランキング — TSUMORA",
   description: "Mリーグ予想ゲーム シーズン2025-26 ランキング。TOP100 + 自分の順位。",
 };
 
@@ -104,7 +104,7 @@ export default function RankingPage() {
     <div className="wrap predict-page">
       <section className="rk-hero">
         <div className="crumb">
-          <Link href="/predict">Hora.mg</Link>
+          <Link href="/predict">TSUMORA</Link>
           <span className="sep">›</span>
           <span style={{ color: "var(--paper)" }}>SEASON RANKING</span>
         </div>

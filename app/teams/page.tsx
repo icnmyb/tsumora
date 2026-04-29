@@ -5,7 +5,7 @@ import { BgLayers } from "@/components/BgLayers";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 export const metadata: Metadata = {
-  title: "Mリーグ チーム一覧 — Hora.mg",
+  title: "Mリーグ チーム一覧 — TSUMORA",
   description: "Mリーグ 10チームの紹介。各チームの設立年、運営会社、所属選手、過去成績、歴代マイルストーンを掲載。",
 };
 

@@ -5,7 +5,7 @@ import { getPlayer } from "@/app/players/data";
 import { getTeamBySlug } from "@/app/teams/data";
 
 export const metadata: Metadata = {
-  title: "マイページ — Hora.mg",
+  title: "マイページ — TSUMORA",
   description: "予想履歴・累計成績・推し雀士のフォロー一覧。",
 };
 

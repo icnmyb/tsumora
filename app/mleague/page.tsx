@@ -4,7 +4,7 @@ import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
 
 export const metadata: Metadata = {
-  title: "Mリーグ 2025-26 — Hora.mg",
+  title: "Mリーグ 2025-26 — TSUMORA",
   description:
     "Mリーグ 2025-26シーズンの順位表・10チーム一覧・個人成績ランキング。データは選手の年間獲得pt実績から計算。",
 };

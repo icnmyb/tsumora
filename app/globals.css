@@ -131,6 +131,9 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
 .wrap { max-width: 1400px; margin: 0 auto; padding: 0 28px; }
+@media (max-width: 720px) {
+  .wrap { padding: 0 14px; }
+}
 
 /* ============ TOP RED STRIP ============ */
 .strip {
@@ -198,6 +201,20 @@ img { max-width: 100%; display: block; }
   letter-spacing: -0.02em; line-height: 1; margin-top: 4px;
   color: var(--ink);
 }
+@media (max-width: 720px) {
+  .masthead { padding: 14px 0 12px; }
+  .masthead-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .masthead-left { gap: 12px; }
+  .masthead h1 { font-size: 56px; }
+  .masthead h1 .en { font-size: 16px; }
+  .masthead-right { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; width: 100%; }
+  .masthead-right .kv { gap: 6px; font-size: 10px; }
+  .masthead-right .big { font-size: 18px; margin-top: 0; margin-left: auto; }
+}
+@media (max-width: 380px) {
+  .masthead h1 { font-size: 44px; }
+  .masthead-right .kv:nth-child(3) { display: none; }
+}
 
 /* ============ NAV ============ */
 nav.main {
@@ -205,6 +222,13 @@ nav.main {
   background: var(--ink); color: var(--paper);
   display: flex; align-items: stretch;
   font-family: "Shippori Mincho"; font-weight: 700;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+nav.main::-webkit-scrollbar { display: none; }
+nav.main > .wrap {
+  scroll-snap-type: x proximity;
 }
 nav.main a {
   padding: 12px 22px;
@@ -213,6 +237,13 @@ nav.main a {
   display: flex; align-items: center; gap: 8px;
   color: var(--paper);
   position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
+@media (max-width: 720px) {
+  nav.main a { padding: 10px 14px; font-size: 13px; gap: 6px; }
+  nav.main .idx { display: none; }
 }
 nav.main a:hover { background: rgba(235,228,210,.08); }
 nav.main a.active {
@@ -244,7 +275,10 @@ main { padding: 20px 0 60px; }
   display: grid; gap: 14px;
   grid-template-columns: 1fr 340px;
 }
-.col { display: flex; flex-direction: column; gap: 14px; }
+@media (max-width: 880px) {
+  .grid-2col { grid-template-columns: 1fr; }
+}
+.col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 
 .box {
   background: var(--paper);
@@ -488,6 +522,15 @@ main { padding: 20px 0 60px; }
 
 .orgs-grid {
   display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+}
+@media (max-width: 980px) {
+  .orgs-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .orgs-grid { grid-template-columns: 1fr; }
+  .orgs-section h2 { font-size: 26px; }
+  .orgs-section h2 .num { font-size: 18px; }
+  .orgs-section h2 .rule { display: none; }
 }
 .org-card {
   background: var(--paper); border: var(--border); box-shadow: var(--shadow-sm);
@@ -766,6 +809,16 @@ footer.main .cr {
   font-family: "Geist Mono"; font-size: 10.5px; letter-spacing: 0.12em;
   color: rgba(235,228,210,.4);
   display: flex; justify-content: space-between;
+}
+@media (max-width: 880px) {
+  footer.main .wrap { grid-template-columns: 1fr 1fr; gap: 28px; }
+}
+@media (max-width: 480px) {
+  footer.main { padding: 28px 0 20px; margin-top: 36px; }
+  footer.main .wrap { grid-template-columns: 1fr; gap: 22px; }
+  footer.main .big-mark { font-size: 42px; }
+  footer.main .desc { font-size: 12px; }
+  footer.main .cr { flex-direction: column; gap: 6px; font-size: 9.5px; }
 }
   /* Page-specific: Title detail */
   .title-hero {
@@ -3027,6 +3080,13 @@ footer.main .cr {
   background: var(--ink-4);
   margin: 0 8px;
 }
+@media (max-width: 720px) {
+  .home-section-h { flex-wrap: wrap; gap: 8px; margin: 22px 0 12px; padding-bottom: 8px; }
+  .home-section-h .hsh-jp { font-size: 22px; }
+  .home-section-h .hsh-en { font-size: 13px; }
+  .home-section-h .hsh-rule { display: none; }
+  .home-section-h .hsh-more { margin-left: auto; font-size: 10px; }
+}
 .home-section-h .hsh-more {
   font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 11px;
@@ -3040,17 +3100,27 @@ footer.main .cr {
 /* HERO redesign */
 .home-hero {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 880px) {
+  .home-hero { grid-template-columns: 1fr; }
 }
 .home-hero-lead {
   background: var(--ink);
   color: var(--paper);
   border: var(--border);
   box-shadow: 7px 7px 0 var(--vermilion);
-  padding: 38px 44px 38px;
+  padding: 32px 34px 32px;
   position: relative;
   overflow: hidden;
+}
+@media (max-width: 720px) {
+  .home-hero-lead { padding: 24px 20px 22px; box-shadow: 5px 5px 0 var(--vermilion); }
+  .home-hero-lead .hh-news-headline { font-size: clamp(28px, 7vw, 40px); }
+  .home-hero-lead .hh-news-actions { flex-wrap: wrap; gap: 12px; }
+  .home-hero-lead .hh-news-list-cat { width: auto; }
+  .home-hero-lead .hh-news-list a { gap: 10px; }
 }
 .home-hero-lead::before {
   content: "";
@@ -3121,23 +3191,414 @@ footer.main .cr {
   padding-top: 16px;
 }
 
+/* Top Story news 見出し: 通常の hh-title より小さく、見出しらしく */
+.home-hero-lead .hh-news-link {
+  position: relative;
+  z-index: 1;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.home-hero-lead .hh-news-headline {
+  font-size: clamp(32px, 3.6vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+  color: var(--paper);
+  transition: color .2s ease;
+}
+.home-hero-lead .hh-news-link:hover .hh-news-headline {
+  color: #f0c86d;
+}
+.home-hero-lead .hh-news-lead {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 24px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(235,228,210,.82);
+  max-width: 56ch;
+}
+.home-hero-lead .hh-news-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 1.5px solid rgba(235,228,210,.18);
+}
+.home-hero-lead .hh-news-cta {
+  font-family: "Shippori Mincho", serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--vermilion);
+  padding: 10px 18px;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 var(--paper);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.home-hero-lead .hh-news-cta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--paper);
+}
+.home-hero-lead .hh-news-all {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(235,228,210,.65);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(235,228,210,.3);
+  padding-bottom: 2px;
+  transition: color .2s ease, border-color .2s ease;
+}
+.home-hero-lead .hh-news-all:hover {
+  color: #f0c86d;
+  border-color: #f0c86d;
+}
+.home-hero-lead .hh-news-list {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.home-hero-lead .hh-news-list li {
+  margin: 0;
+}
+.home-hero-lead .hh-news-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  text-decoration: none;
+  color: rgba(235,228,210,.82);
+  transition: color .2s ease;
+  padding: 4px 0;
+}
+.home-hero-lead .hh-news-list a:hover {
+  color: #f0c86d;
+}
+.home-hero-lead .hh-news-list-cat {
+  flex-shrink: 0;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--vermilion);
+  width: 70px;
+}
+.home-hero-lead .hh-news-list-headline {
+  font-family: "Shippori Mincho", serif;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* /news ページ */
+.news-index-hd {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+}
+.news-index-kicker {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--vermilion);
+  margin-bottom: 14px;
+}
+.news-index-title {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: clamp(56px, 8vw, 110px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+.news-index-title .comma { color: var(--vermilion); font-size: 0.7em; }
+.news-index-title .em { color: var(--vermilion); }
+.news-index-en {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ink-2);
+  margin: 0;
+}
+.news-top {
+  display: block;
+  background: var(--ink);
+  color: var(--paper);
+  border: var(--border);
+  box-shadow: 7px 7px 0 var(--vermilion);
+  padding: 38px 44px;
+  margin-bottom: 28px;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+@media (max-width: 720px) {
+  .news-top { padding: 24px 20px; box-shadow: 5px 5px 0 var(--vermilion); }
+  .news-index-title { font-size: clamp(40px, 11vw, 70px); }
+  .news-item { padding: 18px 18px; }
+  .news-article { padding: 16px 0; }
+  .news-article-lead { padding: 14px 16px; font-size: 15px; }
+}
+.news-top:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 9px 9px 0 var(--vermilion);
+}
+.news-top-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.news-top-cat {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  background: var(--vermilion);
+  color: var(--paper);
+  padding: 5px 11px;
+}
+.news-top-date {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: rgba(235,228,210,.7);
+}
+.news-top-headline {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: clamp(34px, 4.6vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+  color: var(--paper);
+}
+.news-top-lead {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(235,228,210,.82);
+  margin: 0 0 24px;
+  max-width: 60ch;
+}
+.news-top-cta {
+  font-family: "Shippori Mincho", serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--vermilion);
+  padding: 10px 18px;
+  display: inline-block;
+}
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.news-item {
+  display: block;
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 24px 26px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.news-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+.news-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.news-item-cat {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  padding: 4px 9px;
+  background: var(--ink);
+  color: var(--paper);
+}
+.news-cat-title { background: var(--vermilion); }
+.news-cat-mleague { background: #a07e28; }
+.news-cat-result { background: #1d4ed8; }
+.news-cat-info { background: var(--ink-2); }
+.news-item-date {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+}
+.news-item-headline {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+.news-item-lead {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+/* /news/[slug] 詳細ページ */
+.news-article {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+.news-back {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--ink-2);
+  text-decoration: none;
+  margin-bottom: 28px;
+  display: inline-block;
+}
+.news-back:hover {
+  color: var(--vermilion);
+}
+.news-article-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.news-article-date {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--ink-2);
+}
+.news-article-headline {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: clamp(34px, 4.4vw, 54px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  color: var(--ink);
+}
+.news-article-lead {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0 0 32px;
+  padding: 18px 22px;
+  background: var(--paper-warm, #f5efdc);
+  border-left: 4px solid var(--vermilion);
+}
+.news-article-body p {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 15.5px;
+  line-height: 1.95;
+  color: var(--ink);
+  margin: 0 0 22px;
+}
+.news-article-related {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1.5px solid var(--ink);
+}
+.news-related-hd {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--vermilion);
+  margin-bottom: 14px;
+}
+.news-related-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.news-related-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--paper);
+  border: var(--border);
+  font-family: "Shippori Mincho", serif;
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background .15s ease;
+}
+.news-related-item:hover {
+  background: var(--vermilion);
+  color: var(--paper);
+}
+.news-related-tag {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--vermilion);
+  text-transform: uppercase;
+}
+.news-related-item:hover .news-related-tag {
+  color: var(--paper);
+}
+
+@media (max-width: 720px) {
+  .news-list { grid-template-columns: 1fr; }
+}
+
 .home-hero-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  gap: 12px;
+}
+@media (max-width: 880px) {
+  .home-hero-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .home-hero-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .hh-card {
   background: var(--paper);
   border: var(--border);
   box-shadow: 5px 5px 0 var(--ink);
-  padding: 22px 22px 20px;
+  padding: 20px 22px 18px;
   position: relative;
   overflow: hidden;
   text-decoration: none;
   color: var(--ink);
-  display: block;
+  display: flex;
+  flex-direction: column;
   transition: transform .14s ease, box-shadow .14s ease;
-  min-height: 240px;
+  min-height: 200px;
 }
 .hh-card::before {
   content: "";
@@ -3152,20 +3613,20 @@ footer.main .cr {
 }
 .hh-card-rank {
   position: absolute;
-  top: 16px; right: 16px;
+  top: 10px; right: 12px;
   font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   color: var(--ink-3);
 }
 .hh-card-glyph {
   position: absolute;
-  right: -16px;
-  bottom: -28px;
+  right: -14px;
+  bottom: -22px;
   font-family: "Shippori Mincho", serif;
   font-weight: 900;
-  font-size: 180px;
+  font-size: 150px;
   line-height: 0.85;
   color: var(--c);
   opacity: 0.10;
@@ -3178,137 +3639,457 @@ footer.main .cr {
   letter-spacing: 0.14em;
   font-weight: 700;
   color: var(--c);
-  margin-top: 8px;
-  margin-bottom: 14px;
+  margin-top: 6px;
+  margin-bottom: 12px;
   text-transform: uppercase;
 }
 .hh-card-title {
   font-family: "Shippori Mincho", serif;
   font-weight: 900;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   color: var(--ink);
   position: relative;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .hh-card-holder {
   font-family: "Shippori Mincho", serif;
   font-weight: 700;
-  font-size: 20px;
-  letter-spacing: -0.02em;
+  font-size: 17px;
+  letter-spacing: -0.015em;
   color: var(--ink);
   position: relative;
   margin-top: auto;
   border-top: 1.5px solid var(--ink-4);
-  padding-top: 12px;
+  padding-top: 10px;
 }
 .hh-card-note {
   font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--ink-3);
-  margin-top: 4px;
+  margin-top: 3px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   position: relative;
 }
 .hh-card-meta {
-  position: absolute;
-  bottom: 14px;
-  right: 18px;
-  font-family: "Instrument Serif", serif;
-  font-style: italic;
-  font-size: 11px;
-  color: var(--ink-3);
+  display: none;
 }
 
-/* Mリーグ leader strip */
-.home-hero-mleague {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 28px;
-  align-items: center;
+/* M.LEAGUE board — hero right column */
+.home-hero-mboard {
   background: var(--paper);
   border: var(--border);
   box-shadow: 5px 5px 0 var(--gold);
-  padding: 18px 26px;
+  padding: 22px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 720px) {
+  .home-hero-mboard { padding: 18px 16px 14px; box-shadow: 4px 4px 0 var(--gold); gap: 12px; }
+  .mlb-next-when { flex-wrap: wrap; }
+  .mlb-next-time { margin-left: 0; width: 100%; padding-top: 4px; }
+  .mlb-leader-line a { grid-template-columns: auto 10px 1fr auto; gap: 8px; padding: 8px 10px; }
+  .mlb-ll-name { font-size: 14px; }
+}
+.home-hero-mboard::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 18px, rgba(160,126,40,.025) 18px 19px);
+  pointer-events: none;
+}
+
+.mlb-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--ink);
+  position: relative;
+  z-index: 1;
+}
+.mlb-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mlb-mark {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--paper);
+  background: var(--gold);
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.04em;
+}
+.mlb-brand-name {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  line-height: 1;
+}
+.mlb-meta {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mlb-season {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+}
+.mlb-phase {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--vermilion);
+  letter-spacing: 0.02em;
+}
+
+/* Phase progress bar */
+.mlb-progress {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mlb-progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.mlb-progress-label {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.mlb-progress-count {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 700;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+.mlb-progress-count strong {
+  font-family: "Shippori Mincho", serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--vermilion);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.mlb-progress-count .slash {
+  font-size: 14px;
+  margin: 0 2px;
+  color: var(--ink-3);
+}
+.mlb-progress-count .total {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.mlb-progress-count .unit {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 11px;
+  margin-left: 4px;
+  color: var(--ink-3);
+}
+.mlb-progress-bar {
+  position: relative;
+  height: 8px;
+  background: rgba(0,0,0,.06);
+  border: 1px solid var(--ink-4);
+}
+.mlb-progress-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: linear-gradient(90deg, var(--gold), var(--vermilion));
+}
+.mlb-progress-tick {
+  position: absolute;
+  top: -3px; bottom: -3px;
+  width: 2px;
+  background: var(--ink);
+}
+.mlb-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Next match card */
+.mlb-next {
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 14px 16px 14px;
+}
+.mlb-next-tag {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mlb-next-dot {
+  color: var(--vermilion);
+  animation: mlb-blink 1.6s ease-in-out infinite;
+  font-size: 8px;
+}
+@keyframes mlb-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.mlb-next-when {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(235,228,210,.16);
+}
+.mlb-next-date {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  line-height: 1;
+}
+.mlb-next-day {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--gold);
+  line-height: 1;
+}
+.mlb-next-time {
+  margin-left: auto;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(235,228,210,.7);
+}
+.mlb-next-teams {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mlb-next-teams li { margin: 0; }
+.mlb-next-teams a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--paper);
+  padding: 4px 2px;
+  transition: color .15s ease;
+}
+.mlb-next-teams a:hover { color: var(--gold); }
+.mlb-next-swatch {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  border: 1px solid rgba(235,228,210,.4);
+}
+.mlb-next-name {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+/* SF leader inline strip */
+.mlb-leader-line {
+  position: relative;
+  z-index: 1;
+}
+.mlb-leader-line a {
+  display: grid;
+  grid-template-columns: auto 12px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(160,126,40,.08);
+  border-left: 3px solid var(--gold);
   text-decoration: none;
   color: var(--ink);
-  transition: transform .12s ease, box-shadow .12s ease;
+  transition: background .15s ease;
 }
-.home-hero-mleague:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 7px 7px 0 var(--gold);
-}
-.hhm-tag {
+.mlb-leader-line a:hover { background: rgba(160,126,40,.14); }
+.mlb-ll-tag {
   font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.18em;
   font-weight: 700;
   color: var(--gold);
-  margin-bottom: 4px;
 }
-.hhm-headline {
+.mlb-ll-swatch {
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(0,0,0,.2);
+}
+.mlb-ll-name {
   font-family: "Shippori Mincho", serif;
-  font-weight: 900;
-  font-size: 26px;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.015em;
 }
-.hhm-team {
+.mlb-ll-pt {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 15px;
   color: var(--vermilion);
+  letter-spacing: -0.01em;
 }
-.hhm-sub {
+.mlb-ll-pt.m { color: var(--ink-2); }
+
+.mlb-cta {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
   font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 11px;
-  color: var(--ink-3);
-  margin-top: 4px;
-  letter-spacing: 0.04em;
-  font-weight: 600;
-}
-.hhm-pt-block {
-  text-align: right;
-  border-left: 1.5px solid var(--ink-4);
-  border-right: 1.5px solid var(--ink-4);
-  padding: 0 22px;
-}
-.hhm-pt-label {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 9.5px;
   letter-spacing: 0.16em;
-  color: var(--ink-3);
   font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 4px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--gold);
+  padding-bottom: 2px;
+  margin-top: auto;
+  transition: color .15s ease, border-color .15s ease;
 }
-.hhm-pt-value {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-weight: 700;
-  font-size: 32px;
-  letter-spacing: -0.02em;
+.mlb-cta:hover {
   color: var(--vermilion);
-  line-height: 1;
+  border-bottom-color: var(--vermilion);
 }
-.hhm-pt-value.m {
+
+/* PLAYERS DIRECTORY CTA */
+.players-cta {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 18px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 20px 26px;
+  border: var(--border);
+  box-shadow: 5px 5px 0 var(--vermilion);
+  margin-bottom: 28px;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.players-cta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--vermilion);
+}
+.players-cta-tag {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(235,228,210,.6);
+  font-weight: 700;
+}
+.players-cta-headline {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  margin-top: 4px;
+}
+.players-cta-en {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 16px;
+  color: #f0c86d;
+  margin-left: 14px;
+}
+.players-cta-orgs {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13px;
+  color: rgba(235,228,210,.7);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.players-cta-arrow {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 32px;
+  color: var(--vermilion);
+}
+@media (max-width: 720px) {
+  .players-cta { padding: 16px 18px; gap: 12px; box-shadow: 4px 4px 0 var(--vermilion); }
+  .players-cta-headline { font-size: 20px; }
+  .players-cta-en { display: block; margin-left: 0; margin-top: 2px; font-size: 13px; }
+  .players-cta-orgs { font-size: 12px; }
+  .players-cta-arrow { font-size: 24px; }
+}
+
+/* 現タイトル保持者 band */
+.home-titlists {
+  margin-top: 0;
+}
+.ht-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ink);
+}
+.ht-kicker {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
   color: var(--ink);
 }
-.hhm-tail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  color: var(--ink-3);
-  font-weight: 700;
-}
-.hhm-tail strong {
-  font-family: "Shippori Mincho", serif;
-  font-size: 28px;
+.ht-en {
+  margin-left: 14px;
   color: var(--vermilion);
-  font-weight: 900;
-  line-height: 1;
+  font-weight: 800;
+}
+@media (max-width: 480px) {
+  .ht-kicker { font-size: 10px; letter-spacing: 0.14em; }
+  .ht-en { display: block; margin-left: 0; margin-top: 4px; }
 }
 
 /* TITLES bento (4 cards) */
@@ -3328,6 +4109,10 @@ footer.main .cr {
   display: flex;
   flex-direction: column;
   min-height: 280px;
+}
+@media (max-width: 720px) {
+  .home-title-card { padding: 20px 20px 18px; min-height: 240px; box-shadow: 4px 4px 0 var(--c); }
+  .htc-glyph { font-size: 180px; top: -22px; right: -12px; }
 }
 .htc-glyph {
   position: absolute;
@@ -3468,7 +4253,219 @@ footer.main .cr {
   text-transform: uppercase;
 }
 
-/* RANKING podium */
+/* ============ TITLE RANKING — editorial vertical ============ */
+.title-rank {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  border-top: 2px solid var(--ink);
+}
+.tr-row {
+  border-bottom: 1.5px solid var(--ink-4);
+  position: relative;
+  background: var(--paper);
+  transition: background .15s ease;
+}
+.tr-row:hover { background: var(--paper-2, #f5efdc); }
+.tr-row.tr-first {
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom-color: var(--ink);
+}
+.tr-row.tr-first:hover { background: #131310; }
+
+.tr-link {
+  display: grid;
+  grid-template-columns: 56px 140px 1fr;
+  gap: 22px;
+  align-items: stretch;
+  padding: 22px 24px 22px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+.tr-row.tr-first .tr-link { padding: 32px 28px 32px; }
+
+.tr-rank {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ink-3);
+  align-self: start;
+  padding-top: 10px;
+  border-right: 1.5px solid var(--ink-4);
+  padding-right: 12px;
+  text-align: right;
+}
+.tr-row.tr-first .tr-rank {
+  color: var(--gold);
+  border-right-color: rgba(235,228,210,.18);
+  font-size: 13px;
+}
+
+.tr-count {
+  align-self: center;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  position: relative;
+}
+.tr-count::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  transform: translateY(-50%);
+  border-radius: 50%;
+}
+.tr-count-num {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 88px;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--ink);
+}
+.tr-row.tr-first .tr-count-num {
+  font-size: 130px;
+  color: #f0c86d;
+}
+.tr-count-u {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--ink-3);
+  letter-spacing: -0.02em;
+}
+.tr-row.tr-first .tr-count-u {
+  color: rgba(235,228,210,.6);
+  font-size: 28px;
+}
+
+.tr-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  align-self: center;
+}
+.tr-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--ink-4);
+}
+.tr-row.tr-first .tr-head { border-bottom-color: rgba(235,228,210,.18); }
+.tr-name {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1;
+}
+.tr-row.tr-first .tr-name {
+  font-size: 36px;
+  color: var(--paper);
+}
+.tr-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.tr-row.tr-first .tr-team { color: rgba(235,228,210,.6); }
+.tr-team-sw {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.tr-titles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tr-titles li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: "Shippori Mincho", serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.tr-titles li::before {
+  content: "├";
+  font-family: "Geist Mono", ui-monospace, monospace;
+  color: var(--ink-3);
+  flex-shrink: 0;
+  font-size: 12px;
+}
+.tr-titles li:last-child::before { content: "└"; }
+.tr-titles-name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.tr-row.tr-first .tr-titles-name { color: rgba(235,228,210,.85); }
+.tr-titles-year {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+.tr-row.tr-first .tr-titles-year { color: var(--gold); }
+.tr-titles-more {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  font-weight: 700;
+  font-style: italic;
+}
+.tr-row.tr-first .tr-titles-more { color: rgba(235,228,210,.55); }
+
+@media (max-width: 720px) {
+  .tr-link { grid-template-columns: 44px 100px 1fr; gap: 14px; padding: 18px 16px; }
+  .tr-row.tr-first .tr-link { padding: 24px 18px; }
+  .tr-rank { padding-right: 8px; padding-top: 8px; font-size: 11px; }
+  .tr-count-num { font-size: 64px; }
+  .tr-row.tr-first .tr-count-num { font-size: 92px; }
+  .tr-count-u { font-size: 16px; }
+  .tr-row.tr-first .tr-count-u { font-size: 22px; }
+  .tr-name { font-size: 20px; }
+  .tr-row.tr-first .tr-name { font-size: 26px; }
+  .tr-titles li { font-size: 12.5px; }
+  .tr-head { gap: 8px; }
+}
+@media (max-width: 480px) {
+  .tr-link { grid-template-columns: 32px 70px 1fr; gap: 10px; padding: 14px 12px; }
+  .tr-rank { padding-right: 4px; }
+  .tr-count-num { font-size: 50px; }
+  .tr-row.tr-first .tr-count-num { font-size: 72px; }
+  .tr-name { font-size: 17px; }
+  .tr-row.tr-first .tr-name { font-size: 22px; }
+  .tr-team { font-size: 9px; letter-spacing: 0.12em; }
+  .tr-titles li { font-size: 12px; gap: 6px; }
+}
+
+/* ============ legacy podium (no longer used on home) ============ */
 .home-ranking-podium {
   display: grid;
   grid-template-columns: 1fr 1.2fr 1fr;
@@ -3646,6 +4643,13 @@ footer.main .cr {
   letter-spacing: -0.02em;
   text-align: right;
 }
+@media (max-width: 600px) {
+  .hrl-row { grid-template-columns: 28px 28px 1fr 50px; gap: 8px; padding: 10px 12px; }
+  .hrl-meta { display: none; }
+  .hrl-rk { font-size: 18px; }
+  .hrl-cnt { font-size: 18px; }
+  .hrl-name { font-size: 13px; }
+}
 .hrl-cnt small {
   font-family: "Noto Sans JP", sans-serif;
   font-size: 11px;
@@ -3693,6 +4697,12 @@ footer.main .cr {
   text-decoration: none;
   font-weight: 700;
   border-bottom: 1.5px solid #f0c86d;
+}
+@media (max-width: 480px) {
+  .hmb-header { padding: 14px 14px; }
+  .hmb-title { font-size: 18px; }
+  .hmb-en { font-size: 9px; }
+  .hmb-row { padding: 0 14px; gap: 8px; grid-template-columns: 6px 28px 1fr 80px; }
 }
 .hmb-list {
   position: relative;

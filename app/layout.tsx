@@ -8,7 +8,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 export const metadata: Metadata = {
-  title: "Hora.mg — The Pro Mahjong Review",
+  title: "TSUMORA — The Pro Mahjong Review",
   description:
     "5つのプロ団体とMリーグの対局・成績・選手情報を横断する総合データベース。",
 };

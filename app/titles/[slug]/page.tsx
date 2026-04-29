@@ -16,7 +16,7 @@ export async function generateMetadata({
   const title = getTitleBySlug(slug);
   if (!title) return {};
   return {
-    title: `${title.name} — ${title.orgLabel} | Hora.mg`,
+    title: `${title.name} — ${title.orgLabel} | TSUMORA`,
     description: title.about[0] ?? `${title.name}の概要・歴代優勝者・ルール`,
   };
 }

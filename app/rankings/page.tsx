@@ -5,7 +5,7 @@ import { ALL_PLAYERS as FEATURED_PLAYERS, ROSTER_PLAYERS, type FeaturedPlayer } 
 import { TEAMS, type TeamData } from "@/app/teams/data";
 
 export const metadata: Metadata = {
-  title: "ランキング — Hora.mg",
+  title: "ランキング — TSUMORA",
   description:
     "5団体・Mリーグ横断のプロ雀士ランキング。タイトル獲得数・Mリーグ 2025-26 個人pt・トップ率など、検証可能な実データから集計。",
 };

@@ -5,15 +5,16 @@ import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
   { idx: "01", label: "ホーム", href: "/", match: (p: string) => p === "/" },
-  { idx: "02", label: "対局", href: "/schedule", match: (p: string) => p.startsWith("/schedule") },
-  { idx: "03", label: "タイトル戦", href: "/titles", match: (p: string) => p.startsWith("/titles") },
-  { idx: "04", label: "選手", href: "/players", match: (p: string) => p.startsWith("/players") },
-  { idx: "05", label: "ランキング", href: "/rankings", match: (p: string) => p.startsWith("/rankings") },
-  { idx: "06", label: "Mリーグ", href: "/mleague", match: (p: string) => p.startsWith("/mleague") },
-  { idx: "07", label: "Mチーム", href: "/teams", match: (p: string) => p.startsWith("/teams") },
-  { idx: "08", label: "団体", href: "/organizations", match: (p: string) => p.startsWith("/organizations") },
-  { idx: "09", label: "ルール", href: "/rules", match: (p: string) => p.startsWith("/rules") },
-  { idx: "10", label: "Hora.mg", href: "/predict", match: (p: string) => p.startsWith("/predict") },
+  { idx: "02", label: "ニュース", href: "/news", match: (p: string) => p.startsWith("/news") },
+  { idx: "03", label: "対局", href: "/schedule", match: (p: string) => p.startsWith("/schedule") },
+  { idx: "04", label: "タイトル戦", href: "/titles", match: (p: string) => p.startsWith("/titles") },
+  { idx: "05", label: "選手", href: "/players", match: (p: string) => p.startsWith("/players") },
+  { idx: "06", label: "ランキング", href: "/rankings", match: (p: string) => p.startsWith("/rankings") },
+  { idx: "07", label: "Mリーグ", href: "/mleague", match: (p: string) => p.startsWith("/mleague") },
+  { idx: "08", label: "Mチーム", href: "/teams", match: (p: string) => p.startsWith("/teams") },
+  { idx: "09", label: "団体", href: "/organizations", match: (p: string) => p.startsWith("/organizations") },
+  { idx: "10", label: "ルール", href: "/rules", match: (p: string) => p.startsWith("/rules") },
+  { idx: "11", label: "TSUMORA", href: "/predict", match: (p: string) => p.startsWith("/predict") },
 ];
 
 export function MainNav() {
@@ -30,11 +31,6 @@ export function MainNav() {
             </Link>
           );
         })}
-        <span className="spacer" />
-        <span className="search">
-          <span>⌕ 選手・タイトル戦を検索</span>
-          <span className="kbd">⌘K</span>
-        </span>
       </div>
     </nav>
   );

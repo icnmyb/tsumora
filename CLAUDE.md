@@ -1,0 +1,180 @@
+# TSUMORA / ツモーラ — Claude Code Working Notes
+
+このファイルは Claude Code がこの repo で作業する際の前提知識・規約・ハマりどころをまとめたもの。
+ユーザー向け概要は `README.md`、タスク追跡は `.claude/roadmap.md` を参照。
+
+## ブランド前提（2026-04-29 確定）
+
+- **正式名称**: TSUMORA / ツモーラ
+- **URL**: tsumora.com（メイン）+ tsumora.mg / tsumora.jp（防衛）
+- **意味**: ツモ + 裏（裏ドラ）+ 網羅（モーラ）+ 和了（ホーラ rhyme）
+- **positioning**: 「裏ドラのように、表に出ない麻雀の深さを、毎日編む」
+- **編集者**: 鷹見としや（JPML 39期 C2 / @tt_23_mm）
+- **リポジトリパス**: `/Users/toshiya.takami/tsumora/`（2026-04-29 に旧 `hora/` からリネーム済み）
+
+## プロジェクトの本質
+
+**日本のプロ麻雀界を 1 サイトに集約する editorial portal**。
+情報量より「読みやすさ・編集された見た目・コンテンツの質」を優先する。
+SaaS テンプレ的な UI は避ける (`/.claude/rules/web/design-quality.md` の anti-template policy 準拠)。
+
+## 言語・スタイル方針
+
+- **日本語が一次言語**。UI 文言・コメント・コミットメッセージは原則日本語。英語は editorial accent (Instrument Serif italic) として副次的に。
+- **ですます調は使わない**。簡潔・編集者調。
+- **コード内コメントは最小**。WHY が非自明な箇所のみ短く。
+- **ファイル末尾の余計な空行・コメントは消す**。
+
+## ドメイン用語 (重要)
+
+混同しがち。コード書く前に確認:
+
+| 用語 | 内容 |
+|---|---|
+| **JPML** | 日本プロ麻雀連盟 (1981-) — 鳳凰位戦 / 十段位戦 / 王位戦 / 女流桜花 など |
+| **NPM** | 日本プロ麻雀協会 (2001-) — 雀王戦 / 雀竜位戦 |
+| **最高位戦** | 最高位戦日本プロ麻雀協会 (1976-) — 最高位戦 / Classic / 發王戦 |
+| **RMU** | 麻雀競技連盟 (2007-) — 令昭位戦 / RMU クラウン / 闘魂杯 |
+| **μ (ミュー)** | 麻将連合-μ- (1997-) — μリーグ / BIG1 カップ / 将妃戦 |
+| **Mリーグ** | プロ団体ではない。10 チームのプロ団体横断トップリーグ (2018-) |
+| **鳳凰位** | JPML 最高峰タイトル。"houou-isen" (slug) |
+| **十段位** | JPML 第二タイトル。"judan-isen" |
+| **雀王** | NPM 最高峰タイトル。"jakuou-isen" |
+| **最高位** | 最高位戦最高峰タイトル。"saikouisen" |
+| **令昭位** | RMU 最高峰タイトル。"reishouisen" |
+| **連覇** | 同一タイトルを 2 期以上連続で防衛 (back-to-back) |
+| **持越** | Mリーグ レギュラー終了pt の 1/2 が SF / Final に持ち込まれる |
+| **半荘 (はんちゃん)** | 1 試合の単位。Mリーグは 1 夜 2 半荘 |
+
+タイトル名の slug は `app/titles/data.ts` で管理。新しく書く時は必ず参照すること。
+
+## データ構造の前提
+
+### 階層
+```
+ALL_PLAYERS (40)        ← Featured Mリーガー (詳細プロフィール完備)
+  ↑↓ id で結合
+ROSTER_PLAYERS (~2,900) ← 5 団体ロスター (基本情報のみ、scraper 産)
+```
+
+### 主要データファイル
+
+| ファイル | 内容 | 編集方針 |
+|---|---|---|
+| `app/players/data.ts` | Featured 40 Mリーガー | 手編集 (慎重に) |
+| `app/players/roster/{org}.ts` | 団体ロスター | scraper で再生成、手編集しない |
+| `app/teams/data.ts` | Mリーグ 10 チーム + 歴代シーズン結果 | 手編集 |
+| `app/titles/data.ts` | 7 主要タイトル戦 | 手編集 |
+| `app/mleague/sf-data.ts` | 2025-26 シーズン (レギュラー終了 + SF 進行中) | 公式更新追従で手編集 |
+| `app/news/data.ts` | 編集部選注目記事 | 手編集、当面 6 件程度 |
+
+### Player スキーマの罠
+`title: string` (e.g. "鳳凰位×3") と `titles: { year, name }[]` は別物。前者はカード表示用ラベル、後者は履歴。両方更新すること。
+
+### `mleagueTeam` フィールド
+チーム名は `app/teams/data.ts` の `name` (ロング名) と一致しないといけない:
+- "TEAM RAIDEN / 雷電" (フル形)
+- "渋谷ABEMAS"
+- "EARTH JETS"
+など。`shortName` ではない。`teams.find((t) => t.name === player.mleagueTeam)` で検索される。
+
+## デザインシステム
+
+### CSS トークン (抜粋、`app/globals.css` 冒頭)
+```css
+--paper: oklch(... ≈ #ebe4d2)
+--ink: #0b0b09
+--ink-2: ... (本文 secondary)
+--ink-3: ... (キャプション)
+--ink-4: ... (罫線)
+--vermilion: #c8282a   /* 朱 = 強調 / アクセント */
+--gold: #a07e28        /* 金 = M リーグ系 */
+--moss: #2f5c3f
+```
+
+### フォント階層
+| 用途 | フォント | 例 |
+|---|---|---|
+| 日本語見出し・キャラクター | Shippori Mincho (900) | 「鳳凰位戦」「Mリーグ番付」 |
+| 日本語本文 | Noto Sans JP (400-500) | リード文・記事本文 |
+| 英文 mono / 番号 / ラベル | Geist Mono (700) | "01" "M.LEAGUE" "+436.3" |
+| 英文 italic accent | Instrument Serif (italic) | "Career Title Counts" |
+
+### Brutal offset shadow パターン
+```css
+border: var(--border);              /* 1.5px 黒線 */
+box-shadow: 5px 5px 0 var(--ink);   /* 固定オフセット影 */
+```
+ホバー時に `7px 7px 0` + `transform: translate(-2px, -2px)` で立体感。サイト全体でこの構文を踏襲。
+
+### モバイル breakpoint
+- `1400px+` : 最大幅
+- `980px-` : `.grid-2col` などが 2col → 1col
+- `880px-` : `.home-hero` 縦積み, `.grid-2col` 1col
+- `720px-` : `.wrap` padding 28→14, masthead 縦積み, nav 番号非表示
+- `600px-` : `.hrl-row` 詰め, `.orgs-section h2` 縮小
+- `480px-` : `.orgs-grid` 1col, `.home-hero-grid` 1col
+- `380px-` : Masthead h1 44px, KV 1 個非表示
+
+新しいセクション追加するときも上記 breakpoint に合わせる。
+
+## よく使うコマンド
+
+```bash
+npm run dev                  # 開発サーバ http://localhost:3000
+npm run build                # プロダクションビルド (型チェック含む)
+npx tsc --noEmit             # 型チェックのみ
+
+# データ取得 (注意: 公式サイト負荷)
+node scripts/scrape-jpml.mjs
+node scripts/scrape-npm.mjs
+# ... 他団体も同様
+```
+
+`build` 通すまでが 1 タスク完了の最低基準。
+
+## ハマりやすいポイント
+
+1. **Next.js 15 async params**: `params: Promise<{ slug: string }>` が必須。`const { slug } = await params;`
+2. **app/page.tsx は Server Component**: `useState` 等使えない。クライアント要素は `"use client"` 別ファイル化。
+3. **データの責任分離**:
+   - `lib/computed.ts` の `computeMleagueStandings()` はレギュラー終了の確定順位 (実データ)
+   - `app/mleague/sf-data.ts` の `SEMIFINAL_2025_26.standings` は SF 進行中順位 (合計pt = 持越 + SFpt)
+   - 旧版で `annualPoints` 合算近似してた頃の名残コードあり、混同注意
+4. **Roster の player ID と Featured の player ID は重複しないか確認**: `roster.ts` 内で重複検出ロジックあり、`ALL_PLAYERS` に存在する id は除外する
+5. **画像なし**: 選手アバターは「名前頭文字 + チーム色背景」のテキストアバターで統一。実写画像は使わない (権利と編集自由度のため)
+6. **新規ページ追加時**:
+   - `app/<route>/page.tsx`
+   - `metadata` (title / description) を必ず export
+   - 大量の動的 route は `generateStaticParams` で SSG 化
+7. **`app/globals.css` が既に巨大** (~4,500 行): 新セクションは末尾追加 + コメント区切り。既存トークン (`--ink` `--paper` 等) を必ず使う
+8. **CSS クラス名衝突**: 例えば `.hmb-*` が複数のブロックで使われていた事故あり。新規プレフィクスを付けるかリネームで分離する
+
+## サブエージェント活用
+
+- `planner`: 大きな機能追加 / リファクタ前
+- `code-reviewer`: コード書いた直後 (auto)
+- `typescript-reviewer`: 型に絡む変更時
+- `e2e-runner`: ユーザーフロー検証 (Playwright)
+
+`Agent` ツール経由で呼び出し。
+
+## ロードマップ
+
+`.claude/roadmap.md` を参照。重要トラック:
+- **#G1-G5**: Supabase バックエンド (`/predict` 予想ゲーム + 将来的にニュース DB)
+- **#G3**: 対局スケジュール実データ統合 (公式 API 不在のため scraper 必要)
+- **#H シリーズ**: ホームページ動的化 (大半完了済み)
+
+## 禁止事項
+
+- **捏造データを書かない**。確認できないデータは「未整備」「データ準備中」と honest に表示。
+- **デザインの "ぼんやりミニマル" 化禁止**。editorial で一貫させる (`design-quality.md` 参照)。
+- **画面サイズの動作確認なしに UI レビュー完了とみなさない**。最低 375 / 768 / 1280 で見る。
+
+## 関連ドキュメント
+
+- `README.md` — プロジェクト概要 (人間向け)
+- `.claude/roadmap.md` — タスク
+- `.claude/league-research-progress.md` — 各団体リサーチログ
+- `~/.claude/rules/web/*` — グローバル web 規約

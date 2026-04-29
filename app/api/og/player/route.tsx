@@ -95,7 +95,7 @@ export async function GET(req: NextRequest) {
               color: "#5a564d",
             }}
           >
-            Hora.mg · The Pro Mahjong Review
+            TSUMORA · The Pro Mahjong Review
           </span>
         </div>
 
@@ -193,7 +193,7 @@ export async function GET(req: NextRequest) {
               display: "flex",
             }}
           >
-            hora.mg
+            tsumora.com
           </div>
         </div>
       </div>

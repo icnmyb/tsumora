@@ -5,7 +5,7 @@ import { getPlayer } from "@/app/players/data";
 import { getTeamBySlug } from "@/app/teams/data";
 
 export const metadata: Metadata = {
-  title: "予想投稿 — Hora.mg",
+  title: "予想投稿 — TSUMORA",
   description: "1試合の1着予想を投稿。ファンの予想分布をリアルタイムで確認しながら投票できる。",
 };
 

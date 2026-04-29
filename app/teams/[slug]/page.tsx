@@ -16,7 +16,7 @@ export async function generateMetadata({
   const team = getTeamBySlug(slug);
   if (!team) return {};
   return {
-    title: `${team.name} — Mリーグ — Hora.mg`,
+    title: `${team.name} — Mリーグ — TSUMORA`,
     description: `${team.name} (${team.nameEn}) — ${team.parentCompany} 運営。${team.joinedSeason}シーズン参入、優勝${team.championships}回。${team.tagline}`,
   };
 }

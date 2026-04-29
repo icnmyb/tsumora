@@ -3,7 +3,7 @@ import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS } from "@/app/teams/data";
 import { LiveClock } from "@/components/LiveClock";
 
-// Hora.mg launch date (基準日。Vol番号はここからの週数で算出)
+// TSUMORA launch date (基準日。Vol番号はここからの週数で算出)
 const LAUNCH_DATE = new Date("2025-09-01T00:00:00+09:00");
 // Mリーグ シーズン情報 (TEAMS データの最新シーズンから推定)
 const CURRENT_SEASON = TEAMS[0]?.seasons?.find((s) => s.result === "ongoing")?.season ?? "2025-26";
@@ -62,7 +62,7 @@ export function Masthead() {
           </div>
           <h1>
             <Link href="/">
-              Hora<span className="dot">.mg</span>
+              TSUMORA<span className="dot">.com</span>
             </Link>
             <span className="en">The Pro Mahjong Review</span>
           </h1>

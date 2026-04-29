@@ -255,7 +255,7 @@ function FanDonut() {
 }
 
 export const metadata: Metadata = {
-  title: "試合結果 — Hora.mg",
+  title: "試合結果 — TSUMORA",
   description: "Mリーグ試合の結果ページ。順位表・ファンの予想分布・的中ユーザーリスト。",
 };
 
@@ -336,7 +336,7 @@ export default async function ResultPage({ params }: { params: Promise<{ id: str
     <div className="wrap predict-page">
       <section className="res-hero">
         <div className="crumb">
-          <Link href="/predict">Hora.mg</Link>
+          <Link href="/predict">TSUMORA</Link>
           <span className="sep">›</span>
           <span style={{ color: "rgba(235,228,210,.6)" }}>試合結果</span>
           <span className="sep">›</span>
