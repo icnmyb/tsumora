@@ -1324,6 +1324,220 @@ footer.main .cr {
   .st-table .line-tag.s { background: var(--gold); color: var(--paper); }
   .st-table .line-tag.p { background: var(--paper-2); color: var(--ink-3); border: 1px solid var(--ink-4); }
 
+  /* MOBILE CARD LIST (default hidden, shown ≤720px via @media at bottom of file) */
+  .st-mobile-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+  }
+  .st-card {
+    border-bottom: 1px dotted var(--ink-4);
+  }
+  .st-card:last-child { border-bottom: 0; }
+  .st-card.is-border {
+    background: rgba(160,126,40,.06);
+    border-bottom: 2px dashed rgba(160,126,40,.55);
+  }
+  .st-card-link {
+    display: block;
+    padding: 14px 16px 16px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .st-card-link:hover { background: rgba(200,40,42,.04); }
+
+  .st-card-top {
+    display: grid;
+    grid-template-columns: 36px 40px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .st-card-rk {
+    font-family: "Shippori Mincho", serif;
+    font-weight: 900;
+    font-size: 30px;
+    text-align: center;
+    color: var(--ink-4);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .st-card-rk.top3 { color: var(--vermilion); }
+  .st-card-mark {
+    width: 40px; height: 40px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Shippori Mincho", serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: #fff;
+  }
+  .st-card-name {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .st-card-team {
+    font-family: "Shippori Mincho", serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .st-card-roster {
+    font-family: "Noto Sans JP", sans-serif;
+    font-size: 10px;
+    color: var(--ink-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .st-card-bar {
+    position: relative;
+    height: 8px;
+    background: var(--paper-2);
+    border: 1px solid var(--ink-4);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .st-card-bar .bar-axis {
+    position: absolute;
+    top: -2px; bottom: -2px;
+    left: 50%; width: 1px;
+    background: var(--ink);
+    transform: translateX(-0.5px);
+  }
+  .st-card-bar .fill {
+    position: absolute; top: 0; bottom: 0;
+  }
+  .st-card-bar .fill.p {
+    left: 50%;
+    background: linear-gradient(90deg, rgba(200,40,42,.7), var(--vermilion));
+  }
+  .st-card-bar .fill.m {
+    right: 50%; left: auto;
+    background: linear-gradient(90deg, var(--moss), rgba(78,90,42,.7));
+  }
+
+  .st-card-pts {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .st-card-total {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .st-card-total.p { color: var(--vermilion); }
+  .st-card-total.m { color: var(--moss); }
+  .st-card-diff {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: "Geist Mono", ui-monospace, monospace;
+  }
+  .st-card-diff .lbl {
+    font-family: "Shippori Mincho", serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .st-card-diff .val {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .st-card-diff.diff-lead .val { color: var(--vermilion); }
+  .st-card-diff.diff-lead .lbl { color: rgba(200,40,42,.65); }
+  .st-card-diff.diff-chase .val { color: var(--moss); }
+  .st-card-diff.diff-chase .lbl { color: rgba(78,90,42,.7); }
+  .st-card-diff.diff-zero .val { color: var(--ink-4); }
+
+  .st-card-stats {
+    display: flex;
+    gap: 18px;
+    padding-top: 8px;
+    border-top: 1px dotted var(--ink-4);
+  }
+  .st-card-stats .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .st-card-stats .stat .lbl {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .st-card-stats .stat .val {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* RESPONSIVE: ≤720px でテーブル → カード切り替え + ml-hero 縮小 */
+  @media (max-width: 720px) {
+    .st-desktop-table { display: none; }
+    .st-mobile-list { display: block; }
+
+    .st-head { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 4px; }
+    .st-head .ttl { font-size: 17px; }
+    .st-head .ttl .en { font-size: 11px; margin-left: 6px; }
+    .st-head .as-of { font-size: 9px; letter-spacing: 0.08em; }
+
+    .ml-hero { padding: 24px 18px 20px; }
+    .ml-hero::before { font-size: 320px; right: -30px; top: -60px; }
+    .ml-hero .crumb { margin-bottom: 14px; font-size: 10px; letter-spacing: 0.1em; }
+    .ml-hero .crumb .sep { margin: 0 6px; }
+    .ml-hero .season-tag { font-size: 9px; letter-spacing: 0.14em; padding: 4px 9px; margin-bottom: 12px; }
+    .ml-hero h1 { font-size: clamp(40px, 13vw, 64px); }
+    .ml-hero h1 .en { font-size: 13px; margin-top: 8px; }
+    .ml-hero .lead { font-size: 12px; line-height: 1.75; margin-top: 14px; }
+    .ml-hero .meta-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 0;
+      margin-top: 22px;
+      padding-top: 16px;
+    }
+    .ml-hero .m { padding: 0 12px; }
+    .ml-hero .m:nth-child(odd) { padding-left: 0; }
+    .ml-hero .m:nth-child(even) { padding-right: 0; border-right: 0; }
+    .ml-hero .m .l { font-size: 9px; margin-bottom: 5px; }
+    .ml-hero .m .v { font-size: 24px; }
+    .ml-hero .m .sub { font-size: 10px; margin-top: 4px; }
+  }
+  @media (max-width: 480px) {
+    .st-card-link { padding: 12px 14px; }
+    .st-card-top { gap: 8px; grid-template-columns: 32px 36px 1fr auto; margin-bottom: 10px; }
+    .st-card-rk { font-size: 26px; }
+    .st-card-mark { width: 36px; height: 36px; font-size: 16px; }
+    .st-card-team { font-size: 13px; }
+    .st-card-roster { font-size: 9px; }
+    .st-card-total { font-size: 20px; }
+    .st-card-diff .val { font-size: 12px; }
+    .st-card-stats { gap: 14px; }
+    .st-card-stats .stat .val { font-size: 12px; }
+
+    .ml-hero { padding: 20px 14px 18px; }
+    .ml-hero .meta-row { grid-template-columns: 1fr 1fr; }
+  }
+
   .sh { display: flex; align-items: baseline; gap: 14px; margin: 24px 0 12px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
   .sh > span:first-child { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0; }
   .sh .num { font-family: "Instrument Serif"; font-style: italic; font-size: 15px; color: var(--ink-3); }

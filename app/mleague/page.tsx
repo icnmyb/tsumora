@@ -154,7 +154,7 @@ export default function MleaguePage() {
           </div>
           <div className="as-of">SOURCE · 各選手の年間獲得pt実績合算</div>
         </div>
-        <table className="st-table">
+        <table className="st-table st-desktop-table">
           <thead>
             <tr>
               <th>順位</th>
@@ -231,6 +231,88 @@ export default function MleaguePage() {
             })}
           </tbody>
         </table>
+
+        {/* Mobile: card stack（テーブルが入らないので別レンダー）*/}
+        <ul className="st-mobile-list">
+          {standings.map((s, idx) => {
+            const top4 = idx < 4;
+            const top6 = idx < 6;
+            const isBorder = idx === 3;
+            const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "圏外";
+            const lineClass = top4 ? "f" : top6 ? "s" : "p";
+            const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
+            const diff = s.totalPts - borderPts;
+            return (
+              <li
+                key={s.team.slug}
+                className={`st-card${isBorder ? " is-border" : ""}`}
+              >
+                <Link
+                  href={`/teams/${s.team.slug}`}
+                  className="st-card-link"
+                >
+                  <div className="st-card-top">
+                    <span className={`st-card-rk${idx < 3 ? " top3" : ""}`}>
+                      {KANJI_RANK[idx] ?? `${idx + 1}`}
+                    </span>
+                    <span
+                      className="st-card-mark"
+                      style={{
+                        background: s.team.color,
+                        color: s.team.colorOnDark ?? "#fff",
+                      }}
+                    >
+                      {s.team.kanji}
+                    </span>
+                    <div className="st-card-name">
+                      <span className="st-card-team">{s.team.name}</span>
+                      <span className="st-card-roster">
+                        {s.rosterPlayers.map((p) => p.name).join(" / ") || "—"}
+                      </span>
+                    </div>
+                    <span className={`line-tag ${lineClass}`}>{lineLabel}</span>
+                  </div>
+                  <div className="st-card-bar" aria-hidden="true">
+                    <div className="bar-axis"></div>
+                    <div
+                      className={`fill ${s.totalPts >= 0 ? "p" : "m"}`}
+                      style={{ width: `${fillPct}%` }}
+                    ></div>
+                  </div>
+                  <div className="st-card-pts">
+                    <span className={`st-card-total ${s.totalPts >= 0 ? "p" : "m"}`}>
+                      {fmtPts(s.totalPts)}
+                    </span>
+                    <span
+                      className={`st-card-diff ${
+                        isBorder ? "diff-zero" : diff > 0 ? "diff-lead" : "diff-chase"
+                      }`}
+                    >
+                      <span className="lbl">ボーダー</span>
+                      <span className="val">
+                        {isBorder ? "±0.0" : fmtPts(diff)}
+                      </span>
+                    </span>
+                  </div>
+                  <div className="st-card-stats">
+                    <div className="stat">
+                      <span className="lbl">平均1位率</span>
+                      <span className="val">
+                        {s.topRateAvg > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
+                      </span>
+                    </div>
+                    <div className="stat">
+                      <span className="lbl">最高素点</span>
+                      <span className="val">
+                        {s.bestScore > 0 ? s.bestScore.toLocaleString() : "—"}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       <h2 className="sh">
