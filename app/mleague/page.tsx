@@ -191,11 +191,6 @@ export default function MleaguePage() {
                   key={s.team.slug}
                   data-team={s.team.slug}
                   className={`${isBorder ? "is-border" : ""}${isEliminated ? " is-eliminated" : ""}`.trim()}
-                  style={
-                    s.team.slug === "furinkazan" && !isEliminated
-                      ? ({ background: s.team.background ?? "var(--paper)" } as React.CSSProperties)
-                      : undefined
-                  }
                 >
                   <td className={`rk ${idx < 3 ? "top3" : ""}`.trim()}>
                     {KANJI_RANK[idx] ?? `${idx + 1}`}
@@ -260,11 +255,6 @@ export default function MleaguePage() {
                 key={s.team.slug}
                 data-team={s.team.slug}
                 className={`st-card${isBorder ? " is-border" : ""}${isEliminated ? " is-eliminated" : ""}`}
-                style={
-                  s.team.slug === "furinkazan" && !isEliminated
-                    ? ({ background: s.team.background ?? "var(--paper)" } as React.CSSProperties)
-                    : undefined
-                }
               >
                 <Link
                   href={`/teams/${s.team.slug}`}

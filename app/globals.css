@@ -1256,7 +1256,7 @@ footer.main .cr {
   .st-table td { padding: 10px 14px; border-bottom: 1px dotted var(--ink-4); vertical-align: middle; position: relative; }
   /* チーム別 tint — 大和証券Mリーグ公式バナー準拠の左→右グラデ。左端を濃く */
   .st-table tbody tr[data-team="furinkazan"] {
-    background: linear-gradient(90deg, rgba(216,40,40,0.92) 0%, rgba(15,0,0,0.62) 32%, rgba(15,0,0,0.22) 65%, transparent 95%);
+    background: linear-gradient(90deg, #5a0000 0%, #5a0000 35%, rgba(90,0,0,0.55) 65%, rgba(90,0,0,0.18) 85%, transparent 98%);
   }
   .st-table tbody tr[data-team="konami"] {
     background: linear-gradient(90deg, rgba(232,52,60,0.78) 0%, rgba(180,30,40,0.4) 50%, transparent 95%);
@@ -1425,7 +1425,7 @@ footer.main .cr {
   }
   /* チーム別 tint — モバイルは少し濃いめ */
   .st-card[data-team="furinkazan"] {
-    background: linear-gradient(90deg, rgba(216,40,40,0.95) 0%, rgba(15,0,0,0.68) 32%, rgba(15,0,0,0.26) 70%, transparent 95%);
+    background: linear-gradient(90deg, #5a0000 0%, #5a0000 38%, rgba(90,0,0,0.6) 68%, rgba(90,0,0,0.2) 86%, transparent 98%);
   }
   .st-card[data-team="konami"] {
     background: linear-gradient(90deg, rgba(232,52,60,0.85) 0%, rgba(180,30,40,0.42) 55%, transparent 95%);
