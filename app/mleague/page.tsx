@@ -428,6 +428,19 @@ export default function MleaguePage() {
                 </div>
               </div>
 
+              <input
+                type="checkbox"
+                id={`roster-toggle-${s.team.slug}`}
+                className="roster-toggle"
+                aria-label="各選手成績の表示切替"
+              />
+              <label
+                htmlFor={`roster-toggle-${s.team.slug}`}
+                className="roster-summary"
+              >
+                <span className="lbl">各選手成績</span>
+                <span className="chev" aria-hidden="true">▾</span>
+              </label>
               <ul className="roster">
                 {s.rosterPlayers.map((p) => {
                   const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);

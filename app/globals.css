@@ -1708,7 +1708,7 @@ footer.main .cr {
 
   .team-card > .head,
   .team-card .roster,
-  .team-card .team-roster,
+  .team-card .roster-summary,
   .team-card .team-stats {
     position: relative;
     z-index: 1;
@@ -1856,18 +1856,23 @@ footer.main .cr {
     border: 1.5px solid rgba(160,126,40,0.6);
   }
 
-  /* チーム選手リスト — モバイルでは <details> で折りたたみ */
-  .team-card .team-roster {
-    width: 100%;
+  /* チーム選手リスト — checkbox + label による CSS のみの折りたたみ
+     PC: roster 常時表示、summary 非表示
+     Mobile: roster 折りたたみ、summary がトグル */
+  .team-card .roster-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
   }
-  .team-card .team-roster > .roster-summary {
+  .team-card .roster-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 2px 10px;
+    padding: 10px 2px 8px;
     border-top: 1px solid rgba(255,255,255,0.18);
     cursor: pointer;
-    list-style: none;
     user-select: none;
     font-family: "Geist Mono", ui-monospace, monospace;
     font-size: 11px;
@@ -1876,15 +1881,14 @@ footer.main .cr {
     opacity: 0.78;
     transition: opacity .15s ease;
   }
-  .team-card .team-roster > .roster-summary::-webkit-details-marker { display: none; }
-  .team-card .team-roster > .roster-summary:hover { opacity: 1; }
-  .team-card .team-roster > .roster-summary .chev {
+  .team-card .roster-summary:hover { opacity: 1; }
+  .team-card .roster-summary .chev {
     font-family: serif;
     font-size: 16px;
     line-height: 1;
     transition: transform .25s ease;
   }
-  .team-card .team-roster[open] > .roster-summary .chev {
+  .team-card .roster-toggle:checked ~ .roster-summary .chev {
     transform: rotate(180deg);
   }
   .team-card .roster {
@@ -1894,11 +1898,15 @@ footer.main .cr {
     border-top: 1px solid currentColor;
     border-top-color: rgba(255,255,255,0.18);
   }
-  /* デスクトップ: details を透明化、summary 非表示、roster を強制表示 */
+  /* PC: summary 非表示、roster は常時表示 */
   @media (min-width: 721px) {
-    .team-card .team-roster { display: contents; }
-    .team-card .team-roster > .roster-summary { display: none; }
-    .team-card .team-roster > .roster { display: block; }
+    .team-card .roster-summary { display: none; }
+  }
+  /* Mobile: summary 表示、未チェックなら roster を非表示 */
+  @media (max-width: 720px) {
+    .team-card .roster-toggle:not(:checked) ~ .roster {
+      display: none;
+    }
   }
   .team-card .p {
     display: grid;
@@ -1961,7 +1969,7 @@ footer.main .cr {
     filter: saturate(0.75);
     transform: translate(-2px, -2px);
   }
-  .team-card.is-eliminated:has(.team-roster[open]) {
+  .team-card.is-eliminated:has(.roster-toggle:checked) {
     opacity: 1;
     filter: saturate(1);
   }
@@ -2006,7 +2014,7 @@ footer.main .cr {
     }
     .team-card .team-stats .stat .lbl { font-size: 8px; letter-spacing: 0.1em; }
     .team-card .team-stats .stat .val { font-size: 12px; }
-    .team-card .team-roster > .roster-summary { padding: 7px 2px 5px; font-size: 10px; }
+    .team-card .roster-summary { padding: 7px 2px 5px; font-size: 10px; }
     /* モバイルの roster は summary に border-top があるので、ul 側の border-top は不要 */
     .team-card .roster { border-top: 0; padding-top: 4px; }
     .team-card .p { font-size: 12px; gap: 10px; padding: 5px 0; }
