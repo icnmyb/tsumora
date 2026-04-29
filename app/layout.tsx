@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { BgLayers } from "@/components/BgLayers";
 import { TopStrip } from "@/components/TopStrip";
@@ -33,6 +34,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MainNav />
         <main>{children}</main>
         <SiteFooter />
+        {/* Privacy-friendly analytics by Plausible */}
+        <Script
+          src="https://plausible.io/js/pa-YHnbajbr6mQ8AX5gVKHY5.js"
+          strategy="afterInteractive"
+        />
+        <Script id="plausible-init" strategy="afterInteractive">
+          {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`}
+        </Script>
       </body>
     </html>
   );
