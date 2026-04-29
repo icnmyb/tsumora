@@ -1254,13 +1254,39 @@ footer.main .cr {
   }
   .st-table th.n { text-align: right; }
   .st-table td { padding: 10px 14px; border-bottom: 1px dotted var(--ink-4); vertical-align: middle; position: relative; }
-  /* チームカラー(team.background)のグラデ tint — 左→右にフェード */
-  .st-table tbody tr {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 78%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 32%, transparent) 55%, transparent 95%);
+  /* チーム別 tint — 大和証券Mリーグ公式バナー準拠の左→右グラデ */
+  .st-table tbody tr[data-team="furinkazan"] {
+    background: linear-gradient(90deg, rgba(216,40,40,0.55) 0%, rgba(15,0,0,0.45) 32%, rgba(15,0,0,0.15) 65%, transparent 95%);
   }
-  .st-table tbody tr:hover {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 92%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 42%, transparent) 55%, transparent 95%);
+  .st-table tbody tr[data-team="konami"] {
+    background: linear-gradient(90deg, rgba(232,52,60,0.55) 0%, rgba(180,30,40,0.3) 50%, transparent 95%);
   }
+  .st-table tbody tr[data-team="beast-x"] {
+    background: linear-gradient(90deg, rgba(15,75,120,0.55) 0%, rgba(20,80,90,0.32) 45%, rgba(45,63,35,0.18) 75%, transparent 95%);
+  }
+  .st-table tbody tr[data-team="drivens"] {
+    background: linear-gradient(90deg, rgba(95,200,90,0.5) 0%, rgba(150,220,90,0.28) 55%, transparent 95%);
+  }
+  .st-table tbody tr[data-team="phoenix"] {
+    background: linear-gradient(90deg, rgba(240,120,30,0.55) 0%, rgba(245,195,80,0.32) 50%, transparent 95%);
+  }
+  .st-table tbody tr[data-team="raiden"] {
+    background: linear-gradient(90deg, rgba(250,210,30,0.55) 0%, rgba(250,210,30,0.22) 55%, transparent 95%);
+  }
+  .st-table tbody tr[data-team="abemas"] {
+    background: linear-gradient(90deg, rgba(180,150,90,0.55) 0%, rgba(140,120,80,0.3) 50%, transparent 95%);
+  }
+  .st-table tbody tr[data-team="pirates"] {
+    background: linear-gradient(90deg, rgba(80,200,240,0.5) 0%, rgba(80,200,240,0.22) 55%, transparent 95%);
+  }
+  .st-table tbody tr[data-team="sakura-knights"] {
+    background: linear-gradient(90deg, rgba(245,180,225,0.55) 0%, rgba(245,180,225,0.22) 55%, transparent 95%);
+  }
+  .st-table tbody tr[data-team="earth-jets"] {
+    background: linear-gradient(90deg, rgba(60,180,80,0.5) 0%, rgba(20,120,60,0.25) 50%, transparent 95%);
+  }
+  /* hover はベースに alpha を上乗せ */
+  .st-table tbody tr:hover { filter: brightness(0.96) saturate(1.08); }
   .st-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; text-align: center; width: 44px; color: var(--ink-4); line-height: 1; }
   .st-table .rk.top3 { color: var(--vermilion); }
   .st-table .t-name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; }
@@ -1357,7 +1383,37 @@ footer.main .cr {
   }
   .st-card {
     border-bottom: 1px dotted var(--ink-4);
-    background: linear-gradient(90deg, color-mix(in srgb, var(--team-c, transparent) 82%, transparent) 0%, color-mix(in srgb, var(--team-c, transparent) 35%, transparent) 60%, transparent 95%);
+  }
+  /* チーム別 tint — desktop と同じ banner グラデ。モバイルは少し濃いめ */
+  .st-card[data-team="furinkazan"] {
+    background: linear-gradient(90deg, rgba(216,40,40,0.62) 0%, rgba(15,0,0,0.5) 32%, rgba(15,0,0,0.18) 70%, transparent 95%);
+  }
+  .st-card[data-team="konami"] {
+    background: linear-gradient(90deg, rgba(232,52,60,0.6) 0%, rgba(180,30,40,0.32) 55%, transparent 95%);
+  }
+  .st-card[data-team="beast-x"] {
+    background: linear-gradient(90deg, rgba(15,75,120,0.6) 0%, rgba(20,80,90,0.36) 45%, rgba(45,63,35,0.2) 75%, transparent 95%);
+  }
+  .st-card[data-team="drivens"] {
+    background: linear-gradient(90deg, rgba(95,200,90,0.55) 0%, rgba(150,220,90,0.32) 55%, transparent 95%);
+  }
+  .st-card[data-team="phoenix"] {
+    background: linear-gradient(90deg, rgba(240,120,30,0.6) 0%, rgba(245,195,80,0.36) 50%, transparent 95%);
+  }
+  .st-card[data-team="raiden"] {
+    background: linear-gradient(90deg, rgba(250,210,30,0.6) 0%, rgba(250,210,30,0.25) 55%, transparent 95%);
+  }
+  .st-card[data-team="abemas"] {
+    background: linear-gradient(90deg, rgba(180,150,90,0.6) 0%, rgba(140,120,80,0.34) 50%, transparent 95%);
+  }
+  .st-card[data-team="pirates"] {
+    background: linear-gradient(90deg, rgba(80,200,240,0.55) 0%, rgba(80,200,240,0.24) 55%, transparent 95%);
+  }
+  .st-card[data-team="sakura-knights"] {
+    background: linear-gradient(90deg, rgba(245,180,225,0.6) 0%, rgba(245,180,225,0.25) 55%, transparent 95%);
+  }
+  .st-card[data-team="earth-jets"] {
+    background: linear-gradient(90deg, rgba(60,180,80,0.55) 0%, rgba(20,120,60,0.28) 50%, transparent 95%);
   }
   .st-card:last-child { border-bottom: 0; }
   .st-card.is-border {

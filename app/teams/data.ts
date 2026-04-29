@@ -68,12 +68,14 @@ export const TEAMS: TeamData[] = [
   // ── 1. 赤坂ドリブンズ ───────────────────────────────────────
   {
     slug: "drivens",
+    // 公式バナー準拠の mid-green（前は #c6ff4d で lime に寄りすぎ）
+    // 旧 lime は colorOnDark に残してアクセントで使う
     name: "赤坂ドリブンズ",
     shortName: "ドリブンズ",
     nameEn: "Akasaka Drivens",
     kanji: "犀",
-    color: "#c6ff4d",
-    colorOnDark: "#e8ffb8",
+    color: "#6fc83a",
+    colorOnDark: "#c6ff4d",
     background: "#0f330f",
     parentCompany: "博報堂DYメディアパートナーズ",
     parentCompanyEn: "Hakuhodo DY Media Partners",

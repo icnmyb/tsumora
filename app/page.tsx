@@ -39,7 +39,7 @@ const MLEAGUE_LOGO_COLORS: Record<string, string> = {
   phoenix: "#F27100",
   "sakura-knights": "#ffccf5",
   pirates: "#3DDFFF",
-  drivens: "#c6ff4d",
+  drivens: "#6fc83a",
   furinkazan: "#ff4040",
   raiden: "#ffd91a",
   "beast-x": "#002953",
