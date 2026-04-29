@@ -436,6 +436,11 @@ export default function MleaguePage() {
               />
               <label
                 htmlFor={`roster-toggle-${s.team.slug}`}
+                className="roster-touch-target"
+                aria-hidden="true"
+              />
+              <label
+                htmlFor={`roster-toggle-${s.team.slug}`}
                 className="roster-summary"
               >
                 <span className="lbl">各選手成績</span>

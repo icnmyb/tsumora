@@ -1866,6 +1866,25 @@ footer.main .cr {
     width: 0;
     height: 0;
   }
+  .team-card .roster-touch-target {
+    display: none;
+  }
+  @media (max-width: 720px) {
+    /* カード全面をタップでロスター開閉できるよう、透明の label を被せる */
+    .team-card .roster-touch-target {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      cursor: pointer;
+    }
+    /* リンクは overlay より前に浮かせて navigation を維持 */
+    .team-card .head-name a,
+    .team-card .roster .nm a {
+      position: relative;
+      z-index: 2;
+    }
+  }
   .team-card .roster-summary {
     display: flex;
     align-items: center;
@@ -2053,6 +2072,9 @@ footer.main .cr {
 
   /* two col bottom */
   .two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 720px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
 
   .leaders-wrap { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 24px 26px; }
   .leaders-wrap h3 { font-family: "Shippori Mincho"; font-weight: 900; font-size: 20px; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: baseline; }
