@@ -370,29 +370,35 @@ export default function MleaguePage() {
                 </div>
               </div>
 
-              <ul className="roster">
-                {s.rosterPlayers.map((p) => {
-                  const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
-                  const pts = ap?.points ?? 0;
-                  return (
-                    <li key={p.id} className="p">
-                      <span
-                        className="av"
-                        style={{ background: s.team.color, color: avText }}
-                      >
-                        {getMonogram(p.name)}
-                      </span>
-                      <div className="nm">
-                        <Link href={p.href}>{p.name}</Link>
-                        <small>{p.org}</small>
-                      </div>
-                      <span className={`pt ${pts >= 0 ? "p" : "m"}`}>
-                        {fmtPts(pts)}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
+              <details className="team-roster">
+                <summary className="roster-summary">
+                  <span className="lbl">選手 {s.rosterPlayers.length}名</span>
+                  <span className="chev" aria-hidden="true">▾</span>
+                </summary>
+                <ul className="roster">
+                  {s.rosterPlayers.map((p) => {
+                    const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
+                    const pts = ap?.points ?? 0;
+                    return (
+                      <li key={p.id} className="p">
+                        <span
+                          className="av"
+                          style={{ background: s.team.color, color: avText }}
+                        >
+                          {getMonogram(p.name)}
+                        </span>
+                        <div className="nm">
+                          <Link href={p.href}>{p.name}</Link>
+                          <small>{p.org}</small>
+                        </div>
+                        <span className={`pt ${pts >= 0 ? "p" : "m"}`}>
+                          {fmtPts(pts)}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </details>
             </div>
           );
         })}

@@ -1607,10 +1607,9 @@ footer.main .cr {
     color: var(--ink);
   }
 
-  /* RESPONSIVE: ≤720px でテーブル → カード切り替え + ml-hero 縮小 */
+  /* RESPONSIVE: ≤720px は順位表セクション全体を非表示にして team-grid で代替 */
   @media (max-width: 720px) {
-    .st-desktop-table { display: none; }
-    .st-mobile-list { display: block; }
+    .standings-wrap { display: none; }
 
     .st-head { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 4px; }
     .st-head .ttl { font-size: 17px; }
@@ -1789,12 +1788,51 @@ footer.main .cr {
     text-transform: uppercase;
   }
 
+  /* チーム選手リスト — モバイルでは <details> で折りたたみ */
+  .team-card .team-roster {
+    width: 100%;
+    margin-top: 4px;
+  }
+  .team-card .team-roster > .roster-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 2px 10px;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.78;
+    transition: opacity .15s ease;
+  }
+  .team-card .team-roster > .roster-summary::-webkit-details-marker { display: none; }
+  .team-card .team-roster > .roster-summary:hover { opacity: 1; }
+  .team-card .team-roster > .roster-summary .chev {
+    font-family: serif;
+    font-size: 16px;
+    line-height: 1;
+    transition: transform .25s ease;
+  }
+  .team-card .team-roster[open] > .roster-summary .chev {
+    transform: rotate(180deg);
+  }
   .team-card .roster {
     list-style: none;
     margin: 0;
-    padding: 12px 0 0;
-    border-top: 1px solid currentColor;
-    border-top-color: rgba(255,255,255,0.18);
+    padding: 4px 0 0;
+  }
+  /* デスクトップ: details を強制オープン化、summary を非表示に */
+  @media (min-width: 721px) {
+    .team-card .team-roster > .roster-summary { display: none; }
+    .team-card .team-roster > .roster {
+      display: block !important;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.18);
+    }
   }
   .team-card .p {
     display: grid;
