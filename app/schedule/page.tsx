@@ -37,6 +37,7 @@ type ScheduledEvent = {
 const URL_M_LEAGUE = "https://m-league.jp/games/";
 const URL_NPM_SCHEDULE = "https://npm2001.com/schedule/";
 const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
+const URL_SAIKOUISEN_A2 = "https://saikouisen.com/results/league/league-a2/";
 const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
 
 // 当日かつ ABEMA 配信の場合は ABEMA 麻雀チャンネルへ遷移、それ以外は既定リンク
@@ -291,6 +292,119 @@ const EVENTS: ScheduledEvent[] = [
     tagColor: "#c8282a",
     tagTextColor: "#ebe4d2",
     link: URL_JPML_YOUTUBE,
+  },
+
+  // ── 最高位戦 第51期 A2リーグ（最高位戦ch / YouTube 配信）─────
+  // 出典: saikouisen.com/results/league/league-a2/ の卓組表
+  // 配信先: 最高位戦チャンネル (YouTube) ※ A1 = ABEMA, A2 = YouTube で取り違え注意
+  // 開始/終了時刻は公式公開待ち、暫定 12:00–20:00
+  {
+    date: "2026-05-01",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第3節 卓3",
+    sub: "山田 独歩・津田 岳宏・設楽 遥斗・中邨 光康",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-02",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第3節 卓4",
+    sub: "小平 崇弘・宇野 公介・井上 祐希・醍醐 大",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-08",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第3節 卓5",
+    sub: "塩澤 彰大・太野 奈月・渋川 難波・佐藤 崇・大平 亜季",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-09",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第4節 卓1",
+    sub: "朝倉 康心・井上 祐希・新井 啓文・中邨 光康・醍醐 大",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-16",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第4節 卓2",
+    sub: "小平 崇弘・平島 洋太・渋川 難波・平島 晶太",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-22",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第4節 卓3",
+    sub: "宇野 公介・渡辺 太・木村 誠・大平 亜季・中邨 光康",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-23",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第4節 卓4",
+    sub: "山田 独歩・津田 岳宏・井上 祐希・塩澤 彰大・太野 奈月",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-29",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第4節 卓5",
+    sub: "河野 直也・設楽 遥斗・佐藤 崇・今村 順平",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
+  },
+  {
+    date: "2026-05-30",
+    startTime: "12:00",
+    endTime: "20:00",
+    org: "SAIKOUISEN",
+    title: "最高位戦A2リーグ 第5節 卓1",
+    sub: "宇野 公介・平島 洋太・太野 奈月・有賀 利樹",
+    channel: "最高位戦ch",
+    tagColor: "#7c3aed",
+    tagTextColor: "#ebe4d2",
+    link: URL_SAIKOUISEN_A2,
   },
 ];
 
