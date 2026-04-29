@@ -3473,6 +3473,9 @@ footer.main .cr {
 
   /* ===== History / milestones ===== */
   .two-col { display: grid; grid-template-columns: 1.5fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 720px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
   .timeline {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);
     padding: 24px 28px; position: relative;
