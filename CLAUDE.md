@@ -10,6 +10,11 @@
 **この欄はセッション終わりに必ず更新する。次セッションで `/clear` しても引き継げるように。**
 
 ### 進行中タスク
+- ✅ `/mleague` 順位表フェーズ切替UI
+  - `?phase=regular|semifinal|final` でレギュラー/SF/Finalを切替
+  - デフォルトはFinal表示
+  - Finalは開幕前の持越pt表示（SF最終ptの1/2）に対応
+  - `FINAL_2025_26.standings` を追加し、自動更新ジョブがFinal進行データを書ける構造にした
 - ✅ Mリーグ 2025-26 セミファイナル最終結果反映
   - `SEMIFINAL_2025_26` を 2026-04-30 終了時点へ更新
   - Final進出: BEAST X / EX風林火山 / TEAM RAIDEN/雷電 / KONAMI麻雀格闘倶楽部
@@ -38,7 +43,7 @@
 - ✅ BEAST X 配色: ドーンブルー (#002953) + dark forest green bg (#2d3f23)
 
 ### 直近の主要決定
-- **MリーグSF**: 2026-04-30終了時点の最終順位へ更新済み。5/4 Final開幕後は `FINAL_2025_26` に結果/進行データを追加していく。
+- **Mリーグ順位表**: `/mleague` は `regular` / `semifinal` / `final` のURL切替。5/4 Final開幕後は `FINAL_2025_26.standings` を更新すれば表示へ反映される。
 - **信頼性優先**: 確認不能な評価値（選手スタイル分析のランダム値）は表示しない方針。
 - **fmtPts**: 負号は ASCII "-" に統一（U+2212 だと mono フォントで幅ズレ）
 - **PC team-card は 153f80e 時点と pixel 一致**（モバイル改修は @media 内に閉じ込める鉄則）

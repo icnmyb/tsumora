@@ -35,8 +35,19 @@ export interface FinalState {
   startDate: string;
   endDate: string;
   totalGames: number;
-  finalists: string[];
+  gamesPlayed: number;
+  finalLine: number;
+  standings: FinalTeamStanding[];
   upcoming: SFMatch[];
+}
+
+export interface FinalTeamStanding {
+  teamSlug: string;
+  carryover: number; // セミファイナル最終ptの1/2
+  finalPoints: number;
+  total: number;
+  gamesPlayed: number;
+  gamesTotal: number;
 }
 
 // レギュラーシーズン (2025-09-15 〜 2026-03-27) 終了時の最終順位
@@ -135,7 +146,42 @@ export const FINAL_2025_26: FinalState = {
   startDate: "2026-05-04",
   endDate: "2026-05-15",
   totalGames: 16,
-  finalists: ["beast-x", "furinkazan", "raiden", "konami"],
+  gamesPlayed: 0,
+  finalLine: 1,
+  standings: [
+    {
+      teamSlug: "beast-x",
+      carryover: 203.0,
+      finalPoints: 0,
+      total: 203.0,
+      gamesPlayed: 0,
+      gamesTotal: 16,
+    },
+    {
+      teamSlug: "furinkazan",
+      carryover: 170.8,
+      finalPoints: 0,
+      total: 170.8,
+      gamesPlayed: 0,
+      gamesTotal: 16,
+    },
+    {
+      teamSlug: "raiden",
+      carryover: 105.2,
+      finalPoints: 0,
+      total: 105.2,
+      gamesPlayed: 0,
+      gamesTotal: 16,
+    },
+    {
+      teamSlug: "konami",
+      carryover: 47.6,
+      finalPoints: 0,
+      total: 47.6,
+      gamesPlayed: 0,
+      gamesTotal: 16,
+    },
+  ],
   upcoming: [
     {
       date: "2026-05-04",

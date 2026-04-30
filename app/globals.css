@@ -1232,6 +1232,76 @@ footer.main .cr {
   .ml-hero .m .v.red { color: var(--vermilion); }
   .ml-hero .m .sub { font-size: 11px; color: rgba(235,228,210,.65); margin-top: 6px; font-family: "Noto Sans JP"; }
 
+  .phase-switch {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 0 0 14px;
+    background: var(--paper);
+    border: var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .phase-switch a {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "en date"
+      "jp jp";
+    gap: 5px 12px;
+    padding: 15px 18px 14px;
+    color: var(--ink);
+    text-decoration: none;
+    border-right: 1.5px solid var(--ink);
+    overflow: hidden;
+  }
+  .phase-switch a:last-child { border-right: 0; }
+  .phase-switch a::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 5px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 140ms ease;
+  }
+  .phase-switch a:hover::before,
+  .phase-switch a.active::before {
+    transform: scaleX(1);
+  }
+  .phase-switch a.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .phase-switch .ps-en {
+    grid-area: en;
+    font-family: "Geist Mono";
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    font-weight: 800;
+    color: var(--vermilion);
+  }
+  .phase-switch a.active .ps-en { color: #f0c86d; }
+  .phase-switch .ps-jp {
+    grid-area: jp;
+    font-family: "Shippori Mincho";
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 0;
+    line-height: 1.05;
+  }
+  .phase-switch .ps-date {
+    grid-area: date;
+    justify-self: end;
+    font-family: "Geist Mono";
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--ink-3);
+  }
+  .phase-switch a.active .ps-date { color: rgba(235,228,210,.6); }
+
   /* standings */
   .standings-wrap {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);
@@ -1636,6 +1706,23 @@ footer.main .cr {
     .ml-hero .m .l { font-size: 9px; margin-bottom: 5px; }
     .ml-hero .m .v { font-size: 24px; }
     .ml-hero .m .sub { font-size: 10px; margin-top: 4px; }
+
+    .phase-switch {
+      grid-template-columns: 1fr;
+      margin-bottom: 12px;
+    }
+    .phase-switch a {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: "en jp date";
+      align-items: baseline;
+      padding: 11px 14px;
+      border-right: 0;
+      border-bottom: 1.5px solid var(--ink);
+    }
+    .phase-switch a:last-child { border-bottom: 0; }
+    .phase-switch .ps-jp { font-size: 17px; }
+    .phase-switch .ps-en,
+    .phase-switch .ps-date { font-size: 9px; }
   }
   @media (max-width: 480px) {
     .st-card-link { padding: 12px 14px; }

@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import type { Metadata } from "next";
 import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
-import { SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
+import { FINAL_2025_26, REGULAR_FINAL_2025_26, SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
 
 export const metadata: Metadata = {
   title: "Mリーグ 2025-26 — TSUMORA",
@@ -12,51 +12,150 @@ export const metadata: Metadata = {
 };
 
 const CURRENT_SEASON = "2025-26";
+type PhaseKey = "regular" | "semifinal" | "final";
+
+const PHASE_TABS: Array<{
+  key: PhaseKey;
+  label: string;
+  en: string;
+  date: string;
+}> = [
+  { key: "regular", label: "レギュラー", en: "REGULAR", date: "2026.03.27" },
+  { key: "semifinal", label: "セミファイナル", en: "SEMIFINAL", date: "2026.04.30" },
+  { key: "final", label: "ファイナル", en: "FINAL", date: "2026.05.04-" },
+];
 
 // ── Compute 2025-26 team standings from real player annualPoints ──
 interface ComputedStanding {
   team: TeamData;
   totalPts: number;
+  gamesPlayed: number;
+  gamesTotal: number;
   topRateAvg: number;
   bestScore: number;
   rosterPlayers: FeaturedPlayer[];
 }
 
-function computeStandings(): ComputedStanding[] {
-  const out: ComputedStanding[] = [];
-  for (const sf of SEMIFINAL_2025_26.standings) {
-    const team = ALL_TEAMS.find((t) => t.slug === sf.teamSlug);
-    if (!team) continue;
-    const rosterPlayers: FeaturedPlayer[] = [];
-    let topRateSum = 0;
-    let topRateCount = 0;
-    let bestScore = 0;
-    for (const slot of team.currentRoster) {
-      const p = getPlayer(slot.id);
-      if (!p) continue;
-      // FeaturedPlayer guard via annualPoints presence
-      if (!("annualPoints" in p) || !p.annualPoints) continue;
-      rosterPlayers.push(p as FeaturedPlayer);
-      const cs = (p as FeaturedPlayer).currentSeason;
-      if (cs?.season === CURRENT_SEASON) {
-        if (typeof cs.topRate === "number") {
-          topRateSum += cs.topRate;
-          topRateCount++;
-        }
-        if (typeof cs.bestScore === "number" && cs.bestScore > bestScore) {
-          bestScore = cs.bestScore;
-        }
+function enrichStanding(
+  team: TeamData,
+  totalPts: number,
+  gamesPlayed: number,
+  gamesTotal: number,
+): ComputedStanding {
+  const rosterPlayers: FeaturedPlayer[] = [];
+  let topRateSum = 0;
+  let topRateCount = 0;
+  let bestScore = 0;
+  for (const slot of team.currentRoster) {
+    const p = getPlayer(slot.id);
+    if (!p) continue;
+    // FeaturedPlayer guard via annualPoints presence
+    if (!("annualPoints" in p) || !p.annualPoints) continue;
+    rosterPlayers.push(p as FeaturedPlayer);
+    const cs = (p as FeaturedPlayer).currentSeason;
+    if (cs?.season === CURRENT_SEASON) {
+      if (typeof cs.topRate === "number") {
+        topRateSum += cs.topRate;
+        topRateCount++;
+      }
+      if (typeof cs.bestScore === "number" && cs.bestScore > bestScore) {
+        bestScore = cs.bestScore;
       }
     }
-    out.push({
-      team,
-      totalPts: sf.total,
-      topRateAvg: topRateCount > 0 ? topRateSum / topRateCount : 0,
-      bestScore,
-      rosterPlayers,
-    });
+  }
+  return {
+    team,
+    totalPts,
+    gamesPlayed,
+    gamesTotal,
+    topRateAvg: topRateCount > 0 ? topRateSum / topRateCount : 0,
+    bestScore,
+    rosterPlayers,
+  };
+}
+
+function computeStandings(phase: PhaseKey): ComputedStanding[] {
+  const out: ComputedStanding[] = [];
+  if (phase === "regular") {
+    for (const entry of REGULAR_FINAL_2025_26.standings) {
+      const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
+      if (team) out.push(enrichStanding(team, entry.points, 96, 96));
+    }
+    return out;
+  }
+  if (phase === "semifinal") {
+    for (const entry of SEMIFINAL_2025_26.standings) {
+      const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
+      if (team) out.push(enrichStanding(team, entry.total, entry.gamesPlayed, entry.gamesTotal));
+    }
+    return out;
+  }
+  for (const entry of FINAL_2025_26.standings) {
+    const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
+    if (team) out.push(enrichStanding(team, entry.total, entry.gamesPlayed, entry.gamesTotal));
   }
   return out;
+}
+
+function getPhaseCopy(phase: PhaseKey) {
+  switch (phase) {
+    case "regular":
+      return {
+        tag: "レギュラー最終",
+        heading: "レギュラーシーズン最終順位",
+        en: "Regular Season Final Standings",
+        deskLabel: `全${ALL_TEAMS.length}チーム`,
+        deskEn: `Regular Season · ${ALL_TEAMS.length} Teams`,
+        ptsLabel: "レギュラー PTS",
+        diffLabel: "SFボーダー差",
+        borderLabel: "SF進出ライン",
+        lead:
+          "2018年に発足した国内初の本格的プロ麻雀団体対抗リーグ。2025-26シーズンのレギュラーシーズンは10チームで争われ、上位6チームがセミファイナルへ進出した。",
+      };
+    case "semifinal":
+      return {
+        tag: "セミファイナル終了",
+        heading: "セミファイナル最終順位",
+        en: "Semifinal Final Standings",
+        deskLabel: "SF進出6チーム",
+        deskEn: "Semifinalists · 6 Teams",
+        ptsLabel: "SF合計 PTS",
+        diffLabel: "Finalボーダー差",
+        borderLabel: "FINAL進出ライン",
+        lead:
+          "2025-26シーズンはセミファイナルを経て、BEAST X、EX風林火山、TEAM RAIDEN/雷電、KONAMI麻雀格闘倶楽部がファイナルへ進出した。",
+      };
+    case "final":
+      return {
+        tag: FINAL_2025_26.gamesPlayed > 0 ? "ファイナル進行中" : "ファイナル開幕前",
+        heading: FINAL_2025_26.gamesPlayed > 0 ? "ファイナル順位表" : "ファイナル開始時順位",
+        en: "Final Series Standings",
+        deskLabel: "Final進出4チーム",
+        deskEn: "Finalists · 4 Teams",
+        ptsLabel: "Final PTS",
+        diffLabel: "首位差",
+        borderLabel: "",
+        lead:
+          "2025-26シーズンのファイナルはBEAST X、EX風林火山、TEAM RAIDEN/雷電、KONAMI麻雀格闘倶楽部の4チームで争われる。表示ポイントはセミファイナル最終ptの半分を持ち越した開始時点の値。",
+      };
+  }
+}
+
+function getLineInfo(phase: PhaseKey, idx: number) {
+  if (phase === "regular") {
+    if (idx < 6) return { label: "SF進出", cls: "s", eliminated: false, border: idx === 5 };
+    return { label: "敗退", cls: "x", eliminated: true, border: false };
+  }
+  if (phase === "semifinal") {
+    if (idx < 4) return { label: "FINAL進出", cls: "f", eliminated: false, border: idx === 3 };
+    return { label: "SF敗退", cls: "x", eliminated: true, border: false };
+  }
+  return {
+    label: FINAL_2025_26.gamesPlayed > 0 ? "FINAL" : "開幕前",
+    cls: idx === 0 ? "f" : "s",
+    eliminated: false,
+    border: idx === 0,
+  };
 }
 
 interface IndividualLeader {
@@ -101,23 +200,26 @@ function getContrastText(hex: string): string {
   return yiq >= 150 ? "#1a1a1a" : "#ffffff";
 }
 
-export default function MleaguePage() {
-  const standings = computeStandings();
+export default async function MleaguePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ phase?: string }>;
+}) {
+  const params = await searchParams;
+  const selectedPhase: PhaseKey =
+    params?.phase === "regular" || params?.phase === "semifinal" || params?.phase === "final"
+      ? params.phase
+      : "final";
+  const phaseCopy = getPhaseCopy(selectedPhase);
+  const standings = computeStandings(selectedPhase);
   const leaders = computeIndividualLeaders(standings).slice(0, 10);
   const leader = standings[0];
   const totalPlayers = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
   // バーは max abs で正規化、片側 50% にキャップしてはみ出しを防ぐ
   const maxAbs = Math.max(...standings.map((s) => Math.abs(s.totalPts)), 1);
-  // SEMIFINAL の試合数を team-slug でルックアップ可能にする
-  const sfGamesByTeam = new Map<string, { gamesPlayed: number; gamesTotal: number }>();
-  for (const ss of SEMIFINAL_2025_26.standings) {
-    sfGamesByTeam.set(ss.teamSlug, {
-      gamesPlayed: ss.gamesPlayed,
-      gamesTotal: ss.gamesTotal,
-    });
-  }
-  // F進出ライン (4位) のポイント — ボーダー差計算に使用
-  const borderPts = standings[3]?.totalPts ?? 0;
+  const borderIndex = selectedPhase === "regular" ? 5 : selectedPhase === "semifinal" ? 3 : 0;
+  const borderPts = standings[borderIndex]?.totalPts ?? leader?.totalPts ?? 0;
+  const showBorderLine = selectedPhase !== "final";
 
   return (
     <div className="wrap">
@@ -127,13 +229,13 @@ export default function MleaguePage() {
           <span className="sep">›</span>
           <span>Mリーグ {CURRENT_SEASON}</span>
         </div>
-        <div className="season-tag">● {CURRENT_SEASON} SEASON · セミファイナル終了</div>
+        <div className="season-tag">● {CURRENT_SEASON} SEASON · {phaseCopy.tag}</div>
         <h1>
           Mリーグ
           <span className="en">M.LEAGUE · Japan&apos;s Premier Pro Team Circuit · Since 2018</span>
         </h1>
         <p className="lead">
-          2018年に発足した国内初の本格的プロ麻雀団体対抗リーグ。{CURRENT_SEASON}シーズンはEARTH JETSの新規参入により10チーム体制となり、セミファイナルを経てBEAST X、EX風林火山、TEAM RAIDEN/雷電、KONAMI麻雀格闘倶楽部がファイナルへ進出した。
+          {phaseCopy.lead}
         </p>
         <div className="meta-row">
           <div className="m">
@@ -153,8 +255,8 @@ export default function MleaguePage() {
           </div>
           <div className="m">
             <div className="l">Leader</div>
-            <div className="v red">{fmtPts(leader.totalPts)}</div>
-            <div className="sub">{leader.team.shortName}</div>
+            <div className="v red">{leader ? fmtPts(leader.totalPts) : "—"}</div>
+            <div className="sub">{leader?.team.shortName ?? "—"}</div>
           </div>
           <div className="m">
             <div className="l">Broadcaster</div>
@@ -164,10 +266,29 @@ export default function MleaguePage() {
         </div>
       </section>
 
+      <nav className="phase-switch" aria-label="Mリーグ順位表フェーズ切替">
+        {PHASE_TABS.map((tab) => {
+          const active = selectedPhase === tab.key;
+          const href = tab.key === "final" ? "/mleague" : `/mleague?phase=${tab.key}`;
+          return (
+            <Link
+              key={tab.key}
+              href={href}
+              className={active ? "active" : undefined}
+              aria-current={active ? "page" : undefined}
+            >
+              <span className="ps-en">{tab.en}</span>
+              <span className="ps-jp">{tab.label}</span>
+              <span className="ps-date">{tab.date}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
       <section className="standings-wrap">
         <div className="st-head">
           <div className="ttl">
-            セミファイナル最終順位<span className="en">Semifinal Final Standings · {CURRENT_SEASON}</span>
+            {phaseCopy.heading}<span className="en">{phaseCopy.en} · {CURRENT_SEASON}</span>
           </div>
         </div>
         <table className="st-table st-desktop-table">
@@ -176,8 +297,8 @@ export default function MleaguePage() {
               <th>順位</th>
               <th>チーム</th>
               <th style={{ width: 88 }}>ライン</th>
-              <th className="pts-th">ポイント</th>
-              <th className="n">ボーダー差</th>
+              <th className="pts-th">{phaseCopy.ptsLabel}</th>
+              <th className="n">{phaseCopy.diffLabel}</th>
               <th className="n">試合数</th>
               <th className="n">平均1位率</th>
               <th className="n">最高素点</th>
@@ -185,18 +306,15 @@ export default function MleaguePage() {
           </thead>
           <tbody>
             {standings.map((s, idx) => {
-              const top4 = idx < 4;
-              const isBorder = idx === 3;
-              const isEliminated = idx >= 4;
-              const lineLabel = top4 ? "FINAL進出" : "SF敗退";
-              const lineClass = top4 ? "f" : "x";
+              const line = getLineInfo(selectedPhase, idx);
+              const isBorder = line.border;
               const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
               const diff = s.totalPts - borderPts;
               return (
                 <tr
                   key={s.team.slug}
                   data-team={s.team.slug}
-                  className={`${isBorder ? "is-border" : ""}${isEliminated ? " is-eliminated" : ""}`.trim()}
+                  className={`${isBorder ? "is-border" : ""}${line.eliminated ? " is-eliminated" : ""}`.trim()}
                 >
                   <td className={`rk ${idx < 3 ? "top3" : ""}`.trim()}>
                     {KANJI_RANK[idx] ?? `${idx + 1}`}
@@ -210,7 +328,7 @@ export default function MleaguePage() {
                     </div>
                   </td>
                   <td>
-                    <span className={`line-tag ${lineClass}`}>{lineLabel}</span>
+                    <span className={`line-tag ${line.cls}`}>{line.label}</span>
                   </td>
                   <td className="pts-cell">
                     <div className="pts-row">
@@ -235,8 +353,7 @@ export default function MleaguePage() {
                   </td>
                   <td className="n">
                     {(() => {
-                      const sf = sfGamesByTeam.get(s.team.slug);
-                      return sf ? `${sf.gamesPlayed}/${sf.gamesTotal}` : "—";
+                      return `${s.gamesPlayed}/${s.gamesTotal}`;
                     })()}
                   </td>
                   <td className="n">
@@ -254,18 +371,15 @@ export default function MleaguePage() {
         {/* Mobile: card stack（テーブルが入らないので別レンダー）*/}
         <ul className="st-mobile-list">
           {standings.map((s, idx) => {
-            const top4 = idx < 4;
-            const isBorder = idx === 3;
-            const isEliminated = idx >= 4;
-            const lineLabel = top4 ? "FINAL進出" : "SF敗退";
-            const lineClass = top4 ? "f" : "x";
+            const line = getLineInfo(selectedPhase, idx);
+            const isBorder = line.border;
             const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
             const diff = s.totalPts - borderPts;
             return (
               <li
                 key={s.team.slug}
                 data-team={s.team.slug}
-                className={`st-card${isBorder ? " is-border" : ""}${isEliminated ? " is-eliminated" : ""}`}
+                className={`st-card${isBorder ? " is-border" : ""}${line.eliminated ? " is-eliminated" : ""}`}
               >
                 <Link
                   href={`/teams/${s.team.slug}`}
@@ -281,7 +395,7 @@ export default function MleaguePage() {
                         {s.rosterPlayers.map((p) => p.name).join(" / ") || "—"}
                       </span>
                     </div>
-                    <span className={`line-tag ${lineClass}`}>{lineLabel}</span>
+                    <span className={`line-tag ${line.cls}`}>{line.label}</span>
                   </div>
                   <div className="st-card-bar" aria-hidden="true">
                     <div className="bar-axis"></div>
@@ -299,7 +413,7 @@ export default function MleaguePage() {
                         isBorder ? "diff-zero" : diff > 0 ? "diff-lead" : "diff-chase"
                       }`}
                     >
-                      <span className="lbl">ボーダー</span>
+                      <span className="lbl">{phaseCopy.diffLabel}</span>
                       <span className="val">
                         {isBorder ? "±0.0" : fmtPts(diff)}
                       </span>
@@ -327,9 +441,9 @@ export default function MleaguePage() {
       </section>
 
       <h2 className="sh">
-        <span className="sh-desk">SF進出{standings.length}チーム</span>
+        <span className="sh-desk">{phaseCopy.deskLabel}</span>
         <span className="sh-mob">順位表</span>
-        <span className="num sh-desk-num">Semifinalists · {standings.length} Teams</span>
+        <span className="num sh-desk-num">{phaseCopy.deskEn}</span>
         <span className="num sh-mob-num">Standings · {CURRENT_SEASON}</span>
         <span className="rule"></span>
         <Link href="/teams" className="more" style={{ textDecoration: "none", color: "var(--ink-3)" }}>
@@ -338,15 +452,15 @@ export default function MleaguePage() {
       </h2>
       <div className="team-grid">
         {standings.map((s, idx) => {
-          const isEliminated = idx >= 4;
-          const isBorder = idx === 3;
+          const line = getLineInfo(selectedPhase, idx);
+          const isBorder = line.border;
           const accent = s.team.colorOnDark ?? s.team.color;
           const avText = getContrastText(s.team.color);
           return (
             <Fragment key={s.team.slug}>
             <div
               data-team={s.team.slug}
-              className={`team-card${isEliminated ? " is-eliminated" : ""}${isBorder ? " is-border" : ""}`}
+              className={`team-card${line.eliminated ? " is-eliminated" : ""}${isBorder ? " is-border" : ""}`}
               style={
                 {
                   ["--tc" as string]: s.team.color,
@@ -380,7 +494,7 @@ export default function MleaguePage() {
                   <span className={`pt-val ${s.totalPts >= 0 ? "p" : "m"}`}>
                     {fmtPts(s.totalPts)}
                   </span>
-                  <span className="pt-lbl">合計 PTS</span>
+                  <span className="pt-lbl">{phaseCopy.ptsLabel}</span>
                 </div>
               </div>
 
@@ -394,7 +508,7 @@ export default function MleaguePage() {
                         : "diff-chase"
                   }`}
                 >
-                  <span className="lbl">ボーダー差</span>
+                  <span className="lbl">{phaseCopy.diffLabel}</span>
                   <span className="val">
                     {isBorder ? "±0.0" : fmtPts(s.totalPts - borderPts)}
                   </span>
@@ -403,8 +517,7 @@ export default function MleaguePage() {
                   <span className="lbl">試合数</span>
                   <span className="val">
                     {(() => {
-                      const sf = sfGamesByTeam.get(s.team.slug);
-                      return sf ? `${sf.gamesPlayed}/${sf.gamesTotal}` : "—";
+                      return `${s.gamesPlayed}/${s.gamesTotal}`;
                     })()}
                   </span>
                 </div>
@@ -464,9 +577,9 @@ export default function MleaguePage() {
                 })}
               </ul>
             </div>
-            {isBorder && (
-              <div className="grid-border-line" aria-label="ファイナル進出ライン">
-                <span>FINAL進出ライン</span>
+            {isBorder && showBorderLine && (
+              <div className="grid-border-line" aria-label={phaseCopy.borderLabel}>
+                <span>{phaseCopy.borderLabel}</span>
               </div>
             )}
             </Fragment>
