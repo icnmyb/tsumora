@@ -56,24 +56,24 @@
 ### ★★★ 5/4リリースまでに必要
 
 #### #R1 Final初日の表示・更新導線確認
-- `/mleague` は Final 開幕前の持越pt表示、開幕後の `FINAL_2025_26.standings` 更新に対応済み
-- 5/4当日は、試合終了後に `app/mleague/sf-data.ts` と `app/mleague/stats-db.ts` の final レコードを確認済みソースから更新できるかを最終確認する
-- Final未開催中は平均1位率・最高素点・個人ptを出さない。開幕後も未確認の最高素点・率は入れない
+- ✅ `/mleague` は Final 開幕前の持越pt表示、開幕後の `FINAL_2025_26.standings` 更新に対応済み
+- ✅ 5/4当日は、試合終了後に `app/mleague/sf-data.ts` の `FINAL_2025_26.standings` と `app/mleague/stats-db.ts` の `phase: "final"` レコードを確認済みソースから追記する導線を確認
+- ✅ Final未開催中は平均1位率・最高素点・個人ptを出さない。開幕後も未確認の最高素点・率は入れない
 
 #### #R2 ホーム / Mリーグ / スケジュールのFinal文脈チェック
-- ホームのMリーグボード、`/mleague`、`/schedule` が 2026-05-04 Final初日に向いた文言になっているか確認する
-- 「セミファイナル進行中」「発表待ち」など古い状態の文言が残っていないかを潰す
-- 進出4チーム、開催日、表示順、首位差など、読者が当日見る情報に違和感がないか確認する
+- ✅ ホームのMリーグボードを Final 開幕前の開始時順位・持越pt・5/4 NEXT MATCH 文脈へ更新
+- ✅ `/mleague`、`/schedule`、ホーム、ニュース周辺に「セミファイナル進行中」「発表待ち」「MJニュース」などの古い/誤った文言がないことを検索確認
+- ✅ 進出4チーム、開催日、表示順、首位差は Final 初日前の読者が見る情報として確認済み。`/schedule` の雷電表記は `TEAM RAIDEN/雷電` に統一
 
 #### #R3 ニュース生成の最小運用
-- 5/4に出す可能性があるニュースは、Codex が出典確認・見出し・リード・本文・SEO文言まで作れる状態にする
-- 本格的なCMS化は不要。当面は `app/news/data.ts` へ静的TSで追加できればよい
-- 未確認情報を書かない、出典URLと確認日を残す、速報と編集記事の文体を分ける、の3点だけは守る
+- ✅ 5/4に出す可能性があるニュースは、Codex が `app/news/data.ts` へ静的TSで追加できる最小構造に更新
+- ✅ `publishedAt`、`sources[].url`、`sources[].checkedAt`、関連選手/チーム、`seoTitle`、`seoDescription` を持てる
+- ✅ 本格CMS化・制作ワークフロー本実装は未着手。未確認情報を書かず、出典URLと確認日を残す方針だけ反映
 
 #### #R4 リリース前の基本検証
-- 変更ごとに `npm run lint` 相当の `tsc --noEmit` と `npm run build` 相当の `next build` を通す
-- 環境に `npm` がない場合は、Codexランタイムの `node` と `node_modules/.bin` で実体コマンドを実行し、検証結果を記録する
-- 作業後は必ずコミットする
+- ✅ `npm` が環境にないため、Codexランタイムの Node で `./node_modules/.bin/tsc --noEmit` を実行して通過
+- ✅ `npm` が環境にないため、Codexランタイムの Node で `./node_modules/.bin/next build` を実行して通過
+- ✅ 作業後にコミットする
 
 ### ★★ 5/4後でよいが積んでおく
 

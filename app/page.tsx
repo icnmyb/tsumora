@@ -4,7 +4,11 @@ import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
 import { NEWS, getCategoryLabel } from "@/app/news/data";
-import { FINAL_2025_26, SEMIFINAL_2025_26, type SemifinalState, type SFTeamStanding } from "@/app/mleague/sf-data";
+import {
+  FINAL_2025_26,
+  type FinalState,
+  type FinalTeamStanding,
+} from "@/app/mleague/sf-data";
 import type { TeamData } from "@/app/teams/data";
 import {
   computeTitleRanking,
@@ -59,30 +63,29 @@ function dayLabel(dateIso: string): string {
   return DOW_JA[dt.getUTCDay()] ?? "—";
 }
 
-type EnrichedSFStanding = SFTeamStanding & { team: TeamData };
+type EnrichedFinalStanding = FinalTeamStanding & { team: TeamData };
 
 function MLeagueStandingsCard({
-  sf,
-  sfStandings,
-  borderPts,
+  final,
+  finalStandings,
+  leaderPts,
 }: {
-  sf: SemifinalState;
-  sfStandings: EnrichedSFStanding[];
-  borderPts: number;
+  final: FinalState;
+  finalStandings: EnrichedFinalStanding[];
+  leaderPts: number;
 }) {
-  const remaining = sf.totalGames - sf.gamesPlayed;
-  const progressPct = (sf.gamesPlayed / sf.totalGames) * 100;
-  const isComplete = remaining <= 0;
+  const progressPct = (final.gamesPlayed / final.totalGames) * 100;
+  const isBeforeOpen = final.gamesPlayed === 0;
   return (
     <>
       <div className="hmb-head">
         <div className="hmb-head-top">
           <div className="hmb-title-group">
             <h2 className="hmb-title">Mリーグ順位表</h2>
-            <span className="hmb-phase-chip">{isComplete ? "FINALISTS" : "SEMIFINAL"}</span>
+            <span className="hmb-phase-chip">{isBeforeOpen ? "FINAL OPENING" : "FINAL"}</span>
           </div>
           <Link href="/mleague" className="hmb-more">
-            標識 →
+            詳細 →
           </Link>
         </div>
         <div className="hmb-progress-row">
@@ -93,31 +96,29 @@ function MLeagueStandingsCard({
             />
           </div>
           <span className="hmb-progress-count">
-            <b>{sf.gamesPlayed}</b>
+            <b>{final.gamesPlayed}</b>
             <span className="hmb-meta-slash">/</span>
-            <span className="hmb-meta-total">{sf.totalGames}</span>
+            <span className="hmb-meta-total">{final.totalGames}</span>
             <span className="hmb-meta-unit">試合</span>
           </span>
         </div>
         <div className="hmb-meta-row">
-          <span>{isComplete ? "2025-26 · SF終了" : `2025-26 · 残り ${remaining} 試合`}</span>
+          <span>{isBeforeOpen ? "2025-26 · Final 5/4開幕" : "2025-26 · Final進行中"}</span>
           <span className="hmb-meta-final">
-            {isComplete ? "上位4チーム FINAL進出" : `上位 ${sf.finalLine} → FINAL`}
+            {isBeforeOpen ? "SF最終ptの半分を持越" : "確認済み結果を反映"}
           </span>
         </div>
       </div>
 
       <ul className="hmb-list">
-        {sfStandings.map((s, idx) => {
+        {finalStandings.map((s, idx) => {
           const rank = idx + 1;
-          const inFinal = rank <= sf.finalLine;
-          const isBorder = rank === sf.finalLine;
           const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
-          const diff = s.total - borderPts;
+          const diff = s.total - leaderPts;
           return (
             <li
               key={s.team.slug}
-              className={`hmb-row${inFinal ? " in-final" : ""}${isBorder ? " is-border" : ""}`}
+              className={`hmb-row in-final${rank === 1 ? " is-border" : ""}`}
               style={{ ["--team-c" as string]: teamColor } as React.CSSProperties}
             >
               <Link href={`/teams/${s.team.slug}`} className="hmb-row-link">
@@ -128,18 +129,18 @@ function MLeagueStandingsCard({
                   <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
                     {fmtPts(s.total)}
                   </span>
-                  {isBorder ? (
+                  {rank === 1 ? (
                     <span className="hmb-bd hmb-bd--zero">
-                      <span className="hmb-bd-lbl">ボーダー</span>
-                      <span className="hmb-bd-val">±0.0</span>
+                      <span className="hmb-bd-lbl">{isBeforeOpen ? "開始首位" : "首位"}</span>
+                      <span className="hmb-bd-val">—</span>
                     </span>
                   ) : (
                     <span
                       className={`hmb-bd ${
-                        diff > 0 ? "hmb-bd--lead" : "hmb-bd--chase"
+                        diff >= 0 ? "hmb-bd--lead" : "hmb-bd--chase"
                       }`}
                     >
-                      <span className="hmb-bd-lbl">ボーダー</span>
+                      <span className="hmb-bd-lbl">首位差</span>
                       <span className="hmb-bd-val">{fmtPts(diff)}</span>
                     </span>
                   )}
@@ -167,16 +168,13 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const sf = SEMIFINAL_2025_26;
-  const isSfComplete = sf.gamesPlayed >= sf.totalGames;
-  const sfStandings = sf.standings.map((s) => ({
+  const final = FINAL_2025_26;
+  const finalStandings = final.standings.map((s) => ({
     ...s,
     team: getTeamBySlug(s.teamSlug),
   })).filter((s): s is typeof s & { team: NonNullable<typeof s.team> } => Boolean(s.team));
-  const sfLeader = sfStandings[0];
-  // ファイナル進出ボーダー（TOP {finalLine} に入れる最低ライン）= ボーダーチームのポイント
-  const borderPts = sfStandings[sf.finalLine - 1]?.total ?? 0;
-  const nextMatch = (isSfComplete ? FINAL_2025_26.upcoming : sf.upcoming).find((m) => m.teamSlugs.length > 0);
+  const finalLeader = finalStandings[0];
+  const nextMatch = final.upcoming.find((m) => m.teamSlugs.length > 0);
   const nextMatchTeams = nextMatch
     ? nextMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
@@ -265,33 +263,33 @@ export default function Home() {
             </div>
             <div className="mlb-meta">
               <span className="mlb-season">2025-26</span>
-              <span className="mlb-phase">FINALISTS</span>
+              <span className="mlb-phase">FINAL OPENING</span>
             </div>
           </div>
 
           <div className="mlb-progress">
             <div className="mlb-progress-row">
-              <span className="mlb-progress-label">SEMIFINAL COMPLETE</span>
+              <span className="mlb-progress-label">FINAL STARTING POINTS</span>
               <span className="mlb-progress-count">
-                <strong>{sf.gamesPlayed}</strong>
+                <strong>{final.gamesPlayed}</strong>
                 <span className="slash">/</span>
-                <span className="total">{sf.totalGames}</span>
+                <span className="total">{final.totalGames}</span>
                 <span className="unit">試合</span>
               </span>
             </div>
             <div className="mlb-progress-bar">
               <div
                 className="mlb-progress-fill"
-                style={{ width: `${(sf.gamesPlayed / sf.totalGames) * 100}%` }}
+                style={{ width: `${(final.gamesPlayed / final.totalGames) * 100}%` }}
               />
               <div
                 className="mlb-progress-tick"
-                style={{ left: `${((sf.totalGames - 6) / sf.totalGames) * 100}%` }}
+                style={{ left: "0%" }}
               />
             </div>
             <div className="mlb-progress-meta">
-              <span>{sf.startDate.slice(5).replace("-", ".")} 開幕</span>
-              <span>{sf.endDate.slice(5).replace("-", ".")} TOP 4 → FINAL</span>
+              <span>{final.startDate.slice(5).replace("-", ".")} 開幕</span>
+              <span>{final.endDate.slice(5).replace("-", ".")} 最終日</span>
             </div>
           </div>
 
@@ -325,19 +323,21 @@ export default function Home() {
             </div>
           )}
 
-          <div className="mlb-leader-line">
-            <Link href={`/teams/${sfLeader.team.slug}`}>
-              <span className="mlb-ll-tag">SF LEADER</span>
-              <span
-                className="mlb-ll-swatch"
-                style={{ background: sfLeader.team.color }}
-              />
-              <span className="mlb-ll-name">{sfLeader.team.shortName}</span>
-              <span className={`mlb-ll-pt${sfLeader.total >= 0 ? "" : " m"}`}>
-                {fmtPts(sfLeader.total)}
-              </span>
-            </Link>
-          </div>
+          {finalLeader && (
+            <div className="mlb-leader-line">
+              <Link href={`/teams/${finalLeader.team.slug}`}>
+                <span className="mlb-ll-tag">START LEADER</span>
+                <span
+                  className="mlb-ll-swatch"
+                  style={{ background: finalLeader.team.color }}
+                />
+                <span className="mlb-ll-name">{finalLeader.team.shortName}</span>
+                <span className={`mlb-ll-pt${finalLeader.total >= 0 ? "" : " m"}`}>
+                  {fmtPts(finalLeader.total)}
+                </span>
+              </Link>
+            </div>
+          )}
 
           <Link href="/mleague" className="mlb-cta">
             Mリーグ詳細 →
@@ -349,9 +349,13 @@ export default function Home() {
       <section
         className="home-mleague-block home-mleague-block--mobile"
         style={{ marginBottom: 22 }}
-        aria-label="Mリーグ 2025-26 セミファイナル順位表"
+        aria-label="Mリーグ 2025-26 ファイナル開始時順位表"
       >
-        <MLeagueStandingsCard sf={sf} sfStandings={sfStandings} borderPts={borderPts} />
+        <MLeagueStandingsCard
+          final={final}
+          finalStandings={finalStandings}
+          leaderPts={finalLeader?.total ?? 0}
+        />
       </section>
 
       {/* 現タイトル保持者 — 5団体 banzuke */}
@@ -626,9 +630,13 @@ export default function Home() {
           {/* M-LEAGUE SF STANDINGS — デスクトップのみサイドバーに表示 */}
           <section
             className="home-mleague-block home-mleague-block--desktop"
-            aria-label="Mリーグ 2025-26 セミファイナル順位表"
+            aria-label="Mリーグ 2025-26 ファイナル開始時順位表"
           >
-            <MLeagueStandingsCard sf={sf} sfStandings={sfStandings} borderPts={borderPts} />
+            <MLeagueStandingsCard
+              final={final}
+              finalStandings={finalStandings}
+              leaderPts={finalLeader?.total ?? 0}
+            />
           </section>
 
           {/* CURRENT TITLE HOLDERS list */}

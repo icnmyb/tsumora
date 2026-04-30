@@ -17,7 +17,7 @@ export interface TeamPhaseStats {
   games: number;
   firsts: number;
   points?: number;
-  bestScore: number;
+  bestScore?: number;
   source: MLeagueSourceRef;
   note?: string;
 }
@@ -63,6 +63,10 @@ const SEMIFINAL_FINAL_STANDINGS_SOURCE: MLeagueSourceRef = {
   url: "https://www.crank-in.net/news/184607/1",
   asOf: "2026-04-30",
 };
+
+// Final開幕後は、確認済みソースを MLeagueSourceRef として追加し、
+// phase: "final" の TeamPhaseStats / PlayerPhaseStats を追記する。
+// 最高素点や率が未確認の場合は、該当フィールドを空のままにする。
 
 export const TEAM_PHASE_STATS_2025_26: TeamPhaseStats[] = [
   // Regular season final. team top rate = firsts / 120.

@@ -3,13 +3,23 @@
 
 export type NewsCategory = "title" | "mleague" | "result" | "info";
 
+export interface NewsSourceRef {
+  label: string;
+  url: string;
+  checkedAt: string; // YYYY-MM-DD
+}
+
 export interface NewsArticle {
   slug: string;
   date: string; // YYYY-MM-DD or YYYY-MM
+  publishedAt?: string; // ISO 8601
   category: NewsCategory;
   headline: string;
   lead: string;
   body: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+  sources?: NewsSourceRef[];
   related?: Array<
     | { type: "title"; id: string }
     | { type: "player"; id: string }
@@ -100,7 +110,8 @@ export const NEWS: NewsArticle[] = [
   },
   {
     slug: "mleague-2025-26-progress",
-    date: "2026-04",
+    date: "2026-04-30",
+    publishedAt: "2026-04-30T23:30:00+09:00",
     category: "mleague",
     headline: "Mリーグ 2025-26、ファイナル進出4チームが決定",
     lead:
@@ -108,6 +119,27 @@ export const NEWS: NewsArticle[] = [
     body: [
       "Mリーグ 2025-26 シーズンのセミファイナルは全30試合を終了。EX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームがファイナル進出を決めた。",
       "ファイナルは5月4日開幕予定。セミファイナルを首位通過したEX風林火山を、BEAST X・KONAMI・雷電が追う構図で最終決戦に入る。",
+    ],
+    seoTitle: "Mリーグ2025-26 ファイナル進出4チーム決定",
+    seoDescription:
+      "Mリーグ2025-26のファイナル進出チーム、開幕日、開始時ポイントの文脈を確認できるTSUMORA短報。",
+    sources: [
+      {
+        label: "M.LEAGUE公式サイト",
+        url: "https://m-league.jp/",
+        checkedAt: "2026-04-30",
+      },
+      {
+        label: "クランクイン！ Mリーグ25-26 セミファイナル最終順位",
+        url: "https://www.crank-in.net/news/184607/1",
+        checkedAt: "2026-04-30",
+      },
+    ],
+    related: [
+      { type: "team", id: "furinkazan" },
+      { type: "team", id: "beast-x" },
+      { type: "team", id: "konami" },
+      { type: "team", id: "raiden" },
     ],
   },
 ];
