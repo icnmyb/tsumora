@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
 import { FINAL_2025_26, REGULAR_FINAL_2025_26, SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
-import { getPlayerPhasePoints, getTeamPhaseStats } from "@/app/mleague/stats-db";
+import { getPlayerPhaseStats, getTeamPhaseStats } from "@/app/mleague/stats-db";
 
 const CURRENT_SEASON = "2025-26";
 type PhaseKey = "regular" | "semifinal" | "final";
@@ -188,8 +188,8 @@ interface IndividualLeader {
 }
 
 function getPlayerPhasePts(player: FeaturedPlayer, phase: PhaseKey): number | undefined {
-  const phasePoints = getPlayerPhasePoints(phase, player.id);
-  if (phasePoints) return phasePoints.points;
+  const phaseStats = getPlayerPhaseStats(phase, player.id);
+  if (phaseStats) return phaseStats.points;
   return player.annualPoints?.find((a) => a.season === CURRENT_SEASON)?.points;
 }
 

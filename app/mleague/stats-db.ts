@@ -21,14 +21,22 @@ export interface TeamPhaseStats {
   note?: string;
 }
 
-export interface PlayerPhasePoints {
+export interface PlayerPhaseStats {
   season: string;
   phase: MLeaguePhaseKey;
   playerId: string;
   teamSlug: string;
   games?: number;
+  firsts?: number;
+  seconds?: number;
+  thirds?: number;
+  fourths?: number;
   points: number;
+  topRate?: number;
+  avoidFourthRate?: number;
+  bestScore?: number;
   source: MLeagueSourceRef;
+  note?: string;
 }
 
 const OFFICIAL_REGULAR_SOURCE: MLeagueSourceRef = {
@@ -71,7 +79,7 @@ export const TEAM_PHASE_STATS_2025_26: TeamPhaseStats[] = [
   { season: "2025-26", phase: "semifinal", teamSlug: "beast-x", games: 18, firsts: 6, bestScore: 61200, source: OFFICIAL_SEMIFINAL_SOURCE, note: "official stats snapshot before the final match day" },
 ];
 
-export const PLAYER_PHASE_POINTS_2025_26: PlayerPhasePoints[] = [
+export const PLAYER_PHASE_STATS_2025_26: PlayerPhaseStats[] = [
   { season: "2025-26", phase: "semifinal", playerId: "suzuki-d", teamSlug: "beast-x", points: 139.7, source: SEMIFINAL_POINTS_SOURCE },
   { season: "2025-26", phase: "semifinal", playerId: "tojo", teamSlug: "beast-x", points: -7.6, source: SEMIFINAL_POINTS_SOURCE },
   { season: "2025-26", phase: "semifinal", playerId: "nakata", teamSlug: "beast-x", points: -23.2, source: SEMIFINAL_POINTS_SOURCE },
@@ -102,9 +110,9 @@ export function getTeamPhaseStats(phase: MLeaguePhaseKey, teamSlug: string): Tea
   return TEAM_PHASE_STATS_2025_26.find((s) => s.phase === phase && s.teamSlug === teamSlug);
 }
 
-export function getPlayerPhasePoints(
+export function getPlayerPhaseStats(
   phase: MLeaguePhaseKey,
   playerId: string,
-): PlayerPhasePoints | undefined {
-  return PLAYER_PHASE_POINTS_2025_26.find((s) => s.phase === phase && s.playerId === playerId);
+): PlayerPhaseStats | undefined {
+  return PLAYER_PHASE_STATS_2025_26.find((s) => s.phase === phase && s.playerId === playerId);
 }
