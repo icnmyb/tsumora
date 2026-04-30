@@ -72,11 +72,11 @@
 
 #### #R4 スマホ実機相当の最終UX確認
 - ✅ 2026-05-01: ホーム `/` と `/mleague` 以外の到達可能ページを対象に、スマホ最終整備を実施
-- ✅ 2026-05-01: 再指摘反映。`/news` 見出しを「ニュース」に統一。`/schedule` はスマホで「対局」見出し + 本日の対局リスト主表示へ寄せ、週カレンダーの右切れを回避。`/players` はスマホのみ `Mリーガー / 全選手一覧` 切替を追加。`/titles` / `/teams` はスマホ見出し短縮。`/rules` と各フィルタは横一列タブ帯へ調整
+- ✅ 2026-05-01: 再指摘反映。`/news` 見出しを「ニュース」に統一。`/schedule` はスマホで「対局」見出しへ短縮し、週カレンダーは既存表示を維持。`/players` はスマホのみ `Mリーガー / 全選手一覧` 切替を追加。`/titles` / `/teams` はスマホ見出し短縮。`/rules` と各フィルタは横一列タブ帯へ調整
 - ✅ 2026-05-01: グロナビは既存の横スクロール型へ戻し、ページ内UIの改善のみ残す
 - 対象: `/about`, `/players`, `/players/[id]`, `/organizations`, `/organizations/[slug]`, `/teams`, `/teams/[slug]`, `/titles`, `/titles/[slug]`, `/rankings`, `/schedule`, `/rules`, `/news`, `/news/[slug]`, `/predict`
 - `/predict/me`, `/predict/ranking`, `/predict/match/[id]`, `/predict/result/[id]` は現状 `notFound()` 維持のため通常到達対象外として扱う
-- 対応内容: 共通 hero/detail/table/news/schedule/predict CSS を `max-width: 720px` 中心に調整。長い選手名・チーム名の折返し、1カラム化、表の内側横スクロール、タップ領域、カード余白を整理。再指摘分として、長いページ見出しのスマホ短縮、選手一覧のスマホタブ化、フィルタの横一列化、スケジュールのリスト主表示化を追加
+- 対応内容: 共通 hero/detail/table/news/schedule/predict CSS を `max-width: 720px` 中心に調整。長い選手名・チーム名の折返し、1カラム化、表の内側横スクロール、タップ領域、カード余白を整理。再指摘分として、長いページ見出しのスマホ短縮、選手一覧のスマホタブ化、フィルタの横一列化を追加
 - 検証: `next build` 通過、Codexランタイム Node の `tsc --noEmit` 通過。dev server `:3010` で公開対象主要ルートのHTTP 200を確認
 - 残リスク: Playwright用ブラウザが未インストールだったためスクリーンショット検査は未実施。リリース前に実機またはブラウザで375px/390px幅の目視を推奨
 

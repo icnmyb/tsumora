@@ -177,10 +177,6 @@
     min-width: 0;
   }
 
-  .cal-wrap {
-    display: none;
-  }
-
   .list-wrap {
     margin-top: 0;
   }
@@ -7155,11 +7151,5 @@ html::-webkit-scrollbar { display: none; }
   .news-top,
   .news-item {
     padding: 18px 16px;
-  }
-}
-
-@media (max-width: 720px) {
-  .cal-wrap {
-    display: none !important;
   }
 }
