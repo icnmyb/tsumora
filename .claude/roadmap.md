@@ -42,10 +42,33 @@
   - `/mleague`: 502行モック → teams + players の annualPoints 実績で順位計算
   - `/titles/[slug]`: 6 タイトル戦の404を解消、動的ルート + verified データ
   - 旧 `/titles/houou-isen/page.tsx` (668行、捏造standings含む) を削除
+- ✅ Mリーグ成績データ整備 2026-05-01
+  - `app/mleague/stats-db.ts` をフェーズ別の元データ層として拡張
+  - セミファイナル個人成績24名分を半荘数・着順内訳・pt・1位率・ラス回避率・最高スコア付きで投入
+  - セミファイナルチーム成績は phase-only の games / firsts / points / bestScore を保持
+  - `/mleague` は Semifinal ではSF個人ptを優先、Final未開催では個人pt・平均1位率・最高素点を空表示
+  - 出典整理: 成績値は M.LEAGUE公式Stats / M.LEAGUE応援まとめサイト / 公式発表系記事で確認。麻雀ウォッチは出場告知・速報文脈の補助確認に使い、サイト名は正式名称で記録する
 
 ---
 
 ## 残タスク
+
+### ★★★ 高優先 — Mリーグ成績データ拡張
+
+#### #M1 Regular 個人成績の `stats-db.ts` 移行
+- 現在 Regular 個人成績は主に `app/players/data.ts` の `annualPoints/currentSeason` に分散
+- 次は M.LEAGUE公式Stats / 麻雀ウォッチの成績ページ等で確認し、全40名分を `PlayerPhaseStats` の regular レコードへ移す
+- `players/data.ts` はプロフィール表示用、`stats-db.ts` は成績元データ用に役割分離する
+
+#### #M2 Final 開幕後の更新手順
+- Final未開催のため、現在 `FINAL_2025_26` は持越ptのみ
+- 2026-05-04 開幕後は `FINAL_2025_26.standings` と `PLAYER_PHASE_STATS_2025_26` の final レコードを、試合日ごとに確認済みソースから追加
+- 未確認の最高素点・率は入れず、確認できた項目だけ表示する
+
+#### #M3 出典メタデータのUI連携
+- `stats-db.ts` の `source` はまだ画面に出していない
+- 将来のGPT風UI・課金機能に向け、データ回答時に `label/url/asOf` を返せる形へ整える
+- 記事DB (`#N2`) と `relatedPlayers/relatedTeams` で自然に接続する
 
 ### ★★★ 高優先 — ニュース制作・編集ワークフロー
 

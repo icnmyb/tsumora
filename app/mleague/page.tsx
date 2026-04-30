@@ -146,7 +146,7 @@ function getPhaseCopy(phase: PhaseKey) {
         diffLabel: "Finalボーダー差",
         borderLabel: "FINAL進出ライン",
         lead:
-          "2025-26シーズンはセミファイナルを経て、BEAST X、EX風林火山、TEAM RAIDEN/雷電、KONAMI麻雀格闘倶楽部がファイナルへ進出した。",
+          "2025-26シーズンはセミファイナルを経て、EX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電がファイナルへ進出した。",
       };
     case "final":
       return {
@@ -159,7 +159,7 @@ function getPhaseCopy(phase: PhaseKey) {
         diffLabel: "首位差",
         borderLabel: "",
         lead:
-          "2025-26シーズンのファイナルはBEAST X、EX風林火山、TEAM RAIDEN/雷電、KONAMI麻雀格闘倶楽部の4チームで争われる。表示ポイントはセミファイナル最終ptの半分を持ち越した開始時点の値。",
+          "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントはセミファイナル最終ptの半分を持ち越した開始時点の値。",
       };
   }
 }
@@ -190,6 +190,7 @@ interface IndividualLeader {
 function getPlayerPhasePts(player: FeaturedPlayer, phase: PhaseKey): number | undefined {
   const phaseStats = getPlayerPhaseStats(phase, player.id);
   if (phaseStats) return phaseStats.points;
+  if (phase === "final") return undefined;
   return player.annualPoints?.find((a) => a.season === CURRENT_SEASON)?.points;
 }
 
@@ -652,7 +653,7 @@ export default function MleaguePage() {
               </label>
               <ul className="roster">
                 {s.rosterPlayers.map((p) => {
-                  const pts = getPlayerPhasePts(p, selectedPhase) ?? 0;
+                  const pts = getPlayerPhasePts(p, selectedPhase);
                   return (
                     <li key={p.id} className="p">
                       <span
@@ -665,8 +666,8 @@ export default function MleaguePage() {
                         <Link href={p.href}>{p.name}</Link>
                         <small>{p.org}</small>
                       </div>
-                      <span className={`pt ${pts >= 0 ? "p" : "m"}`}>
-                        {fmtPts(pts)}
+                      <span className={`pt ${pts === undefined || pts >= 0 ? "p" : "m"}`}>
+                        {pts === undefined ? "—" : fmtPts(pts)}
                       </span>
                     </li>
                   );
@@ -703,6 +704,17 @@ export default function MleaguePage() {
               <span className={`pt ${l.pts >= 0 ? "p" : "m"}`}>{fmtPts(l.pts)}</span>
             </div>
           ))}
+          {leaders.length === 0 && (
+            <div className="lead-row">
+              <span className="rk">—</span>
+              <span className="av">未</span>
+              <div className="nm">
+                <span>ファイナル個人成績は開幕後に反映</span>
+                <small>未開催フェーズの成績は表示しません</small>
+              </div>
+              <span className="pt">—</span>
+            </div>
+          )}
         </section>
 
         <section className="info-card">
