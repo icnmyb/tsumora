@@ -5,6 +5,7 @@ import { Fragment, useState } from "react";
 import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
 import { FINAL_2025_26, REGULAR_FINAL_2025_26, SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
+import { getPlayerPhasePoints, getTeamPhaseStats } from "@/app/mleague/stats-db";
 
 const CURRENT_SEASON = "2025-26";
 type PhaseKey = "regular" | "semifinal" | "final";
@@ -32,6 +33,7 @@ interface ComputedStanding {
 }
 
 function enrichStanding(
+  phase: PhaseKey,
   team: TeamData,
   totalPts: number,
   gamesPlayed: number,
@@ -58,13 +60,14 @@ function enrichStanding(
       }
     }
   }
+  const phaseStats = getTeamPhaseStats(phase, team.slug);
   return {
     team,
     totalPts,
     gamesPlayed,
     gamesTotal,
-    topRateAvg: topRateCount > 0 ? topRateSum / topRateCount : 0,
-    bestScore,
+    topRateAvg: phaseStats ? (phaseStats.firsts / phaseStats.games) * 100 : topRateCount > 0 ? topRateSum / topRateCount : 0,
+    bestScore: phaseStats?.bestScore ?? bestScore,
     rosterPlayers,
   };
 }
@@ -74,20 +77,20 @@ function computeStandings(phase: PhaseKey): ComputedStanding[] {
   if (phase === "regular") {
     for (const entry of REGULAR_FINAL_2025_26.standings) {
       const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-      if (team) out.push(enrichStanding(team, entry.points, 96, 96));
+      if (team) out.push(enrichStanding(phase, team, entry.points, 96, 96));
     }
     return out;
   }
   if (phase === "semifinal") {
     for (const entry of SEMIFINAL_2025_26.standings) {
       const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-      if (team) out.push(enrichStanding(team, entry.total, entry.gamesPlayed, entry.gamesTotal));
+      if (team) out.push(enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal));
     }
     return out;
   }
   for (const entry of FINAL_2025_26.standings) {
     const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-    if (team) out.push(enrichStanding(team, entry.total, entry.gamesPlayed, entry.gamesTotal));
+    if (team) out.push(enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal));
   }
   return out;
 }
@@ -159,13 +162,19 @@ interface IndividualLeader {
   pts: number;
 }
 
-function computeIndividualLeaders(standings: ComputedStanding[]): IndividualLeader[] {
+function getPlayerPhasePts(player: FeaturedPlayer, phase: PhaseKey): number | undefined {
+  const phasePoints = getPlayerPhasePoints(phase, player.id);
+  if (phasePoints) return phasePoints.points;
+  return player.annualPoints?.find((a) => a.season === CURRENT_SEASON)?.points;
+}
+
+function computeIndividualLeaders(standings: ComputedStanding[], phase: PhaseKey): IndividualLeader[] {
   const leaders: IndividualLeader[] = [];
   for (const s of standings) {
     for (const p of s.rosterPlayers) {
-      const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
-      if (ap?.points !== undefined) {
-        leaders.push({ player: p, team: s.team, pts: ap.points });
+      const pts = getPlayerPhasePts(p, phase);
+      if (pts !== undefined) {
+        leaders.push({ player: p, team: s.team, pts });
       }
     }
   }
@@ -199,7 +208,7 @@ export default function MleaguePage() {
   const [selectedPhase, setSelectedPhase] = useState<PhaseKey>("final");
   const phaseCopy = getPhaseCopy(selectedPhase);
   const standings = computeStandings(selectedPhase);
-  const leaders = computeIndividualLeaders(standings).slice(0, 10);
+  const leaders = computeIndividualLeaders(standings, selectedPhase).slice(0, 10);
   const leader = standings[0];
   const totalPlayers = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
   // バーは max abs で正規化、片側 50% にキャップしてはみ出しを防ぐ
@@ -542,8 +551,7 @@ export default function MleaguePage() {
               </label>
               <ul className="roster">
                 {s.rosterPlayers.map((p) => {
-                  const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
-                  const pts = ap?.points ?? 0;
+                  const pts = getPlayerPhasePts(p, selectedPhase) ?? 0;
                   return (
                     <li key={p.id} className="p">
                       <span
