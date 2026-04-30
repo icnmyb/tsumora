@@ -1280,6 +1280,10 @@ footer.main .cr {
     background: var(--ink);
     color: var(--paper);
   }
+  .phase-switch button:focus-visible {
+    outline: 2px solid var(--vermilion);
+    outline-offset: -5px;
+  }
   .phase-switch .ps-en {
     grid-area: en;
     font-family: "Geist Mono";
@@ -1330,39 +1334,39 @@ footer.main .cr {
   }
   .st-table th.n { text-align: right; }
   .st-table td { padding: 10px 14px; border-bottom: 1px dotted var(--ink-4); vertical-align: middle; position: relative; }
-  /* チーム別 tint — 元の banner グラデ色を維持、左端 alpha のみ 1.0 までブースト */
-  .st-table tbody tr[data-team="furinkazan"] {
-    background: linear-gradient(90deg, #5a0000 0%, #5a0000 35%, rgba(90,0,0,0.55) 65%, rgba(90,0,0,0.18) 85%, transparent 98%);
+  /* チームカラーは全面に敷かず、左の芯と薄い余韻だけで見せる */
+  .st-table tbody tr[data-team] {
+    --row-accent: var(--ink);
+    background:
+      linear-gradient(90deg,
+        color-mix(in srgb, var(--row-accent) 13%, transparent) 0%,
+        color-mix(in srgb, var(--row-accent) 7%, transparent) 30%,
+        rgba(255,255,255,0) 72%),
+      var(--paper);
+    transition: background 140ms ease, box-shadow 140ms ease;
   }
-  .st-table tbody tr[data-team="konami"] {
-    background: linear-gradient(90deg, rgba(232,52,60,1.0) 0%, rgba(180,30,40,0.4) 50%, transparent 95%);
+  .st-table tbody tr[data-team="furinkazan"] { --row-accent: #5a0000; }
+  .st-table tbody tr[data-team="konami"] { --row-accent: #c8282a; }
+  .st-table tbody tr[data-team="beast-x"] { --row-accent: #002953; }
+  .st-table tbody tr[data-team="drivens"] { --row-accent: #5faf5a; }
+  .st-table tbody tr[data-team="phoenix"] { --row-accent: #d96f1f; }
+  .st-table tbody tr[data-team="raiden"] { --row-accent: #d9ad18; }
+  .st-table tbody tr[data-team="abemas"] { --row-accent: #8f7650; }
+  .st-table tbody tr[data-team="pirates"] { --row-accent: #34a8c8; }
+  .st-table tbody tr[data-team="sakura-knights"] { --row-accent: #d884bd; }
+  .st-table tbody tr[data-team="earth-jets"] { --row-accent: #2f9b4f; }
+  .st-table tbody tr[data-team] td:first-child {
+    border-left: 5px solid var(--row-accent);
   }
-  .st-table tbody tr[data-team="beast-x"] {
-    background: linear-gradient(90deg, rgba(15,75,120,1.0) 0%, rgba(20,80,90,0.5) 45%, rgba(45,63,35,0.24) 75%, transparent 95%);
+  .st-table tbody tr:not(.is-eliminated):hover {
+    background:
+      linear-gradient(90deg,
+        color-mix(in srgb, var(--row-accent) 18%, transparent) 0%,
+        color-mix(in srgb, var(--row-accent) 9%, transparent) 36%,
+        rgba(255,255,255,0) 78%),
+      var(--paper);
+    box-shadow: inset 0 0 0 999px rgba(255,255,255,0.04);
   }
-  .st-table tbody tr[data-team="drivens"] {
-    background: linear-gradient(90deg, rgba(95,200,90,1.0) 0%, rgba(150,220,90,0.38) 55%, transparent 95%);
-  }
-  .st-table tbody tr[data-team="phoenix"] {
-    background: linear-gradient(90deg, rgba(240,120,30,1.0) 0%, rgba(245,195,80,0.42) 50%, transparent 95%);
-  }
-  .st-table tbody tr[data-team="raiden"] {
-    background: linear-gradient(90deg, rgba(250,210,30,1.0) 0%, rgba(250,210,30,0.3) 55%, transparent 95%);
-  }
-  .st-table tbody tr[data-team="abemas"] {
-    background: linear-gradient(90deg, rgba(180,150,90,1.0) 0%, rgba(140,120,80,0.4) 50%, transparent 95%);
-  }
-  .st-table tbody tr[data-team="pirates"] {
-    background: linear-gradient(90deg, rgba(80,200,240,1.0) 0%, rgba(80,200,240,0.3) 55%, transparent 95%);
-  }
-  .st-table tbody tr[data-team="sakura-knights"] {
-    background: linear-gradient(90deg, rgba(245,180,225,1.0) 0%, rgba(245,180,225,0.3) 55%, transparent 95%);
-  }
-  .st-table tbody tr[data-team="earth-jets"] {
-    background: linear-gradient(90deg, rgba(60,180,80,1.0) 0%, rgba(20,120,60,0.34) 50%, transparent 95%);
-  }
-  /* hover でほんのり明るく */
-  .st-table tbody tr:not(.is-eliminated):hover { filter: brightness(1.05); }
   .st-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; text-align: center; width: 44px; color: var(--ink); line-height: 1; }
   .st-table .rk.top3 { color: var(--vermilion); }
   .st-table .t-name { font-family: "Shippori Mincho"; font-weight: 700; font-size: 14px; color: var(--ink); }
@@ -1370,27 +1374,6 @@ footer.main .cr {
   .st-table .t-name a { color: inherit; border-bottom: 1px dotted transparent; }
   .st-table .t-name a:hover { border-bottom-color: var(--ink); }
 
-  /* DARK系チーム（左ソリッド）の左セル — ライト文字 */
-  .st-table tbody tr[data-team="konami"] td:nth-child(-n+2),
-  .st-table tbody tr[data-team="beast-x"] td:nth-child(-n+2),
-  .st-table tbody tr[data-team="furinkazan"] td:nth-child(-n+2) {
-    color: rgba(255,255,255,0.95);
-  }
-  .st-table tbody tr[data-team="konami"] .rk,
-  .st-table tbody tr[data-team="beast-x"] .rk,
-  .st-table tbody tr[data-team="furinkazan"] .rk {
-    color: rgba(255,255,255,0.95);
-  }
-  .st-table tbody tr[data-team="konami"] .rk.top3,
-  .st-table tbody tr[data-team="beast-x"] .rk.top3,
-  .st-table tbody tr[data-team="furinkazan"] .rk.top3 {
-    color: #ffd680;
-  }
-  .st-table tbody tr[data-team="konami"] .t-name small,
-  .st-table tbody tr[data-team="beast-x"] .t-name small,
-  .st-table tbody tr[data-team="furinkazan"] .t-name small {
-    color: rgba(255,255,255,0.72);
-  }
   .st-table .n { text-align: right; font-family: "Geist Mono"; font-weight: 600; }
   .st-table .n.pts { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
   .st-table .n.pts.p { color: var(--vermilion); }
@@ -1480,37 +1463,26 @@ footer.main .cr {
   .st-card {
     border-bottom: 1px dotted var(--ink-4);
   }
-  /* チーム別 tint — 元の banner グラデ色維持、左端 alpha のみ 1.0 にブースト */
-  .st-card[data-team="furinkazan"] {
-    background: linear-gradient(90deg, #5a0000 0%, #5a0000 38%, rgba(90,0,0,0.6) 68%, rgba(90,0,0,0.2) 86%, transparent 98%);
+  .st-card[data-team] {
+    --row-accent: var(--ink);
+    background:
+      linear-gradient(90deg,
+        color-mix(in srgb, var(--row-accent) 14%, transparent) 0%,
+        color-mix(in srgb, var(--row-accent) 7%, transparent) 48%,
+        rgba(255,255,255,0) 100%),
+      var(--paper);
+    border-left: 5px solid var(--row-accent);
   }
-  .st-card[data-team="konami"] {
-    background: linear-gradient(90deg, rgba(232,52,60,1.0) 0%, rgba(180,30,40,0.42) 55%, transparent 95%);
-  }
-  .st-card[data-team="beast-x"] {
-    background: linear-gradient(90deg, rgba(15,75,120,1.0) 0%, rgba(20,80,90,0.54) 45%, rgba(45,63,35,0.28) 75%, transparent 95%);
-  }
-  .st-card[data-team="drivens"] {
-    background: linear-gradient(90deg, rgba(95,200,90,1.0) 0%, rgba(150,220,90,0.42) 55%, transparent 95%);
-  }
-  .st-card[data-team="phoenix"] {
-    background: linear-gradient(90deg, rgba(240,120,30,1.0) 0%, rgba(245,195,80,0.46) 50%, transparent 95%);
-  }
-  .st-card[data-team="raiden"] {
-    background: linear-gradient(90deg, rgba(250,210,30,1.0) 0%, rgba(250,210,30,0.34) 55%, transparent 95%);
-  }
-  .st-card[data-team="abemas"] {
-    background: linear-gradient(90deg, rgba(180,150,90,1.0) 0%, rgba(140,120,80,0.42) 50%, transparent 95%);
-  }
-  .st-card[data-team="pirates"] {
-    background: linear-gradient(90deg, rgba(80,200,240,1.0) 0%, rgba(80,200,240,0.34) 55%, transparent 95%);
-  }
-  .st-card[data-team="sakura-knights"] {
-    background: linear-gradient(90deg, rgba(245,180,225,1.0) 0%, rgba(245,180,225,0.34) 55%, transparent 95%);
-  }
-  .st-card[data-team="earth-jets"] {
-    background: linear-gradient(90deg, rgba(60,180,80,1.0) 0%, rgba(20,120,60,0.38) 50%, transparent 95%);
-  }
+  .st-card[data-team="furinkazan"] { --row-accent: #5a0000; }
+  .st-card[data-team="konami"] { --row-accent: #c8282a; }
+  .st-card[data-team="beast-x"] { --row-accent: #002953; }
+  .st-card[data-team="drivens"] { --row-accent: #5faf5a; }
+  .st-card[data-team="phoenix"] { --row-accent: #d96f1f; }
+  .st-card[data-team="raiden"] { --row-accent: #d9ad18; }
+  .st-card[data-team="abemas"] { --row-accent: #8f7650; }
+  .st-card[data-team="pirates"] { --row-accent: #34a8c8; }
+  .st-card[data-team="sakura-knights"] { --row-accent: #d884bd; }
+  .st-card[data-team="earth-jets"] { --row-accent: #2f9b4f; }
   .st-card:last-child { border-bottom: 0; }
   .st-card.is-border {
     border-bottom: 2px dashed rgba(160,126,40,.55);
@@ -1574,20 +1546,6 @@ footer.main .cr {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
-  /* DARK系チーム（左ソリッド）のモバイルカード — ライト文字 */
-  .st-card[data-team="konami"] .st-card-rk,
-  .st-card[data-team="beast-x"] .st-card-rk,
-  .st-card[data-team="furinkazan"] .st-card-rk { color: rgba(255,255,255,0.95); }
-  .st-card[data-team="konami"] .st-card-rk.top3,
-  .st-card[data-team="beast-x"] .st-card-rk.top3,
-  .st-card[data-team="furinkazan"] .st-card-rk.top3 { color: #ffd680; }
-  .st-card[data-team="konami"] .st-card-team,
-  .st-card[data-team="beast-x"] .st-card-team,
-  .st-card[data-team="furinkazan"] .st-card-team { color: rgba(255,255,255,0.96); }
-  .st-card[data-team="konami"] .st-card-roster,
-  .st-card[data-team="beast-x"] .st-card-roster,
-  .st-card[data-team="furinkazan"] .st-card-roster { color: rgba(255,255,255,0.7); }
 
   .st-card-bar {
     position: relative;
