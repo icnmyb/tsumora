@@ -1,6 +1,6 @@
 // app/mleague/sf-data.ts
 // Mリーグ 2025-26 セミファイナルシリーズの実データ
-// 出典: Mリーグ公式日程 / キンマweb / M-League Watch (2026-04-28 更新)
+// 出典: Mリーグ公式日程 / M.LEAGUE応援まとめサイト (2026-04-30 更新)
 
 export interface SFTeamStanding {
   teamSlug: string;
@@ -28,6 +28,15 @@ export interface SemifinalState {
   standings: SFTeamStanding[]; // 順位順
   upcoming: SFMatch[]; // 残り試合 (近い順)
   asOf: string; // データ更新日
+}
+
+export interface FinalState {
+  season: string;
+  startDate: string;
+  endDate: string;
+  totalGames: number;
+  finalists: string[];
+  upcoming: SFMatch[];
 }
 
 // レギュラーシーズン (2025-09-15 〜 2026-03-27) 終了時の最終順位
@@ -65,64 +74,73 @@ export const SEMIFINAL_2025_26: SemifinalState = {
   startDate: "2026-04-06",
   endDate: "2026-04-30",
   totalGames: 30,
-  gamesPlayed: 28,
+  gamesPlayed: 30,
   finalLine: 4,
-  asOf: "2026-04-28",
+  asOf: "2026-04-30",
   standings: [
-    {
-      teamSlug: "furinkazan",
-      carryover: 348.7,
-      sfPoints: 141.3,
-      total: 490.0,
-      gamesPlayed: 18,
-      gamesTotal: 20,
-    },
     {
       teamSlug: "beast-x",
       carryover: 344.9,
-      sfPoints: 77.7,
-      total: 422.6,
-      gamesPlayed: 18,
+      sfPoints: 61.0,
+      total: 405.9,
+      gamesPlayed: 20,
+      gamesTotal: 20,
+    },
+    {
+      teamSlug: "furinkazan",
+      carryover: 348.7,
+      sfPoints: -7.1,
+      total: 341.6,
+      gamesPlayed: 20,
       gamesTotal: 20,
     },
     {
       teamSlug: "raiden",
       carryover: -106.8,
-      sfPoints: 259.2,
-      total: 152.4,
+      sfPoints: 317.2,
+      total: 210.4,
       gamesPlayed: 20,
       gamesTotal: 20,
     },
     {
       teamSlug: "konami",
       carryover: 345.7,
-      sfPoints: -237.0,
-      total: 108.7,
-      gamesPlayed: 18,
+      sfPoints: -250.6,
+      total: 95.1,
+      gamesPlayed: 20,
       gamesTotal: 20,
     },
     {
       teamSlug: "phoenix",
       carryover: 62.1,
-      sfPoints: -40.8,
-      total: 21.3,
+      sfPoints: 23.0,
+      total: 85.1,
       gamesPlayed: 20,
       gamesTotal: 20,
     },
     {
       teamSlug: "drivens",
       carryover: 123.3,
-      sfPoints: -200.4,
-      total: -77.1,
-      gamesPlayed: 18,
+      sfPoints: -143.5,
+      total: -20.2,
+      gamesPlayed: 20,
       gamesTotal: 20,
     },
   ],
+  upcoming: [],
+};
+
+export const FINAL_2025_26: FinalState = {
+  season: "2025-26",
+  startDate: "2026-05-04",
+  endDate: "2026-05-15",
+  totalGames: 16,
+  finalists: ["beast-x", "furinkazan", "raiden", "konami"],
   upcoming: [
     {
-      date: "2026-04-30",
+      date: "2026-05-04",
       startTimeJst: "19:00",
-      teamSlugs: ["drivens", "furinkazan", "konami", "beast-x"],
+      teamSlugs: ["beast-x", "furinkazan", "raiden", "konami"],
       status: "upcoming",
     },
   ],

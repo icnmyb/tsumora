@@ -4,7 +4,7 @@ import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
 import { NEWS, getCategoryLabel } from "@/app/news/data";
-import { SEMIFINAL_2025_26, type SemifinalState, type SFTeamStanding } from "@/app/mleague/sf-data";
+import { FINAL_2025_26, SEMIFINAL_2025_26, type SemifinalState, type SFTeamStanding } from "@/app/mleague/sf-data";
 import type { TeamData } from "@/app/teams/data";
 import {
   computeTitleRanking,
@@ -72,13 +72,14 @@ function MLeagueStandingsCard({
 }) {
   const remaining = sf.totalGames - sf.gamesPlayed;
   const progressPct = (sf.gamesPlayed / sf.totalGames) * 100;
+  const isComplete = remaining <= 0;
   return (
     <>
       <div className="hmb-head">
         <div className="hmb-head-top">
           <div className="hmb-title-group">
             <h2 className="hmb-title">Mリーグ順位表</h2>
-            <span className="hmb-phase-chip">SEMIFINAL</span>
+            <span className="hmb-phase-chip">{isComplete ? "FINALISTS" : "SEMIFINAL"}</span>
           </div>
           <Link href="/mleague" className="hmb-more">
             標識 →
@@ -99,9 +100,9 @@ function MLeagueStandingsCard({
           </span>
         </div>
         <div className="hmb-meta-row">
-          <span>2025-26 · 残り {remaining} 試合</span>
+          <span>{isComplete ? "2025-26 · SF終了" : `2025-26 · 残り ${remaining} 試合`}</span>
           <span className="hmb-meta-final">
-            上位 {sf.finalLine} → FINAL
+            {isComplete ? "上位4チーム FINAL進出" : `上位 ${sf.finalLine} → FINAL`}
           </span>
         </div>
       </div>
@@ -167,6 +168,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const sf = SEMIFINAL_2025_26;
+  const isSfComplete = sf.gamesPlayed >= sf.totalGames;
   const sfStandings = sf.standings.map((s) => ({
     ...s,
     team: getTeamBySlug(s.teamSlug),
@@ -174,7 +176,7 @@ export default function Home() {
   const sfLeader = sfStandings[0];
   // ファイナル進出ボーダー（TOP {finalLine} に入れる最低ライン）= ボーダーチームのポイント
   const borderPts = sfStandings[sf.finalLine - 1]?.total ?? 0;
-  const nextMatch = sf.upcoming.find((m) => m.teamSlugs.length > 0);
+  const nextMatch = (isSfComplete ? FINAL_2025_26.upcoming : sf.upcoming).find((m) => m.teamSlugs.length > 0);
   const nextMatchTeams = nextMatch
     ? nextMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
@@ -263,13 +265,13 @@ export default function Home() {
             </div>
             <div className="mlb-meta">
               <span className="mlb-season">2025-26</span>
-              <span className="mlb-phase">SEMI-FINAL</span>
+              <span className="mlb-phase">FINALISTS</span>
             </div>
           </div>
 
           <div className="mlb-progress">
             <div className="mlb-progress-row">
-              <span className="mlb-progress-label">SEMIFINAL</span>
+              <span className="mlb-progress-label">SEMIFINAL COMPLETE</span>
               <span className="mlb-progress-count">
                 <strong>{sf.gamesPlayed}</strong>
                 <span className="slash">/</span>

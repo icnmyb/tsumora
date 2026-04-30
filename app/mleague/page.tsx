@@ -24,9 +24,10 @@ interface ComputedStanding {
 
 function computeStandings(): ComputedStanding[] {
   const out: ComputedStanding[] = [];
-  for (const team of ALL_TEAMS) {
+  for (const sf of SEMIFINAL_2025_26.standings) {
+    const team = ALL_TEAMS.find((t) => t.slug === sf.teamSlug);
+    if (!team) continue;
     const rosterPlayers: FeaturedPlayer[] = [];
-    let totalPts = 0;
     let topRateSum = 0;
     let topRateCount = 0;
     let bestScore = 0;
@@ -36,10 +37,6 @@ function computeStandings(): ComputedStanding[] {
       // FeaturedPlayer guard via annualPoints presence
       if (!("annualPoints" in p) || !p.annualPoints) continue;
       rosterPlayers.push(p as FeaturedPlayer);
-      const seasonEntry = (p as FeaturedPlayer).annualPoints?.find(
-        (ap) => ap.season === CURRENT_SEASON
-      );
-      if (seasonEntry?.points !== undefined) totalPts += seasonEntry.points;
       const cs = (p as FeaturedPlayer).currentSeason;
       if (cs?.season === CURRENT_SEASON) {
         if (typeof cs.topRate === "number") {
@@ -53,13 +50,12 @@ function computeStandings(): ComputedStanding[] {
     }
     out.push({
       team,
-      totalPts,
+      totalPts: sf.total,
       topRateAvg: topRateCount > 0 ? topRateSum / topRateCount : 0,
       bestScore,
       rosterPlayers,
     });
   }
-  out.sort((a, b) => b.totalPts - a.totalPts);
   return out;
 }
 
@@ -131,13 +127,13 @@ export default function MleaguePage() {
           <span className="sep">›</span>
           <span>Mリーグ {CURRENT_SEASON}</span>
         </div>
-        <div className="season-tag">● {CURRENT_SEASON} SEASON · セミファイナル進行中</div>
+        <div className="season-tag">● {CURRENT_SEASON} SEASON · セミファイナル終了</div>
         <h1>
           Mリーグ
           <span className="en">M.LEAGUE · Japan&apos;s Premier Pro Team Circuit · Since 2018</span>
         </h1>
         <p className="lead">
-          2018年に発足した国内初の本格的プロ麻雀団体対抗リーグ。10チームがレギュラーシーズンを戦い、上位6チームがセミファイナルへ進出。{CURRENT_SEASON}シーズンはEARTH JETSの新規参入により10チーム体制となり、現在はファイナル進出4枠を懸けたセミファイナル終盤。
+          2018年に発足した国内初の本格的プロ麻雀団体対抗リーグ。{CURRENT_SEASON}シーズンはEARTH JETSの新規参入により10チーム体制となり、セミファイナルを経てBEAST X、EX風林火山、TEAM RAIDEN/雷電、KONAMI麻雀格闘倶楽部がファイナルへ進出した。
         </p>
         <div className="meta-row">
           <div className="m">
@@ -171,7 +167,7 @@ export default function MleaguePage() {
       <section className="standings-wrap">
         <div className="st-head">
           <div className="ttl">
-            順位表<span className="en">Standings · {CURRENT_SEASON}</span>
+            セミファイナル最終順位<span className="en">Semifinal Final Standings · {CURRENT_SEASON}</span>
           </div>
         </div>
         <table className="st-table st-desktop-table">
@@ -190,11 +186,10 @@ export default function MleaguePage() {
           <tbody>
             {standings.map((s, idx) => {
               const top4 = idx < 4;
-              const top6 = idx < 6;
               const isBorder = idx === 3;
-              const isEliminated = idx >= 6;
-              const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "敗退";
-              const lineClass = top4 ? "f" : top6 ? "s" : "x";
+              const isEliminated = idx >= 4;
+              const lineLabel = top4 ? "FINAL進出" : "SF敗退";
+              const lineClass = top4 ? "f" : "x";
               const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
               const diff = s.totalPts - borderPts;
               return (
@@ -260,11 +255,10 @@ export default function MleaguePage() {
         <ul className="st-mobile-list">
           {standings.map((s, idx) => {
             const top4 = idx < 4;
-            const top6 = idx < 6;
             const isBorder = idx === 3;
-            const isEliminated = idx >= 6;
-            const lineLabel = top4 ? "F進出圏" : top6 ? "S進出圏" : "敗退";
-            const lineClass = top4 ? "f" : top6 ? "s" : "x";
+            const isEliminated = idx >= 4;
+            const lineLabel = top4 ? "FINAL進出" : "SF敗退";
+            const lineClass = top4 ? "f" : "x";
             const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
             const diff = s.totalPts - borderPts;
             return (
@@ -333,9 +327,9 @@ export default function MleaguePage() {
       </section>
 
       <h2 className="sh">
-        <span className="sh-desk">全{ALL_TEAMS.length}チーム</span>
+        <span className="sh-desk">SF進出{standings.length}チーム</span>
         <span className="sh-mob">順位表</span>
-        <span className="num sh-desk-num">Teams · {ALL_TEAMS.length} Franchises</span>
+        <span className="num sh-desk-num">Semifinalists · {standings.length} Teams</span>
         <span className="num sh-mob-num">Standings · {CURRENT_SEASON}</span>
         <span className="rule"></span>
         <Link href="/teams" className="more" style={{ textDecoration: "none", color: "var(--ink-3)" }}>
@@ -344,7 +338,7 @@ export default function MleaguePage() {
       </h2>
       <div className="team-grid">
         {standings.map((s, idx) => {
-          const isEliminated = idx >= 6;
+          const isEliminated = idx >= 4;
           const isBorder = idx === 3;
           const accent = s.team.colorOnDark ?? s.team.color;
           const avText = getContrastText(s.team.color);
