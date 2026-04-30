@@ -61,13 +61,18 @@ function enrichStanding(
     }
   }
   const phaseStats = getTeamPhaseStats(phase, team.slug);
+  const shouldUseFallbackSeasonStats = phase === "regular";
   return {
     team,
     totalPts,
     gamesPlayed,
     gamesTotal,
-    topRateAvg: phaseStats ? (phaseStats.firsts / phaseStats.games) * 100 : topRateCount > 0 ? topRateSum / topRateCount : 0,
-    bestScore: phaseStats?.bestScore ?? bestScore,
+    topRateAvg: phaseStats
+      ? (phaseStats.firsts / phaseStats.games) * 100
+      : shouldUseFallbackSeasonStats && topRateCount > 0
+        ? topRateSum / topRateCount
+        : 0,
+    bestScore: phaseStats?.bestScore ?? (shouldUseFallbackSeasonStats ? bestScore : 0),
     rosterPlayers,
   };
 }
