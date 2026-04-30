@@ -268,6 +268,11 @@ export default function MleaguePage() {
   const borderIndex = selectedPhase === "regular" ? 5 : selectedPhase === "semifinal" ? 3 : 0;
   const borderPts = standings[borderIndex]?.totalPts ?? leader?.totalPts ?? 0;
   const showBorderLine = selectedPhase !== "final";
+  const compactSideLabel = getCompactSideMetric(
+    selectedPhase,
+    standings[0],
+    leader?.totalPts ?? 0,
+  ).label;
   const scrollToTeam = (teamSlug: string) => {
     document.getElementById(`mleague-team-${teamSlug}`)?.scrollIntoView({
       behavior: "smooth",
@@ -342,7 +347,7 @@ export default function MleaguePage() {
       <section className="mobile-standings-compact" aria-label={`${phaseCopy.heading} コンパクト順位表`}>
         <div className="msc-head">
           <span>{phaseCopy.heading}</span>
-          <small>{phaseCopy.ptsLabel}</small>
+          <small>{phaseCopy.ptsLabel} / {compactSideLabel}</small>
         </div>
         <ol className="msc-list">
           {standings.map((s, idx) => {
@@ -367,7 +372,6 @@ export default function MleaguePage() {
                     {fmtPts(s.totalPts)}
                   </span>
                   <span className={`msc-side ${sideMetric.tone}`}>
-                    <small>{sideMetric.label}</small>
                     <b>{sideMetric.value}</b>
                   </span>
                 </button>
