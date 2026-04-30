@@ -34,7 +34,8 @@ export default function TeamsIndexPage() {
               MLEAGUE TEAMS · 10 CLUBS · ACROSS {TEAMS.length} ORGS
             </div>
             <h1>
-              Mリーグ チーム一覧
+              <span className="title-full">Mリーグ チーム一覧</span>
+              <span className="title-short">Mチーム</span>
               <span className="en">M.LEAGUE Teams</span>
             </h1>
             <div className="tags">

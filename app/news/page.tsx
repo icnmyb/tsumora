@@ -19,10 +19,7 @@ export default function NewsIndexPage() {
         <div className="news-index-kicker">
           <span>●</span> NEWS · 注目記事
         </div>
-        <h1 className="news-index-title">
-          ニュース<span className="comma">、</span>
-          <span className="em">編集部選。</span>
-        </h1>
+        <h1 className="news-index-title">ニュース</h1>
         <p className="news-index-en">
           Editor&apos;s picks from across the major Japanese mahjong leagues.
         </p>

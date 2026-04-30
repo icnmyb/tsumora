@@ -100,6 +100,7 @@ function RuleItemCell({ label, desc }: { label: string; desc?: string }) {
 function CompareTable() {
   return (
     <div
+      className="rules-table-shell rules-table-shell--compare"
       style={{
         overflowX: "auto",
         margin: "0 0 48px",
@@ -556,6 +557,7 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
     >
       {group.rules.length > 1 && (
         <div
+          className="rules-subtabs"
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -739,6 +741,7 @@ function OrgFilterBar({
 }) {
   return (
     <nav
+      className="rules-org-tabs"
       aria-label="団体で絞り込む"
       style={{
         display: "flex",
@@ -958,7 +961,7 @@ export default function RulesPage() {
     orgTab === "ALL" ? null : ORG_RULE_GROUPS.find((g) => g.org === orgTab);
 
   return (
-    <div className="wrap">
+    <div className="wrap rules-page">
       <section className="org-hero">
         <div className="crumb">
           <Link href="/">Home</Link>
@@ -985,7 +988,7 @@ export default function RulesPage() {
         </div>
       </section>
 
-      <div style={{ padding: "40px 24px 80px" }}>
+      <div className="rules-content" style={{ padding: "40px 24px 80px" }}>
         <OrgFilterBar current={orgTab} onChange={setOrgTab} />
 
         {orgTab === "ALL" && (

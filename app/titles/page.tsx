@@ -36,7 +36,8 @@ export default async function TitlesIndexPage({
           <div>
             <div className="org-code">TITLES · {TITLES.length} MAJOR CHAMPIONSHIPS · ACROSS 5 BODIES</div>
             <h1>
-              タイトル戦一覧
+              <span className="title-full">タイトル戦一覧</span>
+              <span className="title-short">タイトル戦</span>
               <span className="en">Major Mahjong Championships</span>
             </h1>
             <div className="tags">
@@ -60,6 +61,7 @@ export default async function TitlesIndexPage({
         <span className="more">{activeFilter.label} · {visibleTitles.length} TITLES</span>
       </h2>
       <nav
+        className="title-filter-tabs"
         aria-label="Filter by organization"
         style={{
           display: "flex",

@@ -7,6 +7,7 @@ import { ALL_PLAYERS, ORG_META, getAllPlayers, type RosterPlayer, type OrgCode, 
 
 type OrgFilter = "ALL" | OrgCode;
 type GenderFilter = "ALL" | Gender;
+type PlayerView = "mleague" | "all";
 
 type OrgTab = {
   key: OrgFilter;
@@ -92,6 +93,8 @@ function PlayersIndexInner() {
   const [genderFilter, setGenderFilter] = useState<GenderFilter>("ALL");
   const [mleagueTeamFilter, setMleagueTeamFilter] = useState<MLeagueTeamFilter>("ALL");
   const [search, setSearch] = useState("");
+  const [view, setView] = useState<PlayerView>(page > 1 ? "all" : "mleague");
+  const [isMobile, setIsMobile] = useState(false);
   const allListRef = useRef<HTMLHeadingElement | null>(null);
 
   const allPlayers = useMemo(() => getAllPlayers(), []);
@@ -126,6 +129,14 @@ function PlayersIndexInner() {
   const pageStart = (currentPage - 1) * PER_PAGE;
   const visible = filtered.slice(pageStart, pageStart + PER_PAGE);
 
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 720px)");
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
   // フィルタ・検索が変わったら page=1 に戻す (URLから page を落とす)
   useEffect(() => {
     if (page > 1) {
@@ -139,6 +150,7 @@ function PlayersIndexInner() {
   useEffect(() => {
     if (!paginatingRef.current) return;
     paginatingRef.current = false;
+    setView("all");
     allListRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [currentPage]);
 
@@ -184,8 +196,27 @@ function PlayersIndexInner() {
         </div>
       </section>
 
+      <div className="players-view-tabs" aria-label="選手一覧の表示切り替え">
+        <button
+          type="button"
+          aria-pressed={view === "mleague"}
+          onClick={() => setView("mleague")}
+        >
+          <span>Mリーガー</span>
+          <small>{featured.length.toLocaleString()}</small>
+        </button>
+        <button
+          type="button"
+          aria-pressed={view === "all"}
+          onClick={() => setView("all")}
+        >
+          <span>全選手一覧</span>
+          <small>{filtered.length.toLocaleString()}</small>
+        </button>
+      </div>
+
       {/* FEATURED PLAYERS GRID — page 1 のみ表示 */}
-      {currentPage === 1 && (
+      {currentPage === 1 && (!isMobile || view === "mleague") && (
       <>
       <h2 className="sh">
         <span>Mリーガー</span>
@@ -195,6 +226,7 @@ function PlayersIndexInner() {
 
       {/* FEATURED FILTER TABS — editorial underline style */}
       <nav
+        className="player-filter-strip player-filter-strip--org"
         aria-label="Filter featured players by organization"
         style={{
           display: "flex",
@@ -208,6 +240,7 @@ function PlayersIndexInner() {
         }}
       >
         <span
+          className="player-filter-label"
           aria-hidden
           style={{
             display: "inline-flex",
@@ -307,6 +340,7 @@ function PlayersIndexInner() {
 
       {/* MLEAGUE TEAM FILTER TABS */}
       <nav
+        className="player-filter-strip player-filter-strip--team"
         aria-label="Filter by M.League team"
         style={{
           display: "flex",
@@ -320,6 +354,7 @@ function PlayersIndexInner() {
         }}
       >
         <span
+          className="player-filter-label"
           aria-hidden
           style={{
             display: "inline-flex",
@@ -611,6 +646,8 @@ function PlayersIndexInner() {
       )}
 
       {/* ALL PLAYERS LIST */}
+      {(!isMobile || view === "all") && (
+      <>
       <h2 className="sh" ref={allListRef}>
         <span>ALL PLAYERS — 選手一覧</span>
         <span className="num">All Registered Players</span>
@@ -657,6 +694,7 @@ function PlayersIndexInner() {
 
       {/* ORG FILTER TABS */}
       <nav
+        className="player-filter-strip player-filter-strip--all-org"
         aria-label="Filter all players by organization"
         style={{
           display: "flex",
@@ -724,6 +762,7 @@ function PlayersIndexInner() {
 
       {/* GENDER FILTER TABS */}
       <nav
+        className="player-filter-strip player-filter-strip--gender"
         aria-label="Filter all players by gender"
         style={{
           display: "flex",
@@ -869,6 +908,8 @@ function PlayersIndexInner() {
           color: var(--ink);
         }
       `}</style>
+      </>
+      )}
     </div>
   );
 }

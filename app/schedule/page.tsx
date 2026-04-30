@@ -554,7 +554,9 @@ export default function SchedulePage() {
           <span>対局スケジュール</span>
         </div>
         <h1>
-          対局スケジュール<span className="en">Match Schedule</span>
+          <span className="title-full">対局スケジュール</span>
+          <span className="title-short">対局</span>
+          <span className="en">Match Schedule</span>
         </h1>
         <div className="range">
           <div className="wk">
