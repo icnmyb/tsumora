@@ -10,6 +10,17 @@
 **この欄はセッション終わりに必ず更新する。次セッションで `/clear` しても引き継げるように。**
 
 ### 進行中タスク
+- ✅ 5/4リリース前の信頼性修正
+  - MリーグSFデータを 2026-04-28 終了時点へ更新（残り4/30最終日）
+  - Mリーグページの「レギュラー進行中」文言をSF終盤へ修正
+  - 団体一覧/団体詳細の所属プロ数をTSUMORA掲載数へ更新
+  - `/titles` のDUMMY UIをURL query式フィルタに置換
+  - `/rankings` の未実装露出文言を削除
+  - `/predict` CTAをComing Soonに合わせた表現へ修正
+  - 選手詳細のランダム生成スタイル分析を削除
+  - 重複していた BgLayers / CustomScrollbar を個別ページ側から削除
+  - `metadataBase` を `https://tsumora.com` に設定
+  - `npm run lint` を対話式で止まらない `tsc --noEmit` に変更
 - ✅ Mリーグページ スマホUI 全面改修
   - team-card 折りたたみロスター（checkbox + label の CSS のみ実装）
   - FINAL進出ライン: 4位カードと5位カードの間に `.grid-border-line` 独立要素
@@ -21,6 +32,8 @@
 - ✅ BEAST X 配色: ドーンブルー (#002953) + dark forest green bg (#2d3f23)
 
 ### 直近の主要決定
+- **MリーグSF**: 2026-04-28終了時点まで更新済み。4/30最終戦後に `app/mleague/sf-data.ts` と `/schedule` のFinal進出チームを更新する。
+- **信頼性優先**: 確認不能な評価値（選手スタイル分析のランダム値）は表示しない方針。
 - **fmtPts**: 負号は ASCII "-" に統一（U+2212 だと mono フォントで幅ズレ）
 - **PC team-card は 153f80e 時点と pixel 一致**（モバイル改修は @media 内に閉じ込める鉄則）
 - **モバイル順位表**: standings-wrap 非表示、team-grid を順位表として使用、見出しは「順位表」に切替
@@ -30,6 +43,13 @@
 - PC view を変更する時は必ず @media (max-width: 720px) 内に閉じ込める。base CSS をいじると PC に漏れる
 - `team-card` 内の Link は z-index 2 必須（モバイル overlay より前面）
 - `.two-col` のモバイル化は line 2076 と 3477 の **両方**に @media 必要（cascade で後ろが勝つ）
+
+### Codex 運用ルール
+- Codex はこの repo では開発責任者として振る舞う。単なる実装者ではなく、仕様・データ信頼性・デザイン一貫性・検証まで見る。
+- 別スレッドでも継続できるように、まとまった作業の終わりにこの「現在の状態」を更新する。
+- 更新する内容: 作業内容、触った主要ファイル、通した検証、未解決事項、次の一手、壊してはいけない注意点。
+- 長期タスクや優先度の変更は `.claude/roadmap.md` に反映する。調査ログや根拠は必要に応じて `docs/` または `.claude/*` に残す。
+- 会話だけに重要決定を残さない。次セッション開始時は `CLAUDE.md` と `.claude/roadmap.md` を読めば再開できる状態にする。
 
 ---
 

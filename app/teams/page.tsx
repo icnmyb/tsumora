@@ -1,8 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { TEAMS } from "@/app/teams/data";
-import { BgLayers } from "@/components/BgLayers";
-import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 export const metadata: Metadata = {
   title: "Mリーグ チーム一覧 — TSUMORA",
@@ -18,8 +16,6 @@ export default function TeamsIndexPage() {
   });
   return (
     <div className="wrap">
-      <BgLayers />
-      <CustomScrollbar />
       <section
         className="org-hero"
         style={{

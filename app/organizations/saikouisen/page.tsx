@@ -23,10 +23,10 @@ const SAIKOUISEN: OrgDetailPageData = {
   nameEn: "Saikouisen Japan Pro Mahjong Association",
   kite: "高",
   highlightTag: "日本最古のプロ麻雀団体",
-  extraTags: ["創設 1976年", "所属プロ 480名", "タイトル戦 5", "50年の歴史"],
+  extraTags: ["創設 1976年", "掲載プロ 1,024名", "タイトル戦 5", "50年の歴史"],
   meta: [
     { label: "Founded", value: "1976", accent: true, sub: <>昭和51年<br />日本最古のプロ団体</> },
-    { label: "Active Pros", value: "480", unit: "名", sub: "国際支部含む第3規模" },
+    { label: "Active Pros", value: "1,024", unit: "名", sub: "TSUMORA掲載数" },
     { label: "Titles", value: "05", unit: "戦", sub: "最高位 · Classic · 發王 · 女流 ほか" },
     { label: "League", value: "07", unit: "部", accent: true, sub: "A1 〜 C3 · 女流A〜B" },
     {
@@ -40,7 +40,7 @@ const SAIKOUISEN: OrgDetailPageData = {
     en: "About Saikouisen",
     leadParagraphs: [
       "最高位戦日本プロ麻雀協会は、1976年に小説家・阿佐田哲也らによって設立された、日本最古の麻雀プロ団体である。古典派の象徴として「一発・裏ドラなし」「赤牌なし」の正統派ルールを守り、競技麻雀の伝統を受け継ぐ。",
-      "団体最高峰の最高位決定戦は1976年から続き、現最高位は村上淳。A1・A2・B1・B2・C1・C2・C3の7部制リーグを採用し、所属プロは年間を通じて昇降級を競う。",
+      "団体最高峰の最高位決定戦は1976年から続き、現最高位は石井一馬。A1・A2・B1・B2・C1・C2・C3の7部制リーグを採用し、所属プロは年間を通じて昇降級を競う。",
       "Classic（古典ルール採用）と發王戦（オープン参加型）も看板タイトルで、女流最高位戦・USA Aリーグなど国際展開も活発。USA・CHINA各支部に複数名の海外プロが在籍する。",
       "Mリーグには園田賢・鈴木たろう・茅森早香・醍醐大・竹内元太・日向藍子・渋川難波（協会から移籍）・永井孝典・瑞原明奈・鈴木優・石井一馬・近藤誠一らが所属。Mリーグ全選手中最大勢力を誇る。",
     ],
@@ -77,7 +77,7 @@ const SAIKOUISEN: OrgDetailPageData = {
       ),
     },
     { dt: "創設者", dd: "阿佐田 哲也ら" },
-    { dt: "所属プロ", dd: "480名 (国際支部含む)" },
+    { dt: "掲載プロ", dd: "1,024名 (TSUMORA掲載数)" },
     { dt: "本部", dd: "東京都" },
     { dt: "支部", dd: "本部 / 関西 / 九州 / 北海道 / USA / CHINA" },
     { dt: "主要タイトル", dd: "最高位決定戦 · Classic · 發王戦" },

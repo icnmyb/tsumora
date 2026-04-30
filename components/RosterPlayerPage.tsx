@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { ORG_META, getAllPlayers, type RosterPlayer } from "@/app/players/data";
-import { BgLayers } from "@/components/BgLayers";
-import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 interface RelatedCard {
   av: string;
@@ -64,9 +62,6 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
 
   return (
     <div className="wrap">
-      <BgLayers />
-      <CustomScrollbar />
-
       {/* HERO (slim) */}
       <section className="p-hero p-hero--slim">
         <div className="portrait portrait--dynamic">

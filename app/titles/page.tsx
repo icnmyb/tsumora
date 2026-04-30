@@ -14,7 +14,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function TitlesIndexPage() {
+export default async function TitlesIndexPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ org?: string }>;
+}) {
+  const params = await searchParams;
+  const selectedOrg = FILTERS.some((f) => f.key === params?.org) ? params?.org : "ALL";
+  const activeFilter = FILTERS.find((f) => f.key === selectedOrg) ?? FILTERS[0];
+  const visibleTitles = selectedOrg === "ALL" ? TITLES : TITLES.filter((t) => t.org === selectedOrg);
+
   return (
     <div className="wrap">
       <section className="org-hero">
@@ -25,13 +34,13 @@ export default function TitlesIndexPage() {
         </div>
         <div className="top-grid">
           <div>
-            <div className="org-code">TITLES · 7 MAJOR CHAMPIONSHIPS · ACROSS 4 BODIES</div>
+            <div className="org-code">TITLES · {TITLES.length} MAJOR CHAMPIONSHIPS · ACROSS 5 BODIES</div>
             <h1>
               タイトル戦一覧
               <span className="en">Major Mahjong Championships</span>
             </h1>
             <div className="tags">
-              <span className="highlight">● 主要タイトル 8冠</span>
+              <span className="highlight">● 主要タイトル {TITLES.length}冠</span>
               <span>5団体横断</span>
               <span>リーグ戦・トーナメント</span>
               <span>現保持者情報</span>
@@ -48,7 +57,7 @@ export default function TitlesIndexPage() {
         <span>団体で絞り込み</span>
         <span className="num">Filter by Organization</span>
         <span className="rule"></span>
-        <span className="more">DUMMY UI</span>
+        <span className="more">{activeFilter.label} · {visibleTitles.length} TITLES</span>
       </h2>
       <nav
         aria-label="Filter by organization"
@@ -64,12 +73,13 @@ export default function TitlesIndexPage() {
         }}
       >
         {FILTERS.map((f, i) => {
-          const active = i === 0;
+          const active = selectedOrg === f.key;
+          const href = f.key === "ALL" ? "/titles" : `/titles?org=${encodeURIComponent(f.key)}`;
           return (
-            <button
+            <Link
               key={f.key}
-              type="button"
               aria-pressed={active}
+              href={href}
               style={{
                 display: "inline-flex",
                 alignItems: "baseline",
@@ -86,6 +96,7 @@ export default function TitlesIndexPage() {
                 fontWeight: 700,
                 cursor: "pointer",
                 transition: "transform 120ms ease, box-shadow 120ms ease",
+                textDecoration: "none",
               }}
             >
               <span style={{ fontFamily: "'Shippori Mincho', serif", fontSize: 14, fontWeight: 900 }}>
@@ -100,7 +111,7 @@ export default function TitlesIndexPage() {
               >
                 {f.en}
               </span>
-            </button>
+            </Link>
           );
         })}
       </nav>
@@ -120,7 +131,7 @@ export default function TitlesIndexPage() {
           margin: "16px 0 48px",
         }}
       >
-        {TITLES.map((t) => (
+        {visibleTitles.map((t) => (
           <Link
             key={t.slug}
             href={t.href}

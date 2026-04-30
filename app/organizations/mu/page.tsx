@@ -23,10 +23,10 @@ const MU: OrgDetailPageData = {
   nameEn: "Mahjong Union μ",
   kite: "μ",
   highlightTag: "競技麻雀の砦",
-  extraTags: ["創設 1997年", "認定プロ約30名 + ツアー選手", "タイトル戦 4", "井出洋介創設"],
+  extraTags: ["創設 1997年", "掲載プロ 88名", "タイトル戦 4", "井出洋介創設"],
   meta: [
     { label: "Founded", value: "1997", accent: true, sub: <>平成9年<br />井出洋介らが設立</> },
-    { label: "Pros", value: "90", unit: "名", sub: "認定プロ + ツアー選手" },
+    { label: "Pros", value: "88", unit: "名", sub: "TSUMORA掲載数" },
     { label: "Titles", value: "04", unit: "戦", sub: "将王 · BIG1 · μ-M1 · インビテーション" },
     { label: "Format", value: "純競技", accent: true, valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 }, sub: "一発裏ドラなし" },
     {
@@ -41,7 +41,7 @@ const MU: OrgDetailPageData = {
     leadParagraphs: [
       "麻将連合-μ- (Mahjong Union μ、通称ミュー) は、1997年に井出洋介を中心に設立された麻雀プロ団体である。「健康麻将」と「純競技ルール（一発・裏ドラ・赤牌なし）」を理念に掲げる。",
       "団体最高峰タイトルは将王戦 (しょうおうせん)。認定プロ上位10名で行われる短期決戦で、年に一度の王者を決める。現将王は忍田幸夫が長らく君臨。",
-      "ツアー選手制を採用しており、ツアー戦で得たポイントによって認定プロへの昇格が決まる。1997年度から続くツアーには累計約60名の選手が参加し、現役・OB問わず厚い層を形成している。",
+      "ツアー選手制を採用しており、ツアー戦で得たポイントによって認定プロへの昇格が決まる。TSUMORAでは現時点で確認できた認定プロ・ツアー選手88名を掲載している。",
       "Mリーグには小林剛がU-NEXT Piratesに所属。「麻雀サイボーグ」と呼ばれる論理派の代表として、μの理念を最前線で体現する。",
     ],
     pullQuote: (
@@ -77,7 +77,7 @@ const MU: OrgDetailPageData = {
       ),
     },
     { dt: "創設者", dd: "井出 洋介ら" },
-    { dt: "所属プロ", dd: "認定プロ約30名 + ツアー選手約60名" },
+    { dt: "掲載プロ", dd: "88名 (TSUMORA掲載数)" },
     { dt: "本部", dd: "東京都" },
     { dt: "競技ルール", dd: "純競技 · 一発裏ドラ赤牌なし" },
     { dt: "主要タイトル", dd: "将王 · BIG1カップ · μ-M1カップ · 関東/関西インビテーション" },

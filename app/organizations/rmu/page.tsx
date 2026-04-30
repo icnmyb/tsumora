@@ -23,10 +23,10 @@ const RMU: OrgDetailPageData = {
   nameEn: "Real Mahjong Unit",
   kite: "R",
   highlightTag: "実力派志向",
-  extraTags: ["創設 2007年", "ライセンス制 · 約85名", "タイトル戦 5", "代表 多井 隆晴"],
+  extraTags: ["創設 2007年", "掲載プロ 46名", "タイトル戦 5", "代表 多井 隆晴"],
   meta: [
     { label: "Founded", value: "2007", accent: true, sub: <>平成19年<br />多井隆晴が設立</> },
-    { label: "Active Pros", value: "85", unit: "名", sub: "ライセンス保持者ベース" },
+    { label: "Active Pros", value: "46", unit: "名", sub: "TSUMORA掲載数" },
     { label: "Titles", value: "05", unit: "戦", sub: "令昭位 · クラウン · 太陽系シリーズ ほか" },
     { label: "License", value: "SSS〜B", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "実力ベース 5階級" },
     {
@@ -41,7 +41,7 @@ const RMU: OrgDetailPageData = {
     leadParagraphs: [
       "RMU（Real Mahjong Unit）は、2007年に多井隆晴が中心となって設立された麻雀プロ団体である。「実力主義」を掲げ、ライセンス制（SSS・SS・S・A・B）による厳格な実力評価を採用する点が最大の特徴。",
       "団体最高峰タイトルは令昭位戦（れいしょういせん）。A1リーグを頂点とした昇降級制で、2026年現在では多井隆晴がA1リーグでも上位常連となっている。",
-      "他にRMUクラウン・アースカップ・ネプチューンカップ・ペルセウスカップなど、太陽系シリーズと総称される独自のオープンタイトル戦を多数開催。アスリート選手枠（ライセンス未取得の登録選手）も含めると総会員数は150名超にのぼる。",
+      "他にRMUクラウン・アースカップ・ネプチューンカップ・ペルセウスカップなど、太陽系シリーズと総称される独自のオープンタイトル戦を多数開催。TSUMORAでは現時点で公式ページから確認できたライセンス保持者を中心に46名を掲載している。",
       "Mリーグには代表の多井隆晴が渋谷ABEMASに所属。「麻雀星人」「最速最強」と呼ばれるその雀風はRMUのブランドそのものとなっている。",
     ],
     pullQuote: (
@@ -77,7 +77,7 @@ const RMU: OrgDetailPageData = {
       ),
     },
     { dt: "代表", dd: "多井 隆晴" },
-    { dt: "所属プロ", dd: "85名 (ライセンス) / 150名超 (登録選手込)" },
+    { dt: "掲載プロ", dd: "46名 (TSUMORA掲載数)" },
     { dt: "本部", dd: "東京都" },
     { dt: "ライセンス", dd: "SSS / SS / S / A / B の5階級" },
     { dt: "主要タイトル", dd: "令昭位戦 · RMUクラウン · 太陽系シリーズ" },

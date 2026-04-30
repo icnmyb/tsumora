@@ -131,13 +131,13 @@ export default function MleaguePage() {
           <span className="sep">›</span>
           <span>Mリーグ {CURRENT_SEASON}</span>
         </div>
-        <div className="season-tag">● {CURRENT_SEASON} SEASON · レギュラー進行中</div>
+        <div className="season-tag">● {CURRENT_SEASON} SEASON · セミファイナル進行中</div>
         <h1>
           Mリーグ
           <span className="en">M.LEAGUE · Japan&apos;s Premier Pro Team Circuit · Since 2018</span>
         </h1>
         <p className="lead">
-          2018年に発足した国内初の本格的プロ麻雀団体対抗リーグ。10チームが10月〜翌5月のレギュラーシーズンを戦い、上位6チームがセミファイナル・ファイナルへ進む。EARTH JETSの新規参入により10チーム体制となった{CURRENT_SEASON}シーズン進行中。
+          2018年に発足した国内初の本格的プロ麻雀団体対抗リーグ。10チームがレギュラーシーズンを戦い、上位6チームがセミファイナルへ進出。{CURRENT_SEASON}シーズンはEARTH JETSの新規参入により10チーム体制となり、現在はファイナル進出4枠を懸けたセミファイナル終盤。
         </p>
         <div className="meta-row">
           <div className="m">

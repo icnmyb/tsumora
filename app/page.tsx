@@ -751,8 +751,8 @@ export default function Home() {
                 lineHeight: 1.5,
               }}
             >
-              Mリーグ全試合の1着を予想してシーズン上位を目指せ。
-              無料・5秒で参加可能。
+              Mリーグ全試合の1着を予想してシーズン上位を目指す新企画。
+              2026-27シーズン開幕に合わせて公開予定。
             </div>
             <div
               style={{
@@ -763,7 +763,7 @@ export default function Home() {
                 fontWeight: 700,
               }}
             >
-              予想する →
+              準備状況を見る →
             </div>
           </Link>
         </div>

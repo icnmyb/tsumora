@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/players/data";
 import { TEAM_NAME_TO_SLUG } from "@/app/teams/data";
-import { BgLayers } from "@/components/BgLayers";
-import { CustomScrollbar } from "@/components/CustomScrollbar";
 import { PlayerVideoSection } from "@/components/PlayerVideoSection";
 
 function calcProYears(joinYear: number): number {
@@ -20,22 +18,6 @@ function formatBirthdayFull(bd: string): string {
   if (parts.length === 3) return `${parts[0]}年 ${parts[1]}.${parts[2].padStart(2, "0")}`;
   if (parts.length === 2) return `${parts[0]}月${parts[1]}日`;
   return bd;
-}
-
-function randomStyleBars(): { lab: string; en: string; width: number; cls: string }[] {
-  const base = [
-    { lab: "攻撃力", en: "Offense", cls: "v" },
-    { lab: "守備力", en: "Defense", cls: "" },
-    { lab: "読み", en: "Reading", cls: "" },
-    { lab: "押し引き", en: "Push-Fold", cls: "" },
-    { lab: "速度", en: "Speed", cls: "g" },
-    { lab: "打点", en: "Power", cls: "g" },
-    { lab: "精神力", en: "Mental", cls: "m" },
-  ];
-  return base.map((b) => ({
-    ...b,
-    width: Math.floor(Math.random() * 40) + 55,
-  }));
 }
 
 type CareerBar = { h: number; v: string; cls: string };
@@ -101,7 +83,6 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const proYears = calcProYears(player.joinYear);
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
-  const styleBars = randomStyleBars();
   const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints);
   const hasCareerData = careerBars.length > 0;
   const titleCount = getTitleCount(player);
@@ -114,9 +95,6 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
 
   return (
     <div className="wrap">
-      <BgLayers />
-      <CustomScrollbar />
-
       {/* ── 1. PLAYER HERO ── */}
       <section className="p-hero">
         <div className="portrait portrait--dynamic">
@@ -264,34 +242,6 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             )}
           </section>
 
-          <h2 className="sh">
-            <span>スタイル分析</span>
-            <span className="num">Playing Style</span>
-            <span className="rule"></span>
-            <span className="more">ANALYSIS</span>
-          </h2>
-          <section className="style-chart">
-            <h3>
-              攻守のバランス<span className="en">Offense × Defense</span>
-            </h3>
-            <div className="sc-bars">
-              {styleBars.map((b, i) => (
-                <div key={i} className="sc-bar">
-                  <div className="lab">
-                    {b.lab}
-                    <span className="en">{b.en}</span>
-                  </div>
-                  <div className="track">
-                    <div className={`fill ${b.cls}`.trim()} style={{ width: `${b.width}%` }}></div>
-                  </div>
-                  <div className="n">{b.width}</div>
-                </div>
-              ))}
-            </div>
-            <div className="sc-note">
-              <b>評</b> {player.name}のスタイル分析データは現在整備中です。詳細な評価は今後更新予定。
-            </div>
-          </section>
         </div>
 
         <div>

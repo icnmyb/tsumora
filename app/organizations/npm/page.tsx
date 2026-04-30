@@ -23,10 +23,10 @@ const NPM: OrgDetailPageData = {
   nameEn: "Nippon Professional Mahjong",
   kite: "協",
   highlightTag: "第二団体",
-  extraTags: ["創設 2001年", "所属プロ 298名", "タイトル戦 4", "25年の歴史"],
+  extraTags: ["創設 2001年", "掲載プロ 748名", "タイトル戦 4", "25年の歴史"],
   meta: [
     { label: "Founded", value: "2001", accent: true, sub: <>平成13年<br />創設25周年</> },
-    { label: "Active Pros", value: "298", unit: "名", sub: "第二規模" },
+    { label: "Active Pros", value: "748", unit: "名", sub: "TSUMORA掲載数" },
     { label: "Titles", value: "04", unit: "戦", sub: "雀王 · 雀竜位 · 新人王 · 日本オープン" },
     { label: "League", value: "09", unit: "部", accent: true, sub: "A1 〜 D3 の9部制" },
     {
@@ -39,7 +39,7 @@ const NPM: OrgDetailPageData = {
   about: {
     en: "About NPM",
     leadParagraphs: [
-      "日本プロ麻雀協会（NPM）は、2001年に発足した麻雀プロ団体である。現会長は森岡貞臣、所属プロは約298名。競技性とエンターテインメント性の両立を掲げる第二団体として、プロ麻雀界で独自のポジションを築いてきた。",
+      "日本プロ麻雀協会（NPM）は、2001年に発足した麻雀プロ団体である。現会長は森岡貞臣。TSUMORAでは協会所属プロ748名を掲載し、競技性とエンターテインメント性の両立を掲げる団体として紹介している。",
       <>
         協会の象徴である雀王戦は、2002年の第1期開始から続く最高峰タイトルである。A1・A2・B1・B2・C1・C2・D1・D2・D3の<b>9部制リーグ</b>を採用し、所属プロ全員が年間を通じて昇降級を懸けて戦う。現雀王は石橋伸洋。
       </>,
@@ -79,7 +79,7 @@ const NPM: OrgDetailPageData = {
       ),
     },
     { dt: "現会長", dd: "森岡 貞臣" },
-    { dt: "所属プロ", dd: "298名" },
+    { dt: "掲載プロ", dd: "748名 (TSUMORA掲載数)" },
     { dt: "リーグ", dd: "A1〜D3 · 9部制" },
     { dt: "本部", dd: "東京都中央区" },
     { dt: "支部", dd: "本部 / 関西 / 東海 / 東北 / 九州 · 全5地域" },

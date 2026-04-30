@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tsumora.com"),
   title: "TSUMORA — The Pro Mahjong Review",
   description:
     "5つのプロ団体とMリーグの対局・成績・選手情報を横断する総合データベース。",

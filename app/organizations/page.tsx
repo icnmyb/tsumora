@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { getAllPlayers, type OrgCode } from "@/app/players/data";
 
 export const metadata: Metadata = {
   title: "プロ団体 — TSUMORA",
@@ -23,11 +24,28 @@ type OrgCard = {
   glyph: string;
   color: string;
   founded: string;
-  pros: string;
   titles: string;
   tags: string[];
   desc: string;
 };
+
+const ORG_BY_SLUG: Record<string, OrgCode> = {
+  jpml: "JPML",
+  npm: "NPM",
+  saikouisen: "最高位戦",
+  rmu: "RMU",
+  mu: "μ",
+};
+
+const ORG_COUNTS = getAllPlayers().reduce<Record<OrgCode, number>>(
+  (acc, p) => {
+    acc[p.org] = (acc[p.org] ?? 0) + 1;
+    return acc;
+  },
+  { JPML: 0, NPM: 0, 最高位戦: 0, RMU: 0, μ: 0 },
+);
+
+const TOTAL_PROS = Object.values(ORG_COUNTS).reduce((acc, n) => acc + n, 0);
 
 const ORGS: OrgCard[] = [
   {
@@ -40,7 +58,6 @@ const ORGS: OrgCard[] = [
     glyph: "連",
     color: "var(--vermilion)",
     founded: "1981",
-    pros: "612",
     titles: "14",
     tags: ["● 最大手", "創設1981", "鳳凰位戦"],
     desc: "小島武夫・灘麻太郎らが1981年に創設。鳳凰位戦・十段位戦を擁する国内最大のプロ団体。",
@@ -55,7 +72,6 @@ const ORGS: OrgCard[] = [
     glyph: "協",
     color: "#2563eb",
     founded: "2001",
-    pros: "384",
     titles: "09",
     tags: ["雀王戦", "独立系", "赤あり"],
     desc: "2001年に連盟から分派して発足。最高峰タイトル雀王戦、一発裏ドラ赤牌ありの現代寄りルール。",
@@ -70,7 +86,6 @@ const ORGS: OrgCard[] = [
     glyph: "最",
     color: "#7c3aed",
     founded: "1976",
-    pros: "298",
     titles: "07",
     tags: ["最古", "最高位戦", "理論派"],
     desc: "1976年発足、国内最古のプロ団体。最高位戦を中心に理論派プロを多く輩出する老舗。",
@@ -85,7 +100,6 @@ const ORGS: OrgCard[] = [
     glyph: "R",
     color: "var(--gold)",
     founded: "2007",
-    pros: "142",
     titles: "05",
     tags: ["クリスタルカップ", "少数精鋭", "競技重視"],
     desc: "2007年設立。クリスタルカップ・RMUリーグを擁する少数精鋭の競技志向団体。",
@@ -100,7 +114,6 @@ const ORGS: OrgCard[] = [
     glyph: "μ",
     color: "var(--moss)",
     founded: "1997",
-    pros: "176",
     titles: "06",
     tags: ["μカップ", "競技麻将", "井出洋介"],
     desc: "1997年に井出洋介らが設立。「競技麻将」の名を掲げ、μカップをはじめとする厳格なルールで知られる。",
@@ -131,7 +144,7 @@ export default function OrganizationsIndexPage() {
             </h1>
             <div className="tags">
               <span className="highlight">● 全5団体</span>
-              <span>所属プロ 1,612名</span>
+              <span>所属プロ {TOTAL_PROS.toLocaleString()}名</span>
               <span>公式タイトル戦 41</span>
               <span>最古 1976 / 最新 2007</span>
             </div>
@@ -278,7 +291,7 @@ export default function OrganizationsIndexPage() {
             >
               {[
                 { l: "Founded", v: o.founded },
-                { l: "Pros", v: o.pros },
+                { l: "Pros", v: (ORG_COUNTS[ORG_BY_SLUG[o.slug]] ?? 0).toLocaleString() },
                 { l: "Titles", v: o.titles },
               ].map((s) => (
                 <div key={s.l}>

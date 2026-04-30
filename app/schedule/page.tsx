@@ -602,8 +602,8 @@ export default function SchedulePage() {
         }}
       >
         <strong style={{ color: "var(--vermilion)" }}>● データ整備状況</strong> ──
-        現在 <strong>Mリーグ確定対局のみ</strong>{" "}
-        正確な日時で表示しています。JPML（鳳凰位戦・十段位戦・王位戦）、NPM（雀王戦・雀竜位戦）、最高位戦、RMU（令昭位戦）、μ（将王戦）の個別対局日時は、各団体公式の連携準備中です。今後段階的に追加していきます。
+        現在 <strong>Mリーグは確定日時</strong>{" "}
+        で表示し、各団体タイトル戦は公式・配信ページで確認できた予定を中心に掲載しています。開始/終了時刻が未公表の対局は暫定枠として扱い、公式連携後に順次精度を上げていきます。
       </section>
 
       <div className="cal-two">

@@ -2,8 +2,6 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { getAllPlayers, type RosterPlayer } from "@/app/players/data";
 import { TEAM_NAME_TO_SLUG, TEAMS, type TeamData } from "@/app/teams/data";
-import { BgLayers } from "@/components/BgLayers";
-import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 interface TeamDetailPageProps {
   team: TeamData;
@@ -74,9 +72,6 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
 
   return (
     <div className="wrap">
-      <BgLayers />
-      <CustomScrollbar />
-
       {/* ── HERO ─────────────────────────────── */}
       <section className="org-hero" style={heroBgStyle}>
         {team.slug === "sakura-knights" && <SakuraPetals />}

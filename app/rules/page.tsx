@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BgLayers } from "@/components/BgLayers";
-import { CustomScrollbar } from "@/components/CustomScrollbar";
 import { ORG_RULE_GROUPS, RULE_ITEMS, type OrgRuleGroup } from "./data";
 
 /* ============================================================
@@ -961,9 +959,6 @@ export default function RulesPage() {
 
   return (
     <div className="wrap">
-      <BgLayers />
-      <CustomScrollbar />
-
       <section className="org-hero">
         <div className="crumb">
           <Link href="/">Home</Link>

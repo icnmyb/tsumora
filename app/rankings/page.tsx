@@ -376,7 +376,7 @@ export default function RankingsPage() {
             fontWeight: 700,
           }}
         >
-          全ランキングは下記カテゴリで分割表示 · タブUIは未実装 (将来 URL state連携予定)
+          主要カテゴリを下記に分割表示 · 追加指標はデータ整備に合わせて順次公開
         </span>
       </div>
 

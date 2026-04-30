@@ -1,6 +1,6 @@
 // app/mleague/sf-data.ts
 // Mリーグ 2025-26 セミファイナルシリーズの実データ
-// 出典: Wikipedia / キンマweb (2026-04-27 更新)
+// 出典: Mリーグ公式日程 / キンマweb / M-League Watch (2026-04-28 更新)
 
 export interface SFTeamStanding {
   teamSlug: string;
@@ -65,16 +65,16 @@ export const SEMIFINAL_2025_26: SemifinalState = {
   startDate: "2026-04-06",
   endDate: "2026-04-30",
   totalGames: 30,
-  gamesPlayed: 24,
+  gamesPlayed: 28,
   finalLine: 4,
-  asOf: "2026-04-27",
+  asOf: "2026-04-28",
   standings: [
     {
       teamSlug: "furinkazan",
       carryover: 348.7,
-      sfPoints: 87.6,
-      total: 436.3,
-      gamesPlayed: 16,
+      sfPoints: 141.3,
+      total: 490.0,
+      gamesPlayed: 18,
       gamesTotal: 20,
     },
     {
@@ -88,25 +88,25 @@ export const SEMIFINAL_2025_26: SemifinalState = {
     {
       teamSlug: "raiden",
       carryover: -106.8,
-      sfPoints: 306.3,
-      total: 199.5,
+      sfPoints: 259.2,
+      total: 152.4,
+      gamesPlayed: 20,
+      gamesTotal: 20,
+    },
+    {
+      teamSlug: "konami",
+      carryover: 345.7,
+      sfPoints: -237.0,
+      total: 108.7,
       gamesPlayed: 18,
       gamesTotal: 20,
     },
     {
       teamSlug: "phoenix",
       carryover: 62.1,
-      sfPoints: 32.3,
-      total: 94.4,
-      gamesPlayed: 18,
-      gamesTotal: 20,
-    },
-    {
-      teamSlug: "konami",
-      carryover: 345.7,
-      sfPoints: -303.5,
-      total: 42.2,
-      gamesPlayed: 16,
+      sfPoints: -40.8,
+      total: 21.3,
+      gamesPlayed: 20,
       gamesTotal: 20,
     },
     {
@@ -120,15 +120,9 @@ export const SEMIFINAL_2025_26: SemifinalState = {
   ],
   upcoming: [
     {
-      date: "2026-04-28",
-      startTimeJst: "19:00",
-      teamSlugs: ["furinkazan", "konami", "phoenix", "raiden"],
-      status: "upcoming",
-    },
-    {
       date: "2026-04-30",
       startTimeJst: "19:00",
-      teamSlugs: [],
+      teamSlugs: ["drivens", "furinkazan", "konami", "beast-x"],
       status: "upcoming",
     },
   ],
