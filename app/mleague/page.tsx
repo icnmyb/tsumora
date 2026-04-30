@@ -221,6 +221,12 @@ export default function MleaguePage() {
   const borderIndex = selectedPhase === "regular" ? 5 : selectedPhase === "semifinal" ? 3 : 0;
   const borderPts = standings[borderIndex]?.totalPts ?? leader?.totalPts ?? 0;
   const showBorderLine = selectedPhase !== "final";
+  const scrollToTeam = (teamSlug: string) => {
+    document.getElementById(`mleague-team-${teamSlug}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   return (
     <div className="wrap">
@@ -285,6 +291,47 @@ export default function MleaguePage() {
           );
         })}
       </nav>
+
+      <section className="mobile-standings-compact" aria-label={`${phaseCopy.heading} コンパクト順位表`}>
+        <div className="msc-head">
+          <span>{phaseCopy.heading}</span>
+          <small>{phaseCopy.ptsLabel}</small>
+        </div>
+        <ol className="msc-list">
+          {standings.map((s, idx) => {
+            const line = getLineInfo(selectedPhase, idx);
+            const isBorder = line.border;
+            const diff = s.totalPts - borderPts;
+            return (
+              <li
+                key={s.team.slug}
+                data-team={s.team.slug}
+                className={`${line.eliminated ? "is-eliminated" : ""}${isBorder ? " is-border" : ""}`.trim()}
+              >
+                <button type="button" onClick={() => scrollToTeam(s.team.slug)}>
+                  <span className={`msc-rank${idx < 3 ? " top3" : ""}`}>
+                    {idx + 1}
+                  </span>
+                  <span className="msc-team">
+                    <b>{s.team.shortName}</b>
+                    <small>{line.label}</small>
+                  </span>
+                  <span className={`msc-pts ${s.totalPts >= 0 ? "p" : "m"}`}>
+                    {fmtPts(s.totalPts)}
+                  </span>
+                  <span
+                    className={`msc-diff ${
+                      isBorder ? "diff-zero" : diff > 0 ? "diff-lead" : "diff-chase"
+                    }`}
+                  >
+                    {isBorder ? "±0.0" : fmtPts(diff)}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
 
       <section className="standings-wrap">
         <div className="st-head">
@@ -443,7 +490,7 @@ export default function MleaguePage() {
 
       <h2 className="sh">
         <span className="sh-desk">{phaseCopy.deskLabel}</span>
-        <span className="sh-mob">順位表</span>
+        <span className="sh-mob">チーム詳細</span>
         <span className="num sh-desk-num">{phaseCopy.deskEn}</span>
         <span className="num sh-mob-num">Standings · {CURRENT_SEASON}</span>
         <span className="rule"></span>
@@ -460,6 +507,7 @@ export default function MleaguePage() {
           return (
             <Fragment key={s.team.slug}>
             <div
+              id={`mleague-team-${s.team.slug}`}
               data-team={s.team.slug}
               className={`team-card${line.eliminated ? " is-eliminated" : ""}${isBorder ? " is-border" : ""}`}
               style={

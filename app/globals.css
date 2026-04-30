@@ -1307,6 +1307,10 @@ footer.main .cr {
   }
   .phase-switch button.active .ps-date { color: rgba(235,228,210,.6); }
 
+  .mobile-standings-compact {
+    display: none;
+  }
+
   /* standings */
   .standings-wrap {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);
@@ -1669,21 +1673,167 @@ footer.main .cr {
     .ml-hero .m .sub { font-size: 10px; margin-top: 4px; }
 
     .phase-switch {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       margin-bottom: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 8;
     }
     .phase-switch button {
-      grid-template-columns: auto 1fr auto;
-      grid-template-areas: "en jp date";
-      align-items: baseline;
-      padding: 11px 14px;
-      border-right: 0;
-      border-bottom: 1.5px solid var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 6px;
+      border-right: 1.5px solid var(--ink);
+      border-bottom: 0;
+      text-align: center;
     }
-    .phase-switch button:last-child { border-bottom: 0; }
-    .phase-switch .ps-jp { font-size: 17px; }
+    .phase-switch button:last-child { border-right: 0; }
+    .phase-switch .ps-jp {
+      font-family: "Noto Sans JP";
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+    }
     .phase-switch .ps-en,
-    .phase-switch .ps-date { font-size: 9px; }
+    .phase-switch .ps-date { display: none; }
+
+    .mobile-standings-compact {
+      display: block;
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow-sm);
+      margin: 0 0 12px;
+    }
+    .msc-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px 8px;
+      background: var(--ink);
+      color: var(--paper);
+      border-bottom: 3px solid var(--vermilion);
+    }
+    .msc-head span {
+      font-family: "Shippori Mincho";
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+    .msc-head small {
+      font-family: "Geist Mono";
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(235,228,210,.68);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .msc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .msc-list li {
+      --row-accent: var(--ink);
+      border-bottom: 1px dotted var(--ink-4);
+      border-left: 5px solid var(--row-accent);
+      background:
+        linear-gradient(90deg,
+          color-mix(in srgb, var(--row-accent) 34%, var(--paper)) 0%,
+          color-mix(in srgb, var(--row-accent) 17%, var(--paper)) 48%,
+          var(--paper) 100%);
+    }
+    .msc-list li:last-child { border-bottom: 0; }
+    .msc-list li[data-team="furinkazan"] { --row-accent: #4b0504; }
+    .msc-list li[data-team="konami"] { --row-accent: #9f1f25; }
+    .msc-list li[data-team="beast-x"] { --row-accent: #002953; }
+    .msc-list li[data-team="drivens"] { --row-accent: #3f8e45; }
+    .msc-list li[data-team="phoenix"] { --row-accent: #ad5518; }
+    .msc-list li[data-team="raiden"] { --row-accent: #a98310; }
+    .msc-list li[data-team="abemas"] { --row-accent: #7b6241; }
+    .msc-list li[data-team="pirates"] { --row-accent: #1d89a8; }
+    .msc-list li[data-team="sakura-knights"] { --row-accent: #b65f9b; }
+    .msc-list li[data-team="earth-jets"] { --row-accent: #237844; }
+    .msc-list li.is-border { border-bottom: 2px dashed rgba(160,126,40,.55); }
+    .msc-list li.is-eliminated {
+      filter: saturate(.72);
+      opacity: .76;
+    }
+    .msc-list button {
+      appearance: none;
+      width: 100%;
+      min-height: 40px;
+      border: 0;
+      background: transparent;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) 72px 58px;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 10px 6px 8px;
+      color: var(--ink);
+      font: inherit;
+      text-align: left;
+    }
+    .msc-list button:active {
+      transform: translateY(1px);
+    }
+    .msc-rank {
+      font-family: "Geist Mono";
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      color: var(--ink);
+    }
+    .msc-rank.top3 { color: var(--vermilion); }
+    .msc-team {
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+    .msc-team b {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: "Shippori Mincho";
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .msc-team small {
+      flex: 0 0 auto;
+      font-family: "Geist Mono";
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .msc-pts,
+    .msc-diff {
+      font-family: "Geist Mono";
+      font-weight: 800;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .msc-pts { font-size: 13px; }
+    .msc-pts.p,
+    .msc-diff.diff-lead { color: var(--vermilion); }
+    .msc-pts.m,
+    .msc-diff.diff-chase { color: var(--moss); }
+    .msc-diff {
+      font-size: 10px;
+      color: var(--ink-3);
+    }
+    .msc-diff.diff-zero { color: var(--ink-4); }
+
+    .team-card {
+      scroll-margin-top: 64px;
+    }
   }
   @media (max-width: 480px) {
     .st-card-link { padding: 12px 14px; }
