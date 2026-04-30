@@ -1263,7 +1263,7 @@ footer.main .cr {
     transition: background 140ms ease, box-shadow 140ms ease, transform 140ms ease;
   }
   .phase-switch button:last-child { border-right: 0; }
-  .phase-switch button:hover {
+  .phase-switch button:not(.active):hover {
     background: rgba(26,24,20,.05);
     box-shadow: inset 0 3px 0 rgba(26,24,20,.14);
     transform: translateY(1px);
@@ -1274,7 +1274,6 @@ footer.main .cr {
   }
   .phase-switch button.active:hover {
     background: var(--vermilion);
-    box-shadow: inset 0 3px 0 rgba(0,0,0,.16);
   }
   .phase-switch button:focus-visible {
     outline: 2px solid var(--vermilion);
