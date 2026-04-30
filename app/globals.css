@@ -1277,7 +1277,7 @@ footer.main .cr {
     transform: scaleX(1);
   }
   .phase-switch button.active {
-    background: var(--ink);
+    background: var(--vermilion);
     color: var(--paper);
   }
   .phase-switch button:focus-visible {
@@ -1292,7 +1292,7 @@ footer.main .cr {
     font-weight: 800;
     color: var(--vermilion);
   }
-  .phase-switch button.active .ps-en { color: #f0c86d; }
+  .phase-switch button.active .ps-en { color: rgba(255,255,255,.72); }
   .phase-switch .ps-jp {
     grid-area: jp;
     font-family: "Shippori Mincho";
