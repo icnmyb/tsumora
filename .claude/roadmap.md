@@ -70,7 +70,13 @@
 - ✅ `publishedAt`、`sources[].url`、`sources[].checkedAt`、関連選手/チーム、`seoTitle`、`seoDescription` を持てる
 - ✅ 本格CMS化・制作ワークフロー本実装は未着手。未確認情報を書かず、出典URLと確認日を残す方針だけ反映
 
-#### #R4 リリース前の基本検証
+#### #R4 スマホ実機相当の最終UX確認
+- `/mleague` のスマホ順位表は改善済みだが、5/4リリース前に実機相当幅で再確認する
+- 対象: ホーム、`/mleague`、`/schedule`、`/news`、ニュース詳細、主要導線
+- 見ること: 横はみ出し、文字の詰まり、タブ/ボタンの押しやすさ、順位表の一画面把握、Final文脈の読みやすさ、カードの情報密度
+- 既存の良い質感は壊さず、必要な調整だけ行う
+
+#### #R5 リリース前の基本検証
 - ✅ `npm` が環境にないため、Codexランタイムの Node で `./node_modules/.bin/tsc --noEmit` を実行して通過
 - ✅ `npm` が環境にないため、Codexランタイムの Node で `./node_modules/.bin/next build` を実行して通過
 - ✅ 作業後にコミットする
