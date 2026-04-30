@@ -1334,38 +1334,40 @@ footer.main .cr {
   }
   .st-table th.n { text-align: right; }
   .st-table td { padding: 10px 14px; border-bottom: 1px dotted var(--ink-4); vertical-align: middle; position: relative; }
-  /* チームカラーは全面に敷かず、左の芯と薄い余韻だけで見せる */
+  /* チームカラーは色相を守りつつ、深いトーンで品よく見せる */
   .st-table tbody tr[data-team] {
     --row-accent: var(--ink);
     background:
       linear-gradient(90deg,
-        color-mix(in srgb, var(--row-accent) 13%, transparent) 0%,
-        color-mix(in srgb, var(--row-accent) 7%, transparent) 30%,
-        rgba(255,255,255,0) 72%),
+        color-mix(in srgb, var(--row-accent) 32%, var(--paper)) 0%,
+        color-mix(in srgb, var(--row-accent) 20%, var(--paper)) 28%,
+        color-mix(in srgb, var(--row-accent) 8%, var(--paper)) 66%,
+        var(--paper) 100%),
       var(--paper);
-    transition: background 140ms ease, box-shadow 140ms ease;
+    transition: background 140ms ease, box-shadow 140ms ease, filter 140ms ease;
   }
-  .st-table tbody tr[data-team="furinkazan"] { --row-accent: #5a0000; }
-  .st-table tbody tr[data-team="konami"] { --row-accent: #c8282a; }
+  .st-table tbody tr[data-team="furinkazan"] { --row-accent: #4b0504; }
+  .st-table tbody tr[data-team="konami"] { --row-accent: #9f1f25; }
   .st-table tbody tr[data-team="beast-x"] { --row-accent: #002953; }
-  .st-table tbody tr[data-team="drivens"] { --row-accent: #5faf5a; }
-  .st-table tbody tr[data-team="phoenix"] { --row-accent: #d96f1f; }
-  .st-table tbody tr[data-team="raiden"] { --row-accent: #d9ad18; }
-  .st-table tbody tr[data-team="abemas"] { --row-accent: #8f7650; }
-  .st-table tbody tr[data-team="pirates"] { --row-accent: #34a8c8; }
-  .st-table tbody tr[data-team="sakura-knights"] { --row-accent: #d884bd; }
-  .st-table tbody tr[data-team="earth-jets"] { --row-accent: #2f9b4f; }
+  .st-table tbody tr[data-team="drivens"] { --row-accent: #3f8e45; }
+  .st-table tbody tr[data-team="phoenix"] { --row-accent: #ad5518; }
+  .st-table tbody tr[data-team="raiden"] { --row-accent: #a98310; }
+  .st-table tbody tr[data-team="abemas"] { --row-accent: #7b6241; }
+  .st-table tbody tr[data-team="pirates"] { --row-accent: #1d89a8; }
+  .st-table tbody tr[data-team="sakura-knights"] { --row-accent: #b65f9b; }
+  .st-table tbody tr[data-team="earth-jets"] { --row-accent: #237844; }
   .st-table tbody tr[data-team] td:first-child {
-    border-left: 5px solid var(--row-accent);
+    border-left: 6px solid var(--row-accent);
   }
   .st-table tbody tr:not(.is-eliminated):hover {
     background:
       linear-gradient(90deg,
-        color-mix(in srgb, var(--row-accent) 18%, transparent) 0%,
-        color-mix(in srgb, var(--row-accent) 9%, transparent) 36%,
-        rgba(255,255,255,0) 78%),
+        color-mix(in srgb, var(--row-accent) 38%, var(--paper)) 0%,
+        color-mix(in srgb, var(--row-accent) 23%, var(--paper)) 34%,
+        color-mix(in srgb, var(--row-accent) 10%, var(--paper)) 74%,
+        var(--paper) 100%),
       var(--paper);
-    box-shadow: inset 0 0 0 999px rgba(255,255,255,0.04);
+    box-shadow: inset 0 0 0 999px rgba(255,255,255,0.03);
   }
   .st-table .rk { font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; text-align: center; width: 44px; color: var(--ink); line-height: 1; }
   .st-table .rk.top3 { color: var(--vermilion); }
@@ -1467,22 +1469,22 @@ footer.main .cr {
     --row-accent: var(--ink);
     background:
       linear-gradient(90deg,
-        color-mix(in srgb, var(--row-accent) 14%, transparent) 0%,
-        color-mix(in srgb, var(--row-accent) 7%, transparent) 48%,
-        rgba(255,255,255,0) 100%),
+        color-mix(in srgb, var(--row-accent) 34%, var(--paper)) 0%,
+        color-mix(in srgb, var(--row-accent) 21%, var(--paper)) 44%,
+        color-mix(in srgb, var(--row-accent) 8%, var(--paper)) 100%),
       var(--paper);
-    border-left: 5px solid var(--row-accent);
+    border-left: 6px solid var(--row-accent);
   }
-  .st-card[data-team="furinkazan"] { --row-accent: #5a0000; }
-  .st-card[data-team="konami"] { --row-accent: #c8282a; }
+  .st-card[data-team="furinkazan"] { --row-accent: #4b0504; }
+  .st-card[data-team="konami"] { --row-accent: #9f1f25; }
   .st-card[data-team="beast-x"] { --row-accent: #002953; }
-  .st-card[data-team="drivens"] { --row-accent: #5faf5a; }
-  .st-card[data-team="phoenix"] { --row-accent: #d96f1f; }
-  .st-card[data-team="raiden"] { --row-accent: #d9ad18; }
-  .st-card[data-team="abemas"] { --row-accent: #8f7650; }
-  .st-card[data-team="pirates"] { --row-accent: #34a8c8; }
-  .st-card[data-team="sakura-knights"] { --row-accent: #d884bd; }
-  .st-card[data-team="earth-jets"] { --row-accent: #2f9b4f; }
+  .st-card[data-team="drivens"] { --row-accent: #3f8e45; }
+  .st-card[data-team="phoenix"] { --row-accent: #ad5518; }
+  .st-card[data-team="raiden"] { --row-accent: #a98310; }
+  .st-card[data-team="abemas"] { --row-accent: #7b6241; }
+  .st-card[data-team="pirates"] { --row-accent: #1d89a8; }
+  .st-card[data-team="sakura-knights"] { --row-accent: #b65f9b; }
+  .st-card[data-team="earth-jets"] { --row-accent: #237844; }
   .st-card:last-child { border-bottom: 0; }
   .st-card.is-border {
     border-bottom: 2px dashed rgba(160,126,40,.55);
