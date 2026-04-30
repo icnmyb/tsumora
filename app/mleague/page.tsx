@@ -24,6 +24,8 @@ const PHASE_TABS: Array<{
 // ── Compute 2025-26 team standings from real player annualPoints ──
 interface ComputedStanding {
   team: TeamData;
+  phasePoints: number;
+  carryover?: number;
   totalPts: number;
   gamesPlayed: number;
   gamesTotal: number;
@@ -64,6 +66,7 @@ function enrichStanding(
   const shouldUseFallbackSeasonStats = phase === "regular";
   return {
     team,
+    phasePoints: totalPts,
     totalPts,
     gamesPlayed,
     gamesTotal,
@@ -82,20 +85,37 @@ function computeStandings(phase: PhaseKey): ComputedStanding[] {
   if (phase === "regular") {
     for (const entry of REGULAR_FINAL_2025_26.standings) {
       const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-      if (team) out.push(enrichStanding(phase, team, entry.points, 96, 96));
+      if (team) {
+        out.push({
+          ...enrichStanding(phase, team, entry.points, 96, 96),
+          phasePoints: entry.points,
+        });
+      }
     }
     return out;
   }
   if (phase === "semifinal") {
     for (const entry of SEMIFINAL_2025_26.standings) {
       const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-      if (team) out.push(enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal));
+      if (team) {
+        out.push({
+          ...enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal),
+          carryover: entry.carryover,
+          phasePoints: entry.sfPoints,
+        });
+      }
     }
     return out;
   }
   for (const entry of FINAL_2025_26.standings) {
     const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-    if (team) out.push(enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal));
+    if (team) {
+      out.push({
+        ...enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal),
+        carryover: entry.carryover,
+        phasePoints: entry.finalPoints,
+      });
+    }
   }
   return out;
 }
@@ -196,6 +216,35 @@ function fmtPts(pts: number): string {
 
 function getMonogram(name: string): string {
   return name.replace(/\s/g, "").charAt(0);
+}
+
+function getCompactSideMetric(phase: PhaseKey, standing: ComputedStanding) {
+  if (phase === "regular") {
+    return {
+      label: "1位率",
+      value: standing.topRateAvg > 0 ? `${standing.topRateAvg.toFixed(1)}%` : "—",
+      tone: "neutral",
+    };
+  }
+  if (phase === "semifinal") {
+    return {
+      label: "SF pt",
+      value: fmtPts(standing.phasePoints),
+      tone: standing.phasePoints >= 0 ? "p" : "m",
+    };
+  }
+  if (FINAL_2025_26.gamesPlayed === 0) {
+    return {
+      label: "持越",
+      value: fmtPts(standing.carryover ?? standing.totalPts),
+      tone: "neutral",
+    };
+  }
+  return {
+    label: "Final",
+    value: fmtPts(standing.phasePoints),
+    tone: standing.phasePoints >= 0 ? "p" : "m",
+  };
 }
 
 // 背景色から文字色を自動決定（YIQ で輝度判定）
@@ -301,7 +350,7 @@ export default function MleaguePage() {
           {standings.map((s, idx) => {
             const line = getLineInfo(selectedPhase, idx);
             const isBorder = line.border;
-            const diff = s.totalPts - borderPts;
+            const sideMetric = getCompactSideMetric(selectedPhase, s);
             return (
               <li
                 key={s.team.slug}
@@ -319,12 +368,9 @@ export default function MleaguePage() {
                   <span className={`msc-pts ${s.totalPts >= 0 ? "p" : "m"}`}>
                     {fmtPts(s.totalPts)}
                   </span>
-                  <span
-                    className={`msc-diff ${
-                      isBorder ? "diff-zero" : diff > 0 ? "diff-lead" : "diff-chase"
-                    }`}
-                  >
-                    {isBorder ? "±0.0" : fmtPts(diff)}
+                  <span className={`msc-side ${sideMetric.tone}`}>
+                    <small>{sideMetric.label}</small>
+                    <b>{sideMetric.value}</b>
                   </span>
                 </button>
               </li>

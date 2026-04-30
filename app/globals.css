@@ -1769,7 +1769,7 @@ footer.main .cr {
       border: 0;
       background: transparent;
       display: grid;
-      grid-template-columns: 28px minmax(0, 1fr) 72px 58px;
+      grid-template-columns: 28px minmax(0, 1fr) 72px 64px;
       gap: 8px;
       align-items: center;
       padding: 6px 10px 6px 8px;
@@ -1814,7 +1814,7 @@ footer.main .cr {
       white-space: nowrap;
     }
     .msc-pts,
-    .msc-diff {
+    .msc-side {
       font-family: "Geist Mono";
       font-weight: 800;
       text-align: right;
@@ -1822,14 +1822,28 @@ footer.main .cr {
     }
     .msc-pts { font-size: 13px; }
     .msc-pts.p,
-    .msc-diff.diff-lead { color: var(--vermilion); }
+    .msc-side.p { color: var(--vermilion); }
     .msc-pts.m,
-    .msc-diff.diff-chase { color: var(--moss); }
-    .msc-diff {
-      font-size: 10px;
-      color: var(--ink-3);
+    .msc-side.m { color: var(--moss); }
+    .msc-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      color: var(--ink);
     }
-    .msc-diff.diff-zero { color: var(--ink-4); }
+    .msc-side small {
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      color: var(--ink-3);
+      font-weight: 800;
+      line-height: 1;
+    }
+    .msc-side b {
+      font-size: 11px;
+      line-height: 1;
+    }
+    .msc-side.neutral b { color: var(--ink); }
 
     .team-card {
       scroll-margin-top: 64px;
