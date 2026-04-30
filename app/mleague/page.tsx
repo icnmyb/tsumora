@@ -1,15 +1,10 @@
+"use client";
+
 import Link from "next/link";
-import { Fragment } from "react";
-import type { Metadata } from "next";
+import { Fragment, useState } from "react";
 import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
 import { FINAL_2025_26, REGULAR_FINAL_2025_26, SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
-
-export const metadata: Metadata = {
-  title: "Mリーグ 2025-26 — TSUMORA",
-  description:
-    "Mリーグ 2025-26シーズンの順位表・10チーム一覧・個人成績ランキング。データは選手の年間獲得pt実績から計算。",
-};
 
 const CURRENT_SEASON = "2025-26";
 type PhaseKey = "regular" | "semifinal" | "final";
@@ -200,16 +195,8 @@ function getContrastText(hex: string): string {
   return yiq >= 150 ? "#1a1a1a" : "#ffffff";
 }
 
-export default async function MleaguePage({
-  searchParams,
-}: {
-  searchParams?: Promise<{ phase?: string }>;
-}) {
-  const params = await searchParams;
-  const selectedPhase: PhaseKey =
-    params?.phase === "regular" || params?.phase === "semifinal" || params?.phase === "final"
-      ? params.phase
-      : "final";
+export default function MleaguePage() {
+  const [selectedPhase, setSelectedPhase] = useState<PhaseKey>("final");
   const phaseCopy = getPhaseCopy(selectedPhase);
   const standings = computeStandings(selectedPhase);
   const leaders = computeIndividualLeaders(standings).slice(0, 10);
@@ -269,18 +256,18 @@ export default async function MleaguePage({
       <nav className="phase-switch" aria-label="Mリーグ順位表フェーズ切替">
         {PHASE_TABS.map((tab) => {
           const active = selectedPhase === tab.key;
-          const href = tab.key === "final" ? "/mleague" : `/mleague?phase=${tab.key}`;
           return (
-            <Link
+            <button
               key={tab.key}
-              href={href}
+              type="button"
               className={active ? "active" : undefined}
-              aria-current={active ? "page" : undefined}
+              aria-pressed={active}
+              onClick={() => setSelectedPhase(tab.key)}
             >
               <span className="ps-en">{tab.en}</span>
               <span className="ps-jp">{tab.label}</span>
               <span className="ps-date">{tab.date}</span>
-            </Link>
+            </button>
           );
         })}
       </nav>

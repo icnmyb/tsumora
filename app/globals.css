@@ -1241,7 +1241,7 @@ footer.main .cr {
     border: var(--border);
     box-shadow: var(--shadow-sm);
   }
-  .phase-switch a {
+  .phase-switch button {
     position: relative;
     display: grid;
     grid-template-columns: auto 1fr;
@@ -1250,13 +1250,19 @@ footer.main .cr {
       "jp jp";
     gap: 5px 12px;
     padding: 15px 18px 14px;
+    appearance: none;
+    border: 0;
+    background: transparent;
     color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
     text-decoration: none;
     border-right: 1.5px solid var(--ink);
     overflow: hidden;
   }
-  .phase-switch a:last-child { border-right: 0; }
-  .phase-switch a::before {
+  .phase-switch button:last-child { border-right: 0; }
+  .phase-switch button::before {
     content: "";
     position: absolute;
     inset: 0 0 auto;
@@ -1266,11 +1272,11 @@ footer.main .cr {
     transform-origin: left;
     transition: transform 140ms ease;
   }
-  .phase-switch a:hover::before,
-  .phase-switch a.active::before {
+  .phase-switch button:hover::before,
+  .phase-switch button.active::before {
     transform: scaleX(1);
   }
-  .phase-switch a.active {
+  .phase-switch button.active {
     background: var(--ink);
     color: var(--paper);
   }
@@ -1282,7 +1288,7 @@ footer.main .cr {
     font-weight: 800;
     color: var(--vermilion);
   }
-  .phase-switch a.active .ps-en { color: #f0c86d; }
+  .phase-switch button.active .ps-en { color: #f0c86d; }
   .phase-switch .ps-jp {
     grid-area: jp;
     font-family: "Shippori Mincho";
@@ -1300,7 +1306,7 @@ footer.main .cr {
     font-weight: 700;
     color: var(--ink-3);
   }
-  .phase-switch a.active .ps-date { color: rgba(235,228,210,.6); }
+  .phase-switch button.active .ps-date { color: rgba(235,228,210,.6); }
 
   /* standings */
   .standings-wrap {
@@ -1711,7 +1717,7 @@ footer.main .cr {
       grid-template-columns: 1fr;
       margin-bottom: 12px;
     }
-    .phase-switch a {
+    .phase-switch button {
       grid-template-columns: auto 1fr auto;
       grid-template-areas: "en jp date";
       align-items: baseline;
@@ -1719,7 +1725,7 @@ footer.main .cr {
       border-right: 0;
       border-bottom: 1.5px solid var(--ink);
     }
-    .phase-switch a:last-child { border-bottom: 0; }
+    .phase-switch button:last-child { border-bottom: 0; }
     .phase-switch .ps-jp { font-size: 17px; }
     .phase-switch .ps-en,
     .phase-switch .ps-date { font-size: 9px; }
