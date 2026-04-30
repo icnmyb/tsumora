@@ -218,7 +218,11 @@ function getMonogram(name: string): string {
   return name.replace(/\s/g, "").charAt(0);
 }
 
-function getCompactSideMetric(phase: PhaseKey, standing: ComputedStanding) {
+function getCompactSideMetric(
+  phase: PhaseKey,
+  standing: ComputedStanding,
+  leaderPts: number,
+) {
   if (phase === "regular") {
     return {
       label: "1位率",
@@ -228,22 +232,16 @@ function getCompactSideMetric(phase: PhaseKey, standing: ComputedStanding) {
   }
   if (phase === "semifinal") {
     return {
-      label: "SF pt",
+      label: "期間pt",
       value: fmtPts(standing.phasePoints),
       tone: standing.phasePoints >= 0 ? "p" : "m",
     };
   }
-  if (FINAL_2025_26.gamesPlayed === 0) {
-    return {
-      label: "持越",
-      value: fmtPts(standing.carryover ?? standing.totalPts),
-      tone: "neutral",
-    };
-  }
+  const diff = standing.totalPts - leaderPts;
   return {
-    label: "Final",
-    value: fmtPts(standing.phasePoints),
-    tone: standing.phasePoints >= 0 ? "p" : "m",
+    label: "首位差",
+    value: diff === 0 ? "—" : fmtPts(diff),
+    tone: diff === 0 ? "neutral" : "m",
   };
 }
 
@@ -350,7 +348,7 @@ export default function MleaguePage() {
           {standings.map((s, idx) => {
             const line = getLineInfo(selectedPhase, idx);
             const isBorder = line.border;
-            const sideMetric = getCompactSideMetric(selectedPhase, s);
+            const sideMetric = getCompactSideMetric(selectedPhase, s, leader?.totalPts ?? 0);
             return (
               <li
                 key={s.team.slug}
