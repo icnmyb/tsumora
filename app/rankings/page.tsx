@@ -249,12 +249,14 @@ function RankTable({
 }) {
   return (
     <div
+      className="rank-table-shell"
       style={{
         background: "var(--paper)",
         border: "var(--border)",
         boxShadow: "var(--shadow)",
         marginBottom: 32,
-        overflow: "hidden",
+        overflowX: "auto",
+        overflowY: "hidden",
       }}
     >
       <table style={{ width: "100%", borderCollapse: "collapse" }}>

@@ -71,10 +71,12 @@
 - ✅ 本格CMS化・制作ワークフロー本実装は未着手。未確認情報を書かず、出典URLと確認日を残す方針だけ反映
 
 #### #R4 スマホ実機相当の最終UX確認
-- `/mleague` のスマホ順位表は改善済みだが、5/4リリース前に実機相当幅で再確認する
-- 対象: ホーム、`/mleague`、`/schedule`、`/news`、ニュース詳細、主要導線
-- 見ること: 横はみ出し、文字の詰まり、タブ/ボタンの押しやすさ、順位表の一画面把握、Final文脈の読みやすさ、カードの情報密度
-- 既存の良い質感は壊さず、必要な調整だけ行う
+- ✅ 2026-05-01: ホーム `/` と `/mleague` 以外の到達可能ページを対象に、スマホ最終整備を実施
+- 対象: `/about`, `/players`, `/players/[id]`, `/organizations`, `/organizations/[slug]`, `/teams`, `/teams/[slug]`, `/titles`, `/titles/[slug]`, `/rankings`, `/schedule`, `/rules`, `/news`, `/news/[slug]`, `/predict`
+- `/predict/me`, `/predict/ranking`, `/predict/match/[id]`, `/predict/result/[id]` は現状 `notFound()` 維持のため通常到達対象外として扱う
+- 対応内容: 共通 hero/detail/table/news/schedule/predict CSS を `max-width: 720px` 中心に調整。長い選手名・チーム名の折返し、1カラム化、表の内側横スクロール、タップ領域、カード余白を整理
+- 検証: `next build` 通過、Codexランタイム Node の `tsc --noEmit` 通過。dev server `:3010` で公開対象主要ルートのHTTP 200を確認
+- 残リスク: Playwright用ブラウザが未インストールだったためスクリーンショット検査は未実施。リリース前に実機またはブラウザで375px/390px幅の目視を推奨
 
 #### #R5 リリース前の基本検証
 - ✅ `npm` が環境にないため、Codexランタイムの Node で `./node_modules/.bin/tsc --noEmit` を実行して通過

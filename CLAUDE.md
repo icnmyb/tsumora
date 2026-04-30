@@ -278,3 +278,24 @@ node scripts/scrape-npm.mjs
 - `.claude/roadmap.md` — タスク
 - `.claude/league-research-progress.md` — 各団体リサーチログ
 - `~/.claude/rules/web/*` — グローバル web 規約
+
+## 作業ログ: 2026-05-01 スマホUI最終整備
+
+### 対象
+ホーム `/` と `/mleague` は直接対象外。到達可能な公開ページとして `/about`, `/players`, `/players/[id]`, `/organizations`, `/organizations/[slug]`, `/teams`, `/teams/[slug]`, `/titles`, `/titles/[slug]`, `/rankings`, `/schedule`, `/rules`, `/news`, `/news/[slug]`, `/predict` を確認対象にした。
+
+`/predict/me`, `/predict/ranking`, `/predict/match/[id]`, `/predict/result/[id]` はコード上で `notFound()` のままなので通常到達対象外。ただし将来復活時に崩れにくいよう `app/predict/predict.css` にはモバイル補強を追加済み。
+
+### 変更内容
+- `app/globals.css`: `max-width: 720px` / `480px` の追加ルールで、共通hero、選手詳細、団体/チーム/タイトル詳細、ランキング、スケジュール、ニュース、about、表レイアウトをスマホ向けに調整。
+- `app/predict/predict.css`: `/predict` と将来復活予定の予想系サブ画面向けに、カード、選手グリッド、フォーム、ランキング表、固定フッターのスマホ表示を整理。
+- `app/rankings/page.tsx`: ランキング表に `rank-table-shell` を付け、スマホでは表の内側だけ横スクロールするよう変更。
+
+### 検証
+- `npm run lint`: 環境に `npm` がないため実行不可。
+- `./node_modules/.bin/next build`: Codexランタイム Node で通過。
+- `./node_modules/.bin/tsc --noEmit`: Codexランタイム Node で通過。
+- dev server `http://localhost:3010` で `/about`, `/players`, `/players/setokuma`, `/organizations`, `/organizations/jpml`, `/teams`, `/teams/furinkazan`, `/titles`, `/titles/houou-isen`, `/rankings`, `/schedule`, `/rules`, `/news`, `/news/shiratori-42-houou-defense`, `/predict` のHTTP 200を確認。
+
+### 残リスク
+Playwright本体はあるがブラウザバイナリが未インストールだったため、スクリーンショットによる実描画検査は未実施。リリース前に実機またはブラウザの375px/390px幅で、特に `/players`, `/players/[id]`, `/organizations/[slug]`, `/titles/[slug]`, `/rankings`, `/schedule`, `/news/[slug]` を目視確認すると安心。
