@@ -347,7 +347,7 @@ export default function MleaguePage() {
       <section className="mobile-standings-compact" aria-label={`${phaseCopy.heading} コンパクト順位表`}>
         <div className="msc-head">
           <span>{phaseCopy.heading}</span>
-          <small>{phaseCopy.ptsLabel} / {compactSideLabel}</small>
+          <small>合計pts / {compactSideLabel}</small>
         </div>
         <ol className="msc-list">
           {standings.map((s, idx) => {
