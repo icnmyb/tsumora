@@ -1,5 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import {
+  MLEAGUE_FINAL_EVENTS,
+  URL_ABEMA_MAHJONG,
+  type ScheduledEvent,
+} from "./data";
 
 export const metadata: Metadata = {
   title: "対局スケジュール — TSUMORA",
@@ -20,21 +25,7 @@ export const metadata: Metadata = {
 // 段階的に追加していく（ scrape pipeline は別プロジェクトで進行中）
 // ============================================================
 
-type ScheduledEvent = {
-  date: string; // YYYY-MM-DD (JST)
-  startTime: string; // "19:00"
-  endTime: string; // "21:00"
-  org: "M-LEAGUE" | "JPML" | "NPM" | "SAIKOUISEN" | "RMU" | "MU";
-  title: string;
-  sub: string;
-  channel: string;
-  tagColor: string;
-  tagTextColor?: string;
-  link?: string; // 押下で遷移する放送・公式情報ページ
-};
-
 // 放送先（チャンネル）URL — クリック時に直接放送ページへ遷移
-const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
 const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7FxQ";
 const URL_NPM_YOUTUBE = "https://www.youtube.com/channel/UCEPKIiiunLb64uYqDnN4pmA";
 const URL_SAIKOUISEN_YOUTUBE = "https://www.youtube.com/channel/UCaq8_fXw680ljFOPgzGJuOw";
@@ -76,97 +67,7 @@ const EVENTS: ScheduledEvent[] = [
     link: URL_ABEMA_MAHJONG,
   },
 
-  // ── Mリーグ 2025-26 ファイナル（5/4-5/15 月火木金 全8日 16試合）──
-  // 進出: EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN
-  {
-    date: "2026-05-04",
-    startTime: "19:00",
-    endTime: "22:30",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 1/8",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 2試合",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-05",
-    startTime: "19:00",
-    endTime: "22:30",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 2/8",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 2試合",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-07",
-    startTime: "19:00",
-    endTime: "22:30",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 3/8",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 2試合",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-08",
-    startTime: "19:00",
-    endTime: "22:30",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 4/8",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 2試合",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-11",
-    startTime: "19:00",
-    endTime: "22:30",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 5/8",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 2試合",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-12",
-    startTime: "19:00",
-    endTime: "22:30",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 6/8",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 2試合",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-14",
-    startTime: "19:00",
-    endTime: "22:30",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 7/8",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 2試合",
-    channel: "ABEMA",
-    tagColor: "#d4b94e",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-15",
-    startTime: "17:00",
-    endTime: "23:00",
-    org: "M-LEAGUE",
-    title: "Mリーグ ファイナル 8/8 最終決戦",
-    sub: "EX風林火山 / BEAST X / KONAMI麻雀格闘倶楽部 / TEAM RAIDEN/雷電 · 表彰式併催 · ベルサール東京日本橋でPV",
-    channel: "ABEMA + PV",
-    tagColor: "#c8282a",
-    tagTextColor: "#ebe4d2",
-    link: URL_ABEMA_MAHJONG,
-  },
+  ...MLEAGUE_FINAL_EVENTS,
 
   // ── NPM（日本プロ麻雀協会）放送対局 ──────────────────────
   // 出典: npm2001.com/schedule/ 配信先「ABEMA」または「協会チャンネル」と記載のある対局のみ

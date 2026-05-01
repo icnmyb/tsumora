@@ -4,6 +4,7 @@ import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
 import { NEWS, getCategoryLabel } from "@/app/news/data";
+import { MLEAGUE_FINAL_MATCHES, URL_ABEMA_MAHJONG } from "@/app/schedule/data";
 import {
   FINAL_2025_26,
   type FinalState,
@@ -64,7 +65,6 @@ function dayLabel(dateIso: string): string {
 }
 
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
-const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
 
 function nowJst(): Date {
   const now = new Date();
@@ -197,11 +197,11 @@ export default function Home() {
   })).filter((s): s is typeof s & { team: NonNullable<typeof s.team> } => Boolean(s.team));
   const finalLeader = finalStandings[0];
   const todayISO = fmtDateISO(nowJst());
-  const nextMatch = final.upcoming.find((m) => m.teamSlugs.length > 0 && m.date >= todayISO);
+  const nextMatch = MLEAGUE_FINAL_MATCHES.find((m) => m.teamSlugs.length > 0 && m.date >= todayISO);
   const nextMatchTeams = nextMatch
     ? nextMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
-  const todayMatches = final.upcoming.filter((m) => m.date === todayISO);
+  const todayMatches = MLEAGUE_FINAL_MATCHES.filter((m) => m.date === todayISO);
   const visibleTodayMatches = todayMatches.length > 0 ? todayMatches : [];
   const watchNowMatch = todayMatches[0];
   const watchNowTeams = watchNowMatch
