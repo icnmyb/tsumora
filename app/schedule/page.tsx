@@ -499,10 +499,10 @@ export default async function SchedulePage({
             </span>
           </div>
           <div className="schedule-view-tabs" aria-label="カレンダー表示切替">
-            <Link href="/schedule" aria-current={view === "week" ? "page" : undefined}>
+            <Link href="/schedule" scroll={false} aria-current={view === "week" ? "page" : undefined}>
               週
             </Link>
-            <Link href="/schedule?view=month" aria-current={view === "month" ? "page" : undefined}>
+            <Link href="/schedule?view=month" scroll={false} aria-current={view === "month" ? "page" : undefined}>
               月
             </Link>
           </div>
