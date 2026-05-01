@@ -383,6 +383,12 @@ function getWeekDatesJst(now: Date): Date[] {
   });
 }
 
+function addDays(date: Date, days: number): Date {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
 function getMonthDatesJst(now: Date): Date[] {
   const first = new Date(now.getFullYear(), now.getMonth(), 1);
   first.setHours(0, 0, 0, 0);
@@ -436,13 +442,16 @@ const HOURS = [
 export default async function SchedulePage({
   searchParams,
 }: {
-  searchParams?: Promise<{ view?: string }>;
+  searchParams?: Promise<{ view?: string; week?: string }>;
 }) {
   const params = await searchParams;
   const view = params?.view === "month" ? "month" : "week";
+  const weekParam = Number.parseInt(params?.week ?? "0", 10);
+  const weekOffset = Number.isFinite(weekParam) ? weekParam : 0;
   const today = nowJst();
   const todayISO = fmtDateISO(today);
-  const week = getWeekDatesJst(today);
+  const weekBase = addDays(today, weekOffset * 7);
+  const week = getWeekDatesJst(weekBase);
   const month = getMonthDatesJst(today);
   const weekISO = week.map(fmtDateISO);
   const monthISO = month.map(fmtDateISO);
@@ -452,6 +461,7 @@ export default async function SchedulePage({
   const weekYear = week[0].getFullYear();
   const startOfYear = new Date(weekYear, 0, 1);
   const weekNumber = Math.ceil(((week[0].getTime() - startOfYear.getTime()) / 86400000 + 1) / 7);
+  const weekHref = (offset: number) => offset === 0 ? "/schedule" : `/schedule?week=${offset}`;
   const monthLabel = `${today.getFullYear()}年${today.getMonth() + 1}月`;
 
   const eventsByDate: ScheduledEvent[][] = weekISO.map((d) =>
@@ -499,13 +509,20 @@ export default async function SchedulePage({
             </span>
           </div>
           <div className="schedule-view-tabs" aria-label="カレンダー表示切替">
-            <Link href="/schedule" scroll={false} aria-current={view === "week" ? "page" : undefined}>
+            <Link href={weekHref(weekOffset)} scroll={false} aria-current={view === "week" ? "page" : undefined}>
               週
             </Link>
             <Link href="/schedule?view=month" scroll={false} aria-current={view === "month" ? "page" : undefined}>
               月
             </Link>
           </div>
+          {view === "week" && (
+            <div className="schedule-week-nav" aria-label="週を移動">
+              <Link href={weekHref(weekOffset - 1)} scroll={false}>前週</Link>
+              <Link href="/schedule" scroll={false} aria-current={weekOffset === 0 ? "page" : undefined}>今週</Link>
+              <Link href={weekHref(weekOffset + 1)} scroll={false}>次週</Link>
+            </div>
+          )}
           <div className="counts">
             <div className="c">
               <div className="l">{view === "month" ? "This Month" : "This Range"}</div>

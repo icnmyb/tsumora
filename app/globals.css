@@ -2686,6 +2686,25 @@ footer.main .cr {
     background: var(--paper);
     color: var(--ink);
   }
+  .schedule-week-nav {
+    display: inline-flex;
+    gap: 6px;
+  }
+  .schedule-week-nav a {
+    min-width: 52px;
+    padding: 8px 11px;
+    border: 1.5px solid rgba(235,228,210,.3);
+    color: var(--paper);
+    font-family: "Noto Sans JP";
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+  }
+  .schedule-week-nav a[aria-current="page"] {
+    background: rgba(235,228,210,.14);
+    border-color: rgba(235,228,210,.55);
+  }
 
   /* ============ FILTERS ============ */
   .filter-bar {
