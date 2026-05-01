@@ -63,6 +63,26 @@ function dayLabel(dateIso: string): string {
   return DOW_JA[dt.getUTCDay()] ?? "—";
 }
 
+const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
+const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
+
+function nowJst(): Date {
+  const now = new Date();
+  return new Date(now.getTime() + now.getTimezoneOffset() * 60 * 1000 + JST_OFFSET_MS);
+}
+
+function fmtDateISO(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function monthDayLabel(dateIso: string): string {
+  const [, m, d] = dateIso.split("-");
+  return `${Number(m)}月${Number(d)}日`;
+}
+
 type EnrichedFinalStanding = FinalTeamStanding & { team: TeamData };
 
 function MLeagueStandingsCard({
@@ -167,6 +187,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   const final = FINAL_2025_26;
   const finalStandings = final.standings.map((s) => ({
@@ -177,6 +199,13 @@ export default function Home() {
   const nextMatch = final.upcoming.find((m) => m.teamSlugs.length > 0);
   const nextMatchTeams = nextMatch
     ? nextMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
+    : [];
+  const todayISO = fmtDateISO(nowJst());
+  const todayMatches = final.upcoming.filter((m) => m.date === todayISO);
+  const visibleTodayMatches = todayMatches.length > 0 ? todayMatches : [];
+  const nextBroadcast = todayMatches[0] ?? nextMatch;
+  const nextBroadcastTeams = nextBroadcast
+    ? nextBroadcast.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
 
   const titleRanking = computeTitleRanking().slice(0, 5);
@@ -392,38 +421,95 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DATA NOTE: 試合データ未整備 */}
-      <section
-        style={{
-          background: "var(--paper)",
-          border: "var(--border)",
-          boxShadow: "var(--shadow-sm)",
-          padding: "16px 22px",
-          marginBottom: 14,
-          fontFamily: "Noto Sans JP, sans-serif",
-          fontSize: 13,
-          color: "var(--ink-2)",
-          lineHeight: 1.6,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "Geist Mono, ui-monospace, monospace",
-            fontSize: 10,
-            letterSpacing: "0.16em",
-            color: "var(--vermilion)",
-            fontWeight: 700,
-            marginRight: 10,
-          }}
-        >
-          NOTE
-        </span>
-        日次の対局スケジュール・試合進行データは現在未整備のため、
-        「本日の対局」「今すぐ視聴」セクションは表示していません。スケジュール詳細は{" "}
-        <Link href="/schedule" style={{ borderBottom: "1px dotted var(--ink)" }}>
-          /schedule
-        </Link>
-        {" の年間オーバービューをご覧ください。"}
+      <section className="home-match-grid" style={{ marginBottom: 18 }}>
+        <div className="today-strip">
+          <div className="hd">
+            <span>本日の対局</span>
+            <span className="r">{todayISO.replaceAll("-", ".")} JST</span>
+          </div>
+          <div className="today-items today-items--home">
+            {visibleTodayMatches.length > 0 ? (
+              visibleTodayMatches.map((m) => {
+                const teams = m.teamSlugs
+                  .map((slug) => getTeamBySlug(slug))
+                  .filter((t): t is NonNullable<typeof t> => Boolean(t));
+                return (
+                  <Link key={`${m.date}-${m.startTimeJst}`} href="/schedule" className="it">
+                    <span className="time">{m.startTimeJst}</span>
+                    <span className="tag">M.LEAGUE</span>
+                    <span className="t">Mリーグ ファイナル</span>
+                    <span className="sub">
+                      {teams.map((t) => t.shortName).join(" / ")}
+                    </span>
+                  </Link>
+                );
+              })
+            ) : (
+              <Link href="/schedule" className="it">
+                <span className="time">—</span>
+                <span className="tag">NO MATCH</span>
+                <span className="t">本日の確定対局はありません</span>
+                <span className="sub">次回予定はスケジュールで確認できます</span>
+              </Link>
+            )}
+          </div>
+        </div>
+
+        <aside className="box home-watch-box">
+          <div className="side-hd">
+            <span className="tag">WATCH</span>
+            <span>今すぐ視聴</span>
+            <span className="en">Live / Next Broadcast</span>
+          </div>
+          <ul className="live-list">
+            {nextBroadcast ? (
+              <li>
+                <span className="time">
+                  {monthDayLabel(nextBroadcast.date)}
+                  <b>{nextBroadcast.startTimeJst}</b>
+                </span>
+                <span className="title">
+                  <span className="org-badge" style={{ ["--c" as string]: "#d4b94e" } as React.CSSProperties}>
+                    M
+                  </span>
+                  Mリーグ ファイナル
+                  <span className="ch">
+                    {nextBroadcastTeams.map((t) => t.shortName).join(" / ")}
+                  </span>
+                </span>
+                <a
+                  href={URL_ABEMA_MAHJONG}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="dot on"
+                  aria-label="ABEMA 麻雀チャンネルを開く"
+                />
+              </li>
+            ) : (
+              <li>
+                <span className="time">—<b>—</b></span>
+                <span className="title">
+                  配信予定を準備中
+                  <span className="ch">確定次第、スケジュールに反映します</span>
+                </span>
+                <span className="dot" aria-hidden="true" />
+              </li>
+            )}
+          </ul>
+          {nextBroadcast && (
+            <a
+              href={URL_ABEMA_MAHJONG}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="watch-cta"
+            >
+              ABEMAで見る →
+            </a>
+          )}
+          <Link href="/schedule" className="box-link">
+            対局スケジュール →
+          </Link>
+        </aside>
       </section>
 
       <div className="grid-2col">
