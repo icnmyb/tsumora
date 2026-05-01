@@ -2693,25 +2693,47 @@ footer.main .cr {
 
   /* ============ CALENDAR (week) ============ */
   .schedule-cal-toolbar {
-    display: flex;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 12px 14px;
-    background: var(--ink);
-    color: var(--paper);
+    gap: 0;
+    background: var(--paper);
+    color: var(--ink);
     border: var(--border);
     border-bottom: 0;
     box-shadow: var(--shadow);
   }
+  .schedule-cal-arrow {
+    min-height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px solid var(--ink);
+    background: var(--paper-2);
+    color: var(--ink);
+    font-family: "Geist Mono";
+    font-size: 18px;
+    font-weight: 900;
+    text-decoration: none;
+  }
+  .schedule-cal-arrow:nth-of-type(2) {
+    border-left: 2px solid var(--ink);
+  }
+  .schedule-cal-arrow.is-disabled {
+    color: var(--ink-4);
+    background: var(--paper);
+  }
   .schedule-cal-title {
     min-width: 0;
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
+    min-height: 58px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
     font-family: "Shippori Mincho";
     font-weight: 900;
-    font-size: 18px;
+    font-size: 22px;
     letter-spacing: -0.01em;
   }
   .schedule-cal-title small {
@@ -2719,31 +2741,55 @@ footer.main .cr {
     font-family: "Geist Mono";
     font-size: 10px;
     letter-spacing: 0.12em;
-    color: rgba(235,228,210,.62);
+    color: var(--vermilion);
     font-weight: 700;
+  }
+  .schedule-cal-title span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .schedule-today-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 5px 10px;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    background: var(--paper);
+    font-family: "Noto Sans JP";
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .schedule-today-chip[aria-current="page"] {
+    background: var(--ink);
+    color: var(--paper);
   }
   .schedule-cal-controls {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    flex: 0 0 auto;
+    justify-content: flex-end;
+    height: 100%;
+    padding: 0 12px;
+    border-left: 2px solid var(--ink);
+    background: var(--paper-2);
   }
-  .schedule-week-arrows,
   .schedule-view-tabs {
     display: inline-flex;
-    border: 1.5px solid rgba(235,228,210,.32);
-    background: rgba(235,228,210,.06);
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
   }
-  .schedule-week-arrows a,
   .schedule-view-tabs a {
     min-width: 40px;
-    min-height: 36px;
+    min-height: 32px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 12px;
-    border-right: 1.5px solid rgba(235,228,210,.32);
-    color: var(--paper);
+    padding: 7px 12px;
+    border-right: 1.5px solid var(--ink);
+    color: var(--ink);
     font-family: "Geist Mono";
     font-size: 12px;
     letter-spacing: 0.1em;
@@ -2751,12 +2797,10 @@ footer.main .cr {
     text-align: center;
     text-decoration: none;
   }
-  .schedule-week-arrows a:last-child,
   .schedule-view-tabs a:last-child { border-right: 0; }
-  .schedule-week-arrows a[aria-current="page"],
   .schedule-view-tabs a[aria-current="page"] {
-    background: var(--paper);
-    color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
   }
   .cal-wrap {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);
