@@ -2694,50 +2694,56 @@ footer.main .cr {
   /* ============ CALENDAR (week) ============ */
   .schedule-cal-toolbar {
     display: grid;
-    grid-template-columns: 44px minmax(0, 1fr) 44px auto;
-    align-items: center;
-    gap: 0;
+    grid-template-columns: 1fr;
     background: var(--paper);
     color: var(--ink);
     border: var(--border);
     border-bottom: 0;
     box-shadow: var(--shadow);
   }
-  .schedule-cal-arrow {
-    min-height: 58px;
+  .schedule-period-row {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr) 104px;
+    align-items: stretch;
+    min-height: 62px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .schedule-period-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-right: 2px solid var(--ink);
+    padding: 0 12px;
     background: var(--paper-2);
     color: var(--ink);
-    font-family: "Geist Mono";
-    font-size: 18px;
+    border-right: 2px solid var(--ink);
+    font-family: "Noto Sans JP";
+    font-size: 13px;
     font-weight: 900;
     text-decoration: none;
+    white-space: nowrap;
   }
-  .schedule-cal-arrow:nth-of-type(2) {
+  .schedule-period-btn:last-child {
+    border-right: 0;
     border-left: 2px solid var(--ink);
   }
-  .schedule-cal-arrow.is-disabled {
+  .schedule-period-btn.is-disabled {
     color: var(--ink-4);
     background: var(--paper);
   }
   .schedule-cal-title {
     min-width: 0;
-    min-height: 58px;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 16px;
+    place-items: center;
+    align-content: center;
+    gap: 3px;
+    padding: 9px 16px;
     font-family: "Shippori Mincho";
     font-weight: 900;
-    font-size: 22px;
+    font-size: 23px;
     letter-spacing: -0.01em;
+    text-align: center;
   }
   .schedule-cal-title small {
-    flex: 0 0 auto;
     font-family: "Geist Mono";
     font-size: 10px;
     letter-spacing: 0.12em;
@@ -2748,32 +2754,13 @@ footer.main .cr {
     min-width: 0;
     overflow-wrap: anywhere;
   }
-  .schedule-today-chip {
-    display: inline-flex;
+  .schedule-mode-row {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    min-height: 30px;
-    padding: 5px 10px;
-    border: 1.5px solid var(--ink);
-    color: var(--ink);
-    background: var(--paper);
-    font-family: "Noto Sans JP";
-    font-size: 12px;
-    font-weight: 800;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .schedule-today-chip[aria-current="page"] {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .schedule-cal-controls {
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 100%;
-    padding: 0 12px;
-    border-left: 2px solid var(--ink);
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 48px;
+    padding: 8px 12px;
     background: var(--paper-2);
   }
   .schedule-view-tabs {
@@ -2782,7 +2769,7 @@ footer.main .cr {
     background: var(--paper);
   }
   .schedule-view-tabs a {
-    min-width: 40px;
+    min-width: 78px;
     min-height: 32px;
     display: inline-flex;
     align-items: center;
@@ -2801,6 +2788,60 @@ footer.main .cr {
   .schedule-view-tabs a[aria-current="page"] {
     background: var(--ink);
     color: var(--paper);
+  }
+  .schedule-today-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 6px 12px;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    background: var(--paper);
+    font-family: "Noto Sans JP";
+    font-size: 12px;
+    font-weight: 900;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .schedule-today-chip[aria-current="page"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  @media (max-width: 720px) {
+    .schedule-period-row {
+      grid-template-columns: 1fr 1fr;
+    }
+    .schedule-cal-title {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      border-bottom: 2px solid var(--ink);
+      font-size: 20px;
+    }
+    .schedule-period-btn {
+      grid-row: 2;
+      min-height: 42px;
+      border-right: 2px solid var(--ink);
+    }
+    .schedule-period-btn:last-child {
+      border-left: 0;
+      border-right: 0;
+    }
+    .schedule-mode-row {
+      align-items: stretch;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .schedule-view-tabs {
+      flex: 1 1 auto;
+    }
+    .schedule-view-tabs a {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .schedule-today-chip {
+      flex: 0 0 auto;
+    }
   }
   .cal-wrap {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);

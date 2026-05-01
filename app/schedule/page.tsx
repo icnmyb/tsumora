@@ -554,38 +554,40 @@ export default async function SchedulePage({
       <div className="cal-two">
         <div>
           <div className="schedule-cal-toolbar">
-            {view === "week" ? (
-              <Link className="schedule-cal-arrow" href={weekHref(weekOffset - 1)} scroll={false} aria-label="前週へ">
-                ←
-              </Link>
-            ) : (
-              <span className="schedule-cal-arrow is-disabled" aria-hidden="true">←</span>
-            )}
-            <div className="schedule-cal-title">
-              <small>{view === "month" ? "MONTH VIEW" : "WEEK VIEW"}</small>
-              <span>{view === "month" ? monthLabel : `${weekStartLabel} ― ${weekEndLabel}`}</span>
+            <div className="schedule-period-row">
+              {view === "week" ? (
+                <Link className="schedule-period-btn" href={weekHref(weekOffset - 1)} scroll={false}>
+                  ← 前週
+                </Link>
+              ) : (
+                <span className="schedule-period-btn is-disabled" aria-hidden="true">← 前週</span>
+              )}
+              <div className="schedule-cal-title">
+                <small>{view === "month" ? "MONTH VIEW" : "WEEK VIEW"}</small>
+                <span>{view === "month" ? monthLabel : `${weekStartLabel} ― ${weekEndLabel}`}</span>
+              </div>
+              {view === "week" ? (
+                <Link className="schedule-period-btn" href={weekHref(weekOffset + 1)} scroll={false}>
+                  次週 →
+                </Link>
+              ) : (
+                <span className="schedule-period-btn is-disabled" aria-hidden="true">次週 →</span>
+              )}
+            </div>
+            <div className="schedule-mode-row">
+              <div className="schedule-view-tabs" aria-label="カレンダー表示切替">
+                <Link href={weekHref(weekOffset)} scroll={false} aria-current={view === "week" ? "page" : undefined}>
+                  週表示
+                </Link>
+                <Link href="/schedule?view=month" scroll={false} aria-current={view === "month" ? "page" : undefined}>
+                  月表示
+                </Link>
+              </div>
               {view === "week" && (
                 <Link href="/schedule" scroll={false} className="schedule-today-chip" aria-current={weekOffset === 0 ? "page" : undefined}>
                   今日へ
                 </Link>
               )}
-            </div>
-            {view === "week" ? (
-              <Link className="schedule-cal-arrow" href={weekHref(weekOffset + 1)} scroll={false} aria-label="次週へ">
-                →
-              </Link>
-            ) : (
-              <span className="schedule-cal-arrow is-disabled" aria-hidden="true">→</span>
-            )}
-            <div className="schedule-cal-controls">
-              <div className="schedule-view-tabs" aria-label="カレンダー表示切替">
-                <Link href={weekHref(weekOffset)} scroll={false} aria-current={view === "week" ? "page" : undefined}>
-                  週
-                </Link>
-                <Link href="/schedule?view=month" scroll={false} aria-current={view === "month" ? "page" : undefined}>
-                  月
-                </Link>
-              </div>
             </div>
           </div>
           {view === "week" ? (
