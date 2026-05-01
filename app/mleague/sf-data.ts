@@ -189,5 +189,47 @@ export const FINAL_2025_26: FinalState = {
       teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
       status: "upcoming",
     },
+    {
+      date: "2026-05-05",
+      startTimeJst: "19:00",
+      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
+      status: "upcoming",
+    },
+    {
+      date: "2026-05-07",
+      startTimeJst: "19:00",
+      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
+      status: "upcoming",
+    },
+    {
+      date: "2026-05-08",
+      startTimeJst: "19:00",
+      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
+      status: "upcoming",
+    },
+    {
+      date: "2026-05-11",
+      startTimeJst: "19:00",
+      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
+      status: "upcoming",
+    },
+    {
+      date: "2026-05-12",
+      startTimeJst: "19:00",
+      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
+      status: "upcoming",
+    },
+    {
+      date: "2026-05-14",
+      startTimeJst: "19:00",
+      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
+      status: "upcoming",
+    },
+    {
+      date: "2026-05-15",
+      startTimeJst: "17:00",
+      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
+      status: "upcoming",
+    },
   ],
 };

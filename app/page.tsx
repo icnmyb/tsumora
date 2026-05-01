@@ -196,11 +196,11 @@ export default function Home() {
     team: getTeamBySlug(s.teamSlug),
   })).filter((s): s is typeof s & { team: NonNullable<typeof s.team> } => Boolean(s.team));
   const finalLeader = finalStandings[0];
-  const nextMatch = final.upcoming.find((m) => m.teamSlugs.length > 0);
+  const todayISO = fmtDateISO(nowJst());
+  const nextMatch = final.upcoming.find((m) => m.teamSlugs.length > 0 && m.date >= todayISO);
   const nextMatchTeams = nextMatch
     ? nextMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
-  const todayISO = fmtDateISO(nowJst());
   const todayMatches = final.upcoming.filter((m) => m.date === todayISO);
   const visibleTodayMatches = todayMatches.length > 0 ? todayMatches : [];
   const watchNowMatch = todayMatches[0];
