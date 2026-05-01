@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 // ============================================================
 // 確定対局イベントデータ
-// 出典: m-league.jp/games / kinmaweb.jp / m-league.jp/news202604131200/
+// 出典: m-league.jp/games / kinmaweb.jp / m-league.jp/news202604131200/ / m-league.jp/news202605011200/
 // JPML / NPM / 最高位戦 / RMU / μ の個別対局日時は公式公開が限定的なため
 // 段階的に追加していく（ scrape pipeline は別プロジェクトで進行中）
 // ============================================================

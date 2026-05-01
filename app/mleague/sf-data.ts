@@ -1,6 +1,10 @@
 // app/mleague/sf-data.ts
 // Mリーグ 2025-26 セミファイナルシリーズの実データ
-// 出典: Mリーグ公式日程 / 公式発表系記事 (2026-04-30 更新)
+// 出典:
+// - セミファイナル結果/ファイナル進出チーム（公式発表）: https://m-league.jp/news202605011200/
+// - ファイナル日程（公式日程）: https://m-league.jp/games/
+// - セミファイナル最終pt/持越（公式データ集計）: https://m-league.aja0.com/chart/2025/semifinal_team_scores.html
+// (2026-05-01 更新)
 
 export interface SFTeamStanding {
   teamSlug: string;
@@ -87,7 +91,7 @@ export const SEMIFINAL_2025_26: SemifinalState = {
   totalGames: 30,
   gamesPlayed: 30,
   finalLine: 4,
-  asOf: "2026-04-30",
+  asOf: "2026-05-01",
   standings: [
     {
       teamSlug: "furinkazan",
