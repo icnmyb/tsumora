@@ -2718,11 +2718,18 @@ footer.main .cr {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);
     margin-bottom: 14px; overflow-x: auto; overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+  .cal-two > div {
+    min-width: 0;
+  }
+  .cal-scroll {
+    width: 1120px;
+    min-width: 1120px;
   }
   .cal-head-row {
     display: grid; grid-template-columns: 80px repeat(7, 1fr);
     border-bottom: 2px solid var(--ink); background: var(--ink); color: var(--paper);
-    min-width: 780px;
   }
   .cal-head-row .corner {
     padding: 12px 10px; font-family: "Geist Mono"; font-size: 10px;
@@ -2743,7 +2750,7 @@ footer.main .cr {
   .cal-head-row .day.sat .dow { color: #9dc5ff; }
   .cal-head-row .day.sun .dow { color: #f5a89a; }
 
-  .cal-body { display: grid; grid-template-columns: 80px repeat(7, 1fr); min-height: 520px; position: relative; min-width: 780px; }
+  .cal-body { display: grid; grid-template-columns: 80px repeat(7, 1fr); min-height: 520px; position: relative; }
   .cal-body .hour-col {
     border-right: 2px solid var(--ink); background: var(--paper-2);
     display: flex; flex-direction: column;

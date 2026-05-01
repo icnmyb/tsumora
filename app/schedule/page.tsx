@@ -7,12 +7,12 @@ import {
 } from "./data";
 
 export const metadata: Metadata = {
-  title: "対局スケジュール — TSUMORA",
+  title: "放送対局スケジュール — TSUMORA",
   description:
-    "Mリーグ・各団体タイトル戦の対局スケジュール。確定情報のみ表示、毎日の更新で常に最新の今週分を反映。",
+    "Mリーグ・各団体タイトル戦の放送対局スケジュール。確定情報のみ表示、毎日の更新で常に最新の今週分を反映。",
   openGraph: {
-    title: "対局スケジュール — TSUMORA",
-    description: "Mリーグ・タイトル戦の対局スケジュール。",
+    title: "放送対局スケジュール — TSUMORA",
+    description: "Mリーグ・タイトル戦の放送対局スケジュール。",
     siteName: "TSUMORA",
     type: "website",
   },
@@ -482,10 +482,10 @@ export default async function SchedulePage({
         <div className="crumb">
           <Link href="/">Home</Link>
           <span className="sep">›</span>
-          <span>対局スケジュール</span>
+          <span>放送対局スケジュール</span>
         </div>
         <h1>
-          <span className="title-full">対局スケジュール</span>
+          <span className="title-full">放送対局スケジュール</span>
           <span className="title-short">対局</span>
           <span className="en">Match Schedule</span>
         </h1>
@@ -553,86 +553,88 @@ export default async function SchedulePage({
         <div>
           {view === "week" ? (
             <section className="cal-wrap">
-              <div className="cal-head-row">
-                <div className="corner">JST</div>
-                {week.map((d, i) => {
-                  const isToday = fmtDateISO(d) === todayISO;
-                  const isSat = d.getDay() === 6;
-                  const isSun = d.getDay() === 0;
-                  const cls = ["day", isToday ? "today" : "", isSat ? "sat" : "", isSun ? "sun" : ""]
-                    .filter(Boolean)
-                    .join(" ");
-                  return (
-                    <div key={i} className={cls}>
-                      <div className="dow">
-                        {DOW_SHORT_EN[d.getDay()]} · {DOW_JA[d.getDay()]}
-                        {isToday ? " · TODAY" : ""}
+              <div className="cal-scroll">
+                <div className="cal-head-row">
+                  <div className="corner">JST</div>
+                  {week.map((d, i) => {
+                    const isToday = fmtDateISO(d) === todayISO;
+                    const isSat = d.getDay() === 6;
+                    const isSun = d.getDay() === 0;
+                    const cls = ["day", isToday ? "today" : "", isSat ? "sat" : "", isSun ? "sun" : ""]
+                      .filter(Boolean)
+                      .join(" ");
+                    return (
+                      <div key={i} className={cls}>
+                        <div className="dow">
+                          {DOW_SHORT_EN[d.getDay()]} · {DOW_JA[d.getDay()]}
+                          {isToday ? " · TODAY" : ""}
+                        </div>
+                        <div className="dt">
+                          {d.getDate()}
+                          <span className="n">{MONTH_EN[d.getMonth()]}</span>
+                        </div>
                       </div>
-                      <div className="dt">
-                        {d.getDate()}
-                        <span className="n">{MONTH_EN[d.getMonth()]}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="cal-body">
-                <div className="hour-col">
-                  {HOURS.map((h) => (
-                    <div key={h} className="hour">
-                      {h}
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
-                {week.map((d, i) => {
-                  const isToday = fmtDateISO(d) === todayISO;
-                  const events = eventsByDate[i] ?? [];
-                  return (
-                    <div key={i} className={`day-col ${isToday ? "today" : ""}`.trim()}>
-                      {HOURS.map((_, idx) => (
-                        <div key={idx} className="hour"></div>
-                      ))}
-                      {events.map((ev, idx) => {
-                        const top = timeToY(ev.startTime);
-                        const height = durationHeight(ev.startTime, ev.endTime);
-                        const link = ev.link;
-                        const inner = (
-                          <>
-                            <div className="tm">
-                              {ev.startTime} – {ev.endTime}
-                            </div>
-                            <div className="tl">{ev.title}</div>
-                            {ev.sub && <div className="sub">{ev.sub}</div>}
-                            <span
-                              className="org-tag"
-                              style={{ background: ev.tagColor, color: ev.tagTextColor }}
+                <div className="cal-body">
+                  <div className="hour-col">
+                    {HOURS.map((h) => (
+                      <div key={h} className="hour">
+                        {h}
+                      </div>
+                    ))}
+                  </div>
+
+                  {week.map((d, i) => {
+                    const isToday = fmtDateISO(d) === todayISO;
+                    const events = eventsByDate[i] ?? [];
+                    return (
+                      <div key={i} className={`day-col ${isToday ? "today" : ""}`.trim()}>
+                        {HOURS.map((_, idx) => (
+                          <div key={idx} className="hour"></div>
+                        ))}
+                        {events.map((ev, idx) => {
+                          const top = timeToY(ev.startTime);
+                          const height = durationHeight(ev.startTime, ev.endTime);
+                          const link = ev.link;
+                          const inner = (
+                            <>
+                              <div className="tm">
+                                {ev.startTime} – {ev.endTime}
+                              </div>
+                              <div className="tl">{ev.title}</div>
+                              {ev.sub && <div className="sub">{ev.sub}</div>}
+                              <span
+                                className="org-tag"
+                                style={{ background: ev.tagColor, color: ev.tagTextColor }}
+                              >
+                                {ev.channel}
+                              </span>
+                            </>
+                          );
+                          return link ? (
+                            <a
+                              key={idx}
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="event"
+                              style={{ top, height, textDecoration: "none", color: "inherit" }}
                             >
-                              {ev.channel}
-                            </span>
-                          </>
-                        );
-                        return link ? (
-                          <a
-                            key={idx}
-                            href={link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="event"
-                            style={{ top, height, textDecoration: "none", color: "inherit" }}
-                          >
-                            {inner}
-                          </a>
-                        ) : (
-                          <div key={idx} className="event" style={{ top, height }}>
-                            {inner}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
+                              {inner}
+                            </a>
+                          ) : (
+                            <div key={idx} className="event" style={{ top, height }}>
+                              {inner}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </section>
           ) : (
