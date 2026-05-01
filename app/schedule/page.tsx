@@ -575,11 +575,14 @@ export default async function SchedulePage({
               )}
             </div>
             <div className="schedule-mode-row">
-              {view === "week" && (
-                <Link href="/schedule" scroll={false} className="schedule-today-chip" aria-current={weekOffset === 0 ? "page" : undefined}>
-                  今日
-                </Link>
-              )}
+              <Link
+                href={view === "month" ? "/schedule?view=month" : "/schedule"}
+                scroll={false}
+                className="schedule-today-chip"
+                aria-current={view === "week" && weekOffset === 0 ? "page" : undefined}
+              >
+                今日
+              </Link>
               <div className="schedule-view-tabs" aria-label="カレンダー表示切替">
                 <Link href={weekHref(weekOffset)} scroll={false} aria-current={view === "week" ? "page" : undefined}>
                   週表示
