@@ -374,14 +374,24 @@ function fmtDateISO(d: Date): string {
 function getWeekDatesJst(now: Date): Date[] {
   const d = new Date(now);
   d.setHours(0, 0, 0, 0);
-  const dow = d.getDay();
-  const monOffset = dow === 0 ? -6 : 1 - dow;
   const monday = new Date(d);
-  monday.setDate(d.getDate() + monOffset);
+  monday.setDate(d.getDate() - 2);
   return Array.from({ length: 7 }, (_, i) => {
     const wd = new Date(monday);
     wd.setDate(monday.getDate() + i);
     return wd;
+  });
+}
+
+function getMonthDatesJst(now: Date): Date[] {
+  const first = new Date(now.getFullYear(), now.getMonth(), 1);
+  first.setHours(0, 0, 0, 0);
+  const start = new Date(first);
+  start.setDate(first.getDate() - first.getDay());
+  return Array.from({ length: 42 }, (_, i) => {
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+    return d;
   });
 }
 
@@ -423,28 +433,48 @@ const HOURS = [
 // レンダリング
 // ============================================================
 
-export default function SchedulePage() {
+export default async function SchedulePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ view?: string }>;
+}) {
+  const params = await searchParams;
+  const view = params?.view === "month" ? "month" : "week";
   const today = nowJst();
   const todayISO = fmtDateISO(today);
   const week = getWeekDatesJst(today);
+  const month = getMonthDatesJst(today);
   const weekISO = week.map(fmtDateISO);
+  const monthISO = month.map(fmtDateISO);
 
   const weekStartLabel = `${week[0].getMonth() + 1}月${week[0].getDate()}日`;
   const weekEndLabel = `${week[6].getMonth() + 1}月${week[6].getDate()}日`;
   const weekYear = week[0].getFullYear();
   const startOfYear = new Date(weekYear, 0, 1);
   const weekNumber = Math.ceil(((week[0].getTime() - startOfYear.getTime()) / 86400000 + 1) / 7);
+  const monthLabel = `${today.getFullYear()}年${today.getMonth() + 1}月`;
 
   const eventsByDate: ScheduledEvent[][] = weekISO.map((d) =>
     EVENTS.filter((e) => e.date === d).sort((a, b) =>
       a.startTime.localeCompare(b.startTime),
     ),
   );
+  const monthEventsByDate: ScheduledEvent[][] = monthISO.map((d) =>
+    EVENTS.filter((e) => e.date === d).sort((a, b) =>
+      a.startTime.localeCompare(b.startTime),
+    ),
+  );
 
   const totalMatches = eventsByDate.reduce((acc, arr) => acc + arr.length, 0);
+  const monthMatches = monthEventsByDate.reduce((acc, arr) => acc + arr.length, 0);
   const todayIdx = week.findIndex((d) => fmtDateISO(d) === todayISO);
-  const todayMatches = todayIdx >= 0 ? (eventsByDate[todayIdx]?.length ?? 0) : 0;
-  const todayEvents = todayIdx >= 0 ? (eventsByDate[todayIdx] ?? []) : [];
+  const todayMonthIdx = month.findIndex((d) => fmtDateISO(d) === todayISO);
+  const todayMatches = todayMonthIdx >= 0 ? (monthEventsByDate[todayMonthIdx]?.length ?? 0) : 0;
+  const todayEvents = todayIdx >= 0
+    ? (eventsByDate[todayIdx] ?? [])
+    : todayMonthIdx >= 0
+      ? (monthEventsByDate[todayMonthIdx] ?? [])
+      : [];
 
   return (
     <div className="wrap">
@@ -461,16 +491,26 @@ export default function SchedulePage() {
         </h1>
         <div className="range">
           <div className="wk">
-            {weekStartLabel} ― {weekEndLabel}
+            {view === "month" ? monthLabel : `${weekStartLabel} ― ${weekEndLabel}`}
             <span className="sub">
-              Week {weekNumber} · {weekYear} · {MONTH_EN[week[0].getMonth()]}
+              {view === "month"
+                ? `${monthMatches} matches · ${MONTH_EN[today.getMonth()]} ${today.getFullYear()}`
+                : `Week ${weekNumber} · ${weekYear} · ${MONTH_EN[week[0].getMonth()]} · 今日の2日前から`}
             </span>
+          </div>
+          <div className="schedule-view-tabs" aria-label="カレンダー表示切替">
+            <Link href="/schedule" aria-current={view === "week" ? "page" : undefined}>
+              週
+            </Link>
+            <Link href="/schedule?view=month" aria-current={view === "month" ? "page" : undefined}>
+              月
+            </Link>
           </div>
           <div className="counts">
             <div className="c">
-              <div className="l">This Week</div>
+              <div className="l">{view === "month" ? "This Month" : "This Range"}</div>
               <div className="v">
-                {String(totalMatches).padStart(2, "0")}
+                {String(view === "month" ? monthMatches : totalMatches).padStart(2, "0")}
                 <span
                   style={{
                     fontSize: 16,
@@ -511,89 +551,155 @@ export default function SchedulePage() {
 
       <div className="cal-two">
         <div>
-          <section className="cal-wrap">
-            <div className="cal-head-row">
-              <div className="corner">JST</div>
-              {week.map((d, i) => {
-                const isToday = fmtDateISO(d) === todayISO;
-                const isSat = d.getDay() === 6;
-                const isSun = d.getDay() === 0;
-                const cls = ["day", isToday ? "today" : "", isSat ? "sat" : "", isSun ? "sun" : ""]
-                  .filter(Boolean)
-                  .join(" ");
-                return (
-                  <div key={i} className={cls}>
-                    <div className="dow">
-                      {DOW_SHORT_EN[d.getDay()]} · {DOW_JA[d.getDay()]}
-                      {isToday ? " · TODAY" : ""}
+          {view === "week" ? (
+            <section className="cal-wrap">
+              <div className="cal-head-row">
+                <div className="corner">JST</div>
+                {week.map((d, i) => {
+                  const isToday = fmtDateISO(d) === todayISO;
+                  const isSat = d.getDay() === 6;
+                  const isSun = d.getDay() === 0;
+                  const cls = ["day", isToday ? "today" : "", isSat ? "sat" : "", isSun ? "sun" : ""]
+                    .filter(Boolean)
+                    .join(" ");
+                  return (
+                    <div key={i} className={cls}>
+                      <div className="dow">
+                        {DOW_SHORT_EN[d.getDay()]} · {DOW_JA[d.getDay()]}
+                        {isToday ? " · TODAY" : ""}
+                      </div>
+                      <div className="dt">
+                        {d.getDate()}
+                        <span className="n">{MONTH_EN[d.getMonth()]}</span>
+                      </div>
                     </div>
-                    <div className="dt">
-                      {d.getDate()}
-                      <span className="n">{MONTH_EN[d.getMonth()]}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
 
-            <div className="cal-body">
-              <div className="hour-col">
-                {HOURS.map((h) => (
-                  <div key={h} className="hour">
-                    {h}
+              <div className="cal-body">
+                <div className="hour-col">
+                  {HOURS.map((h) => (
+                    <div key={h} className="hour">
+                      {h}
+                    </div>
+                  ))}
+                </div>
+
+                {week.map((d, i) => {
+                  const isToday = fmtDateISO(d) === todayISO;
+                  const events = eventsByDate[i] ?? [];
+                  return (
+                    <div key={i} className={`day-col ${isToday ? "today" : ""}`.trim()}>
+                      {HOURS.map((_, idx) => (
+                        <div key={idx} className="hour"></div>
+                      ))}
+                      {events.map((ev, idx) => {
+                        const top = timeToY(ev.startTime);
+                        const height = durationHeight(ev.startTime, ev.endTime);
+                        const link = ev.link;
+                        const inner = (
+                          <>
+                            <div className="tm">
+                              {ev.startTime} – {ev.endTime}
+                            </div>
+                            <div className="tl">{ev.title}</div>
+                            {ev.sub && <div className="sub">{ev.sub}</div>}
+                            <span
+                              className="org-tag"
+                              style={{ background: ev.tagColor, color: ev.tagTextColor }}
+                            >
+                              {ev.channel}
+                            </span>
+                          </>
+                        );
+                        return link ? (
+                          <a
+                            key={idx}
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="event"
+                            style={{ top, height, textDecoration: "none", color: "inherit" }}
+                          >
+                            {inner}
+                          </a>
+                        ) : (
+                          <div key={idx} className="event" style={{ top, height }}>
+                            {inner}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          ) : (
+            <section className="month-wrap">
+              <div className="month-head-row">
+                {DOW_JA.map((dow, idx) => (
+                  <div key={dow} className={idx === 0 ? "sun" : idx === 6 ? "sat" : ""}>
+                    {dow}
                   </div>
                 ))}
               </div>
-
-              {week.map((d, i) => {
-                const isToday = fmtDateISO(d) === todayISO;
-                const events = eventsByDate[i] ?? [];
-                return (
-                  <div key={i} className={`day-col ${isToday ? "today" : ""}`.trim()}>
-                    {HOURS.map((_, idx) => (
-                      <div key={idx} className="hour"></div>
-                    ))}
-                    {events.map((ev, idx) => {
-                      const top = timeToY(ev.startTime);
-                      const height = durationHeight(ev.startTime, ev.endTime);
-                      const link = ev.link;
-                      const inner = (
-                        <>
-                          <div className="tm">
-                            {ev.startTime} – {ev.endTime}
-                          </div>
-                          <div className="tl">{ev.title}</div>
-                          {ev.sub && <div className="sub">{ev.sub}</div>}
-                          <span
-                            className="org-tag"
-                            style={{ background: ev.tagColor, color: ev.tagTextColor }}
-                          >
-                            {ev.channel}
-                          </span>
-                        </>
-                      );
-                      return link ? (
-                        <a
-                          key={idx}
-                          href={link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="event"
-                          style={{ top, height, textDecoration: "none", color: "inherit" }}
-                        >
-                          {inner}
-                        </a>
-                      ) : (
-                        <div key={idx} className="event" style={{ top, height }}>
-                          {inner}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+              <div className="month-grid">
+                {month.map((d, i) => {
+                  const iso = fmtDateISO(d);
+                  const events = monthEventsByDate[i] ?? [];
+                  const currentMonth = d.getMonth() === today.getMonth();
+                  const isToday = iso === todayISO;
+                  const cls = [
+                    "month-cell",
+                    currentMonth ? "" : "muted",
+                    isToday ? "today" : "",
+                  ].filter(Boolean).join(" ");
+                  return (
+                    <div key={iso} className={cls}>
+                      <div className="month-date">
+                        <span>{d.getDate()}</span>
+                        <small>{MONTH_EN[d.getMonth()]}</small>
+                      </div>
+                      <div className="month-events">
+                        {events.slice(0, 3).map((ev, idx) => {
+                          const item = (
+                            <>
+                              <span className="time">{ev.startTime}</span>
+                              <span className="name">{ev.title}</span>
+                            </>
+                          );
+                          return ev.link ? (
+                            <a
+                              key={`${iso}-${idx}`}
+                              href={ev.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="month-event"
+                              style={{ ["--oc" as string]: ev.tagColor } as React.CSSProperties}
+                            >
+                              {item}
+                            </a>
+                          ) : (
+                            <div
+                              key={`${iso}-${idx}`}
+                              className="month-event"
+                              style={{ ["--oc" as string]: ev.tagColor } as React.CSSProperties}
+                            >
+                              {item}
+                            </div>
+                          );
+                        })}
+                        {events.length > 3 && (
+                          <div className="month-more">+{events.length - 3}</div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
           <section className="list-wrap">
             <div className="list-head">
