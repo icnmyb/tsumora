@@ -2665,47 +2665,6 @@ footer.main .cr {
   .sc-hero .range .counts .c .v { font-family: "Shippori Mincho"; font-weight: 900; font-size: 28px; line-height: 1; margin-top: 4px; letter-spacing: -0.02em; }
   .sc-hero .range .counts .c .v.red { color: var(--vermilion); }
   .sc-hero .range .counts .c .v.gold { color: #f0c86d; }
-  .schedule-view-tabs {
-    display: inline-flex;
-    border: 1.5px solid rgba(235,228,210,.3);
-  }
-  .schedule-view-tabs a {
-    min-width: 46px;
-    padding: 8px 14px;
-    border-right: 1.5px solid rgba(235,228,210,.3);
-    color: var(--paper);
-    font-family: "Geist Mono";
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    text-align: center;
-    text-decoration: none;
-  }
-  .schedule-view-tabs a:last-child { border-right: 0; }
-  .schedule-view-tabs a[aria-current="page"] {
-    background: var(--paper);
-    color: var(--ink);
-  }
-  .schedule-week-nav {
-    display: inline-flex;
-    gap: 6px;
-  }
-  .schedule-week-nav a {
-    min-width: 52px;
-    padding: 8px 11px;
-    border: 1.5px solid rgba(235,228,210,.3);
-    color: var(--paper);
-    font-family: "Noto Sans JP";
-    font-size: 12px;
-    font-weight: 700;
-    text-align: center;
-    text-decoration: none;
-  }
-  .schedule-week-nav a[aria-current="page"] {
-    background: rgba(235,228,210,.14);
-    border-color: rgba(235,228,210,.55);
-  }
-
   /* ============ FILTERS ============ */
   .filter-bar {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);
@@ -2733,8 +2692,75 @@ footer.main .cr {
   .filter-bar .view button.on { background: var(--ink); color: var(--paper); }
 
   /* ============ CALENDAR (week) ============ */
+  .schedule-cal-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    border: var(--border);
+    border-bottom: 0;
+    box-shadow: var(--shadow);
+  }
+  .schedule-cal-title {
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: "Shippori Mincho";
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .schedule-cal-title small {
+    flex: 0 0 auto;
+    font-family: "Geist Mono";
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(235,228,210,.62);
+    font-weight: 700;
+  }
+  .schedule-cal-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+  }
+  .schedule-week-arrows,
+  .schedule-view-tabs {
+    display: inline-flex;
+    border: 1.5px solid rgba(235,228,210,.32);
+    background: rgba(235,228,210,.06);
+  }
+  .schedule-week-arrows a,
+  .schedule-view-tabs a {
+    min-width: 40px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-right: 1.5px solid rgba(235,228,210,.32);
+    color: var(--paper);
+    font-family: "Geist Mono";
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+  }
+  .schedule-week-arrows a:last-child,
+  .schedule-view-tabs a:last-child { border-right: 0; }
+  .schedule-week-arrows a[aria-current="page"],
+  .schedule-view-tabs a[aria-current="page"] {
+    background: var(--paper);
+    color: var(--ink);
+  }
   .cal-wrap {
     background: var(--paper); border: var(--border); box-shadow: var(--shadow);
+    border-top: 0;
     margin-bottom: 14px; overflow-x: auto; overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     max-width: 100%;
@@ -2818,6 +2844,7 @@ footer.main .cr {
   .month-wrap {
     background: var(--paper);
     border: var(--border);
+    border-top: 0;
     box-shadow: var(--shadow);
     margin-bottom: 14px;
     overflow-x: auto;
