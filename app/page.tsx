@@ -203,9 +203,9 @@ export default function Home() {
   const todayISO = fmtDateISO(nowJst());
   const todayMatches = final.upcoming.filter((m) => m.date === todayISO);
   const visibleTodayMatches = todayMatches.length > 0 ? todayMatches : [];
-  const nextBroadcast = todayMatches[0] ?? nextMatch;
-  const nextBroadcastTeams = nextBroadcast
-    ? nextBroadcast.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
+  const watchNowMatch = todayMatches[0];
+  const watchNowTeams = watchNowMatch
+    ? watchNowMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
 
   const titleRanking = computeTitleRanking().slice(0, 5);
@@ -462,11 +462,11 @@ export default function Home() {
             <span className="en">Live / Next Broadcast</span>
           </div>
           <ul className="live-list">
-            {nextBroadcast ? (
+            {watchNowMatch ? (
               <li>
                 <span className="time">
-                  {monthDayLabel(nextBroadcast.date)}
-                  <b>{nextBroadcast.startTimeJst}</b>
+                  {monthDayLabel(watchNowMatch.date)}
+                  <b>{watchNowMatch.startTimeJst}</b>
                 </span>
                 <span className="title">
                   <span className="org-badge" style={{ ["--c" as string]: "#d4b94e" } as React.CSSProperties}>
@@ -474,7 +474,7 @@ export default function Home() {
                   </span>
                   Mリーグ ファイナル
                   <span className="ch">
-                    {nextBroadcastTeams.map((t) => t.shortName).join(" / ")}
+                    {watchNowTeams.map((t) => t.shortName).join(" / ")}
                   </span>
                 </span>
                 <a
@@ -489,14 +489,14 @@ export default function Home() {
               <li>
                 <span className="time">—<b>—</b></span>
                 <span className="title">
-                  配信予定を準備中
-                  <span className="ch">確定次第、スケジュールに反映します</span>
+                  本日の配信はありません
+                  <span className="ch">次回予定は対局スケジュールで確認できます</span>
                 </span>
                 <span className="dot" aria-hidden="true" />
               </li>
             )}
           </ul>
-          {nextBroadcast && (
+          {watchNowMatch && (
             <a
               href={URL_ABEMA_MAHJONG}
               target="_blank"
