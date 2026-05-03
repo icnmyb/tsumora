@@ -125,14 +125,19 @@ export const NEWS: NewsArticle[] = [
       "Mリーグ2025-26のファイナル進出チーム、開幕日、開始時ポイントの文脈を確認できるTSUMORA短報。",
     sources: [
       {
-        label: "M.LEAGUE公式サイト",
-        url: "https://m-league.jp/",
-        checkedAt: "2026-04-30",
+        label: "M.LEAGUE公式：セミファイナルシリーズ結果について",
+        url: "https://m-league.jp/news202605011200/",
+        checkedAt: "2026-05-03",
       },
       {
-        label: "クランクイン！ Mリーグ25-26 セミファイナル最終順位",
-        url: "https://www.crank-in.net/news/184607/1",
-        checkedAt: "2026-04-30",
+        label: "M.LEAGUE公式：試合日程（ファイナル日程）",
+        url: "https://m-league.jp/games/",
+        checkedAt: "2026-05-03",
+      },
+      {
+        label: "M.LEAGUE公式：ファイナル最終決戦 PV/表彰式（5/15 17:00開始）",
+        url: "https://m-league.jp/news202604131200/",
+        checkedAt: "2026-05-03",
       },
     ],
     related: [
