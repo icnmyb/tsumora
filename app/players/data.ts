@@ -1,5 +1,6 @@
 // app/players/data.ts
 import { ROSTER_PLAYERS } from "./roster";
+import { WIKI_TITLE_OVERRIDES } from "./wiki-titles";
 
 export type OrgCode = "JPML" | "NPM" | "最高位戦" | "RMU" | "μ";
 
@@ -330,11 +331,27 @@ export function isFeaturedPlayer(p: RosterPlayer): p is FeaturedPlayer {
 }
 
 export function getPlayer(id: string): FeaturedPlayer | RosterPlayer | undefined {
-  return ALL_PLAYERS.find((p) => p.id === id) ?? ROSTER_PLAYERS.find((p) => p.id === id);
+  const player = ALL_PLAYERS.find((p) => p.id === id) ?? ROSTER_PLAYERS.find((p) => p.id === id);
+  return player ? applyWikiTitleOverride(player) : undefined;
 }
 
 export function getAllPlayers(): RosterPlayer[] {
   const featuredIds = new Set(ALL_PLAYERS.map((p) => p.id));
   const rosterOnly = ROSTER_PLAYERS.filter((p) => !featuredIds.has(p.id));
-  return [...ALL_PLAYERS, ...rosterOnly];
+  return [...ALL_PLAYERS, ...rosterOnly].map(applyWikiTitleOverride);
+}
+
+const WIKI_TITLES = WIKI_TITLE_OVERRIDES as Record<
+  string,
+  { title: string; titles: readonly TitleEntry[] }
+>;
+
+function applyWikiTitleOverride<T extends RosterPlayer>(player: T): T {
+  const override = WIKI_TITLES[player.id];
+  if (!override) return player;
+  return {
+    ...player,
+    title: override.title,
+    titles: override.titles.map((title) => ({ ...title })),
+  };
 }

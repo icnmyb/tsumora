@@ -4,5 +4,6 @@ node_modules/
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+tmp/
 .claude/settings.local.json
 .claude/league-research-progress.md
