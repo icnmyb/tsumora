@@ -79,26 +79,6 @@ export default async function NewsArticlePage({
           ))}
         </div>
 
-        {article.sources && article.sources.length > 0 && (
-          <aside className="news-article-related">
-            <div className="news-related-hd">出典</div>
-            <div className="news-related-list">
-              {article.sources.map((source) => (
-                <a
-                  key={source.url}
-                  href={source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="news-related-item"
-                >
-                  <span className="news-related-tag">確認 {source.checkedAt}</span>
-                  {source.label}
-                </a>
-              ))}
-            </div>
-          </aside>
-        )}
-
         {(relatedTitles.length > 0 || relatedPlayers.length > 0 || relatedTeams.length > 0) && (
           <aside className="news-article-related">
             <div className="news-related-hd">関連</div>
