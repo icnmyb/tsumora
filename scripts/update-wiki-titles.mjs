@@ -5,6 +5,7 @@ const ROOT = process.cwd();
 const DATA_FILE = path.join(ROOT, "app/players/data.ts");
 const ROSTER_DIR = path.join(ROOT, "app/players/roster");
 const OUTPUT_FILE = path.join(ROOT, "app/players/wiki-titles.ts");
+const REPORT_FILE = path.join(ROOT, "app/players/wiki-title-missing.txt");
 
 const WIKI_API = "https://ja.wikipedia.org/w/api.php";
 let lastWikiRequestAt = 0;
@@ -84,7 +85,15 @@ function cleanWikiText(input) {
 }
 
 function normalizeName(name) {
-  return name.replace(/\s+/g, "").replace(/[髙﨑﨑]/g, (m) => ({ 髙: "高", "﨑": "崎", "﨑": "崎" })[m] ?? m);
+  return name
+    .replace(/\s+/g, "")
+    .replace(/\(.+?\)$/g, "")
+    .replace(/（.+?）$/g, "")
+    .replace(/[髙﨑﨑]/g, (m) => ({ 髙: "高", "﨑": "崎", "﨑": "崎" })[m] ?? m);
+}
+
+function wikiUrl(title) {
+  return `https://ja.wikipedia.org/wiki/${encodeURIComponent(title).replace(/%20/g, "_")}`;
 }
 
 function extractInlinePlayers(source, featuredOnly = false) {
@@ -122,8 +131,9 @@ async function getTargetPlayers() {
 
 async function wikiGet(params) {
   const elapsed = Date.now() - lastWikiRequestAt;
-  if (elapsed < 750) {
-    await new Promise((resolve) => setTimeout(resolve, 750 - elapsed));
+  const minInterval = 2200;
+  if (elapsed < minInterval) {
+    await new Promise((resolve) => setTimeout(resolve, minInterval - elapsed));
   }
   const url = new URL(WIKI_API);
   Object.entries({
@@ -131,14 +141,14 @@ async function wikiGet(params) {
     formatversion: "2",
     ...params,
   }).forEach(([key, value]) => url.searchParams.set(key, value));
-  for (let attempt = 0; attempt < 4; attempt += 1) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
     lastWikiRequestAt = Date.now();
     const res = await fetch(url, {
       headers: { "user-agent": "TSUMORA local data update/1.0" },
     });
     if (res.ok) return res.json();
-    if (res.status !== 429 || attempt === 3) throw new Error(`${res.status} ${res.statusText}`);
-    await new Promise((resolve) => setTimeout(resolve, 3000 * (attempt + 1)));
+    if (res.status !== 429 || attempt === 7) throw new Error(`${res.status} ${res.statusText}`);
+    await new Promise((resolve) => setTimeout(resolve, 5000 * (attempt + 1)));
   }
 }
 
@@ -160,23 +170,46 @@ async function fetchExactPages(players) {
   return pages;
 }
 
+async function fetchTemplatePageTitles() {
+  const titles = [];
+  let eicontinue;
+  do {
+    const res = await wikiGet({
+      action: "query",
+      list: "embeddedin",
+      eititle: "Template:雀士",
+      einamespace: "0",
+      eilimit: "500",
+      ...(eicontinue ? { eicontinue } : {}),
+    });
+    titles.push(...(res.query.embeddedin ?? []).map((page) => page.title));
+    eicontinue = res.continue?.eicontinue;
+  } while (eicontinue);
+  return titles;
+}
+
+async function fetchPagesByTitles(titles) {
+  const pages = new Map();
+  for (let i = 0; i < titles.length; i += 50) {
+    const batch = titles.slice(i, i + 50);
+    process.stderr.write(`Fetching matched Wikipedia pages ${Math.floor(i / 50) + 1}/${Math.ceil(titles.length / 50)}\n`);
+    const exact = await wikiGet({
+      action: "query",
+      prop: "revisions",
+      rvprop: "content",
+      titles: batch.join("|"),
+    });
+    for (const page of exact.query.pages ?? []) {
+      if (!page.missing) pages.set(normalizeName(page.title), page);
+    }
+  }
+  return pages;
+}
+
 function findWikiPage(player, pageCache) {
   const page = pageCache.get(normalizeName(player.name));
   if (!page || page.missing) return null;
-  if (hasTitleFields(page.revisions?.[0]?.content ?? "")) return page;
-  return null;
-}
-
-async function findWikiPageSlow(player) {
-  const exact = await wikiGet({
-    action: "query",
-    prop: "revisions",
-    rvprop: "content",
-    titles: player.name,
-  });
-  const page = exact.query.pages[0];
-  if (!page.missing && hasTitleFields(page.revisions?.[0]?.content ?? "")) return page;
-  return null;
+  return page;
 }
 
 function hasTitleFields(content) {
@@ -308,28 +341,41 @@ function uniqueTitles(entries) {
 async function main() {
   const players = await getTargetPlayers();
   const pageCache = await fetchExactPages(players);
+  const templateTitles = await fetchTemplatePageTitles();
+  const templateTitleByName = new Map(templateTitles.map((title) => [normalizeName(title), title]));
+  const alternateTitles = players
+    .filter((player) => !pageCache.get(normalizeName(player.name)) || pageCache.get(normalizeName(player.name))?.missing)
+    .map((player) => templateTitleByName.get(normalizeName(player.name)))
+    .filter(Boolean);
+  const alternatePages = await fetchPagesByTitles([...new Set(alternateTitles)]);
+  for (const [key, page] of alternatePages) pageCache.set(key, page);
   const rows = {};
-  const missing = [];
+  const missingArticle = [];
+  const noTitleField = [];
   const unresolved = [];
 
   for (const [i, player] of players.entries()) {
     process.stderr.write(`[${i + 1}/${players.length}] ${player.name}\n`);
     const page = findWikiPage(player, pageCache);
     if (!page) {
-      missing.push(player);
+      missingArticle.push(player);
       continue;
     }
     const content = page.revisions?.[0]?.content ?? "";
+    if (!hasTitleFields(content)) {
+      noTitleField.push({ player, page: page.title, url: wikiUrl(page.title) });
+      continue;
+    }
     const lines = extractTitleLines(content);
     const titles = uniqueTitles(lines.flatMap(parseTitleLine));
     if (titles.length === 0) {
-      unresolved.push({ player, page: page.title, lines });
+      unresolved.push({ player, page: page.title, url: wikiUrl(page.title), lines });
       continue;
     }
     rows[player.id] = {
       title: titleSummary(titles),
       titles,
-      source: `https://ja.wikipedia.org/wiki/${encodeURIComponent(page.title).replace(/%20/g, "_")}`,
+      source: wikiUrl(page.title),
       sourceTitle: page.title,
     };
     await new Promise((resolve) => setTimeout(resolve, 250));
@@ -352,11 +398,43 @@ export const WIKI_TITLE_OVERRIDES = ${JSON.stringify(rows, null, 2)} as const sa
 `;
   await fs.writeFile(OUTPUT_FILE, body);
 
+  const reportLines = [
+    "TSUMORA Wikipedia title research report",
+    `Generated: ${new Date().toISOString()}`,
+    "",
+    `Target players: ${players.length}`,
+    `Applied title overrides: ${Object.keys(rows).length}`,
+    `Wikipedia article not found: ${missingArticle.length}`,
+    `Article found but title section/field missing: ${noTitleField.length}`,
+    `Title lines found but not parsed: ${unresolved.length}`,
+    "",
+    "== Wikipedia記事が見つからなかった選手 ==",
+    ...missingArticle.map((p) => `- ${p.name} (${p.id}) / ${p.org} / ${p.league}${p.mleagueTeam ? ` / ${p.mleagueTeam}` : ""}`),
+    "",
+    "== 記事はあるがタイトル欄が見つからなかった選手 ==",
+    ...noTitleField.map(({ player, page, url }) => `- ${player.name} (${player.id}) / ${player.org} / ${player.league} / ${page} / ${url}`),
+    "",
+    "== タイトル欄はあるが年付きタイトルとして解析できなかった選手 ==",
+    ...unresolved.map(({ player, page, url, lines }) => `- ${player.name} (${player.id}) / ${player.org} / ${player.league} / ${page} / ${url}\n  lines: ${lines.join(" / ")}`),
+    "",
+  ];
+  await fs.writeFile(REPORT_FILE, `${reportLines.join("\n")}\n`);
+
   const tmpDir = path.join(ROOT, "tmp");
   await fs.mkdir(tmpDir, { recursive: true });
   await fs.writeFile(
     path.join(tmpDir, "wiki-title-report.json"),
-    JSON.stringify({ targetCount: players.length, updatedCount: Object.keys(rows).length, missing, unresolved }, null, 2),
+    JSON.stringify(
+      {
+        targetCount: players.length,
+        updatedCount: Object.keys(rows).length,
+        missingArticle,
+        noTitleField,
+        unresolved,
+      },
+      null,
+      2,
+    ),
   );
 }
 

@@ -1,0 +1,329 @@
+TSUMORA Wikipedia title research report
+Generated: 2026-05-04T19:40:46.852Z
+
+Target players: 356
+Applied title overrides: 72
+Wikipedia article not found: 199
+Article found but title section/field missing: 55
+Title lines found but not parsed: 30
+
+== Wikipedia記事が見つからなかった選手 ==
+- おくみき (okumiki) / NPM / 女流B
+- みあ (mia) / NPM / B2
+- 鮎川卓 (taku_ayukawa) / JPML / A2
+- 安秉参 (byonsan_an) / JPML / B1
+- 伊藤安奈 (ito_anna) / 最高位戦 / 女流B
+- 伊藤高打 (rmu_1580) / RMU / B
+- 井上浩佑 (inoue_kosuke) / 最高位戦 / B2
+- 井上祐希 (inoue_yuki) / 最高位戦 / A2
+- 宇野公介 (uno_kosuke) / 最高位戦 / A2
+- 宇野良香 (rmu_1441) / RMU / B
+- 永井卓也 (takuya_nagai) / JPML / A2
+- 園田倖太 (sonoda_kota) / 最高位戦 / B2
+- 塩澤彰大 (shiozawa_akihiro) / 最高位戦 / A2
+- 横田知裕 (yokota_tomohiro) / NPM / B1
+- 沖中祐也 (okinaka_yuya) / 最高位戦 / B1
+- 加藤敦 (rmu_1499) / RMU / B
+- 海老沢稔 (ebisawa_minoru) / 最高位戦 / B2
+- 柿本幸宏 (kakimotoyukihiro) / JPML / B2
+- 角葉子 (rmu_1516) / RMU / B
+- 梶谷悠介 (kajitani_yusuke) / 最高位戦 / B2
+- 岩沢和利 (rmu_1391) / RMU / B
+- 岩東秀樹 (iwatou_hideki) / NPM / B1
+- 岩澤圭佑 (iwasawa_keisuke) / 最高位戦 / B2
+- 菊原真人 (masato_kikuhara) / JPML / B1
+- 菊田政俊 (kikutamasatoshi) / JPML / B2
+- 吉田葵 (yoshida_aoi) / 最高位戦 / 女流A
+- 吉田基成 (yoshida_motonari) / NPM / A1
+- 吉田航平 (yoshida_kohei) / NPM / B2
+- 久間史郎 (kyuma_shiro) / NPM / A2
+- 久田賢太 (hisada_kenta) / 最高位戦 / B2
+- 久保雄紀 (kubo_yuki) / NPM / B2
+- 宮崎和樹 (miyazaki_kazuki) / NPM / A1
+- 宮川祐樹 (rmu_1452) / RMU / B
+- 宮田信弥 (miyatashinya) / RMU / B
+- 宮副浩一 (miyazoe_koichi) / 最高位戦 / B1
+- 宮本祐子 (miyamoto_yuko) / 最高位戦 / 女流A
+- 京杜なお (kiumorinao) / RMU / B
+- 橋場進広 (hashiba_nobuhiro) / NPM / B1
+- 玉村直也 (tamamura_naoya) / 最高位戦 / B2
+- 栗山尚久 (kuriyama_naohisa) / NPM / B1
+- 月城和香菜 (tsukishiro_wakana) / NPM / 女流A
+- 元島明子 (motojima_akiko) / 最高位戦 / 女流B
+- 原周平 (hara_shuhei) / 最高位戦 / B1
+- 原田翔平 (harada_shohei) / NPM / A2
+- 戸井田岳大 (rmu_1457) / RMU / B
+- 戸田誠輝 (todamasaki) / JPML / B2
+- 五反地清一郎 (gotanji_seiichiro) / NPM / B1
+- 後藤悠 (goto_yu) / 最高位戦 / B2
+- 江崎しんのすけ (ezakishinnosuke) / JPML / B2
+- 江崎文郎 (ezaki_fumiro) / NPM / A2
+- 江澤陽一 (ezawayouichi) / RMU / B
+- 高心顔 (kou_shingan) / 最高位戦 / 女流B
+- 高爽 (kou_sou) / 最高位戦 / 女流B
+- 高津圭佑 (takatsu_keisuke) / NPM / B1
+- 高津柚那 (takatsu_yuna) / 最高位戦 / B2
+- 高木規雄 (takakinorio) / JPML / B2
+- 国分剛史 (rmu_1792) / RMU / B
+- 黒井修太 (kuroi_shuta) / NPM / B1
+- 黒川和也 (kurokawa_kazuya) / 最高位戦 / B2
+- 今西祐司 (imanishi_yuji) / 最高位戦 / B1
+- 今村順平 (imamura_jumpei) / 最高位戦 / A2
+- 佐藤輝雄 (teruo_sato) / NPM / B2
+- 斎藤小波 (saito_konami) / 最高位戦 / 女流A
+- 坂井秀隆 (sakai_hidetaka) / 最高位戦 / A1
+- 坂本宗瞳 (sakamoto_muneto) / 最高位戦 / B1
+- 三添凛々 (mizoe_riri) / NPM / 女流B
+- 三田不二夫 (mitafujio) / JPML / B2
+- 山下晋央 (yamashita_kunio) / 最高位戦 / B2
+- 山崎淑弥 (yamazaki_toshiya) / 最高位戦 / B1
+- 山田学武 (yamadamanabu) / JPML / B2
+- 山本祥典 (rmu_1583) / RMU / B
+- 山本政樹 (yamamoto_masaki) / NPM / B2
+- 志岐祐大 (shiki_yudai) / 最高位戦 / B2
+- 鹿健太郎 (shika_kentaro) / NPM / B2
+- 篠原健治 (shinohara_kenji) / 最高位戦 / B2
+- 朱沢悠 (akezawa_yu) / NPM / 女流A
+- 酒井一興 (sakai_kazuoki) / 最高位戦 / A2
+- 宿澤とものり (rmu_1620) / RMU / B
+- 小高佑貴 (odakayuuki) / JPML / B2
+- 小山直樹 (koyama_naoki) / 最高位戦 / B2
+- 小早川悠矢 (kobayakawa_yuya) / NPM / A2
+- 小池ハヤト (koike_hayato) / NPM / B2
+- 小島たかよ (kojima_takayo) / NPM / 女流B
+- 小平崇弘 (kodaira_takahiro) / 最高位戦 / A2
+- 小俣賢介 (omata_kensuke) / 最高位戦 / B2
+- 小澤孝紀 (ozawa_koki) / 最高位戦 / B1
+- 小澤由弥 (rmu_1677) / RMU / B
+- 松井夢実 (matsui_yumemi) / 最高位戦 / B1
+- 松浦裕充 (matsuura_hiromitsu) / NPM / B1
+- 松崎良文 (yoshifumi_matsuzaki) / JPML / B1
+- 松本ちづる (chizurumatsumoto) / NPM / 女流B
+- 松本泰輝 (matsumoto_taiki) / 最高位戦 / B2
+- 上田直樹 (naoki_ueda) / JPML / A2
+- 上田唯 (uedayui) / NPM / 女流B
+- 植村里菜 (uemura_satona) / 最高位戦 / B2
+- 新谷耕平 (rmu_1621) / RMU / B
+- 新田友一 (tomokazu_nitta) / NPM / B1
+- 森嵜翔 (morisaki_sho) / NPM / B2
+- 深田章文 (fukada_akifumi) / NPM / B2
+- 真崎莞輔 (rmu_1724) / RMU / B
+- 神田美咲 (kanda_misaki) / 最高位戦 / 女流B
+- 仁平宣明 (nihiranobuaki) / JPML / B2
+- 須浦正裕 (suuramasahiro) / JPML / B2
+- 水鳥そら (rmu_1626) / RMU / B
+- 西田智彦 (nishida_tomohiko) / 最高位戦 / B1
+- 石井裕人 (ishii_hiroto) / NPM / B1
+- 石田時敬 (ishida_tokitaka) / 最高位戦 / B1
+- 石田良輔 (ishida_ryosuke) / 最高位戦 / B1
+- 石渡正志 (masashi_ishiwata) / JPML / B1
+- 石﨑光雄 (ishizaki_mitsuo) / 最高位戦 / B2
+- 設楽遙斗 (shitara_haruto) / 最高位戦 / A2
+- 川村俊平 (kawamura_shumpei) / NPM / B2
+- 川﨑たかし (kawasaki_takashi) / NPM / B2
+- 曽木達志 (sogi_tatsushi) / 最高位戦 / B2
+- 蔵美里 (kura_misato) / NPM / B2
+- 足立玲 (adachi_rei) / 最高位戦 / 女流A
+- 村井諒 (murai_ryo) / 最高位戦 / B1
+- 村中啓太 (muranaka_keita) / 最高位戦 / B2
+- 太田安紀 (ota_yasunori) / 最高位戦 / A1
+- 太野奈月 (tano_natsuki) / 最高位戦 / A2
+- 大窪貴大 (okubo_takahiro) / NPM / B2
+- 大森康弘 (omori_yasuhiro) / 最高位戦 / B1
+- 大川冬馬 (okawa_toma) / NPM / B1
+- 大塚裕喜 (yuki_otsuka) / NPM / B2
+- 大田原祐悟 (otahara_yugo) / 最高位戦 / B2
+- 大野雄輝 (oonoyuuki) / JPML / B2
+- 瀧澤光太郎 (takizawakoutarou) / JPML / B2
+- 男澤寛太 (otokozawa_kanta) / 最高位戦 / B1
+- 竹中雄哉 (takenaka_yuya) / 最高位戦 / B1
+- 竹内朋之 (takeuchi_tomoyuki) / 最高位戦 / B2
+- 茶木康志 (rmu_1395) / RMU / A
+- 中屋敷実太 (nakayashiki_jitta) / 最高位戦 / B1
+- 中村毅 (tsuyoshi_nakamura) / JPML / B1
+- 中嶋和正 (nakajima_kazumasa) / 最高位戦 / A1
+- 中邨光康 (nakamura_mitsuyasu) / 最高位戦 / A2
+- 張思雨 (chou_shiu) / 最高位戦 / 女流B
+- 張翔玲 (chou_shourei) / 最高位戦 / 女流B
+- 長谷川来輝 (hasegawa_raiki) / 最高位戦 / B1
+- 鳥井ゆう (tori_yuu) / NPM / 女流B
+- 鳥居裕一 (torii_yuichi) / 最高位戦 / B2
+- 陳夢蕓 (chen_monyun) / 最高位戦 / 女流B
+- 津田岳宏 (tsuda_takahiro) / 最高位戦 / A2
+- 津田挙士 (rmu_1119) / RMU / B
+- 坪川義昭 (tsubokawa_yoshiaki) / NPM / B1
+- 田幸浩 (hiroshi_tako) / NPM / A2
+- 田内翼 (tanouchi_tsubasa) / 最高位戦 / B1
+- 田渕百恵 (tabuchi_momoe) / 最高位戦 / B2
+- 刀川昌浩 (masahiro_tachikawa) / JPML / B1
+- 島田優 (shimada_yu) / NPM / B2
+- 湯澤栄鎮 (rmu_1200) / RMU / B
+- 藤中慎一郎 (fujinakashinichirou) / RMU / A
+- 藤田拓郎 (fujita_takuro) / NPM / B2
+- 奈良篤志 (nara_atsushi) / NPM / B1
+- 南地祐圭 (rmu_1245) / RMU / B
+- 楠橋思 (kusuhashi_satoshi) / NPM / B2
+- 馬場翔平 (baba_shohei) / 最高位戦 / A1
+- 飯沼雅由 (iinuma_masayoshi) / NPM / B2
+- 飯塚涼 (rmu_1470) / RMU / B
+- 妃宮しおん (himiya_shion) / NPM / 女流B
+- 尾田裕大 (oda_yuta) / NPM / B2
+- 品川直 (shinagawa_tadashi) / 最高位戦 / B1
+- 富永修 (tominaga_syu) / NPM / A2
+- 武中真 (takenaka_makoto) / NPM / B1
+- 武中進 (takenaka_susumu) / NPM / A2
+- 平島晶太 (hirashima_shota) / 最高位戦 / A2
+- 平島洋太 (hirashima_yota) / 最高位戦 / A2
+- 米崎奈棋 (yonesaki_nagi) / NPM / 女流B
+- 米田泰崇 (rmu_1449) / RMU / B
+- 米澤真ノ介 (yonezawa_shinnosuke) / NPM / B2
+- 本間悠子 (homma_yuko) / 最高位戦 / 女流B
+- 満井あゆみ (mitsui_ayumi) / 最高位戦 / 女流A
+- 木村尚嵩 (kimura_naotaka) / NPM / B1
+- 木村瑠璃 (kimura_ruri) / 最高位戦 / 女流B
+- 門脇孝宏 (rmu_1680) / RMU / B
+- 野口太郎 (noguchi_taro) / NPM / B2
+- 野村祐三 (nomurayuuzou) / RMU / B
+- 野添ゆかり (nozoe_yukari) / 最高位戦 / 女流A
+- 柳田憲昭 (noriaki_yanagita) / NPM / A2
+- 有賀利樹 (aruga_riki) / 最高位戦 / A2
+- 楊柏檸 (you_hakunei) / 最高位戦 / 女流B
+- 藍島翔 (aishima_akira) / 最高位戦 / B1
+- 里中花奈 (rmu_1297) / RMU / A
+- 立花裕 (tachibana_yu) / 最高位戦 / A1
+- 林潤一郎 (hayashijunichirou) / JPML / B2
+- 鈴木ケンタ (suzuki_kenta) / NPM / A1
+- 鈴木直樹 (rmu_1564) / RMU / B
+- 霊元竜法 (rmu_1424) / RMU / B
+- 國井芽 (kunii_hajime) / 最高位戦 / B2
+- 渕田將 (fuchita_sho) / 最高位戦 / B2
+- 澤崎彰太郎 (sawazaki_syotaro) / NPM / A1
+- 濱田翔 (hamada_sho) / NPM / B1
+- 濱博彰 (rmu_1717) / RMU / B
+- 眞崎雪菜 (masaki_yukina) / NPM / 女流A
+- 齋藤けーすけ (saito_kesuke) / NPM / B1
+- 齋藤巧也 (saito_takuya) / 最高位戦 / B1
+- 筥崎弘太郎 (hakozaki_koutarou) / NPM / B1
+- 蔡潤格 (sai_junkaku) / 最高位戦 / 女流B
+- 馮詩柔 (fuu_shijuu) / 最高位戦 / 女流B
+- 髙田遊理 (takada_yuri) / NPM / 女流B
+
+== 記事はあるがタイトル欄が見つからなかった選手 ==
+- ケルヴィン (kelvin) / NPM / B1 / ケルヴィン / https://ja.wikipedia.org/wiki/%E3%82%B1%E3%83%AB%E3%83%B4%E3%82%A3%E3%83%B3
+- コウ (kou) / NPM / B1 / コウ / https://ja.wikipedia.org/wiki/%E3%82%B3%E3%82%A6
+- 伊藤高志 (ito_takashi) / 最高位戦 / B2 / 伊藤高志 / https://ja.wikipedia.org/wiki/%E4%BC%8A%E8%97%A4%E9%AB%98%E5%BF%97
+- 伊藤鉄也 (tetsuya_ito) / JPML / A2 / 伊藤鉄也 / https://ja.wikipedia.org/wiki/%E4%BC%8A%E8%97%A4%E9%89%84%E4%B9%9F
+- 永井孝典 (nagai) / 最高位戦 / C3 / 永井孝典 / https://ja.wikipedia.org/wiki/%E6%B0%B8%E4%BA%95%E5%AD%9D%E5%85%B8
+- 猿川真寿 (masatoshi_sarukawa) / JPML / B1 / 猿川真寿 / https://ja.wikipedia.org/wiki/%E7%8C%BF%E5%B7%9D%E7%9C%9F%E5%AF%BF
+- 岡田紗佳 (okada) / JPML / C2 / 岡田紗佳 / https://ja.wikipedia.org/wiki/%E5%B2%A1%E7%94%B0%E7%B4%97%E4%BD%B3
+- 角谷ヨウスケ (kakutani_yousuke) / NPM / A1 / 角谷ヨウスケ / https://ja.wikipedia.org/wiki/%E8%A7%92%E8%B0%B7%E3%83%A8%E3%82%A6%E3%82%B9%E3%82%B1
+- 菊地俊介 (kikuchi_shunsuke) / NPM / A1 / 菊地俊介 / https://ja.wikipedia.org/wiki/%E8%8F%8A%E5%9C%B0%E4%BF%8A%E4%BB%8B
+- 吉田俊介 (yoshida_shunsuke) / NPM / B2 / 吉田俊介 / https://ja.wikipedia.org/wiki/%E5%90%89%E7%94%B0%E4%BF%8A%E4%BB%8B
+- 吉田直 (tadashi_yoshida) / JPML / A2 / 吉田直 / https://ja.wikipedia.org/wiki/%E5%90%89%E7%94%B0%E7%9B%B4
+- 近藤久春 (hisaharu_kondo) / JPML / A2 / 近藤久春 / https://ja.wikipedia.org/wiki/%E8%BF%91%E8%97%A4%E4%B9%85%E6%98%A5
+- 近藤誠一 (kondo_seiichi) / 最高位戦 / A1 / 近藤誠一 / https://ja.wikipedia.org/wiki/%E8%BF%91%E8%97%A4%E8%AA%A0%E4%B8%80
+- 近藤千雄 (kondo_kazuo) / NPM / B1 / 近藤千雄 / https://ja.wikipedia.org/wiki/%E8%BF%91%E8%97%A4%E5%8D%83%E9%9B%84
+- 高橋良介 (ryosuke_takahashi) / JPML / B1 / 高橋良介 / https://ja.wikipedia.org/wiki/%E9%AB%98%E6%A9%8B%E8%89%AF%E4%BB%8B
+- 佐藤崇 (sato_takashi) / 最高位戦 / A2 / 佐藤崇 / https://ja.wikipedia.org/wiki/%E4%BD%90%E8%97%A4%E5%B4%87
+- 三浦大輔 (daisuke_miura) / JPML / B1 / 三浦大輔 / https://ja.wikipedia.org/wiki/%E4%B8%89%E6%B5%A6%E5%A4%A7%E8%BC%94
+- 山下達也 (yamashitatatsuya) / RMU / B / 山下達也 / https://ja.wikipedia.org/wiki/%E5%B1%B1%E4%B8%8B%E9%81%94%E4%B9%9F
+- 山田浩之 (hiroyuki_yamada) / JPML / A1 / 山田浩之 / https://ja.wikipedia.org/wiki/%E5%B1%B1%E7%94%B0%E6%B5%A9%E4%B9%8B
+- 山田独歩 (yamada_doppo) / 最高位戦 / A2 / 山田独歩 / https://ja.wikipedia.org/wiki/%E5%B1%B1%E7%94%B0%E7%8B%AC%E6%AD%A9
+- 勝又健志 (katsumata) / JPML / A1 / 勝又健志 / https://ja.wikipedia.org/wiki/%E5%8B%9D%E5%8F%88%E5%81%A5%E5%BF%97
+- 小林剛 (kobayashi) / μ / μ / 小林剛 / https://ja.wikipedia.org/wiki/%E5%B0%8F%E6%9E%97%E5%89%9B
+- 松岡秀樹 (rmu_1494) / RMU / B / 松岡秀樹 / https://ja.wikipedia.org/wiki/%E6%9D%BE%E5%B2%A1%E7%A7%80%E6%A8%B9
+- 須田良規 (suda_yoshiki) / NPM / A2 / 須田良規 / https://ja.wikipedia.org/wiki/%E9%A0%88%E7%94%B0%E8%89%AF%E8%A6%8F
+- 成海有紗 (narumi_arisa) / NPM / 女流B / 成海有紗 / https://ja.wikipedia.org/wiki/%E6%88%90%E6%B5%B7%E6%9C%89%E7%B4%97
+- 西川淳 (jun_nishikawa) / JPML / A2 / 西川淳 / https://ja.wikipedia.org/wiki/%E8%A5%BF%E5%B7%9D%E6%B7%B3
+- 西村雄一郎 (nishimura_yuichiro) / NPM / A1 / 西村雄一郎 / https://ja.wikipedia.org/wiki/%E8%A5%BF%E6%9D%91%E9%9B%84%E4%B8%80%E9%83%8E
+- 石橋伸洋 (ishibashi_nobuhiro) / 最高位戦 / B1 / 石橋伸洋 / https://ja.wikipedia.org/wiki/%E7%9F%B3%E6%A9%8B%E4%BC%B8%E6%B4%8B
+- 石川正明 (masaaki_ishikawa) / JPML / A2 / 石川正明 / https://ja.wikipedia.org/wiki/%E7%9F%B3%E5%B7%9D%E6%AD%A3%E6%98%8E
+- 川上貴史 (kawakami_takashi) / 最高位戦 / B2 / 川上貴史 / https://ja.wikipedia.org/wiki/%E5%B7%9D%E4%B8%8A%E8%B2%B4%E5%8F%B2
+- 浅井裕介 (asai_yusuke) / 最高位戦 / B1 / 浅井裕介 / https://ja.wikipedia.org/wiki/%E6%B5%85%E4%BA%95%E8%A3%95%E4%BB%8B
+- 村上淳 (murakami_jun) / 最高位戦 / A1 / 村上淳 / https://ja.wikipedia.org/wiki/%E6%9D%91%E4%B8%8A%E6%B7%B3
+- 大塚翼 (otsuka_tsubasa) / NPM / B1 / 大塚翼 / https://ja.wikipedia.org/wiki/%E5%A4%A7%E5%A1%9A%E7%BF%BC
+- 中村一 (nakamura_hazime) / NPM / B2 / 中村一 / https://ja.wikipedia.org/wiki/%E4%B8%AD%E6%9D%91%E4%B8%80
+- 中村浩三 (nakamurakouzou) / RMU / A / 中村浩三 / https://ja.wikipedia.org/wiki/%E4%B8%AD%E6%9D%91%E6%B5%A9%E4%B8%89
+- 中村亮太 (rmu_1392) / RMU / B / 中村亮太 / https://ja.wikipedia.org/wiki/%E4%B8%AD%E6%9D%91%E4%BA%AE%E5%A4%AA
+- 中田花奈 (nakata) / JPML / E1 / 中田花奈 / https://ja.wikipedia.org/wiki/%E4%B8%AD%E7%94%B0%E8%8A%B1%E5%A5%88
+- 朝倉康心 (asakura_koshin) / 最高位戦 / A2 / 朝倉康心 / https://ja.wikipedia.org/wiki/%E6%9C%9D%E5%80%89%E5%BA%B7%E5%BF%83
+- 椿彩奈 (tsubaki_ayana) / NPM / B2 / 椿彩奈 / https://ja.wikipedia.org/wiki/%E6%A4%BF%E5%BD%A9%E5%A5%88
+- 天月ミク (amatsuki_miku) / NPM / 女流B / 天月ミク / https://ja.wikipedia.org/wiki/%E5%A4%A9%E6%9C%88%E3%83%9F%E3%82%AF
+- 渡辺太 (watanabe) / 最高位戦 / A2 / 渡辺太 / https://ja.wikipedia.org/wiki/%E6%B8%A1%E8%BE%BA%E5%A4%AA
+- 渡辺洋香 (watanabe_yoko) / 最高位戦 / 女流B / 渡辺洋香 / https://ja.wikipedia.org/wiki/%E6%B8%A1%E8%BE%BA%E6%B4%8B%E9%A6%99
+- 渡邊力 (rmu_1377) / RMU / B / 渡邊力 / https://ja.wikipedia.org/wiki/%E6%B8%A1%E9%82%8A%E5%8A%9B
+- 東城りお (tojo) / JPML / D2 / 東城りお / https://ja.wikipedia.org/wiki/%E6%9D%B1%E5%9F%8E%E3%82%8A%E3%81%8A
+- 萩原聖人 (hagiwara) / JPML / A1 / 萩原聖人 / https://ja.wikipedia.org/wiki/%E8%90%A9%E5%8E%9F%E8%81%96%E4%BA%BA
+- 比嘉秀仁 (higa_hidehito) / NPM / B1 / 比嘉秀仁 / https://ja.wikipedia.org/wiki/%E6%AF%94%E5%98%89%E7%A7%80%E4%BB%81
+- 福山理子 (fukuyama_riko) / NPM / 女流A / 福山理子 / https://ja.wikipedia.org/wiki/%E7%A6%8F%E5%B1%B1%E7%90%86%E5%AD%90
+- 平澤元気 (hirasawa_genki) / 最高位戦 / B2 / 平澤元気 / https://ja.wikipedia.org/wiki/%E5%B9%B3%E6%BE%A4%E5%85%83%E6%B0%97
+- 麻宮あかね (rmu_1331) / RMU / B / 麻宮あかね / https://ja.wikipedia.org/wiki/%E9%BA%BB%E5%AE%AE%E3%81%82%E3%81%8B%E3%81%AD
+- 木村誠 (kimura_makoto) / 最高位戦 / A2 / 木村誠 / https://ja.wikipedia.org/wiki/%E6%9C%A8%E6%9D%91%E8%AA%A0
+- 矢島学 (yajima_manabu) / NPM / B2 / 矢島学 / https://ja.wikipedia.org/wiki/%E7%9F%A2%E5%B3%B6%E5%AD%A6
+- 鈴木聡一郎 (suzuki_soichiro) / 最高位戦 / A1 / 鈴木聡一郎 / https://ja.wikipedia.org/wiki/%E9%88%B4%E6%9C%A8%E8%81%A1%E4%B8%80%E9%83%8E
+- 鈴木大介 (suzuki-d) / JPML / A1 / 鈴木大介 / https://ja.wikipedia.org/wiki/%E9%88%B4%E6%9C%A8%E5%A4%A7%E4%BB%8B
+- 鈴木優 (suzuki-y) / 最高位戦 / Aリーグ / 鈴木優 / https://ja.wikipedia.org/wiki/%E9%88%B4%E6%9C%A8%E5%84%AA
+- 和久津晶 (akira_wakutsu) / JPML / A1 / 和久津晶 / https://ja.wikipedia.org/wiki/%E5%92%8C%E4%B9%85%E6%B4%A5%E6%99%B6
+
+== タイトル欄はあるが年付きタイトルとして解析できなかった選手 ==
+- いわますみえ (iwama_sumie) / 最高位戦 / 女流A / いわますみえ / https://ja.wikipedia.org/wiki/%E3%81%84%E3%82%8F%E3%81%BE%E3%81%99%E3%81%BF%E3%81%88
+  lines: 第2・3期・15期　女流最高位　準優勝 / 第9・10期 女流最高位　第3位 / 第31期 王位戦 第3位
+- サイコロ太郎 (saikorotaro) / NPM / B1 / サイコロ太郎 / https://ja.wikipedia.org/wiki/%E3%82%B5%E3%82%A4%E3%82%B3%E3%83%AD%E5%A4%AA%E9%83%8E
+  lines: 
+- 阿久津翔太 (akutsu) / JPML / A1 / 阿久津翔太 / https://ja.wikipedia.org/wiki/%E9%98%BF%E4%B9%85%E6%B4%A5%E7%BF%94%E5%A4%AA
+  lines: 若獅子戦(第1期) / 若獅子(第1期)
+- 井出康平 (kohei_ide) / JPML / A2 / 井出康平 / https://ja.wikipedia.org/wiki/%E4%BA%95%E5%87%BA%E5%BA%B7%E5%B9%B3
+  lines: 野口恭一郎賞(第12回) / モンド杯(第16回)
+- 一井慎也 (shinya_hitotsui) / JPML / B1 / 一井慎也 / https://ja.wikipedia.org/wiki/%E4%B8%80%E4%BA%95%E6%85%8E%E4%B9%9F
+  lines: EX風林火山IKUSA 優勝
+- 茨城啓太 (ibaragi_keita) / NPM / A1 / 茨城啓太 / https://ja.wikipedia.org/wiki/%E8%8C%A8%E5%9F%8E%E5%95%93%E5%A4%AA
+  lines: 第19代天鳳位 / 第20回オータムチャンピオンシップ 優勝
+- 黄河のん (oukawa_non) / NPM / 女流B / 黄河のん / https://ja.wikipedia.org/wiki/%E9%BB%84%E6%B2%B3%E3%81%AE%E3%82%93
+  lines: 麻雀リオ ダイヤモンドカップ 優勝 / 第1回 姫ロン杯チャンピオンシップ 3位 / 日本プロ麻雀協会12期新人王
+- 岡本壮平 (okamoto_sohei) / 最高位戦 / B2 / 岡本壮平 / https://ja.wikipedia.org/wiki/%E5%B2%A1%E6%9C%AC%E5%A3%AE%E5%B9%B3
+  lines: 天鳳位(12代・15代) / 天鳳名人位(11代)
+- 岡本和也 (kazuya_okamoto) / JPML / B1 / 岡本和也 / https://ja.wikipedia.org/wiki/%E5%B2%A1%E6%9C%AC%E5%92%8C%E4%B9%9F
+  lines: 新人王戦(第27期) / 新人王戦(第27期)
+- 河野直也 (kono_naoya) / 最高位戦 / A2 / 河野直也 / https://ja.wikipedia.org/wiki/%E6%B2%B3%E9%87%8E%E7%9B%B4%E4%B9%9F
+  lines: 2012年μカップin湘南 第2位
+- 吉野敦志 (atsushi_yoshino) / JPML / B1 / 吉野敦志 / https://ja.wikipedia.org/wiki/%E5%90%89%E9%87%8E%E6%95%A6%E5%BF%97
+  lines: 第2期鷲和戦優勝
+- 古橋崇志 (takashi_furuhashi) / JPML / A1 / 古橋崇志 / https://ja.wikipedia.org/wiki/%E5%8F%A4%E6%A9%8B%E5%B4%87%E5%BF%97
+  lines: 第15期 JPML WRCリーグ
+- 綱川隆晃 (tsunakawa_takaaki) / 最高位戦 / B2 / 綱川隆晃 / https://ja.wikipedia.org/wiki/%E7%B6%B1%E5%B7%9D%E9%9A%86%E6%99%83
+  lines: 
+- 高雲飛 (gao_yunfei) / 最高位戦 / B1 / 高雲飛 / https://ja.wikipedia.org/wiki/%E9%AB%98%E9%9B%B2%E9%A3%9B
+  lines: 
+- 斎藤俊 (saito_shun) / NPM / A2 / 斎藤俊 / https://ja.wikipedia.org/wiki/%E6%96%8E%E8%97%A4%E4%BF%8A
+  lines: 雀竜位(第十二期) / 第3回 日刊スポーツ杯スリアロチャンピオンシップ 優勝
+- 小川裕之 (hiroyuki_ogawa) / NPM / A1 / 小川裕之 / https://ja.wikipedia.org/wiki/%E5%B0%8F%E5%B7%9D%E8%A3%95%E4%B9%8B
+  lines: 第11期新人王
+- 尻無濱航 (shirinashihama_wataru) / NPM / B2 / 尻無濱航 / https://ja.wikipedia.org/wiki/%E5%B0%BB%E7%84%A1%E6%BF%B1%E8%88%AA
+  lines: 
+- 新井啓文 (arai_keibun) / 最高位戦 / A2 / 新井啓文 / https://ja.wikipedia.org/wiki/%E6%96%B0%E4%BA%95%E5%95%93%E6%96%87
+  lines: 最高位 1期
+- 水瀬千尋 (minase_chihiro) / NPM / 女流B / 水瀬千尋 / https://ja.wikipedia.org/wiki/%E6%B0%B4%E7%80%AC%E5%8D%83%E5%B0%8B
+  lines: 第1回関西女流スプリント優勝 / 第7期夕刊フジ杯麻雀女王決定戦 個人戦優勝 / 第9回μレディースオープン優勝
+- 杉浦勘介 (kansuke_sugiura) / JPML / A1 / 杉浦勘介 / https://ja.wikipedia.org/wiki/%E6%9D%89%E6%B5%A6%E5%8B%98%E4%BB%8B
+  lines: 野口恭一郎賞 男性棋士部門 (第9期)
+- 石立岳大 (ishidatetakehiro) / JPML / B2 / 石立岳大 / https://ja.wikipedia.org/wiki/%E7%9F%B3%E7%AB%8B%E5%B2%B3%E5%A4%A7
+  lines: 第11期JPML WRCリーグ優勝 / 第12期JPML WRCリーグ優勝 / JPML WRCリーグ(第11・12期)
+- 千貫陽祐 (sengan_yosuke) / NPM / A1 / 千貫陽祐 / https://ja.wikipedia.org/wiki/%E5%8D%83%E8%B2%AB%E9%99%BD%E7%A5%90
+  lines: 第15回オータムCS優勝 / 第15回オータムチャンピオンシップ
+- 足木優 (ashiki_yu) / 最高位戦 / 女流B / 足木優 / https://ja.wikipedia.org/wiki/%E8%B6%B3%E6%9C%A8%E5%84%AA
+  lines: 第3回姫ロン杯ダイヤモンドカップ優勝
+- 多喜田翔吾 (takita_shogo) / 最高位戦 / B1 / 多喜田翔吾 / https://ja.wikipedia.org/wiki/%E5%A4%9A%E5%96%9C%E7%94%B0%E7%BF%94%E5%90%BE
+  lines: 
+- 藤井崇勝 (takanori_fujii) / JPML / B1 / 藤井崇勝 / https://ja.wikipedia.org/wiki/%E8%97%A4%E4%BA%95%E5%B4%87%E5%8B%9D
+  lines: 新人王戦(第30期)
+- 藤島健二郎 (kenjiro_fujishima) / JPML / A1 / 藤島健二郎 / https://ja.wikipedia.org/wiki/%E8%97%A4%E5%B3%B6%E5%81%A5%E4%BA%8C%E9%83%8E
+  lines: 第4期JPML WRCリーグ優勝 / JPML WRCリーグ(第4期)
+- 板倉浩一 (itakura_kouiti) / NPM / A2 / 板倉浩一 / https://ja.wikipedia.org/wiki/%E6%9D%BF%E5%80%89%E6%B5%A9%E4%B8%80
+  lines: 第四期新人王戦準優勝
+- 福光聖雄 (fukumitsumasao) / JPML / B2 / 福光聖雄 / https://ja.wikipedia.org/wiki/%E7%A6%8F%E5%85%89%E8%81%96%E9%9B%84
+  lines: 新人王戦(第23期)
+- 友添敏之 (tomozoe_toshiyuki) / 最高位戦 / B1 / 友添敏之 / https://ja.wikipedia.org/wiki/%E5%8F%8B%E6%B7%BB%E6%95%8F%E4%B9%8B
+  lines: 第38期新人王
+- 有賀一宏 (aruga_kazuhiro) / 最高位戦 / B2 / 有賀一宏 / https://ja.wikipedia.org/wiki/%E6%9C%89%E8%B3%80%E4%B8%80%E5%AE%8F
+  lines: 第31期發王戦
+
