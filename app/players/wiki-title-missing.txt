@@ -1,8 +1,8 @@
 TSUMORA Wikipedia title research report
-Generated: 2026-05-04T20:01:52.388Z
+Generated: 2026-05-04T20:12:36.909Z
 
 Target players: 356
-Applied title overrides: 89
+Applied player title histories: 89
 Wikipedia article not found: 199
 Article found but title section/field missing: 38
 Title lines found but not parsed: 30
@@ -309,4 +309,3 @@ Title lines found but not parsed: 30
   lines: 第38期新人王
 - 有賀一宏 (aruga_kazuhiro) / 最高位戦 / B2 / 有賀一宏 / https://ja.wikipedia.org/wiki/%E6%9C%89%E8%B3%80%E4%B8%80%E5%AE%8F
   lines: 第31期發王戦
-

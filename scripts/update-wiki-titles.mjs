@@ -4,8 +4,15 @@ import path from "node:path";
 const ROOT = process.cwd();
 const DATA_FILE = path.join(ROOT, "app/players/data.ts");
 const ROSTER_DIR = path.join(ROOT, "app/players/roster");
-const OUTPUT_FILE = path.join(ROOT, "app/players/wiki-titles.ts");
 const REPORT_FILE = path.join(ROOT, "app/players/wiki-title-missing.txt");
+const PLAYER_DATA_FILES = [
+  DATA_FILE,
+  path.join(ROSTER_DIR, "jpml.ts"),
+  path.join(ROSTER_DIR, "saikouisen.ts"),
+  path.join(ROSTER_DIR, "npm.ts"),
+  path.join(ROSTER_DIR, "rmu.ts"),
+  path.join(ROSTER_DIR, "mu.ts"),
+];
 
 const WIKI_API = "https://ja.wikipedia.org/w/api.php";
 let lastWikiRequestAt = 0;
@@ -338,6 +345,37 @@ function uniqueTitles(entries) {
     .sort((a, b) => Number(b.year.slice(0, 4)) - Number(a.year.slice(0, 4)) || a.name.localeCompare(b.name, "ja"));
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function upsertPlayerField(block, fieldName, fieldValueSource) {
+  const fieldRe = new RegExp(`(,\\s*${fieldName}:\\s*)(?:\\[[\\s\\S]*?\\]|"[^"]*"|[^,}\\n]+)`);
+  if (fieldRe.test(block)) {
+    return block.replace(fieldRe, `$1${fieldValueSource}`);
+  }
+  return block.replace(/(league:\s*"[^"]*",)/, `$1 ${fieldName}: ${fieldValueSource},`);
+}
+
+async function applyTitleRowsToPlayerFiles(rows) {
+  const ids = Object.keys(rows);
+  for (const file of PLAYER_DATA_FILES) {
+    let source = await fs.readFile(file, "utf8");
+    let changed = false;
+    for (const id of ids) {
+      const row = rows[id];
+      const playerRe = new RegExp(`\\{\\s*id:\\s*"${escapeRegExp(id)}",[\\s\\S]*?(?=\\n\\s*\\{\\s*id:|\\n\\s*// ──|\\n\\];)`, "g");
+      source = source.replace(playerRe, (block) => {
+        changed = true;
+        let nextBlock = upsertPlayerField(block, "title", JSON.stringify(row.title));
+        nextBlock = upsertPlayerField(nextBlock, "titles", JSON.stringify(row.titles));
+        return nextBlock;
+      });
+    }
+    if (changed) await fs.writeFile(file, source);
+  }
+}
+
 async function main() {
   const players = await getTargetPlayers();
   const pageCache = await fetchExactPages(players);
@@ -383,35 +421,18 @@ async function main() {
     rows[player.id] = {
       title: titleSummary(titles),
       titles,
-      source: wikiUrl(page.title),
-      sourceTitle: page.title,
     };
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
 
-  const body = `// app/players/wiki-titles.ts
-// Wikipedia の雀士 infobox「タイトル」欄から生成。
-// 対象: Mリーガー + 各団体A/Bリーガーのうち、Wikipedia記事にタイトル欄がある選手。
-
-import type { TitleEntry } from "./data";
-
-export interface WikiTitleOverride {
-  title: string;
-  titles: TitleEntry[];
-  source: string;
-  sourceTitle: string;
-}
-
-export const WIKI_TITLE_OVERRIDES = ${JSON.stringify(rows, null, 2)} as const satisfies Record<string, WikiTitleOverride>;
-`;
-  await fs.writeFile(OUTPUT_FILE, body);
+  await applyTitleRowsToPlayerFiles(rows);
 
   const reportLines = [
     "TSUMORA Wikipedia title research report",
     `Generated: ${new Date().toISOString()}`,
     "",
     `Target players: ${players.length}`,
-    `Applied title overrides: ${Object.keys(rows).length}`,
+    `Applied player title histories: ${Object.keys(rows).length}`,
     `Wikipedia article not found: ${missingArticle.length}`,
     `Article found but title section/field missing: ${noTitleField.length}`,
     `Title lines found but not parsed: ${unresolved.length}`,
