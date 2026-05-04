@@ -905,6 +905,66 @@ function PlayersIndexInner() {
           transform: translateX(4px);
           color: var(--ink);
         }
+        @media (max-width: 720px) {
+          .all-player-row {
+            grid-template-columns: 44px minmax(0, 1fr) auto !important;
+            gap: 10px !important;
+            padding: 13px 12px 13px 0 !important;
+            align-items: center !important;
+          }
+
+          .all-player-index {
+            padding-left: 10px !important;
+            font-size: 9.5px !important;
+          }
+
+          .all-player-main {
+            min-width: 0 !important;
+          }
+
+          .all-player-name-line {
+            display: grid !important;
+            grid-template-columns: minmax(0, max-content) minmax(0, 1fr) !important;
+            gap: 8px !important;
+            align-items: baseline !important;
+            max-width: 100% !important;
+          }
+
+          .all-player-name {
+            max-width: min(11em, 52vw) !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            font-size: 16px !important;
+            line-height: 1.2 !important;
+          }
+
+          .all-player-name-en {
+            min-width: 0 !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            font-size: 11px !important;
+          }
+
+          .all-player-sub {
+            max-width: 100% !important;
+            font-size: 11px !important;
+          }
+
+          .all-player-meta {
+            display: none !important;
+          }
+
+          .all-player-org {
+            padding: 4px 8px !important;
+            font-size: 10px !important;
+          }
+
+          .all-player-arrow {
+            display: none !important;
+          }
+        }
       `}</style>
       </>
       )}
@@ -955,6 +1015,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
         }}
       />
         <span
+          className="all-player-index"
           style={{
             fontFamily: "'Geist Mono', monospace",
             fontSize: 10.5,
@@ -968,8 +1029,9 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
           {number}
         </span>
 
-        <div style={{ minWidth: 0 }}>
+        <div className="all-player-main" style={{ minWidth: 0 }}>
           <div
+            className="all-player-name-line"
             style={{
               display: "flex",
               alignItems: "baseline",
@@ -978,6 +1040,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             }}
           >
             <span
+              className="all-player-name"
               style={{
                 fontFamily: "'Shippori Mincho', serif",
                 fontWeight: 800,
@@ -990,6 +1053,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             </span>
             {player.nameEn && (
               <span
+                className="all-player-name-en"
                 style={{
                   fontFamily: "'Instrument Serif', serif",
                   fontStyle: "italic",
@@ -1002,6 +1066,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             )}
           </div>
           <div
+            className="all-player-sub"
             style={{
               fontFamily: "'Noto Sans JP', sans-serif",
               fontSize: 11.5,
@@ -1022,6 +1087,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
         </div>
 
         <span
+          className="all-player-meta"
           style={{
             fontFamily: "'Geist Mono', monospace",
             fontSize: 10.5,
@@ -1034,6 +1100,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
         </span>
 
         <span
+          className="all-player-meta"
           style={{
             fontFamily: "'Geist Mono', monospace",
             fontSize: 10.5,
@@ -1054,6 +1121,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
         </span>
 
         <span
+          className="all-player-meta"
           style={{
             fontFamily: "'Geist Mono', monospace",
             fontSize: 10.5,
@@ -1066,6 +1134,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
         </span>
 
         <span
+          className="all-player-meta"
           style={{
             fontFamily: "'Geist Mono', monospace",
             fontSize: 10.5,
@@ -1078,6 +1147,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
         </span>
 
         <span
+          className="all-player-org"
           style={{
             display: "inline-flex",
             alignItems: "center",
