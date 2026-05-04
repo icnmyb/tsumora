@@ -78,6 +78,10 @@
   - `FINAL_2025_26.upcoming` の確定日時を使い、「本日の対局」「今すぐ視聴」を表示
   - `FINAL_2025_26.upcoming` は 5/4, 5/5, 5/7, 5/8, 5/11, 5/12, 5/14, 5/15 のFinal日程を保持。ホームのNEXT MATCHは今日以降の最初の対局を見る
   - MリーグFinal日程は `app/schedule/data.ts` で `FINAL_2025_26.upcoming` からカレンダー用イベントへ変換し、ホームと `/schedule` が同じ元データを見る
+- ✅ 連盟OPENREC配信予定の反映
+  - `https://www.openrec.tv/user/jpml0306` の配信予定（OPENREC APIで `onair_status: 0` / `will_start_at` あり）を確認し、2026-05-05から2027-01-10までの公開予定を `/schedule` に追加
+  - OPENREC側に終了時刻がないため、画面表示は `timeLabel` で「12:00開始」のように開始時刻のみ表示。カレンダー上の高さは暫定枠として2時間を利用
+  - 11:00開始の予定に合わせ、週カレンダーの表示開始時刻を11:00へ拡張
   - ホームは日付依存表示のため `dynamic = "force-dynamic"` に変更
 - ✅ `/schedule` カレンダー改善
   - 週表示は月曜始まりではなく、現在日の2日前から7日間を表示

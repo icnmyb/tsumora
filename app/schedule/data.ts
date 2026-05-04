@@ -4,6 +4,7 @@ export type ScheduledEvent = {
   date: string; // YYYY-MM-DD (JST)
   startTime: string; // "19:00"
   endTime: string; // "21:00"
+  timeLabel?: string; // 表示用。終了時刻未掲載の配信は「12:00開始」などを出す
   org: "M-LEAGUE" | "JPML" | "NPM" | "SAIKOUISEN" | "RMU" | "MU";
   title: string;
   sub: string;
