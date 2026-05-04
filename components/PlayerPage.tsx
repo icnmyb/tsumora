@@ -407,7 +407,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
       </section>
 
       {/* ── 5. TITLES TIMELINE + RECENT MATCHES ── */}
-      <div className="two-col" style={{ gridTemplateColumns: "1fr 1.2fr" }}>
+      <div className="two-col player-titles-grid">
         <section className="timeline">
           <div className="hd">
             <span className="t">

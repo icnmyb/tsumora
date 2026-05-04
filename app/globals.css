@@ -1437,6 +1437,7 @@ footer.main .cr {
   .stat-b.dark .sub, .stat-b.v .sub { color: rgba(255,255,255,.7); }
 
   .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .player-titles-grid { grid-template-columns: 1fr 1.2fr; }
 
   /* titles timeline */
   .timeline { background: var(--paper); border: var(--border); box-shadow: var(--shadow); }
@@ -7314,20 +7315,55 @@ html::-webkit-scrollbar { display: none; }
   }
 
   .timeline-list {
-    padding: 16px 16px;
+    padding: 12px;
+    display: grid;
+    gap: 8px;
   }
   .timeline-list::before {
-    left: 54px;
+    content: none;
   }
   .timeline-list li {
-    grid-template-columns: 44px 18px 1fr;
+    grid-template-columns: 58px 1fr;
     gap: 10px;
+    align-items: start;
+    padding: 10px 10px;
+    background: rgba(11,11,9,.035);
+    border: 1.5px solid rgba(11,11,9,.12);
+  }
+  .timeline-list li .yr {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 4px 7px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .timeline-list li.champ .yr {
+    background: #f0c86d;
+    color: var(--ink);
+    border: 1.5px solid #a07e28;
+  }
+  .timeline-list li .dot {
+    display: none;
+  }
+  .timeline-list li .what {
+    min-width: 0;
+    font-size: 13.5px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
   }
   .timeline-list li .tag {
-    grid-column: 3;
+    grid-column: 2;
     width: max-content;
     max-width: 100%;
-    margin-top: 4px;
+    margin-top: 2px;
+    font-size: 9px;
+    padding: 2px 6px;
+    letter-spacing: 0.08em;
   }
   .history-list li,
   .sched-list li {
