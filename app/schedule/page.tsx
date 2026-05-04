@@ -30,6 +30,48 @@ const URL_JPML_YOUTUBE = "https://www.youtube.com/channel/UCqHDeUer8bgaqswSuFP7F
 const URL_NPM_YOUTUBE = "https://www.youtube.com/channel/UCEPKIiiunLb64uYqDnN4pmA";
 const URL_SAIKOUISEN_YOUTUBE = "https://www.youtube.com/channel/UCaq8_fXw680ljFOPgzGJuOw";
 
+const NPM_BROADCAST_EVENTS: ScheduledEvent[] = [
+  { date: "2026-04-04", title: "雀王戦A1リーグ第1節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-04-18", title: "雀王戦A1リーグ第2節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-05-01", title: "雀王戦A1リーグ第2節B卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-05-02", title: "雀王戦A2/B1リーグ第2節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
+  { date: "2026-05-09", title: "雀王戦A2/B1リーグ第3節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
+  { date: "2026-05-10", title: "雀王戦A1リーグ第2節C卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-05-16", title: "雀王戦A1リーグ第3節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-05-17", title: "新人王戦決勝", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-05-23", title: "雀王戦A1リーグ第3節B卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-05-25", title: "雀王戦A1リーグ第3節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-05-29", title: "雀王戦A1リーグ第4節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-06-01", title: "女流雀王戦Aリーグ第1節配信卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-06-06", title: "雀王戦A1リーグ第4節B卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-06-07", title: "女流雀王戦A～C2リーグ第2節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・柳本店・ノーブル・協会対局室" },
+  { date: "2026-06-13", title: "雀王戦A1リーグ第4節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-06-20", title: "雀王戦A1リーグ第5節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-06-21", title: "雀王戦A1リーグ第5節B卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-06-27", title: "雀王戦A1リーグ第5節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-06-28", title: "雀王戦A1リーグ第6節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-06-29", title: "雀王戦A2リーグ第4節配信卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-07-04", title: "雀王戦A1リーグ第6節B卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-07-24", title: "女流雀王戦Aリーグ第4節配信卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-07-25", title: "雀王戦A1リーグ第6節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-08-08", title: "雀王戦A1リーグ第7節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-08-09", title: "雀王戦A1リーグ第7節B卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-08-10", title: "雀王戦A1リーグ第7節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-08-15", title: "雀王戦A2/B1リーグ第6節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
+  { date: "2026-08-17", title: "雀王戦A1リーグ第8節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-08-22", title: "雀王戦A2/B1リーグ第7節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
+  { date: "2026-08-24", title: "雀王戦A1リーグ第8節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-08-31", title: "雀王戦A1リーグ第8節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+].map((event) => ({
+  ...event,
+  startTime: "12:00",
+  endTime: "20:00",
+  org: "NPM",
+  tagColor: "#1d4ed8",
+  tagTextColor: "#ebe4d2",
+  link: event.channel === "ABEMA" ? URL_ABEMA_MAHJONG : URL_NPM_YOUTUBE,
+}));
+
 const EVENTS: ScheduledEvent[] = [
   // ── Mリーグ 2025-26 セミファイナル（4/6–4/30 月火木金 全15日 30試合）──
   // 1日2試合制（19:00-21:00 + 21:00-22:30）を1イベントとして表示
@@ -70,92 +112,10 @@ const EVENTS: ScheduledEvent[] = [
   ...MLEAGUE_FINAL_EVENTS,
 
   // ── NPM（日本プロ麻雀協会）放送対局 ──────────────────────
-  // 出典: npm2001.com/schedule/ 配信先「ABEMA」または「協会チャンネル」と記載のある対局のみ
-  // 開始/終了時刻は公式公開待ち、暫定的に 12:00–20:00
-  {
-    date: "2026-04-27",
-    startTime: "12:00",
-    endTime: "20:00",
-    org: "NPM",
-    title: "雀王戦A1リーグ 第1節C卓",
-    sub: "出場者・詳細時刻 公式公開待ち",
-    channel: "ABEMA",
-    tagColor: "#1d4ed8",
-    tagTextColor: "#ebe4d2",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-04",
-    startTime: "12:00",
-    endTime: "20:00",
-    org: "NPM",
-    title: "雀王戦A1リーグ 第2節A卓",
-    sub: "出場者・詳細時刻 公式公開待ち",
-    channel: "ABEMA",
-    tagColor: "#1d4ed8",
-    tagTextColor: "#ebe4d2",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-11",
-    startTime: "12:00",
-    endTime: "20:00",
-    org: "NPM",
-    title: "雀王戦A1リーグ 第2節B卓",
-    sub: "出場者・詳細時刻 公式公開待ち",
-    channel: "ABEMA",
-    tagColor: "#1d4ed8",
-    tagTextColor: "#ebe4d2",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-18",
-    startTime: "12:00",
-    endTime: "20:00",
-    org: "NPM",
-    title: "雀王戦A1リーグ 第2節C卓",
-    sub: "出場者・詳細時刻 公式公開待ち",
-    channel: "協会チャンネル",
-    tagColor: "#1d4ed8",
-    tagTextColor: "#ebe4d2",
-    link: URL_NPM_YOUTUBE,
-  },
-  {
-    date: "2026-05-25",
-    startTime: "12:00",
-    endTime: "20:00",
-    org: "NPM",
-    title: "雀王戦A1リーグ 第3節A卓",
-    sub: "出場者・詳細時刻 公式公開待ち",
-    channel: "ABEMA",
-    tagColor: "#1d4ed8",
-    tagTextColor: "#ebe4d2",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-25",
-    startTime: "12:00",
-    endTime: "20:00",
-    org: "NPM",
-    title: "雀王戦A1リーグ 第3節B卓",
-    sub: "出場者・詳細時刻 公式公開待ち",
-    channel: "ABEMA",
-    tagColor: "#1d4ed8",
-    tagTextColor: "#ebe4d2",
-    link: URL_ABEMA_MAHJONG,
-  },
-  {
-    date: "2026-05-25",
-    startTime: "12:00",
-    endTime: "20:00",
-    org: "NPM",
-    title: "女流雀王戦Aリーグ 第1節 配信卓",
-    sub: "出場者・詳細時刻 公式公開待ち",
-    channel: "協会チャンネル",
-    tagColor: "#1d4ed8",
-    tagTextColor: "#ebe4d2",
-    link: URL_NPM_YOUTUBE,
-  },
+  // 出典: https://npm2001.com/schedule/ （2026-05-04確認）
+  // 8月までの関東スケジュールから、配信先に「ABEMA」または「協会チャンネル」と記載のある対局のみ掲載。
+  // 開始/終了時刻は公式公開待ちのため、暫定的に 12:00–20:00。
+  ...NPM_BROADCAST_EVENTS,
 
   // ── JPML（日本プロ麻雀連盟）放送対局 ──────────────────────
   // 出典: JPML 連盟チャンネル YouTube RSS で確認できた直近放送
