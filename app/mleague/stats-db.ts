@@ -64,6 +64,12 @@ const SEMIFINAL_FINAL_STANDINGS_SOURCE: MLeagueSourceRef = {
   asOf: "2026-04-30",
 };
 
+const FINAL_DAY1_SOURCE: MLeagueSourceRef = {
+  label: "キンマweb Mリーグ2025-26 ファイナル 5月4日更新",
+  url: "https://kinmaweb.jp/archives/275195",
+  asOf: "2026-05-04",
+};
+
 // Final開幕後は、確認済みソースを MLeagueSourceRef として追加し、
 // phase: "final" の TeamPhaseStats / PlayerPhaseStats を追記する。
 // 最高素点や率が未確認の場合は、該当フィールドを空のままにする。
@@ -91,6 +97,16 @@ export const TEAM_PHASE_STATS_2025_26: TeamPhaseStats[] = [
 ];
 
 export const PLAYER_PHASE_STATS_2025_26: PlayerPhaseStats[] = [
+  // Final day 1 (2026-05-04), phase-only points.
+  { season: "2025-26", phase: "final", playerId: "takizawa", teamSlug: "konami", games: 1, firsts: 1, seconds: 0, thirds: 0, fourths: 0, points: 87.9, source: FINAL_DAY1_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "nikaido-a", teamSlug: "furinkazan", games: 1, firsts: 1, seconds: 0, thirds: 0, fourths: 0, points: 61.1, source: FINAL_DAY1_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "uchikawa", teamSlug: "furinkazan", games: 1, firsts: 0, seconds: 1, thirds: 0, fourths: 0, points: 23.4, source: FINAL_DAY1_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "sasaki", teamSlug: "konami", games: 1, firsts: 0, seconds: 1, thirds: 0, fourths: 0, points: 20.0, source: FINAL_DAY1_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "setokuma", teamSlug: "raiden", games: 1, firsts: 0, seconds: 0, thirds: 1, fourths: 0, points: -20.5, source: FINAL_DAY1_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "hagiwara", teamSlug: "raiden", games: 1, firsts: 0, seconds: 0, thirds: 1, fourths: 0, points: -25.1, source: FINAL_DAY1_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "suzuki-d", teamSlug: "beast-x", games: 1, firsts: 0, seconds: 0, thirds: 0, fourths: 1, points: -60.6, source: FINAL_DAY1_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "shimoishi", teamSlug: "beast-x", games: 1, firsts: 0, seconds: 0, thirds: 0, fourths: 1, points: -86.2, source: FINAL_DAY1_SOURCE },
+
   { season: "2025-26", phase: "semifinal", playerId: "suzuki-d", teamSlug: "beast-x", games: 5, firsts: 3, seconds: 1, thirds: 1, fourths: 0, points: 176.5, topRate: 60.0, avoidFourthRate: 100.0, bestScore: 55400, source: SEMIFINAL_POINTS_SOURCE },
   { season: "2025-26", phase: "semifinal", playerId: "kurosawa", teamSlug: "raiden", games: 5, firsts: 2, seconds: 1, thirds: 2, fourths: 0, points: 101.9, topRate: 40.0, avoidFourthRate: 100.0, bestScore: 66200, source: SEMIFINAL_POINTS_SOURCE },
   { season: "2025-26", phase: "semifinal", playerId: "watanabe", teamSlug: "drivens", games: 6, firsts: 2, seconds: 1, thirds: 3, fourths: 0, points: 91.6, topRate: 33.3, avoidFourthRate: 100.0, bestScore: 70300, source: SEMIFINAL_POINTS_SOURCE },
