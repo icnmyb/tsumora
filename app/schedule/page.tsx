@@ -410,11 +410,11 @@ function fmtDateISO(d: Date): string {
 function getWeekDatesJst(now: Date): Date[] {
   const d = new Date(now);
   d.setHours(0, 0, 0, 0);
-  const monday = new Date(d);
-  monday.setDate(d.getDate() - 2);
+  const start = new Date(d);
+  start.setDate(d.getDate() - 1);
   return Array.from({ length: 7 }, (_, i) => {
-    const wd = new Date(monday);
-    wd.setDate(monday.getDate() + i);
+    const wd = new Date(start);
+    wd.setDate(start.getDate() + i);
     return wd;
   });
 }
@@ -544,7 +544,7 @@ export default async function SchedulePage({
             <span className="sub">
               {view === "month"
                 ? `${monthMatches} matches · ${MONTH_EN[today.getMonth()]} ${today.getFullYear()}`
-                : `Week ${weekNumber} · ${weekYear} · ${MONTH_EN[week[0].getMonth()]} · 今日の2日前から`}
+                : `Week ${weekNumber} · ${weekYear} · ${MONTH_EN[week[0].getMonth()]} · 昨日から`}
             </span>
           </div>
           <div className="counts">

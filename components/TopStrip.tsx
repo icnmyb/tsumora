@@ -1,22 +1,31 @@
+import { FINAL_2025_26 } from "@/app/mleague/sf-data";
+import { getTeamBySlug } from "@/app/teams/data";
+
 export function TopStrip() {
+  const nextFinal = FINAL_2025_26.upcoming[0];
+  const finalTeams = nextFinal?.teamSlugs
+    .map((slug) => getTeamBySlug(slug)?.shortName)
+    .filter((name): name is string => Boolean(name))
+    .join(" / ");
+
   return (
     <div className="strip">
       <div className="wrap row">
-        <span className="live-tag">LIVE</span>
+        <span className="live-tag">INFO</span>
         <span className="item">
-          <b>鳳凰位戦A1</b> 第5節B卓 · <b>瀬戸熊 +48.2</b> リード
+          <b>Mリーグ</b> 2025-26 ファイナル · {FINAL_2025_26.startDate.replaceAll("-", ".")} 開幕
         </span>
         <span className="sep">／</span>
         <span className="item">
-          <b>Mリーグ</b> 第112戦 フェニックス vs ドリブンズ · 19:00開始
+          <b>出場</b> {finalTeams}
         </span>
         <span className="sep">／</span>
         <span className="item">
-          雀王戦A 最終節まで <b>2節</b>
+          全<b>{FINAL_2025_26.totalGames}</b>試合 · 最終日 {FINAL_2025_26.endDate.replaceAll("-", ".")}
         </span>
         <span className="sep">／</span>
         <span className="item">
-          <b>最高位戦Classic</b> 本日決勝
+          <b>TSUMORA</b> データは確認済み情報から順次更新
         </span>
       </div>
     </div>
