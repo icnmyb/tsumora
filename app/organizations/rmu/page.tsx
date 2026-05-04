@@ -189,7 +189,7 @@ const RMU: OrgDetailPageData = {
       { label: "Mリーグ" },
     ],
     rows: [
-      { rk: "一", top3: true, avatar: "多", avatarClass: "gold", name: "多井 隆晴", href: "/players/taii", sub: "1972生 · RMU代表 · 麻雀星人 · 渋谷ABEMAS", league: "SSS", leagueClass: "a1", titles: [{ kind: "primary", label: "令昭位×8" }, { kind: "plain", label: "最強位" }, { kind: "plain", label: "Mリーグ個人1位" }, { kind: "plain", label: "RMUアワード×9" }], rate: "2218", games: "5,847", top: "32.1%", avg: "2.31" },
+      { rk: "一", top3: true, avatar: "多", avatarClass: "gold", name: "多井 隆晴", href: "/players/taii", sub: "1972生 · RMU代表 · 麻雀星人 · 渋谷ABEMAS", league: "SSS", leagueClass: "a1", titles: [{ kind: "primary", label: "令昭位×8" }, { kind: "plain", label: "最強位" }, { kind: "plain", label: "Mリーグ個人1位" }], rate: "2218", games: "5,847", top: "32.1%", avg: "2.31" },
       { rk: "二", top3: true, avatar: "阿", name: "阿部 孝則", sub: "1967生 · RMU理事 · ライセンス SS", league: "SS", leagueClass: "a1", titles: [{ kind: "primary", label: "令昭位" }, { kind: "plain", label: "クラウン" }], rate: "2042", games: "4,128", top: "26.4%", avg: "2.45" },
       { rk: "三", top3: true, avatar: "谷", avatarClass: "vermilion", name: "谷井 茂文", sub: "1978生 · ライセンス SS", league: "SS", leagueClass: "a1", titles: [{ kind: "primary", label: "クラウン×2" }], rate: "2012", games: "3,484", top: "25.8%", avg: "2.46" },
       { rk: "四", avatar: "藤", name: "藤中 慎一郎", sub: "1981生 · ライセンス SS", league: "SS", leagueClass: "a1", titles: [{ kind: "primary", label: "クラウン" }], rate: "1994", games: "3,128", top: "25.4%", avg: "2.47" },

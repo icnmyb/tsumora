@@ -272,7 +272,7 @@ function splitPeriodExpression(expr) {
 
 function parseTitleLine(line) {
   const normalized = line.replace(/（/g, "(").replace(/）/g, ")").replace(/\s+/g, "");
-  if (!normalized || /準優勝|第[23]位|[23]位|平均打点王/.test(normalized)) return [];
+  if (!normalized || /準優勝|第[23]位|[23]位|平均打点王|RMUアワード/.test(normalized)) return [];
   const paren = normalized.match(/^(.+?)\((.+)\)$/);
   if (!paren) {
     const yearMatches = [...normalized.matchAll(/((?:19|20)\d{2})(?:年)?/g)].map((m) => m[1]);
@@ -350,6 +350,12 @@ function escapeRegExp(value) {
 }
 
 function upsertPlayerField(block, fieldName, fieldValueSource) {
+  if (fieldName === "titles") {
+    const titlesRe = /(,\s*titles:\s*)\[[\s\S]*?\](?=,\s*(?:title|bio|annualPoints|currentSeason|videos|gender|nameEn|period|birthday|birthplace|bloodType|hobby|nickname|rank|href|joinYear|mleagueTeam)\b)/;
+    if (titlesRe.test(block)) {
+      return block.replace(titlesRe, `$1${fieldValueSource}`);
+    }
+  }
   const fieldRe = new RegExp(`(,\\s*${fieldName}:\\s*)(?:\\[[\\s\\S]*?\\]|"[^"]*"|[^,}\\n]+)`);
   if (fieldRe.test(block)) {
     return block.replace(fieldRe, `$1${fieldValueSource}`);
@@ -448,7 +454,6 @@ async function main() {
       const lineSummary = lines.join(" / ");
       return `- ${player.name} (${player.id}) / ${player.org} / ${player.league} / ${page} / ${url}\n  lines:${lineSummary ? ` ${lineSummary}` : ""}`;
     }),
-    "",
   ];
   await fs.writeFile(REPORT_FILE, `${reportLines.join("\n")}\n`);
 
