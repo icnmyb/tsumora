@@ -352,6 +352,9 @@ const FilterSchema = z.object({
 3. ユーザー投稿 (お気に入り・コメント) を保存する機能を実装する
 4. ファセット集計クエリ ("40代女流の平均段位" 等) が常態化
 
+### 2026-05-04 UIメモ
+- `/players` は「全選手」を初期表示にし、「Mリーガー」は同一ページ内の切り替えタブで表示する。全選手検索を主導線にして、Mリーガー一覧は補助ビューとして扱う。
+
 ### 関連ファイル (実装時に参照)
 - `app/players/data.ts` — `RosterPlayer` / `FeaturedPlayer` 型 + `getAllPlayers()`
 - `app/players/roster/*.ts` — 団体別ロスター (auto-generated)

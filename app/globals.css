@@ -26,7 +26,64 @@
 }
 
 .players-view-tabs {
-  display: none;
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: 0;
+  width: min(460px, 100%);
+  margin: 22px 0 18px;
+  background: var(--paper);
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.players-view-tabs button {
+  appearance: none;
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 0;
+  border-right: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: "Shippori Mincho", serif;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.players-view-tabs button:last-child {
+  border-right: 0;
+}
+
+.players-view-tabs button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.players-view-tabs button[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 6px;
+  height: 2px;
+  background: var(--vermilion);
+}
+
+.players-view-tabs small {
+  min-width: 32px;
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  font-family: "Geist Mono", monospace;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 @media (max-width: 720px) {
@@ -41,41 +98,16 @@
   }
 
   .players-view-tabs {
-    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
+    width: 100%;
     margin: 18px 0 16px;
-    background: var(--paper);
-    border: var(--border);
-    box-shadow: var(--shadow-sm);
   }
 
   .players-view-tabs button {
-    appearance: none;
-    display: flex;
-    min-width: 0;
     min-height: 48px;
-    align-items: center;
-    justify-content: center;
     gap: 8px;
     padding: 10px 8px;
-    border: 0;
-    border-right: 1.5px solid var(--ink);
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "Shippori Mincho", serif;
     font-size: 15px;
-    font-weight: 900;
-    line-height: 1.1;
-  }
-
-  .players-view-tabs button:last-child {
-    border-right: 0;
-  }
-
-  .players-view-tabs button[aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--paper);
   }
 
   .players-view-tabs small {

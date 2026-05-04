@@ -93,8 +93,7 @@ function PlayersIndexInner() {
   const [genderFilter, setGenderFilter] = useState<GenderFilter>("ALL");
   const [mleagueTeamFilter, setMleagueTeamFilter] = useState<MLeagueTeamFilter>("ALL");
   const [search, setSearch] = useState("");
-  const [view, setView] = useState<PlayerView>(page > 1 ? "all" : "mleague");
-  const [isMobile, setIsMobile] = useState(false);
+  const [view, setView] = useState<PlayerView>("all");
   const allListRef = useRef<HTMLHeadingElement | null>(null);
 
   const allPlayers = useMemo(() => getAllPlayers(), []);
@@ -129,14 +128,6 @@ function PlayersIndexInner() {
   const pageStart = (currentPage - 1) * PER_PAGE;
   const visible = filtered.slice(pageStart, pageStart + PER_PAGE);
 
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 720px)");
-    const update = () => setIsMobile(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
   // フィルタ・検索が変わったら page=1 に戻す (URLから page を落とす)
   useEffect(() => {
     if (page > 1) {
@@ -158,6 +149,13 @@ function PlayersIndexInner() {
     paginatingRef.current = true;
     const url = n <= 1 ? "/players" : `/players?page=${n}`;
     router.push(url, { scroll: false });
+  };
+
+  const switchView = (nextView: PlayerView) => {
+    setView(nextView);
+    if (nextView === "mleague" && page > 1) {
+      router.replace("/players", { scroll: false });
+    }
   };
 
   return (
@@ -199,24 +197,24 @@ function PlayersIndexInner() {
       <div className="players-view-tabs" aria-label="選手一覧の表示切り替え">
         <button
           type="button"
+          aria-pressed={view === "all"}
+          onClick={() => switchView("all")}
+        >
+          <span>全選手</span>
+          <small>{filtered.length.toLocaleString()}</small>
+        </button>
+        <button
+          type="button"
           aria-pressed={view === "mleague"}
-          onClick={() => setView("mleague")}
+          onClick={() => switchView("mleague")}
         >
           <span>Mリーガー</span>
           <small>{featured.length.toLocaleString()}</small>
         </button>
-        <button
-          type="button"
-          aria-pressed={view === "all"}
-          onClick={() => setView("all")}
-        >
-          <span>全選手一覧</span>
-          <small>{filtered.length.toLocaleString()}</small>
-        </button>
       </div>
 
       {/* FEATURED PLAYERS GRID — page 1 のみ表示 */}
-      {currentPage === 1 && (!isMobile || view === "mleague") && (
+      {currentPage === 1 && view === "mleague" && (
       <>
       <h2 className="sh">
         <span>Mリーガー</span>
@@ -646,10 +644,10 @@ function PlayersIndexInner() {
       )}
 
       {/* ALL PLAYERS LIST */}
-      {(!isMobile || view === "all") && (
+      {view === "all" && (
       <>
       <h2 className="sh" ref={allListRef}>
-        <span>ALL PLAYERS — 選手一覧</span>
+        <span>全選手</span>
         <span className="num">All Registered Players</span>
         <span className="rule"></span>
         <span
