@@ -387,6 +387,23 @@ export default function Home() {
         />
       </section>
 
+      <section className="home-ad-banner" aria-label="広告">
+        <picture>
+          <source
+            media="(max-width: 720px)"
+            srcSet="/ads/sakurao-academy-mobile.png"
+          />
+          <img
+            src="/ads/sakurao-academy-desktop.png"
+            alt="桜鳳アカデミー 大学生向け麻雀スクール"
+            width={1774}
+            height={887}
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+      </section>
+
       {/* 現タイトル保持者 — 5団体 banzuke */}
       <section className="home-titlists" style={{ marginBottom: 22 }}>
         <header className="ht-head">
