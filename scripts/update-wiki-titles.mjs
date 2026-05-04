@@ -86,7 +86,7 @@ function cleanWikiText(input) {
 
 function normalizeName(name) {
   return name
-    .replace(/\s+/g, "")
+    .replace(/[_\s]+/g, "")
     .replace(/\(.+?\)$/g, "")
     .replace(/（.+?）$/g, "")
     .replace(/[髙﨑﨑]/g, (m) => ({ 髙: "高", "﨑": "崎", "﨑": "崎" })[m] ?? m);
@@ -213,7 +213,7 @@ function findWikiPage(player, pageCache) {
 }
 
 function hasTitleFields(content) {
-  return /^\|\s*タイトル\d+\s*=.+/m.test(content) || /==+\s*獲得タイトル\s*==+/.test(content);
+  return /^\|\s*タイトル\d+\s*=.+/m.test(content) || /==+\s*(?:獲得タイトル|タイトル)\s*==+/.test(content);
 }
 
 function extractTitleLines(content) {
@@ -225,7 +225,7 @@ function extractTitleLines(content) {
     if (value && !/^獲得タイトル/.test(value)) lines.push(value);
   }
 
-  const section = content.match(/==+\s*獲得タイトル\s*==+\s*([\s\S]*?)(?=\n==[^=]|$)/);
+  const section = content.match(/==+\s*(?:獲得タイトル|タイトル)\s*==+\s*([\s\S]*?)(?=\n==[^=]|$)/);
   const sectionLines = section
     ? section[1]
         .split("\n")
@@ -343,11 +343,19 @@ async function main() {
   const pageCache = await fetchExactPages(players);
   const templateTitles = await fetchTemplatePageTitles();
   const templateTitleByName = new Map(templateTitles.map((title) => [normalizeName(title), title]));
-  const alternateTitles = players
-    .filter((player) => !pageCache.get(normalizeName(player.name)) || pageCache.get(normalizeName(player.name))?.missing)
-    .map((player) => templateTitleByName.get(normalizeName(player.name)))
+  const templateAlternateTitles = players
+    .map((player) => {
+      const key = normalizeName(player.name);
+      const exactPage = pageCache.get(key);
+      const templateTitle = templateTitleByName.get(key);
+      if (!templateTitle) return null;
+      const exactContent = exactPage?.revisions?.[0]?.content ?? "";
+      const exactIsUsable = exactPage && !exactPage.missing && /プロ雀士|競技麻雀|\{\{雀士/.test(exactContent);
+      return exactIsUsable ? null : templateTitle;
+    })
     .filter(Boolean);
-  const alternatePages = await fetchPagesByTitles([...new Set(alternateTitles)]);
+  const proPlayerAlternateTitles = players.map((player) => `${player.name} (プロ雀士)`);
+  const alternatePages = await fetchPagesByTitles([...new Set([...templateAlternateTitles, ...proPlayerAlternateTitles])]);
   for (const [key, page] of alternatePages) pageCache.set(key, page);
   const rows = {};
   const missingArticle = [];
@@ -415,7 +423,10 @@ export const WIKI_TITLE_OVERRIDES = ${JSON.stringify(rows, null, 2)} as const sa
     ...noTitleField.map(({ player, page, url }) => `- ${player.name} (${player.id}) / ${player.org} / ${player.league} / ${page} / ${url}`),
     "",
     "== タイトル欄はあるが年付きタイトルとして解析できなかった選手 ==",
-    ...unresolved.map(({ player, page, url, lines }) => `- ${player.name} (${player.id}) / ${player.org} / ${player.league} / ${page} / ${url}\n  lines: ${lines.join(" / ")}`),
+    ...unresolved.map(({ player, page, url, lines }) => {
+      const lineSummary = lines.join(" / ");
+      return `- ${player.name} (${player.id}) / ${player.org} / ${player.league} / ${page} / ${url}\n  lines:${lineSummary ? ` ${lineSummary}` : ""}`;
+    }),
     "",
   ];
   await fs.writeFile(REPORT_FILE, `${reportLines.join("\n")}\n`);

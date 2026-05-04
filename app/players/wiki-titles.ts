@@ -141,6 +141,17 @@ export const WIKI_TITLE_OVERRIDES = {
     "source": "https://ja.wikipedia.org/wiki/%E4%BC%8A%E9%81%94%E6%9C%B1%E9%87%8C%E7%B4%97",
     "sourceTitle": "伊達朱里紗"
   },
+  "ito_takashi": {
+    "title": "最高位戦classic",
+    "titles": [
+      {
+        "year": "1993",
+        "name": "第17期最高位戦classic"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E4%BC%8A%E8%97%A4%E9%AB%98%E5%BF%97_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "伊藤高志 (プロ雀士)"
+  },
   "itouyuukou": {
     "title": "發王位×2",
     "titles": [
@@ -167,6 +178,17 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%BC%8A%E8%97%A4%E5%84%AA%E5%AD%9D",
     "sourceTitle": "伊藤優孝"
+  },
+  "nagai": {
+    "title": "EX風林火山『IKUSA2024』優勝",
+    "titles": [
+      {
+        "year": "2024",
+        "name": "EX風林火山『IKUSA2024』優勝"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E6%B0%B8%E4%BA%95%E5%AD%9D%E5%85%B8_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "永井孝典 (プロ雀士)"
   },
   "sonoda": {
     "title": "TheAllStarLeague2017・2018優勝×2",
@@ -232,6 +254,33 @@ export const WIKI_TITLE_OVERRIDES = {
     "source": "https://ja.wikipedia.org/wiki/%E5%B2%A9%E5%B4%8E%E5%95%93%E6%82%9F",
     "sourceTitle": "岩崎啓悟"
   },
+  "kikuchi_shunsuke": {
+    "title": "J2リーグ：2回×2",
+    "titles": [
+      {
+        "year": "2023",
+        "name": "J3リーグ：1回2023"
+      },
+      {
+        "year": "2018",
+        "name": "Jリーグカップ：1回2018"
+      },
+      {
+        "year": "2017",
+        "name": "J2リーグ：2回2017"
+      },
+      {
+        "year": "2014",
+        "name": "J2リーグ：2回2014"
+      },
+      {
+        "year": "2011",
+        "name": "関東大学サッカーリーグ戦2部2011"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E8%8F%8A%E5%9C%B0%E4%BF%8A%E4%BB%8B",
+    "sourceTitle": "菊地俊介"
+  },
   "yoshida_tomohiro": {
     "title": "2002世界麻雀選手権団体優勝",
     "titles": [
@@ -242,6 +291,17 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%90%89%E7%94%B0%E7%9F%A5%E5%BC%98",
     "sourceTitle": "吉田知弘"
+  },
+  "tadashi_yoshida": {
+    "title": "鳳凰位",
+    "titles": [
+      {
+        "year": "2018",
+        "name": "第35期鳳凰位"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E5%90%89%E7%94%B0%E7%9B%B4_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "吉田直 (プロ雀士)"
   },
   "tachibana_tetsuya": {
     "title": "2016RMUオープンリーグ",
@@ -265,6 +325,48 @@ export const WIKI_TITLE_OVERRIDES = {
     "source": "https://ja.wikipedia.org/wiki/%E5%AE%A2%E9%87%8E%E7%9B%B4",
     "sourceTitle": "客野直"
   },
+  "kondo_seiichi": {
+    "title": "最高位×4",
+    "titles": [
+      {
+        "year": "2019",
+        "name": "第43期最高位"
+      },
+      {
+        "year": "2018",
+        "name": "第29期最強位"
+      },
+      {
+        "year": "2017",
+        "name": "第41期最高位"
+      },
+      {
+        "year": "2016",
+        "name": "第40期最高位"
+      },
+      {
+        "year": "2013",
+        "name": "第37期最高位"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E8%BF%91%E8%97%A4%E8%AA%A0%E4%B8%80_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "近藤誠一 (プロ雀士)"
+  },
+  "kondo_kazuo": {
+    "title": "最強位",
+    "titles": [
+      {
+        "year": "2016",
+        "name": "最強位2016"
+      },
+      {
+        "year": "2016",
+        "name": "麻雀最強位2016"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E8%BF%91%E8%97%A4%E5%8D%83%E9%9B%84_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "近藤千雄 (プロ雀士)"
+  },
   "kimu_tehyon": {
     "title": "雀王×2",
     "titles": [
@@ -283,6 +385,17 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E9%87%91%E5%A4%AA%E8%B3%A2",
     "sourceTitle": "金太賢"
+  },
+  "takashi_furuhashi": {
+    "title": "サイバーエージェントカップ2016優勝",
+    "titles": [
+      {
+        "year": "2016",
+        "name": "サイバーエージェントカップ2016優勝"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E5%8F%A4%E6%A9%8B%E5%B4%87%E5%BF%97",
+    "sourceTitle": "古橋崇志"
   },
   "koji_furukawa": {
     "title": "鳳凰位3×3",
@@ -455,6 +568,17 @@ export const WIKI_TITLE_OVERRIDES = {
     "source": "https://ja.wikipedia.org/wiki/%E5%9D%82%E6%9C%AC%E5%A4%A7%E5%BF%97",
     "sourceTitle": "坂本大志"
   },
+  "daisuke_miura": {
+    "title": "チャンピオンズリーグ第14期2008前期優勝",
+    "titles": [
+      {
+        "year": "2008",
+        "name": "チャンピオンズリーグ第14期2008前期優勝"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E4%B8%89%E6%B5%A6%E5%A4%A7%E8%BC%94_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "三浦大輔 (プロ雀士)"
+  },
   "miura": {
     "title": "十段位×2",
     "titles": [
@@ -481,6 +605,44 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%B8%89%E6%B5%A6%E6%99%BA%E5%8D%9A",
     "sourceTitle": "三浦智博"
+  },
+  "yamashitatatsuya": {
+    "title": "J2リーグ：1回",
+    "titles": [
+      {
+        "year": "2019",
+        "name": "J2リーグ：1回2019"
+      },
+      {
+        "year": "2018",
+        "name": "FUJIXEROXSUPERCUP：1回2018"
+      },
+      {
+        "year": "2017",
+        "name": "Jリーグカップ：1回2017"
+      },
+      {
+        "year": "2017",
+        "name": "天皇杯：1回2017"
+      },
+      {
+        "year": "2013",
+        "name": "Jリーグ優秀選手賞2013"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E5%B1%B1%E4%B8%8B%E9%81%94%E4%B9%9F",
+    "sourceTitle": "山下達也"
+  },
+  "yamada_doppo": {
+    "title": "麻雀駅伝20183人打ち区間賞",
+    "titles": [
+      {
+        "year": "2018",
+        "name": "麻雀駅伝20183人打ち区間賞"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E5%B1%B1%E7%94%B0%E7%8B%AC%E6%AD%A9",
+    "sourceTitle": "山田独歩"
   },
   "yoshikazu_shibata": {
     "title": "十段位×2",
@@ -538,6 +700,45 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%88%9D%E9%9F%B3%E8%88%9E",
     "sourceTitle": "初音舞"
+  },
+  "kobayashi": {
+    "title": "将王×4",
+    "titles": [
+      {
+        "year": "2024",
+        "name": "Mトーナメント2024優勝"
+      },
+      {
+        "year": "2021",
+        "name": "第19期将王"
+      },
+      {
+        "year": "2021",
+        "name": "麺麺位2021"
+      },
+      {
+        "year": "2018",
+        "name": "RTDリーグ2018優勝"
+      },
+      {
+        "year": "2014",
+        "name": "麻雀最強戦2014新鋭代表決定戦"
+      },
+      {
+        "year": "2011",
+        "name": "第9期将王"
+      },
+      {
+        "year": "2009",
+        "name": "第7期将王"
+      },
+      {
+        "year": "2005",
+        "name": "第3期将王"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E5%B0%8F%E6%9E%97%E5%89%9B_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "小林剛 (プロ雀士)"
   },
   "matsumoto": {
     "title": "PachumoCUP2025優勝",
@@ -673,6 +874,32 @@ export const WIKI_TITLE_OVERRIDES = {
     "source": "https://ja.wikipedia.org/wiki/%E7%80%AC%E6%88%B8%E7%86%8A%E7%9B%B4%E6%A8%B9",
     "sourceTitle": "瀬戸熊直樹"
   },
+  "jun_nishikawa": {
+    "title": "チャンピオンズリーグ×2",
+    "titles": [
+      {
+        "year": "2019",
+        "name": "第22期チャンピオンズリーグ"
+      },
+      {
+        "year": "2012",
+        "name": "第22期チャンピオンズリーグ2012"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E8%A5%BF%E5%B7%9D%E6%B7%B3_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "西川淳 (プロ雀士)"
+  },
+  "nishimura_yuichiro": {
+    "title": "雀王",
+    "titles": [
+      {
+        "year": "2025",
+        "name": "第24期雀王"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E8%A5%BF%E6%9D%91%E9%9B%84%E4%B8%80%E9%83%8E_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "西村雄一郎 (プロ雀士)"
+  },
   "nishijima_chiharu": {
     "title": "女流最高位×4",
     "titles": [
@@ -719,6 +946,17 @@ export const WIKI_TITLE_OVERRIDES = {
     "source": "https://ja.wikipedia.org/wiki/%E7%9F%B3%E4%BA%95%E4%B8%80%E9%A6%AC",
     "sourceTitle": "石井一馬"
   },
+  "masaaki_ishikawa": {
+    "title": "王位",
+    "titles": [
+      {
+        "year": "2025",
+        "name": "第50期王位"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E7%9F%B3%E5%B7%9D%E6%AD%A3%E6%98%8E_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "石川正明 (プロ雀士)"
+  },
   "asai": {
     "title": "雀王",
     "titles": [
@@ -733,6 +971,33 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E6%B5%85%E4%BA%95%E5%A0%82%E5%B2%90",
     "sourceTitle": "浅井堂岐"
+  },
+  "asai_yusuke": {
+    "title": "RMUクラウン×2",
+    "titles": [
+      {
+        "year": "2023",
+        "name": "第31期麻雀マスターズ"
+      },
+      {
+        "year": "2022",
+        "name": "第14期RMUクラウン"
+      },
+      {
+        "year": "2021",
+        "name": "第13期・第14期RMUクラウン"
+      },
+      {
+        "year": "2021",
+        "name": "第13期RMUクラウン"
+      },
+      {
+        "year": "2017",
+        "name": "麻雀最強戦2017全日本プロ代表決定戦優勝"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E6%B5%85%E4%BA%95%E8%A3%95%E4%BB%8B_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "浅井裕介 (プロ雀士)"
   },
   "asami": {
     "title": "女流最高位",
@@ -770,6 +1035,29 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E7%9B%B8%E5%B7%9D%E3%81%BE%E3%82%8A%E3%81%88",
     "sourceTitle": "相川まりえ"
+  },
+  "murakami_jun": {
+    "title": "最高位×3",
+    "titles": [
+      {
+        "year": "2018",
+        "name": "第42期最高位"
+      },
+      {
+        "year": "2015",
+        "name": "第39期最高位"
+      },
+      {
+        "year": "2011",
+        "name": "第35期最高位"
+      },
+      {
+        "year": "2010",
+        "name": "第8期日本オープン"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E6%9D%91%E4%B8%8A%E6%B7%B3_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "村上淳 (プロ雀士)"
   },
   "taii": {
     "title": "令昭位×5",
@@ -1356,11 +1644,15 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "福島佑一"
   },
   "hiraga_toshihiko": {
-    "title": "RTDリーグ2017優勝",
+    "title": "モンド杯",
     "titles": [
       {
+        "year": "2020",
+        "name": "モンド杯2020"
+      },
+      {
         "year": "2017",
-        "name": "RTDリーグ2017優勝"
+        "name": "RTDリーグ2017"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E8%B3%80%E8%81%A1%E5%BD%A6",
@@ -1499,5 +1791,32 @@ export const WIKI_TITLE_OVERRIDES = {
     ],
     "source": "https://ja.wikipedia.org/wiki/%E9%88%B4%E6%9C%A8%E3%81%9F%E3%82%8D%E3%81%86",
     "sourceTitle": "鈴木たろう"
+  },
+  "suzuki-y": {
+    "title": "麻雀日本シリーズ2024優勝",
+    "titles": [
+      {
+        "year": "2024",
+        "name": "麻雀日本シリーズ2024優勝"
+      },
+      {
+        "year": "2023",
+        "name": "Mリーグ2023-24シーズンMVP"
+      },
+      {
+        "year": "2022",
+        "name": "第46期最高位"
+      },
+      {
+        "year": "2022",
+        "name": "麻雀日本シリーズ2022優勝"
+      },
+      {
+        "year": "2012",
+        "name": "麻雀最強戦2012全日本プロ代表戦優勝"
+      }
+    ],
+    "source": "https://ja.wikipedia.org/wiki/%E9%88%B4%E6%9C%A8%E5%84%AA_(%E3%83%97%E3%83%AD%E9%9B%80%E5%A3%AB)",
+    "sourceTitle": "鈴木優 (プロ雀士)"
   }
 } as const satisfies Record<string, WikiTitleOverride>;
