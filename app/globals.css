@@ -2984,26 +2984,6 @@ footer.main .cr {
       border-right: 0;
       box-shadow: 3px 3px 0 var(--ink);
     }
-    .cal-wrap::after {
-      content: "›";
-      position: sticky;
-      right: 0;
-      bottom: 50%;
-      z-index: 8;
-      float: right;
-      width: 26px;
-      height: 54px;
-      margin-top: -54px;
-      display: grid;
-      place-items: center;
-      border-left: 1.5px solid rgba(11,11,9,.22);
-      background: linear-gradient(90deg, rgba(235,228,210,0), var(--paper) 45%);
-      color: var(--ink);
-      font-family: "Geist Mono";
-      font-size: 22px;
-      font-weight: 900;
-      pointer-events: none;
-    }
     .cal-scroll {
       width: 656px;
       min-width: 656px;
