@@ -31,12 +31,41 @@ export interface NewsArticle {
 export const HOME_NEWS_SELECTION = {
   primary: "mleague-2025-26-final-opening",
   secondary: [
+    "m-tournament-2026-announced",
     "watanabe-futoshi-34th-mahjong-masters",
-    "mleague-2025-26-progress",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "m-tournament-2026-announced",
+    date: "2026-05-01",
+    publishedAt: "2026-05-01T15:00:00+09:00",
+    category: "mleague",
+    headline: "Mトーナメント2026、6月1日開幕へ",
+    lead:
+      "Mリーグのオフシーズン企画『Mトーナメント2026』が6月1日15時からABEMAで独占生放送。現Mリーガー40名と団体推薦32名、総勢72名が個人戦でぶつかる。",
+    body: [
+      "Mリーグ機構は5月1日、ABEMAオリジナル対局企画『Mトーナメント2026』を6月1日15時から放送すると発表した。Mリーグの冠を掲げるオフシーズン企画で、放送はABEMA麻雀チャンネル。初回以降は毎週月曜が無料、金曜はABEMAプレミアムおよび広告つきABEMAプレミアム限定の生中継となる。",
+      "出場者は現Mリーガー40名に、鳳凰位・最高位・雀王など各団体の推薦者32名を加えた総勢72名。ルールはMリーグルールで、2半荘・2位勝ち抜けの個人トーナメントとして行われる。予選1stステージでは1位通過者が3rdステージへ、2位通過者が2ndステージへ進む形式だ。",
+      "賞金総額は3,000万円。2026年5月15日に最終決戦を迎えるMリーグ2025-26の優勝チーム4名と個人賞獲得者4名は、予選3rdステージからのシードで参戦する。2023年の渋川難波、2024年の小林剛、2025年の堀慎吾に続く優勝者が誰になるか、オフシーズンの大きな軸になりそうだ。",
+    ],
+    seoTitle: "Mトーナメント2026が6月1日開幕",
+    seoDescription:
+      "Mトーナメント2026の放送開始日、出場者規模、トーナメント形式、賞金総額、シード条件をTSUMORA視点で整理。",
+    sources: [
+      {
+        label: "M.LEAGUE公式：Mトーナメント2026 独占生放送決定",
+        url: "https://m-league.jp/news202605011500/",
+        checkedAt: "2026-05-04",
+      },
+      {
+        label: "Mトーナメント公式サイト",
+        url: "https://m-tournament.m-league.jp/",
+        checkedAt: "2026-05-04",
+      },
+    ],
+  },
   {
     slug: "watanabe-futoshi-34th-mahjong-masters",
     date: "2026-05-03",
@@ -102,86 +131,6 @@ export const NEWS: NewsArticle[] = [
       { type: "team", id: "beast-x" },
       { type: "team", id: "konami" },
       { type: "team", id: "raiden" },
-    ],
-  },
-  {
-    slug: "shiratori-42-houou-defense",
-    date: "2026-04",
-    category: "title",
-    headline: "白鳥 翔、第42期鳳凰位戦で連覇に挑む",
-    lead:
-      "現鳳凰位の白鳥翔が第42期鳳凰位戦に出場。日本プロ麻雀連盟最高峰のタイトル戦が、現王者の連覇を懸けた構図で進行している。",
-    body: [
-      "日本プロ麻雀連盟 (JPML) の最上位タイトル戦である鳳凰位戦。前期第41期で戴冠した白鳥翔が、第42期でその防衛に挑む。",
-      "鳳凰位戦は連盟所属プロがA1〜D2の各リーグを通じて頂点を目指すリーグ戦形式で、最終的にA1上位選手が決定戦に進出する。第42期も全リーグ並走で進行中。",
-    ],
-    related: [
-      { type: "title", id: "houou-isen" },
-      { type: "player", id: "shiratori" },
-    ],
-  },
-  {
-    slug: "nakabayashi-23-jakuou-back-to-back",
-    date: "2025-11",
-    category: "title",
-    headline: "仲林 圭、第23期雀王戦で連覇達成",
-    lead:
-      "仲林圭が第23期雀王戦の決定戦を制し、雀王タイトルの連覇を達成。日本プロ麻雀協会 (NPM) の最頂点に2期連続で立った。",
-    body: [
-      "日本プロ麻雀協会 (NPM) の最頂点タイトルである雀王。仲林圭が第23期決定戦を制し、第22期に続く連覇を達成した。",
-      "決定戦進出はAリーグ上位選手による争奪戦を経て決まり、複数日にわたる長丁場で雌雄を決する形式となっている。",
-    ],
-    related: [
-      { type: "title", id: "jakuou-isen" },
-      { type: "player", id: "nakabayashi" },
-    ],
-  },
-  {
-    slug: "kawano-16-reishoui",
-    date: "2024-12",
-    category: "title",
-    headline: "河野 高志、第16期令昭位を戴冠",
-    lead:
-      "RMU所属の河野高志が第16期令昭位戦を制し、麻雀連合-μ-を母体とする団体内最高峰タイトルである令昭位を獲得した。",
-    body: [
-      "RMU (麻雀競技連盟) の最高峰タイトルである令昭位戦。第16期決定戦は河野高志が制し、団体最高峰の座に就いた。",
-      "RMUは独自の競技ルール体系を採るプロ団体で、令昭位はその頂点を象徴するタイトルとして位置づけられている。",
-    ],
-    related: [
-      { type: "title", id: "reishouisen" },
-      { type: "player", id: "kawano" },
-    ],
-  },
-  {
-    slug: "ishii-49-saikoui",
-    date: "2025-12",
-    category: "title",
-    headline: "石井 一馬、第49期最高位を獲得",
-    lead:
-      "石井一馬が第49期最高位戦決定戦を制し、初の最高位獲得。タイトル戦の常連が遂に頂点に立った。",
-    body: [
-      "最高位戦日本プロ麻雀協会の最高位タイトル。第49期は石井一馬が決定戦を制し、自身初の最高位獲得を果たした。",
-      "石井は最高位戦Classicの決勝進出経験もあるタイトル戦の常連で、長年の研鑽が頂点で結実した形となった。",
-    ],
-    related: [
-      { type: "title", id: "saikouisen" },
-      { type: "player", id: "ishii" },
-    ],
-  },
-  {
-    slug: "miura-41-judan-back-to-back",
-    date: "2024-12",
-    category: "title",
-    headline: "三浦 智博、第41期十段位を連覇",
-    lead:
-      "日本プロ麻雀連盟 (JPML) 所属の三浦智博が第41期十段位戦で連覇達成。連盟二大タイトルの一角を2期連続で守った。",
-    body: [
-      "日本プロ麻雀連盟 (JPML) の二大タイトルのひとつである十段位戦。三浦智博が第41期決定戦を制し、第40期に続く連覇を達成した。",
-      "十段位戦は連盟所属プロが頂点を目指すノックアウト方式のタイトル戦で、三浦は2期続けてその頂点に立っている。",
-    ],
-    related: [
-      { type: "title", id: "judan-isen" },
-      { type: "player", id: "miura" },
     ],
   },
   {

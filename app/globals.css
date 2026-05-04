@@ -5002,8 +5002,18 @@ footer.main .cr {
   .news-top { padding: 24px 20px; box-shadow: 5px 5px 0 var(--vermilion); }
   .news-index-title { font-size: clamp(40px, 11vw, 70px); }
   .news-item { padding: 18px 18px; }
-  .news-article { padding: 16px 0; }
-  .news-article-lead { padding: 14px 16px; font-size: 15px; }
+  .news-article-lead {
+    padding: 14px 15px;
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+  .news-article-body {
+    margin: 0 -14px;
+    padding: 18px 16px 1px;
+    border-left: 0;
+    border-right: 0;
+    box-shadow: 2px 2px 0 rgba(11,11,9,.18);
+  }
 }
 .news-top:hover {
   transform: translate(-2px, -2px);
@@ -5158,21 +5168,30 @@ footer.main .cr {
 }
 .news-article-lead {
   font-family: "Noto Sans JP", sans-serif;
-  font-size: 17px;
-  line-height: 1.7;
-  font-weight: 500;
+  font-size: 16.5px;
+  line-height: 1.85;
+  font-weight: 700;
   color: var(--ink);
   margin: 0 0 32px;
-  padding: 18px 22px;
-  background: var(--paper-warm, #f5efdc);
-  border-left: 4px solid var(--vermilion);
+  padding: 18px 20px;
+  background: var(--paper);
+  box-shadow: 3px 3px 0 rgba(11,11,9,.18);
+  border: 1.5px solid rgba(11,11,9,.55);
+  border-left: 5px solid var(--vermilion);
+}
+.news-article-body {
+  padding: 22px 24px 2px;
+  background: rgba(245, 239, 220, .94);
+  border: 1.5px solid rgba(11,11,9,.45);
+  box-shadow: 3px 3px 0 rgba(11,11,9,.16);
 }
 .news-article-body p {
   font-family: "Noto Sans JP", sans-serif;
-  font-size: 15.5px;
-  line-height: 1.95;
-  color: var(--ink);
-  margin: 0 0 22px;
+  font-size: 16px;
+  line-height: 2.05;
+  color: var(--ink-2);
+  margin: 0 0 26px;
+  letter-spacing: 0.02em;
 }
 .news-article-related {
   margin-top: 48px;
@@ -7518,18 +7537,35 @@ html::-webkit-scrollbar { display: none; }
     overflow-wrap: anywhere;
   }
   .news-article-body p {
-    font-size: 14px;
-    line-height: 1.9;
+    font-size: 14.5px;
+    line-height: 2;
+    margin-bottom: 22px;
+  }
+  .news-article-related {
+    margin-top: 36px;
+    padding-top: 22px;
   }
   .news-related-list {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
   .news-related-item {
-    align-items: flex-start;
-    justify-content: space-between;
-    min-height: 44px;
-    line-height: 1.4;
+    display: grid;
+    align-content: start;
+    justify-content: stretch;
+    gap: 5px;
+    min-width: 0;
+    min-height: 58px;
+    padding: 10px 11px;
+    font-size: 13px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  .news-related-tag {
+    width: fit-content;
+    font-size: 8px;
+    line-height: 1.2;
   }
 
   .about-page {
