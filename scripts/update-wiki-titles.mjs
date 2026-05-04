@@ -13,13 +13,14 @@ const titleYearRules = [
   { re: /女流雀王/, offset: 2001 },
   { re: /女流最高位/, offset: 2000 },
   { re: /女流令昭位/, offset: 2009 },
-  { re: /鳳凰位/, offset: 1984 },
+  { re: /鳳凰位/, offset: 1983 },
   { re: /十段位/, offset: 1983 },
-  { re: /王位/, offset: 1975 },
   { re: /發王位|発王位/, offset: 1992 },
+  { re: /最強位/, offset: 1989 },
+  { re: /王位/, offset: 1975 },
   { re: /雀竜位/, offset: 2001 },
   { re: /雀王(?!位)|雀王位/, offset: 2001 },
-  { re: /最高位(?!戦Classic)/, offset: 1975 },
+  { re: /最高位(?!戦Classic)/, offset: 1976 },
   { re: /プロクイーン/, offset: 2002 },
   { re: /桜蕾戦|桜蕾/, offset: 2020 },
   { re: /令昭位/, offset: 2009 },
@@ -31,12 +32,20 @@ const titleYearRules = [
 ];
 
 const specialPeriodYears = new Map([
+  ["鳳凰位:26", "2009"],
+  ["鳳凰位:27", "2010"],
+  ["鳳凰位:29", "2012"],
+  ["鳳凰位:37", "2021"],
+  ["鳳凰位:38", "2022"],
+  ["鳳凰位:39", "2023"],
+  ["鳳凰位:40", "2024"],
   ["モンド杯:9", "2008"],
   ["モンド杯:11", "2010"],
   ["モンド杯:12", "2011"],
   ["モンド杯:17", "2016"],
   ["女流モンド杯:13", "2015"],
   ["女流モンド杯:17", "2019"],
+  ["モンド名人:16", "2022"],
   ["麻雀グランプリMAX:7", "2017"],
   ["麻雀グランプリMAX:9", "2019"],
   ["麻雀グランプリMAX:10", "2019"],
@@ -60,8 +69,10 @@ function cleanWikiText(input) {
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/<ref[\s\S]*?<\/ref>/g, "")
     .replace(/<ref[^>]*\/>/g, "")
+    .replace(/\{\{r\|[^}]+}}/g, "")
     .replace(/\{\{lang\|[^|}]+\|([^}]+)\}\}/g, "$1")
     .replace(/\{\{[^}]+\}\}/g, "")
+    .replace(/\{\{[^}]*$/g, "")
     .replace(/\[\[[^\]|]+\|([^\]]+)\]\]/g, "$1")
     .replace(/\[\[([^\]]+)\]\]/g, "$1")
     .replace(/'''?/g, "")
@@ -174,21 +185,23 @@ function hasTitleFields(content) {
 
 function extractTitleLines(content) {
   const lines = [];
-  const paramRe = /\|\s*タイトル\d+\s*=\s*([\s\S]*?)(?=\|\s*[\w一-龠ぁ-んァ-ンー]+\s*=|\}\}|\n|$)/g;
+  const infoboxTitleRe = /\|\s*タイトル\d+\s*=\s*([\s\S]*?)(?=\|\s*タイトル\d+\s*=|\n\||\n\}\}|\}\}|$)/g;
   let m;
-  while ((m = paramRe.exec(content))) {
+  while ((m = infoboxTitleRe.exec(content))) {
     const value = cleanWikiText(m[1]);
     if (value && !/^獲得タイトル/.test(value)) lines.push(value);
   }
-  if (lines.length > 0) return lines;
 
   const section = content.match(/==+\s*獲得タイトル\s*==+\s*([\s\S]*?)(?=\n==[^=]|$)/);
-  if (!section) return [];
-  return section[1]
-    .split("\n")
-    .filter((line) => /^\s*[*;]/.test(line))
-    .map((line) => cleanWikiText(line.replace(/^\s*[*;]\s*/, "")))
-    .filter(Boolean);
+  const sectionLines = section
+    ? section[1]
+        .split("\n")
+        .filter((line) => /^\s*[*;]/.test(line))
+        .map((line) => cleanWikiText(line.replace(/^\s*[*;]\s*/, "")))
+        .filter(Boolean)
+    : [];
+
+  return [...sectionLines, ...lines];
 }
 
 function inferYear(titleName, period) {
@@ -226,7 +239,7 @@ function parseTitleLine(line) {
     if (yearMatches.length > 0) {
       return yearMatches.map((year) => ({ year, name: normalized.replace(/年/g, "") }));
     }
-    const periodFirst = normalized.match(/^第?(\d+)(期|回|代)(.+)$/);
+    const periodFirst = normalized.match(/^第(\d+)(期|回|代)(.+)$/);
     if (periodFirst) {
       const [, period, suffix, rawName] = periodFirst;
       const baseName = rawName.replace(/優勝$/, "").replace(/連覇.*$/, "");
@@ -234,7 +247,7 @@ function parseTitleLine(line) {
       return year ? [{ year, name: `第${period}${suffix}${baseName}` }] : [];
     }
     const periodLast = normalized.match(/^(.+?)第?(\d+)(期|回|代)$/);
-    if (periodLast) {
+    if (periodLast && normalized.includes("第")) {
       const [, rawName, period, suffix] = periodLast;
       const baseName = rawName.replace(/優勝$/, "").replace(/連覇.*$/, "");
       const year = inferYear(baseName, period);
@@ -243,7 +256,7 @@ function parseTitleLine(line) {
     return [];
   }
 
-  const baseName = paren[1].replace(/優勝$/, "").replace(/連覇.*$/, "");
+  const baseName = paren[1].replace(/優勝$/, "").replace(/連覇.*$/, "").replace(/\d+期$/, "");
   const detail = paren[2];
   const yearMatches = [...detail.matchAll(/((?:19|20)\d{2})(?:年)?/g)].map((m) => m[1]);
   if (yearMatches.length > 0) {
@@ -273,9 +286,17 @@ function titleSummary(titles) {
 
 function uniqueTitles(entries) {
   const seen = new Set();
+  const seenSemantic = new Set();
   return entries
     .filter((entry) => entry.year && entry.name)
     .filter((entry) => {
+      const semanticName = entry.name
+        .replace(/^第\d+(期|回|代)/, "")
+        .replace(/(19|20)\d{2}/g, "")
+        .replace(/優勝$/, "");
+      const semanticKey = `${entry.year}:${semanticName}`;
+      if (seenSemantic.has(semanticKey)) return false;
+      seenSemantic.add(semanticKey);
       const key = `${entry.year}:${entry.name}`;
       if (seen.has(key)) return false;
       seen.add(key);

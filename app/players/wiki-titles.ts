@@ -42,7 +42,7 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "鳳凰位",
     "titles": [
       {
-        "year": "2008",
+        "year": "2007",
         "name": "第24期鳳凰位"
       }
     ],
@@ -61,27 +61,39 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "第22期プロクイーン"
       },
       {
+        "year": "2024",
+        "name": "第22期プロクイーン決定戦"
+      },
+      {
         "year": "2022",
         "name": "第20期プロクイーン"
       },
       {
+        "year": "2022",
+        "name": "第20期プロクイーン決定戦"
+      },
+      {
         "year": "2020",
         "name": "第18期プロクイーン"
+      },
+      {
+        "year": "2020",
+        "name": "第18期プロクイーン決定戦"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E3%82%8A%E3%82%93%E3%81%AE%E3%81%AA%E3%81%8A",
     "sourceTitle": "りんのなお"
   },
   "aikawa": {
-    "title": "四神降臨女流王座2019{{r|jj18_start",
+    "title": "四神降臨女流王座",
     "titles": [
       {
         "year": "2019",
-        "name": "四神降臨女流王座2019{{r|jj18_start"
+        "name": "四神降臨女流王座2019"
       },
       {
         "year": "2006",
-        "name": "第5回チャンピオンロード雀王シリーズ優勝{{r|cr5_jyannou"
+        "name": "第5回チャンピオンロード雀王シリーズ"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E9%80%A2%E5%B7%9D%E6%81%B5%E5%A4%A2",
@@ -103,11 +115,27 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "安藤弘樹"
   },
   "date": {
-    "title": "桜蕾",
+    "title": "Mリーグ2023-24シーズン4着回避率トップ",
     "titles": [
+      {
+        "year": "2023",
+        "name": "Mリーグ2023-24シーズン4着回避率トップ"
+      },
+      {
+        "year": "2022",
+        "name": "Mリーグ2022-23シーズンMVP"
+      },
+      {
+        "year": "2021",
+        "name": "Mリーグ2021-22シーズン間最高スコア賞"
+      },
       {
         "year": "2021",
         "name": "第1期桜蕾"
+      },
+      {
+        "year": "2021",
+        "name": "第1期桜蕾戦"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%BC%8A%E9%81%94%E6%9C%B1%E9%87%8C%E7%B4%97",
@@ -121,16 +149,20 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "第36期十段位"
       },
       {
-        "year": "1993",
-        "name": "第9期鳳凰位"
-      },
-      {
-        "year": "1982",
+        "year": "1999",
         "name": "第7期發王位"
       },
       {
-        "year": "1981",
+        "year": "1998",
         "name": "第6期發王位"
+      },
+      {
+        "year": "1992",
+        "name": "第3期最強位"
+      },
+      {
+        "year": "1992",
+        "name": "第9期鳳凰位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%BC%8A%E8%97%A4%E5%84%AA%E5%AD%9D",
@@ -256,15 +288,15 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "鳳凰位3×3",
     "titles": [
       {
-        "year": "2002",
+        "year": "2001",
         "name": "第18期鳳凰位3"
       },
       {
-        "year": "2001",
+        "year": "2000",
         "name": "第17期鳳凰位3"
       },
       {
-        "year": "2000",
+        "year": "1999",
         "name": "第16期鳳凰位3"
       }
     ],
@@ -275,7 +307,7 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "最高位",
     "titles": [
       {
-        "year": "1996",
+        "year": "1997",
         "name": "第21期最高位"
       }
     ],
@@ -292,6 +324,10 @@ export const WIKI_TITLE_OVERRIDES = {
       {
         "year": "2025",
         "name": "第23期プロクイーン"
+      },
+      {
+        "year": "2003",
+        "name": "第2期関西雀王"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%BE%A1%E5%B4%8E%E5%8D%83%E7%B5%90",
@@ -342,6 +378,10 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "鳳凰位×3",
     "titles": [
       {
+        "year": "2025",
+        "name": "麻雀オールスターBS10チャンピオンシップ2025"
+      },
+      {
         "year": "2024",
         "name": "第40期鳳凰位"
       },
@@ -370,34 +410,46 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "佐々木寿人"
   },
   "satsuki_mariko": {
-    "title": "NPM選抜総選挙2018優勝{{r|ja2019×2",
+    "title": "女流雀王×2",
     "titles": [
       {
-        "year": "2019",
-        "name": "NPM選抜総選挙2018優勝{{r|ja20190405"
+        "year": "2020",
+        "name": "第19期女流雀王"
       },
       {
         "year": "2018",
-        "name": "NPM選抜総選挙2018優勝{{r|ja20190405"
+        "name": "NPM選抜総選挙2018優勝"
       },
       {
-        "year": "2003",
-        "name": "第2期女流雀王"
+        "year": "2018",
+        "name": "第26期麻雀マスターズ"
+      },
+      {
+        "year": "2015",
+        "name": "第14期女流雀王"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%BD%90%E6%9C%88%E9%BA%BB%E7%90%86%E5%AD%90",
     "sourceTitle": "佐月麻理子"
   },
   "sakamoto_masashi": {
-    "title": "四神降臨2020王座{{r|4gods",
+    "title": "四神降臨2020王座",
     "titles": [
       {
         "year": "2020",
-        "name": "四神降臨2020王座{{r|4gods"
+        "name": "四神降臨2020王座"
+      },
+      {
+        "year": "2020",
+        "name": "四神降臨2020王座決定戦優勝"
+      },
+      {
+        "year": "2020",
+        "name": "第44期最高位"
       },
       {
         "year": "2018",
-        "name": "麻雀駅伝2018優勝{{r|ekiden"
+        "name": "麻雀駅伝2018優勝"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%9D%82%E6%9C%AC%E5%A4%A7%E5%BF%97",
@@ -421,6 +473,10 @@ export const WIKI_TITLE_OVERRIDES = {
       {
         "year": "2023",
         "name": "第48期王位"
+      },
+      {
+        "year": "2020",
+        "name": "麻雀最強戦2020次世代プロ集結麻雀代理戦争優勝"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%B8%89%E6%B5%A6%E6%99%BA%E5%8D%9A",
@@ -514,17 +570,6 @@ export const WIKI_TITLE_OVERRIDES = {
     "source": "https://ja.wikipedia.org/wiki/%E6%9D%BE%E6%9C%AC%E5%90%89%E5%BC%98",
     "sourceTitle": "松本吉弘"
   },
-  "arai_keibun": {
-    "title": "最高位1期{{r|mjpro|meikan",
-    "titles": [
-      {
-        "year": "2019",
-        "name": "最高位1期{{r|mjpro|meikan2019"
-      }
-    ],
-    "source": "https://ja.wikipedia.org/wiki/%E6%96%B0%E4%BA%95%E5%95%93%E6%96%87",
-    "sourceTitle": "新井啓文"
-  },
   "sanada_enju": {
     "title": "雀竜位",
     "titles": [
@@ -568,25 +613,33 @@ export const WIKI_TITLE_OVERRIDES = {
       {
         "year": "2024",
         "name": "第24期女流最高位"
+      },
+      {
+        "year": "2021",
+        "name": "Mリーグ2021-22MVP"
+      },
+      {
+        "year": "2019",
+        "name": "プリンセスリーグ2019優勝"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E7%91%9E%E5%8E%9F%E6%98%8E%E5%A5%88",
     "sourceTitle": "瑞原明奈"
   },
   "setokuma": {
-    "title": "鳳凰位×3",
+    "title": "十段位×3",
     "titles": [
       {
         "year": "2022",
-        "name": "最強位2022"
+        "name": "第16回モンド名人"
+      },
+      {
+        "year": "2022",
+        "name": "第33期最強位"
       },
       {
         "year": "2021",
-        "name": "最強位2021"
-      },
-      {
-        "year": "2013",
-        "name": "第29期鳳凰位"
+        "name": "第32期最強位"
       },
       {
         "year": "2013",
@@ -597,8 +650,8 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "第29期十段位"
       },
       {
-        "year": "2011",
-        "name": "第27期鳳凰位"
+        "year": "2012",
+        "name": "第29期鳳凰位"
       },
       {
         "year": "2011",
@@ -606,10 +659,14 @@ export const WIKI_TITLE_OVERRIDES = {
       },
       {
         "year": "2010",
+        "name": "第27期鳳凰位"
+      },
+      {
+        "year": "2009",
         "name": "第26期鳳凰位"
       },
       {
-        "year": "1989",
+        "year": "2006",
         "name": "第14期發王位"
       }
     ],
@@ -617,11 +674,23 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "瀬戸熊直樹"
   },
   "nishijima_chiharu": {
-    "title": "女流最高位4期{{r|mw2019",
+    "title": "女流最高位×4",
     "titles": [
       {
+        "year": "2022",
+        "name": "第22期女流最高位"
+      },
+      {
         "year": "2019",
-        "name": "女流最高位4期{{r|mw20190425"
+        "name": "第19期女流最高位"
+      },
+      {
+        "year": "2018",
+        "name": "第18期女流最高位"
+      },
+      {
+        "year": "2017",
+        "name": "第17期女流最高位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E8%A5%BF%E5%B6%8B%E5%8D%83%E6%98%A5",
@@ -631,12 +700,16 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "最高位",
     "titles": [
       {
-        "year": "2024",
+        "year": "2025",
         "name": "第49期最高位"
       },
       {
         "year": "2016",
         "name": "第41期王位"
+      },
+      {
+        "year": "2016",
+        "name": "第41期王位戦"
       },
       {
         "year": "2013",
@@ -680,7 +753,7 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "最強位2015"
       },
       {
-        "year": "2015",
+        "year": "2014",
         "name": "第31期鳳凰位"
       }
     ],
@@ -703,7 +776,15 @@ export const WIKI_TITLE_OVERRIDES = {
     "titles": [
       {
         "year": "2022",
+        "name": "Mリーグ2022-23シーズン渋谷ABEMAS優勝"
+      },
+      {
+        "year": "2022",
         "name": "Mリーグ2022チーム優勝"
+      },
+      {
+        "year": "2022",
+        "name": "第3期飛翔位戦Presentedby2022"
       },
       {
         "year": "2021",
@@ -723,7 +804,15 @@ export const WIKI_TITLE_OVERRIDES = {
       },
       {
         "year": "2018",
+        "name": "Mリーグ2018-19シーズンMVP"
+      },
+      {
+        "year": "2018",
         "name": "Mリーグ2018個人スコア1位"
+      },
+      {
+        "year": "2017",
+        "name": "RMUアワード2017最優秀選手賞"
       },
       {
         "year": "2017",
@@ -731,11 +820,23 @@ export const WIKI_TITLE_OVERRIDES = {
       },
       {
         "year": "2016",
-        "name": "RTDリーグ2016"
+        "name": "2016度RMUスプリントカップアースカップ優勝"
+      },
+      {
+        "year": "2016",
+        "name": "RMUアワード2016最優秀選手賞"
+      },
+      {
+        "year": "2016",
+        "name": "RTDリーグ2016優勝"
       },
       {
         "year": "2016",
         "name": "麻雀日本シリーズ2015・2016・2021"
+      },
+      {
+        "year": "2015",
+        "name": "RMUアワード2015最優秀選手賞"
       },
       {
         "year": "2015",
@@ -746,12 +847,64 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "麻雀日本シリーズ2015・2016・2021"
       },
       {
+        "year": "2014",
+        "name": "RMUアワード2014最優秀選手賞"
+      },
+      {
+        "year": "2013",
+        "name": "2013オープンリーグ優勝"
+      },
+      {
+        "year": "2013",
+        "name": "RMUアワード2013最優秀選手賞"
+      },
+      {
+        "year": "2013",
+        "name": "第5期RMUクラウン"
+      },
+      {
+        "year": "2012",
+        "name": "RMUアワード2012最優秀選手賞"
+      },
+      {
         "year": "2012",
         "name": "第3期令昭位"
       },
       {
+        "year": "2011",
+        "name": "2011オープンリーグ優勝"
+      },
+      {
+        "year": "2011",
+        "name": "RMUアワード2011最優秀選手賞"
+      },
+      {
+        "year": "2011",
+        "name": "第9回日本オープン"
+      },
+      {
+        "year": "2010",
+        "name": "RMUアワード2010最優秀選手賞"
+      },
+      {
         "year": "2010",
         "name": "第1期令昭位"
+      },
+      {
+        "year": "2009",
+        "name": "RMUアワード2009最優秀選手賞"
+      },
+      {
+        "year": "2007",
+        "name": "RMUアワード2007最優秀選手賞"
+      },
+      {
+        "year": "2006",
+        "name": "第31期王位"
+      },
+      {
+        "year": "2003",
+        "name": "第1回日本オープン"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%A4%9A%E4%BA%95%E9%9A%86%E6%99%B4",
@@ -766,18 +919,34 @@ export const WIKI_TITLE_OVERRIDES = {
       },
       {
         "year": "2014",
-        "name": "第14期女流最高位3期"
+        "name": "第14期女流最高位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%A4%A7%E5%B9%B3%E4%BA%9C%E5%AD%A3",
     "sourceTitle": "大平亜季"
   },
   "daigo": {
-    "title": "最高位",
+    "title": "2025Mリーグ2024-25個人MVP×2",
     "titles": [
       {
-        "year": "2020",
+        "year": "2025",
+        "name": "2025Mリーグ2024-25個人MVP"
+      },
+      {
+        "year": "2024",
+        "name": "2025Mリーグ2024-25個人MVP"
+      },
+      {
+        "year": "2021",
         "name": "第45期最高位"
+      },
+      {
+        "year": "2020",
+        "name": "2020第23回BIG1カップ優勝"
+      },
+      {
+        "year": "2020",
+        "name": "2020第45期最高位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E9%86%8D%E9%86%90%E5%A4%A7",
@@ -837,6 +1006,10 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "雀竜位×2",
     "titles": [
       {
+        "year": "2012",
+        "name": "2002年世界麻雀選手権団体2012"
+      },
+      {
         "year": "2006",
         "name": "第5期雀王"
       },
@@ -847,6 +1020,10 @@ export const WIKI_TITLE_OVERRIDES = {
       {
         "year": "2002",
         "name": "第1期雀竜位"
+      },
+      {
+        "year": "1979",
+        "name": "第4期雀王位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E9%8D%9B%E5%86%B6%E7%94%B0%E8%89%AF%E4%B8%80",
@@ -856,16 +1033,16 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "最高位×2",
     "titles": [
       {
-        "year": "2023",
+        "year": "2024",
         "name": "第48期最高位"
+      },
+      {
+        "year": "2023",
+        "name": "第47期最高位"
       },
       {
         "year": "2022",
         "name": "2022第24回BIG1カップ優勝"
-      },
-      {
-        "year": "2022",
-        "name": "第47期最高位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E7%AB%B9%E5%86%85%E5%85%83%E5%A4%AA",
@@ -898,15 +1075,19 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "仲川翔"
   },
   "kana_nakata": {
-    "title": "女流プロ麻雀日本シリーズ2020優勝{{r|japanseries",
+    "title": "女流プロ麻雀日本シリーズ×2",
     "titles": [
       {
-        "year": "2020",
-        "name": "女流プロ麻雀日本シリーズ2020優勝{{r|japanseries2020"
+        "year": "2023",
+        "name": "女流プロ麻雀日本シリーズ2023"
       },
       {
         "year": "2020",
-        "name": "麻雀BATTLEROYALチーム・チャンピオンシップ2020チーム優勝{{r|battle"
+        "name": "女流プロ麻雀日本シリーズ2020"
+      },
+      {
+        "year": "2020",
+        "name": "麻雀BATTLEROYALチーム・チャンピオンシップ2020チーム優勝"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%BB%B2%E7%94%B0%E5%8A%A0%E5%8D%97",
@@ -920,20 +1101,32 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "第23期雀王"
       },
       {
+        "year": "2024",
+        "name": "第23期雀王戦"
+      },
+      {
         "year": "2023",
         "name": "第22期雀王"
+      },
+      {
+        "year": "2023",
+        "name": "第22期雀王戦"
+      },
+      {
+        "year": "2022",
+        "name": "第30期發王位"
+      },
+      {
+        "year": "2021",
+        "name": "第29期發王位"
       },
       {
         "year": "2011",
         "name": "第10期雀竜位"
       },
       {
-        "year": "2005",
-        "name": "第30期發王位"
-      },
-      {
-        "year": "2004",
-        "name": "第29期發王位"
+        "year": "2011",
+        "name": "第10期雀竜位戦"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E4%BB%B2%E6%9E%97%E5%9C%AD",
@@ -969,7 +1162,7 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "十段位×3",
     "titles": [
       {
-        "year": "2020",
+        "year": "2019",
         "name": "第36期鳳凰位"
       },
       {
@@ -981,7 +1174,7 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "第33期十段位"
       },
       {
-        "year": "2014",
+        "year": "2013",
         "name": "第30期鳳凰位"
       },
       {
@@ -1035,11 +1228,19 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "内川幸太郎"
   },
   "naraharakazuto": {
-    "title": "令昭位",
+    "title": "四神降臨2023王座決定戦",
     "titles": [
       {
         "year": "2023",
+        "name": "四神降臨2023王座決定戦"
+      },
+      {
+        "year": "2023",
         "name": "第14期令昭位"
+      },
+      {
+        "year": "1986",
+        "name": "第10期アマ最高位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E6%A5%A2%E5%8E%9F%E5%92%8C%E4%BA%BA",
@@ -1075,12 +1276,20 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "鳳凰位×2",
     "titles": [
       {
-        "year": "2026",
+        "year": "2025",
         "name": "第42期鳳凰位"
       },
       {
-        "year": "2025",
+        "year": "2024",
         "name": "第41期鳳凰位"
+      },
+      {
+        "year": "2022",
+        "name": "Mリーグ2022-23優勝"
+      },
+      {
+        "year": "2020",
+        "name": "第28期發王位"
       },
       {
         "year": "2017",
@@ -1089,10 +1298,6 @@ export const WIKI_TITLE_OVERRIDES = {
       {
         "year": "2016",
         "name": "第24期麻雀マスターズ"
-      },
-      {
-        "year": "2003",
-        "name": "第28期發王位"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E7%99%BD%E9%B3%A5%E7%BF%94",
@@ -1151,15 +1356,11 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "福島佑一"
   },
   "hiraga_toshihiko": {
-    "title": "モンド杯優勝{{r|mw2020",
+    "title": "RTDリーグ2017優勝",
     "titles": [
       {
-        "year": "2020",
-        "name": "第20回モンド杯優勝{{r|mw20200220"
-      },
-      {
         "year": "2017",
-        "name": "RTDリーグ2017優勝{{r|mjpro"
+        "name": "RTDリーグ2017優勝"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E5%B9%B3%E8%B3%80%E8%81%A1%E5%BD%A6",
@@ -1169,8 +1370,16 @@ export const WIKI_TITLE_OVERRIDES = {
     "title": "最高位",
     "titles": [
       {
-        "year": "2025",
+        "year": "2026",
         "name": "第50期最高位"
+      },
+      {
+        "year": "2017",
+        "name": "関西チャンピオンロード2017女流スプリントシリーズ優勝"
+      },
+      {
+        "year": "2017",
+        "name": "関西チャンピオンロード2017新人王シリーズ優勝"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E7%89%A7%E9%87%8E%E4%BC%B8%E5%BD%A6",
@@ -1184,6 +1393,14 @@ export const WIKI_TITLE_OVERRIDES = {
         "name": "Mトーナメント2025優勝"
       },
       {
+        "year": "2024",
+        "name": "[https://www.youtube.com/watch?v=pmX3Wkfbb50麻雀遊戯王CUP2024]優勝"
+      },
+      {
+        "year": "2021",
+        "name": "Mリーグ2021-22シーズンKADOKAWAサクラナイツ優勝"
+      },
+      {
         "year": "2019",
         "name": "第18期雀王"
       }
@@ -1192,11 +1409,15 @@ export const WIKI_TITLE_OVERRIDES = {
     "sourceTitle": "堀慎吾"
   },
   "honda": {
-    "title": "麻雀グランプリMAX×2",
+    "title": "第10,11期麻雀グランプリMAX×2",
     "titles": [
       {
         "year": "2024",
-        "name": "第32期麻雀マスターズ"
+        "name": "第32期麻雀マスターズ2024"
+      },
+      {
+        "year": "2020",
+        "name": "第10,11期麻雀グランプリMAX2020"
       },
       {
         "year": "2020",
@@ -1204,15 +1425,31 @@ export const WIKI_TITLE_OVERRIDES = {
       },
       {
         "year": "2019",
+        "name": "第10,11期麻雀グランプリMAX2019"
+      },
+      {
+        "year": "2019",
         "name": "第10期麻雀グランプリMAX"
+      },
+      {
+        "year": "2019",
+        "name": "第20期北陸プロアマリーグ2019"
+      },
+      {
+        "year": "2019",
+        "name": "第3期北陸プロリーグ2019"
       }
     ],
     "source": "https://ja.wikipedia.org/wiki/%E6%9C%AC%E7%94%B0%E6%9C%8B%E5%BA%83",
     "sourceTitle": "本田朋広"
   },
   "kihara_koichi": {
-    "title": "雀王",
+    "title": "四神降臨2016王座決定戦",
     "titles": [
+      {
+        "year": "2016",
+        "name": "四神降臨2016王座決定戦"
+      },
       {
         "year": "2015",
         "name": "第14期雀王"
