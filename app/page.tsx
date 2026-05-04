@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
-import { NEWS, getCategoryLabel } from "@/app/news/data";
+import { getCategoryLabel, getHomeNewsSelection } from "@/app/news/data";
 import { MLEAGUE_FINAL_MATCHES, URL_ABEMA_MAHJONG } from "@/app/schedule/data";
 import {
   FINAL_2025_26,
@@ -211,10 +211,8 @@ export default function Home() {
   const titleRanking = computeTitleRanking().slice(0, 5);
   const currentTitlists = getCurrentTitlists();
 
-  // 注目記事 (最新が先頭)
-  const sortedNews = [...NEWS].sort((a, b) => (a.date < b.date ? 1 : -1));
-  const topStory = sortedNews[0];
-  const otherNews = sortedNews.slice(1, 3);
+  // HOMEの注目記事は app/news/data.ts の HOME_NEWS_SELECTION で手動選択する
+  const { topStory, otherNews } = getHomeNewsSelection();
 
   // 団体ごとに最も代表的なタイトル戦を1つずつ選んで5つに
   const featuredTitles = ORG_PRIORITY.map((org) => TITLES.find((t) => t.org === org)).filter(

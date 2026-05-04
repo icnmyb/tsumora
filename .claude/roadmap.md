@@ -356,6 +356,7 @@ const FilterSchema = z.object({
 ### 2026-05-04 UIメモ
 - `/players` は「全選手」を初期表示にし、「Mリーガー」は同一ページ内の切り替えタブで表示する。全選手検索を主導線にして、Mリーガー一覧は補助ビューとして扱う。
 - HOME広告枠はトップ記事/Mリーグ直下に配置。広告URLが渡されたら、未確認の仮リンクではなく正式URLだけを付ける。
+- HOMEの大きいニュース1件・小さいニュース2件は `app/news/data.ts` の `HOME_NEWS_SELECTION` でslug指定する。日付順の自動選択ではなく、編集者が選ぶ運用にする。
 
 ### 関連ファイル (実装時に参照)
 - `app/players/data.ts` — `RosterPlayer` / `FeaturedPlayer` 型 + `getAllPlayers()`

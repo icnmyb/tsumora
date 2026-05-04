@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { NEWS, getCategoryLabel } from "./data";
+import { getCategoryLabel, getSortedNews } from "./data";
 
 export const metadata: Metadata = {
   title: "ニュース — TSUMORA",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function NewsIndexPage() {
-  const articles = [...NEWS].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const articles = getSortedNews();
   const top = articles[0];
   const rest = articles.slice(1);
 
