@@ -80,7 +80,7 @@
   - MリーグFinal日程は `app/schedule/data.ts` で `FINAL_2025_26.upcoming` からカレンダー用イベントへ変換し、ホームと `/schedule` が同じ元データを見る
 - ✅ 連盟OPENREC配信予定の反映
   - `https://www.openrec.tv/user/jpml0306` の配信予定（OPENREC APIで `onair_status: 0` / `will_start_at` あり）を確認し、2026-05-05から2027-01-10までの公開予定を `/schedule` に追加
-  - OPENREC側に終了時刻がないため、画面表示は `timeLabel` で「12:00開始」のように開始時刻のみ表示。カレンダー上の高さは暫定枠として2時間を利用
+  - OPENREC側に終了時刻がないため、画面表示は `timeLabel` で「12:00開始」のように開始時刻のみ表示。`endTime` はカレンダー表示用にFocus Mを3時間、それ以外を7時間で設定
   - 11:00開始の予定に合わせ、週カレンダーの表示開始時刻を11:00へ拡張
   - ホームは日付依存表示のため `dynamic = "force-dynamic"` に変更
 - ✅ `/schedule` カレンダー改善
