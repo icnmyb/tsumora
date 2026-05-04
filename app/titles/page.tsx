@@ -5,7 +5,7 @@ import { TITLES, TITLE_FILTERS as FILTERS } from "./data";
 export const metadata: Metadata = {
   title: "タイトル戦 — TSUMORA",
   description:
-    "鳳凰位 / 十段位 / 王位 / 雀王 / 雀竜位 / 令昭位 / 最高位 など、日本のプロ麻雀主要タイトル戦の歴代記録と現保持者。",
+    "鳳凰位 / 十段位 / 王位 / 雀王 / 最高位 / 令昭位 / 将王 など、日本のプロ麻雀主要タイトル戦の歴代記録と現保持者。",
   openGraph: {
     title: "タイトル戦 — TSUMORA",
     description: "プロ麻雀主要タイトル戦の歴代記録と現保持者。",

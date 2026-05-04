@@ -521,7 +521,7 @@ export default function Home() {
               <span className="hsh-jp">主要タイトル戦</span>
               <span className="hsh-en">Major Championships · 5 Bodies</span>
               <span className="hsh-rule"></span>
-              <Link href="/titles" className="hsh-more">ALL 8 TITLES →</Link>
+              <Link href="/titles" className="hsh-more">ALL {TITLES.length} TITLES →</Link>
             </h2>
             <div className="home-titles-bento">
               {featuredTitles.map((t) => {

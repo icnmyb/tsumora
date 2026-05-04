@@ -237,22 +237,24 @@ export function TitleDetailPage({ title: t }: Props) {
       )}
 
       {/* PAST CHAMPIONS */}
-      <h2 className="sh">
-        <span>歴代優勝者</span>
-        <span className="num">Past Champions · {t.pastChampions.length}件掲載</span>
-        <span className="rule"></span>
-      </h2>
-      <div
-        style={{
-          background: "var(--paper)",
-          border: "var(--border)",
-          boxShadow: "var(--shadow)",
-          marginBottom: 36,
-        }}
-      >
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5 }}>
-          <thead>
-            <tr>
+      {t.pastChampions.length > 0 && (
+        <>
+          <h2 className="sh">
+            <span>歴代優勝者</span>
+            <span className="num">Past Champions · {t.pastChampions.length}件掲載</span>
+            <span className="rule"></span>
+          </h2>
+          <div
+            style={{
+              background: "var(--paper)",
+              border: "var(--border)",
+              boxShadow: "var(--shadow)",
+              marginBottom: 36,
+            }}
+          >
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5 }}>
+              <thead>
+                <tr>
               <th
                 style={{
                   background: "var(--paper-2)",
@@ -302,16 +304,16 @@ export function TitleDetailPage({ title: t }: Props) {
               >
                 備考
               </th>
-            </tr>
-          </thead>
-          <tbody>
-            {t.pastChampions.map((c, i) => (
-              <tr
-                key={`${c.ep}-${c.name}-${i}`}
-                style={{
-                  background: c.current ? `${orgColor}20` : i % 2 === 0 ? "var(--paper)" : "var(--paper-2)",
-                }}
-              >
+                </tr>
+              </thead>
+              <tbody>
+                {t.pastChampions.map((c, i) => (
+                  <tr
+                    key={`${c.ep}-${c.name}-${i}`}
+                    style={{
+                      background: c.current ? `${orgColor}20` : i % 2 === 0 ? "var(--paper)" : "var(--paper-2)",
+                    }}
+                  >
                 <td
                   style={{
                     padding: "12px 16px",
@@ -372,11 +374,13 @@ export function TitleDetailPage({ title: t }: Props) {
                 >
                   {c.note ?? ""}
                 </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
 
       {/* TOP CROWNS */}
       {topCrownPlayers.length > 0 && topCrownPlayers[0].count > 1 && (
@@ -466,7 +470,7 @@ export function TitleDetailPage({ title: t }: Props) {
       {t.rules && t.rules.length > 0 && (
         <>
           <h2 className="sh">
-            <span>ルール / フォーマット</span>
+            <span>ルール</span>
             <span className="num">Rules</span>
             <span className="rule"></span>
           </h2>
