@@ -29,14 +29,49 @@ export interface NewsArticle {
 
 // HOMEの大きいニュース1件・小さいニュース2件はここで手動選択する。
 export const HOME_NEWS_SELECTION = {
-  primary: "mleague-2025-26-final-opening",
+  primary: "mleague-2025-26-final-day1",
   secondary: [
+    "mleague-2025-26-final-opening",
     "m-tournament-2026-announced",
-    "watanabe-futoshi-34th-mahjong-masters",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "mleague-2025-26-final-day1",
+    date: "2026-05-04",
+    publishedAt: "2026-05-04T23:45:00+09:00",
+    category: "mleague",
+    headline: "Mリーグファイナル初日、風林火山が首位を固める",
+    lead:
+      "Mリーグ2025-26ファイナルが開幕。第1試合は二階堂亜樹、第2試合は滝沢和典がトップを獲得し、EX風林火山が307.8ptで首位を守った。",
+    body: [
+      "ZOZOTOWN Mリーグ2025-26ファイナルシリーズは5月4日に開幕し、初日は2試合が行われた。第1試合はEX風林火山の二階堂亜樹が61.1ptでトップ。KONAMI麻雀格闘倶楽部の佐々木寿人が20.0ptで2着に入り、TEAM RAIDEN/雷電の瀬戸熊直樹、BEAST Xの鈴木大介が続いた。",
+      "第2試合はKONAMI麻雀格闘倶楽部の滝沢和典が87.9ptでトップを獲得。EX風林火山の内川幸太郎が23.4ptで2着に入り、雷電の萩原聖人、BEAST Xの下石戟が苦しいスタートとなった。",
+      "2試合終了時点のチーム順位はEX風林火山が307.8ptで首位。KONAMI麻雀格闘倶楽部が228.3ptで2位に浮上し、BEAST Xは41.6pt、TEAM RAIDEN/雷電は30.6ptで追う形になった。ファイナルは全16試合。初日は風林火山が持ち越しリードを広げつつ、KONAMIも滝沢の大トップで一気に射程へ入った。",
+    ],
+    seoTitle: "Mリーグ2025-26ファイナル初日結果",
+    seoDescription:
+      "Mリーグ2025-26ファイナル初日、二階堂亜樹と滝沢和典がトップ。2試合終了時点のチーム順位と個人成績を短報で整理。",
+    sources: [
+      {
+        label: "キンマweb：Mリーグ2025-26 試合結果 / ファイナル（5月4日更新）",
+        url: "https://kinmaweb.jp/archives/275197",
+        checkedAt: "2026-05-05",
+      },
+      {
+        label: "キンマweb：Mリーグ2025-26 チーム・個人成績 / ファイナル（5月4日更新）",
+        url: "https://kinmaweb.jp/archives/275195",
+        checkedAt: "2026-05-05",
+      },
+    ],
+    related: [
+      { type: "team", id: "furinkazan" },
+      { type: "team", id: "konami" },
+      { type: "team", id: "beast-x" },
+      { type: "team", id: "raiden" },
+    ],
+  },
   {
     slug: "m-tournament-2026-announced",
     date: "2026-05-01",
