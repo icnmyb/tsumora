@@ -321,7 +321,7 @@ export default function MleaguePage() {
           <div className="m">
             <div className="l">Broadcaster</div>
             <div className="v">ABEMA</div>
-            <div className="sub">月〜金 19:00〜 無料</div>
+            <div className="sub">通常19:00〜 / 最終日17:00〜</div>
           </div>
         </div>
       </section>
@@ -760,7 +760,7 @@ export default function MleaguePage() {
             <dd>
               <b>ABEMA</b>にて全試合無料生配信
               <br />
-              月〜金 19:00〜
+              通常19:00〜 / 最終日17:00〜
             </dd>
             <dt>歴代王者</dt>
             <dd style={{ fontSize: 11.5, lineHeight: 1.6 }}>

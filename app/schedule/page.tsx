@@ -959,7 +959,7 @@ export default async function SchedulePage({
                     fontWeight: 600,
                   }}
                 >
-                  主に19:00〜
+                  通常19:00〜 / 最終日17:00〜
                 </div>
               </div>
               <div className="ch-item">
