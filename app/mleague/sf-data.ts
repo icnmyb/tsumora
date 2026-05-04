@@ -3,8 +3,9 @@
 // 出典:
 // - セミファイナル結果/ファイナル進出チーム（公式発表）: https://m-league.jp/news202605011200/
 // - ファイナル日程（公式日程）: https://m-league.jp/games/
+// - ファイナル進行中の順位（公式TOP）: https://m-league.jp/
 // - セミファイナル最終pt/持越（公式データ集計）: https://m-league.aja0.com/chart/2025/semifinal_team_scores.html
-// (2026-05-01 更新)
+// (2026-05-04 更新)
 
 export interface SFTeamStanding {
   teamSlug: string;
@@ -150,49 +151,43 @@ export const FINAL_2025_26: FinalState = {
   startDate: "2026-05-04",
   endDate: "2026-05-15",
   totalGames: 16,
-  gamesPlayed: 0,
+  gamesPlayed: 2,
   finalLine: 1,
   standings: [
     {
       teamSlug: "furinkazan",
       carryover: 223.3,
-      finalPoints: 0,
-      total: 223.3,
-      gamesPlayed: 0,
+      finalPoints: 84.5,
+      total: 307.8,
+      gamesPlayed: 2,
       gamesTotal: 16,
     },
     {
       teamSlug: "beast-x",
       carryover: 188.4,
-      finalPoints: 0,
-      total: 188.4,
-      gamesPlayed: 0,
+      finalPoints: -146.8,
+      total: 41.6,
+      gamesPlayed: 2,
       gamesTotal: 16,
     },
     {
       teamSlug: "konami",
       carryover: 120.4,
-      finalPoints: 0,
-      total: 120.4,
-      gamesPlayed: 0,
+      finalPoints: 107.9,
+      total: 228.3,
+      gamesPlayed: 2,
       gamesTotal: 16,
     },
     {
       teamSlug: "raiden",
       carryover: 76.2,
-      finalPoints: 0,
-      total: 76.2,
-      gamesPlayed: 0,
+      finalPoints: -45.6,
+      total: 30.6,
+      gamesPlayed: 2,
       gamesTotal: 16,
     },
   ],
   upcoming: [
-    {
-      date: "2026-05-04",
-      startTimeJst: "19:00",
-      teamSlugs: ["furinkazan", "beast-x", "konami", "raiden"],
-      status: "upcoming",
-    },
     {
       date: "2026-05-05",
       startTimeJst: "19:00",

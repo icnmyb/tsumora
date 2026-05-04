@@ -159,7 +159,9 @@ function getPhaseCopy(phase: PhaseKey) {
         diffLabel: "首位差",
         borderLabel: "",
         lead:
-          "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントはセミファイナル最終ptの半分を持ち越した開始時点の値。",
+          FINAL_2025_26.gamesPlayed > 0
+            ? "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントは持越pt + ファイナル獲得pt（合計）を表示。"
+            : "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントはセミファイナル最終ptの半分を持ち越した開始時点の値。",
       };
   }
 }
