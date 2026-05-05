@@ -29,14 +29,49 @@ export interface NewsArticle {
 
 // HOMEの大きいニュース1件・小さいニュース2件はここで手動選択する。
 export const HOME_NEWS_SELECTION = {
-  primary: "mleague-2025-26-final-day1",
+  primary: "mleague-2025-26-final-day2",
   secondary: [
+    "mleague-2025-26-final-day1",
     "mleague-2025-26-final-opening",
-    "m-tournament-2026-announced",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "mleague-2025-26-final-day2",
+    date: "2026-05-05",
+    publishedAt: "2026-05-05T23:45:00+09:00",
+    category: "mleague",
+    headline: "ファイナル2日目、KONAMIが首位へ浮上",
+    lead:
+      "Mリーグ2025-26ファイナル2日目は黒沢咲と伊達朱里紗がトップを獲得。KONAMI麻雀格闘倶楽部が288.3ptで首位に立ち、EX風林火山は182.3ptで2位へ後退した。",
+    body: [
+      "ファイナルシリーズ2日目の第1試合はTEAM RAIDEN/雷電の黒沢咲が54.3ptでトップ。BEAST Xの中田花奈が10.4ptで2着、KONAMI麻雀格闘倶楽部の高宮まりが-18.4pt、EX風林火山の永井孝典が-46.3ptとなった。",
+      "第2試合はKONAMI麻雀格闘倶楽部の伊達朱里紗が78.4ptの大きなトップを獲得。BEAST Xの東城りおが11.0ptで2着、雷電の本田朋広が-10.2pt、風林火山の内川幸太郎が-79.2ptで4着となり、ポイントが大きく動いた。",
+      "4試合終了時点のチーム順位はKONAMIが288.3ptで首位、風林火山が182.3ptで2位、雷電が74.7ptで3位、BEAST Xが63.0ptで4位。個人成績では滝沢和典(87.9pt)に続き、伊達朱里紗(78.4pt)、二階堂亜樹(61.1pt)、黒沢咲(54.3pt)が上位につけている。",
+    ],
+    seoTitle: "Mリーグ2025-26ファイナル2日目結果（KONAMI首位）",
+    seoDescription:
+      "Mリーグ2025-26ファイナル2日目、黒沢咲と伊達朱里紗がトップ。4試合終了時点のチーム順位と個人成績上位を短報で整理。",
+    sources: [
+      {
+        label: "M.LEAGUE公式：試合日程（2025-26）",
+        url: "https://m-league.jp/games/",
+        checkedAt: "2026-05-05",
+      },
+      {
+        label: "M.LEAGUE公式：ファイナル順位（進行中）",
+        url: "https://m-league.jp/",
+        checkedAt: "2026-05-05",
+      },
+    ],
+    related: [
+      { type: "team", id: "konami" },
+      { type: "team", id: "furinkazan" },
+      { type: "team", id: "raiden" },
+      { type: "team", id: "beast-x" },
+    ],
+  },
   {
     slug: "mleague-2025-26-final-day1",
     date: "2026-05-04",
