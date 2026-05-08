@@ -67,13 +67,13 @@ const SEMIFINAL_FINAL_STANDINGS_SOURCE: MLeagueSourceRef = {
 const FINAL_GAMES_SOURCE: MLeagueSourceRef = {
   label: "M.LEAGUE 試合日程 2025-26",
   url: "https://m-league.jp/games/",
-  asOf: "2026-05-07",
+  asOf: "2026-05-08",
 };
 
 const FINAL_TOP_SOURCE: MLeagueSourceRef = {
   label: "M.LEAGUE公式サイト 2025-26ファイナル順位（進行中）",
   url: "https://m-league.jp/",
-  asOf: "2026-05-07",
+  asOf: "2026-05-08",
 };
 
 // Final開幕後は、確認済みソースを MLeagueSourceRef として追加し、
@@ -101,30 +101,30 @@ export const TEAM_PHASE_STATS_2025_26: TeamPhaseStats[] = [
   { season: "2025-26", phase: "semifinal", teamSlug: "phoenix", games: 20, firsts: 5, points: -40.8, bestScore: 72800, source: SEMIFINAL_POINTS_SOURCE },
   { season: "2025-26", phase: "semifinal", teamSlug: "drivens", games: 20, firsts: 2, points: -243.1, bestScore: 70300, source: SEMIFINAL_FINAL_STANDINGS_SOURCE },
 
-  // Final in-progress (as of 2026-05-07). points = ファイナル獲得pt（持越ptは含めない）
-  { season: "2025-26", phase: "final", teamSlug: "konami", games: 6, firsts: 3, points: 150.7, source: FINAL_TOP_SOURCE },
-  { season: "2025-26", phase: "final", teamSlug: "furinkazan", games: 6, firsts: 0, points: -48.6, source: FINAL_TOP_SOURCE },
-  { season: "2025-26", phase: "final", teamSlug: "raiden", games: 6, firsts: 2, points: 22.4, source: FINAL_TOP_SOURCE },
-  { season: "2025-26", phase: "final", teamSlug: "beast-x", games: 6, firsts: 1, points: -124.5, source: FINAL_TOP_SOURCE },
+  // Final in-progress (as of 2026-05-08). points = ファイナル獲得pt（持越ptは含めない）
+  { season: "2025-26", phase: "final", teamSlug: "konami", games: 8, firsts: 2, points: 115.2, source: FINAL_TOP_SOURCE },
+  { season: "2025-26", phase: "final", teamSlug: "furinkazan", games: 8, firsts: 1, points: -113.8, source: FINAL_TOP_SOURCE },
+  { season: "2025-26", phase: "final", teamSlug: "raiden", games: 8, firsts: 2, points: -54.9, source: FINAL_TOP_SOURCE },
+  { season: "2025-26", phase: "final", teamSlug: "beast-x", games: 8, firsts: 3, points: 53.5, source: FINAL_TOP_SOURCE },
 ];
 
 export const PLAYER_PHASE_STATS_2025_26: PlayerPhaseStats[] = [
-  // Final in-progress (as of 2026-05-07), phase-only points.
-  { season: "2025-26", phase: "final", playerId: "takizawa", teamSlug: "konami", games: 1, firsts: 1, seconds: 0, thirds: 0, fourths: 0, points: 87.9, source: FINAL_GAMES_SOURCE },
-  { season: "2025-26", phase: "final", playerId: "nikaido-a", teamSlug: "furinkazan", games: 2, firsts: 1, seconds: 0, thirds: 1, fourths: 0, points: 44.4, source: FINAL_GAMES_SOURCE },
+  // Final in-progress (as of 2026-05-08), phase-only points.
+  { season: "2025-26", phase: "final", playerId: "takizawa", teamSlug: "konami", games: 2, firsts: 1, seconds: 0, thirds: 1, fourths: 0, points: 62.7, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "nikaido-a", teamSlug: "furinkazan", games: 3, firsts: 1, seconds: 1, thirds: 1, fourths: 0, points: 42.0, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "uchikawa", teamSlug: "furinkazan", games: 2, firsts: 0, seconds: 1, thirds: 0, fourths: 1, points: -55.8, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "sasaki", teamSlug: "konami", games: 2, firsts: 0, seconds: 2, thirds: 0, fourths: 0, points: 35.2, source: FINAL_GAMES_SOURCE },
-  { season: "2025-26", phase: "final", playerId: "setokuma", teamSlug: "raiden", games: 1, firsts: 0, seconds: 0, thirds: 1, fourths: 0, points: -20.5, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "setokuma", teamSlug: "raiden", games: 2, firsts: 0, seconds: 0, thirds: 1, fourths: 1, points: -67.3, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "hagiwara", teamSlug: "raiden", games: 2, firsts: 0, seconds: 0, thirds: 1, fourths: 1, points: -79.2, source: FINAL_GAMES_SOURCE },
-  { season: "2025-26", phase: "final", playerId: "suzuki-d", teamSlug: "beast-x", games: 1, firsts: 0, seconds: 0, thirds: 0, fourths: 1, points: -60.6, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "suzuki-d", teamSlug: "beast-x", games: 2, firsts: 1, seconds: 0, thirds: 0, fourths: 1, points: 13.8, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "shimoishi", teamSlug: "beast-x", games: 2, firsts: 1, seconds: 0, thirds: 0, fourths: 1, points: -30.6, source: FINAL_GAMES_SOURCE },
 
-  { season: "2025-26", phase: "final", playerId: "kurosawa", teamSlug: "raiden", games: 1, firsts: 1, seconds: 0, thirds: 0, fourths: 0, points: 54.3, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "kurosawa", teamSlug: "raiden", games: 2, firsts: 1, seconds: 0, thirds: 1, fourths: 0, points: 23.8, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "nakata", teamSlug: "beast-x", games: 2, firsts: 0, seconds: 1, thirds: 0, fourths: 1, points: -44.3, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "takamiya", teamSlug: "konami", games: 2, firsts: 0, seconds: 0, thirds: 2, fourths: 0, points: -50.8, source: FINAL_GAMES_SOURCE },
-  { season: "2025-26", phase: "final", playerId: "nagai", teamSlug: "furinkazan", games: 1, firsts: 0, seconds: 0, thirds: 0, fourths: 1, points: -46.3, source: FINAL_GAMES_SOURCE },
-  { season: "2025-26", phase: "final", playerId: "date", teamSlug: "konami", games: 1, firsts: 1, seconds: 0, thirds: 0, fourths: 0, points: 78.4, source: FINAL_GAMES_SOURCE },
-  { season: "2025-26", phase: "final", playerId: "tojo", teamSlug: "beast-x", games: 1, firsts: 0, seconds: 1, thirds: 0, fourths: 0, points: 11.0, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "nagai", teamSlug: "furinkazan", games: 2, firsts: 0, seconds: 0, thirds: 0, fourths: 2, points: -109.1, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "date", teamSlug: "konami", games: 2, firsts: 1, seconds: 1, thirds: 0, fourths: 0, points: 68.1, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "tojo", teamSlug: "beast-x", games: 2, firsts: 1, seconds: 1, thirds: 0, fourths: 0, points: 114.6, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "honda", teamSlug: "raiden", games: 2, firsts: 1, seconds: 0, thirds: 1, fourths: 0, points: 67.8, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "katsumata", teamSlug: "raiden", games: 1, firsts: 0, seconds: 1, thirds: 0, fourths: 0, points: 9.1, source: FINAL_GAMES_SOURCE },
 
