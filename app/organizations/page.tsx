@@ -24,7 +24,7 @@ type OrgCard = {
   glyph: string;
   color: string;
   founded: string;
-  titles: string;
+  mainTitle: string;
   tags: string[];
   desc: string;
 };
@@ -58,7 +58,7 @@ const ORGS: OrgCard[] = [
     glyph: "連",
     color: "var(--vermilion)",
     founded: "1981",
-    titles: "主要",
+    mainTitle: "鳳凰戦",
     tags: ["設立1981", "鳳凰戦", "段位制"],
     desc: "1981年3月6日設立。競技会の開催、段位審査、麻雀普及活動を行い、鳳凰戦・十段戦などを主催する。",
   },
@@ -72,7 +72,7 @@ const ORGS: OrgCard[] = [
     glyph: "協",
     color: "#2563eb",
     founded: "2001",
-    titles: "主要",
+    mainTitle: "雀王戦",
     tags: ["雀王戦", "法人設立2010", "普及活動"],
     desc: "2001年に活動を開始し、2010年4月21日に一般社団法人として法人設立。雀王戦・雀竜位戦などを主催する。",
   },
@@ -86,7 +86,7 @@ const ORGS: OrgCard[] = [
     glyph: "最",
     color: "#7c3aed",
     founded: "1976",
-    titles: "主要",
+    mainTitle: "最高位戦",
     tags: ["源流1976", "最高位戦", "長期リーグ"],
     desc: "1976年創設のタイトル戦を源流とし、1985年に団体組織として活動開始。年間リーグを通じて最高位を決める。",
   },
@@ -100,7 +100,7 @@ const ORGS: OrgCard[] = [
     glyph: "R",
     color: "var(--gold)",
     founded: "2007",
-    titles: "主要",
+    mainTitle: "令昭位戦",
     tags: ["設立2007", "ライセンス制", "令昭位戦"],
     desc: "2007年設立。選手ポイントや審議を経たライセンス制を採用し、令昭位戦・RMUクラウンなどを主催する。",
   },
@@ -114,7 +114,7 @@ const ORGS: OrgCard[] = [
     glyph: "μ",
     color: "var(--moss)",
     founded: "1997",
-    titles: "主要",
+    mainTitle: "将王戦",
     tags: ["設立1997", "競技麻将", "将王戦"],
     desc: "1997年設立。金銭を賭けない競技としての「麻将」を掲げ、将王戦・BIG1カップ・μ-M1カップなどを主催する。",
   },
@@ -292,7 +292,7 @@ export default function OrganizationsIndexPage() {
               {[
                 { l: "Founded", v: o.founded },
                 { l: "Pros", v: (ORG_COUNTS[ORG_BY_SLUG[o.slug]] ?? 0).toLocaleString() },
-                { l: "Events", v: o.titles },
+                { l: "Title", v: o.mainTitle },
               ].map((s) => (
                 <div key={s.l}>
                   <div
