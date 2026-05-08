@@ -29,14 +29,50 @@ export interface NewsArticle {
 
 // HOMEの大きいニュース1件・小さいニュース2件はここで手動選択する。
 export const HOME_NEWS_SELECTION = {
-  primary: "mleague-2025-26-final-day2",
+  primary: "mleague-2025-26-final-day3",
   secondary: [
+    "mleague-2025-26-final-day2",
     "mleague-2025-26-final-day1",
-    "mleague-2025-26-final-opening",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "mleague-2025-26-final-day3",
+    date: "2026-05-07",
+    publishedAt: "2026-05-07T23:45:00+09:00",
+    category: "mleague",
+    headline: "ファイナル3日目、雷電が本田の大トップで追撃",
+    lead:
+      "Mリーグ2025-26ファイナル3日目は下石戟(55.6pt)と本田朋広(78.0pt)がトップを獲得。KONAMI麻雀格闘倶楽部が271.1ptで首位を守りつつ、雷電が98.6ptまで伸ばして上位との差を詰めた。",
+    body: [
+      "ファイナルシリーズ3日目の第1試合はBEAST Xの下石戟が55.6ptでトップ。KONAMI麻雀格闘倶楽部の佐々木寿人が15.2ptで2着、EX風林火山の二階堂亜樹が-16.7pt、TEAM RAIDEN/雷電の萩原聖人が-54.1ptとなった。",
+      "第2試合はTEAM RAIDEN/雷電の本田朋広が78.0ptの大きなトップを獲得。雷電の勝又健志郎が9.1ptで2着、KONAMIの高宮まりが-32.4pt、BEAST Xの中田花奈が-54.7ptで4着となり、雷電が一気にポイントを伸ばした。",
+      "6試合終了時点のチーム順位はKONAMIが271.1ptで首位、風林火山が174.7ptで2位、雷電が98.6ptで3位、BEAST Xが63.9ptで4位。個人成績では滝沢和典(87.9pt)に続き、伊達朱里紗(78.4pt)、本田朋広(67.8pt)が上位につけている。",
+    ],
+    seoTitle: "Mリーグ2025-26ファイナル3日目結果（雷電が追撃）",
+    seoDescription:
+      "Mリーグ2025-26ファイナル3日目、下石戟と本田朋広がトップ。6試合終了時点のチーム順位と個人成績上位を短報で整理。",
+    sources: [
+      {
+        label: "M.LEAGUE公式：試合日程（2025-26）",
+        url: "https://m-league.jp/games/",
+        checkedAt: "2026-05-07",
+      },
+      {
+        label: "M.LEAGUE公式：ファイナル順位（進行中）",
+        url: "https://m-league.jp/",
+        checkedAt: "2026-05-07",
+      },
+    ],
+    related: [
+      { type: "team", id: "konami" },
+      { type: "team", id: "furinkazan" },
+      { type: "team", id: "raiden" },
+      { type: "team", id: "beast-x" },
+      { type: "player", id: "honda" },
+    ],
+  },
   {
     slug: "mleague-2025-26-final-day2",
     date: "2026-05-05",
