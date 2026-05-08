@@ -113,7 +113,7 @@ const MU: OrgDetailPageData = {
       {
         pill: "予選中",
         kanji: "M",
-        rk: "03 · 短期戦",
+        rk: "03",
         title: "μ-M1カップ",
         en: "The μ-M1 Cup",
         since: "Since 2002 · 第13回 · トーナメント制",
@@ -124,7 +124,7 @@ const MU: OrgDetailPageData = {
       {
         pill: "予選中",
         kanji: "招",
-        rk: "04 · 招待タイトル",
+        rk: "04",
         title: "関東インビテーションカップ",
         en: "Kanto Invitation Cup",
         since: "認定プロ・有資格者招待制",
