@@ -222,7 +222,6 @@ export function OrgDetailPage({ data }: { data: OrgDetailPageData }) {
         {data.titles.cards.map((t) => {
           const inner = (
             <>
-              <span className={`pill ${t.pillLive ? "live" : ""}`.trim()}>{t.pill}</span>
               <span className="big-kanji">{t.kanji}</span>
               <div className="rk">{t.rk}</div>
               <h3>{t.title}</h3>
@@ -245,22 +244,6 @@ export function OrgDetailPage({ data }: { data: OrgDetailPageData }) {
           );
         })}
       </div>
-
-      <section className="sched-strip">
-        <h3>
-          {data.schedule.title}<span className="en">{data.schedule.en}</span>
-        </h3>
-        <div className="grid">
-          {data.schedule.cards.map((s, i) => (
-            <div key={i} className={`si ${s.live ? "live" : ""}`.trim()}>
-              <span className="badge">{s.badge}</span>
-              <div className="dt">{s.dt}</div>
-              <div className="t">{s.t}</div>
-              <div className="sub">{s.sub}</div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/*
       <h2 className="sh">

@@ -607,9 +607,9 @@ export default function Home() {
             </h2>
             <div className="orgs-grid">
               {[
-                { c: "#c8282a", idx: "01", code: "JPML · 1981", jp: ["日本プロ麻雀", "連盟"], pros: ORG_COUNTS["JPML"]?.toLocaleString() ?? "—", titles: "鳳凰位戦 / 十段位戦 / 王位戦", main: "鳳凰位戦 · 十段位戦 · 王位戦 · 女流桜花", href: "/organizations/jpml" },
+                { c: "#c8282a", idx: "01", code: "JPML · 1981", jp: ["日本プロ麻雀", "連盟"], pros: ORG_COUNTS["JPML"]?.toLocaleString() ?? "—", titles: "鳳凰戦 / 十段戦 / 王位戦", main: "鳳凰戦 · 十段戦 · 王位戦 · 女流桜花", href: "/organizations/jpml" },
                 { c: "#1d4ed8", idx: "02", code: "NPM · 2001", jp: ["日本プロ麻雀", "協会"], pros: ORG_COUNTS["NPM"]?.toLocaleString() ?? "—", titles: "雀王戦 / 雀竜位戦", main: "雀王戦 · 雀竜位戦 · 日本オープン", href: "/organizations/npm" },
-                { c: "#0b0b09", idx: "03", code: "SAIKOUISEN · 1976", jp: ["最高位戦", "日本プロ麻雀協会"], pros: ORG_COUNTS["最高位戦"]?.toLocaleString() ?? "—", titles: "最高位戦 / Classic", main: "最高位決定戦 · Classic · 發王戦", href: "/organizations/saikouisen" },
+                { c: "#0b0b09", idx: "03", code: "SAIKOUISEN · 1976", jp: ["最高位戦", "日本プロ麻雀協会"], pros: ORG_COUNTS["最高位戦"]?.toLocaleString() ?? "—", titles: "最高位戦 / Classic", main: "最高位戦 · Classic · 發王戦", href: "/organizations/saikouisen" },
                 { c: "#c8a030", idx: "04", code: "RMU · 2007", jp: ["RMU"], pros: ORG_COUNTS["RMU"]?.toLocaleString() ?? "—", titles: "令昭位戦 / RMUクラウン", main: "令昭位戦 · RMUクラウン · 闘魂杯", href: "/organizations/rmu" },
                 { c: "#4b2a7a", idx: "05", code: "μ · 1997", jp: ["麻将連合", "-μ-"], pros: ORG_COUNTS["μ"]?.toLocaleString() ?? "—", titles: "μリーグ", main: "μリーグ · BIG1カップ · 将妃戦", href: "/organizations/mu" },
               ].map((o, i) => {

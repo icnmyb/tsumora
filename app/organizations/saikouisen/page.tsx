@@ -23,7 +23,7 @@ const SAIKOUISEN: OrgDetailPageData = {
   nameEn: "Saikouisen Japan Pro Mahjong Association",
   kite: "高",
   highlightTag: "1976年創設の最高位戦が源流",
-  extraTags: ["掲載プロ 1,024名", "最高位決定戦", "Classic", "發王戦"],
+  extraTags: ["掲載プロ 1,024名", "最高位戦", "Classic", "發王戦"],
   meta: [
     { label: "Origin", value: "1976", accent: true, sub: <>昭和51年<br />最高位戦創設</> },
     { label: "Active Pros", value: "1,024", unit: "名", sub: "TSUMORA掲載数" },
@@ -41,14 +41,14 @@ const SAIKOUISEN: OrgDetailPageData = {
     leadParagraphs: [
       "最高位戦日本プロ麻雀協会は、1976年に創設されたタイトル戦「最高位戦」を源流とする競技麻雀団体である。公式の団体概要では、1985年にタイトル戦参加選手の集合体にとどまらず、一つの団体組織として活動を開始したと説明されている。",
       "最高位戦は、その日限りの強者ではなく、1年にわたる長期リーグを通して真の強者を決定し、「最高位」の称号を与えることを特徴としている。現在の最高位戦リーグはA1からD3までの10リーグ編成で運営されている。",
-      "主要タイトルには最高位決定戦、發王戦、飯田正人杯・最高位戦Classic、女流最高位決定戦、新人王戦、新輝戦、蒼翼戦などがある。2025年にはUSA本部・CHINA本部の発足も公式沿革に記載されている。",
+      "主要タイトルには最高位戦、發王戦、飯田正人杯・最高位戦Classic、女流最高位決定戦、新人王戦、新輝戦、蒼翼戦などがある。2025年にはUSA本部・CHINA本部の発足も公式沿革に記載されている。",
       "Mリーグには赤坂ドリブンズ、U-NEXT Pirates、渋谷ABEMAS、セガサミーフェニックスなどで最高位戦所属・出身プロが出場している。長期リーグで培われる安定感と、Classicや發王戦に見られるルールの多様さが団体の個性になっている。",
     ],
     pullQuote: (
       <>
         「長期リーグで最高位を決める、1976年創設タイトルを源流とする団体。」
         <br />
-        最高位決定戦を中心に、Classic、發王戦、女流・若手・海外リーグまで大会体系を広げている。
+        最高位戦を中心に、Classic、發王戦、女流・若手・海外リーグまで大会体系を広げている。
       </>
     ),
   },
@@ -80,7 +80,7 @@ const SAIKOUISEN: OrgDetailPageData = {
     { dt: "掲載プロ", dd: "1,024名 (TSUMORA掲載数)" },
     { dt: "所在地", dd: "東京都千代田区神田小川町" },
     { dt: "支部・本部", dd: "関西 / 北海道 / 東海 / 九州 / 東北 / USA / CHINA ほか" },
-    { dt: "主要タイトル", dd: "最高位決定戦 · Classic · 發王戦" },
+    { dt: "主要タイトル", dd: "最高位戦 · Classic · 發王戦" },
     { dt: "公式", dd: <span>saikouisen.com</span> },
   ],
   titles: {
@@ -92,7 +92,7 @@ const SAIKOUISEN: OrgDetailPageData = {
         pillLive: true,
         kanji: "最",
         rk: "01 · 最高峰タイトル",
-        title: "最高位決定戦",
+        title: "最高位戦",
         en: "The Saikoui",
         since: "Since 1976 · 第51期 · 団体最高峰",
         leaderName: "現最高位：牧野 伸彦",
@@ -204,7 +204,7 @@ const SAIKOUISEN: OrgDetailPageData = {
   },
   milestones: [
     { year: "1976", kind: "創設", title: "最高位戦、開始", desc: "麻雀専門誌「近代麻雀」によって、年間リーグで最高位を決めるタイトル戦として開始。" },
-    { year: "1976", kind: "タイトル", title: "最高位決定戦 第1期", desc: "団体最高峰タイトルが同年に開始。初代最高位：藤田 和久。" },
+    { year: "1976", kind: "タイトル", title: "最高位戦 第1期", desc: "団体最高峰タイトルが同年に開始。初代最高位：藤田 和久。" },
     { year: "1985", kind: "オープン", title: "發王戦 開始", desc: "オープン参加型タイトル戦としてスタート。プロ・アマ問わず参加可能。" },
     { year: "1990", kind: "女流", title: "女流最高位戦 開始", desc: "女流最高峰タイトルとして第1期が開催。" },
     { year: "2007", kind: "古典", title: "Classic 開始", desc: "「一発・裏ドラなし」の古典ルール採用タイトルとしてスタート。" },
@@ -236,7 +236,7 @@ const SAIKOUISEN: OrgDetailPageData = {
         iconClass: "nico",
         iconLabel: "F",
         title: "FRESH LIVE",
-        desc: "最高位決定戦・Classic・女流最高位戦の生中継。配信プラットフォームとしてはFRESH LIVEに比重を置く。",
+        desc: "最高位戦・Classic・女流最高位戦の生中継。配信プラットフォームとしてはFRESH LIVEに比重を置く。",
         meta: [
           { label: "視聴", value: "週36,000UU" },
           { label: "月間", value: "20配信" },

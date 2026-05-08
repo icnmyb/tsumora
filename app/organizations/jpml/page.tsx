@@ -21,7 +21,7 @@ const JPML: OrgDetailPageData = {
   nameEn: "Japan Professional Mahjong League",
   kite: "連",
   highlightTag: "1981年設立",
-  extraTags: ["掲載プロ 1,067名", "鳳凰位戦", "十段位戦", "公式競技・段位制"],
+  extraTags: ["掲載プロ 1,067名", "鳳凰戦", "十段戦", "公式競技・段位制"],
   meta: [
     { label: "Founded", value: "1981", accent: true, sub: <>昭和56年<br />3月6日設立</> },
     { label: "Active Pros", value: "1,067", unit: "名", sub: "TSUMORA掲載数" },
@@ -40,14 +40,14 @@ const JPML: OrgDetailPageData = {
     leadParagraphs: [
       "日本プロ麻雀連盟（JPML）は、1981年3月6日に設立された競技麻雀のプロ団体である。公式競技の開催を主な活動とし、段位審査、免許状の発行、麻雀教室、執筆・メディア活動なども行っている。",
       "公式サイトでは、競技麻雀を通じた職業棋士の育成・社会的地位の向上、健全な麻雀遊戯の普及・発展、伝統文化・大衆文化の発展向上と国際親善への寄与を目的として掲げている。",
-      "主要タイトルには鳳凰位戦、十段位戦、王位戦、女流桜花などがある。長期リーグで頂点を決める鳳凰位戦と、トーナメント色の強いタイトル戦が並び、所属プロは年間を通じて複数の舞台で競う。",
+      "主要タイトルには鳳凰戦、十段戦、王位戦、女流桜花などがある。長期リーグで頂点を決める鳳凰戦と、トーナメント色の強いタイトル戦が並び、所属プロは年間を通じて複数の舞台で競う。",
       "MリーグにはKONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電、EX風林火山、BEAST Xなどで連盟所属プロが出場している。攻撃型から守備型、若手からベテランまで幅広い選手層を持つ団体である。",
     ],
     pullQuote: (
       <>
         「公式競技、段位制、普及活動を柱にする競技麻雀団体。」
         <br />
-        鳳凰位戦・十段位戦などのタイトル戦と、道場・教室・メディア活動を通じて麻雀文化の普及に取り組む。
+        鳳凰戦・十段戦などのタイトル戦と、道場・教室・メディア活動を通じて麻雀文化の普及に取り組む。
       </>
     ),
   },
@@ -106,7 +106,7 @@ const JPML: OrgDetailPageData = {
         pillLive: true,
         kanji: "鳳",
         rk: "01 · 最高峰タイトル",
-        title: "鳳凰位戦",
+        title: "鳳凰戦",
         en: "The Hōōi",
         since: "Since 1984 · 第42期 · 賞金 ¥5,000,000",
         leaderName: "現鳳凰位：白鳥 翔",
@@ -118,7 +118,7 @@ const JPML: OrgDetailPageData = {
         pill: "5月開始",
         kanji: "十",
         rk: "02 · 二大タイトル",
-        title: "十段位戦",
+        title: "十段戦",
         en: "The Jūdan",
         since: "Since 1984 · 第42期 · トーナメント制",
         leaderName: "現十段位：浜野 太陽",
@@ -147,20 +147,9 @@ const JPML: OrgDetailPageData = {
         leaderPt: "+82.3 首位",
       },
       {
-        pill: "10月開始",
-        kanji: "俊",
-        rk: "05",
-        title: "俊英位戦",
-        en: "The Shun-ei",
-        since: "Since 2002 · 第24期 · 若手限定",
-        leaderName: "前 俊英位：醍醐 大",
-        leaderPt: "予選 →",
-        leaderPtDone: true,
-      },
-      {
         pill: "準決勝",
         kanji: "マ",
-        rk: "06",
+        rk: "05",
         title: "マスターズ",
         en: "Masters",
         since: "Since 2003 · 第24回 · 5団体交流",
@@ -171,7 +160,7 @@ const JPML: OrgDetailPageData = {
       {
         pill: "決勝 5月",
         kanji: "グ",
-        rk: "07",
+        rk: "06",
         title: "グランプリMAX",
         en: "Grand Prix Max",
         since: "Since 2015 · 第11期",
@@ -182,7 +171,7 @@ const JPML: OrgDetailPageData = {
       {
         pill: "予選中",
         kanji: "新",
-        rk: "08",
+        rk: "07",
         title: "新人王戦",
         en: "Rookie of the Year",
         since: "Since 1990 · 第36回 · 入会3年以内",
@@ -200,13 +189,13 @@ const JPML: OrgDetailPageData = {
         badge: "● LIVE 本日",
         live: true,
         dt: "04/21 · 19:30",
-        t: "鳳凰位戦A1 第5節B卓",
+        t: "鳳凰戦A1 第5節B卓",
         sub: <>瀬戸熊 / 前原 / 滝沢 / 佐々木<br />麻雀連盟ch</>,
       },
       {
         badge: "明日",
         dt: "04/22 · 20:00",
-        t: "十段位戦 二次予選",
+        t: "十段戦 二次予選",
         sub: <>8卓32名<br />YouTube / ニコ生</>,
       },
       {
@@ -255,7 +244,7 @@ const JPML: OrgDetailPageData = {
   },
   milestones: [
     { year: "1981", kind: "設立", title: "日本プロ麻雀連盟、創設", desc: "小島武夫・灘麻太郎・古川凱章らが参画。日本で初めての本格プロ麻雀団体として発足。" },
-    { year: "1984", kind: "タイトル", title: "鳳凰位戦・十段位戦が発足", desc: "最高峰タイトル「鳳凰位戦」と「十段位戦」が同年開始。初代鳳凰位：小島武夫。" },
+    { year: "1984", kind: "タイトル", title: "鳳凰戦・十段戦が発足", desc: "最高峰タイトル「鳳凰戦」と「十段戦」が同年開始。初代鳳凰位：小島武夫。" },
     { year: "1990", kind: "新世代", title: "新人王戦 発足", desc: "若手発掘を目的とした新人王戦がスタート。" },
     { year: "1997", kind: "女流", title: "女流桜花 開始", desc: "女流最高峰タイトルとして第1期が開催。" },
     { year: "2009", kind: "電脳化", title: "ニコニコ生放送で「麻雀連盟チャンネル」開設", desc: "配信時代の幕開け。年間視聴者数が急拡大。" },
@@ -287,7 +276,7 @@ const JPML: OrgDetailPageData = {
         iconClass: "nico",
         iconLabel: "N",
         title: "麻雀連盟チャンネル",
-        desc: "ニコニコ生放送にて、鳳凰位戦・十段位戦・女流桜花など主要タイトル戦を生中継。会員制で過去アーカイブも視聴可能。",
+        desc: "ニコニコ生放送にて、鳳凰戦・十段戦・女流桜花など主要タイトル戦を生中継。会員制で過去アーカイブも視聴可能。",
         meta: [
           { label: "会員", value: "48,200名" },
           { label: "月間", value: "28配信" },

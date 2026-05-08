@@ -133,7 +133,7 @@ export const TITLES: TitleData[] = [
     slug: "houou-isen",
     href: "/titles/houou-isen",
     code: "01 · HŌŌI",
-    name: "鳳凰位戦",
+    name: "鳳凰戦",
     shortName: "鳳凰位",
     en: "The Hōōi Championship",
     glyph: "鳳",
@@ -147,7 +147,7 @@ export const TITLES: TitleData[] = [
     founded: 1972,
     formatLabel: "A〜Eリーグ + 鳳凰位決定戦",
     about: [
-      "鳳凰位戦は日本プロ麻雀連盟の最高峰リーグ戦。A〜Eの各リーグで昇降級を行い、A1上位者と現鳳凰位が決定戦で鳳凰位を争う。",
+      "鳳凰戦は日本プロ麻雀連盟の最高峰リーグ戦。A〜Eの各リーグで昇降級を行い、A1上位者と現鳳凰位が決定戦で鳳凰位を争う。",
       "連盟公式の開催概要では、A1は12名で、その年の上位3名と前年度鳳凰位が4日間・半荘16回を戦う形式とされている。",
       "採用ルールは日本プロ麻雀連盟公式ルール。一発・裏ドラなしの重厚な競技ルールで争われる。",
     ],
@@ -173,7 +173,7 @@ export const TITLES: TitleData[] = [
       { ep: "32", year: "2015", name: "勝又 健志" },
     ],
     relatedTitles: [
-      { slug: "judan-isen", name: "十段位戦" },
+      { slug: "judan-isen", name: "十段戦" },
       { slug: "oui-isen", name: "王位戦" },
     ],
   },
@@ -181,7 +181,7 @@ export const TITLES: TitleData[] = [
     slug: "judan-isen",
     href: "/titles/judan-isen",
     code: "02 · JŪDAN",
-    name: "十段位戦",
+    name: "十段戦",
     shortName: "十段位",
     en: "The Jūdan Championship",
     glyph: "十",
@@ -195,7 +195,7 @@ export const TITLES: TitleData[] = [
     founded: 1984,
     formatLabel: "段位別トーナメント + 現十段位を交えた決定戦",
     about: [
-      "十段位戦は、連盟の段位制に基づいて行われるトーナメント形式のタイトル戦。",
+      "十段戦は、連盟の段位制に基づいて行われるトーナメント形式のタイトル戦。",
       "初段戦から段位別に勝ち上がり、最終的に勝ち残った4名と現十段位の5名で決定戦を行う。",
       "ルールは日本プロ麻雀連盟公式ルール。連盟所属プロだけが挑む、段位制度と強く結びついたタイトル戦。",
     ],
@@ -212,7 +212,7 @@ export const TITLES: TitleData[] = [
       { ep: "34", year: "2017", name: "藤崎 智" },
     ],
     relatedTitles: [
-      { slug: "houou-isen", name: "鳳凰位戦" },
+      { slug: "houou-isen", name: "鳳凰戦" },
       { slug: "oui-isen", name: "王位戦" },
     ],
   },
@@ -255,8 +255,8 @@ export const TITLES: TitleData[] = [
       { ep: "38", year: "2012", name: "二見 大輔" },
     ],
     relatedTitles: [
-      { slug: "houou-isen", name: "鳳凰位戦" },
-      { slug: "judan-isen", name: "十段位戦" },
+      { slug: "houou-isen", name: "鳳凰戦" },
+      { slug: "judan-isen", name: "十段戦" },
     ],
   },
   {
