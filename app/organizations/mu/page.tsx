@@ -28,6 +28,7 @@ const MU: OrgDetailPageData = {
     { label: "Founded", value: "1997", accent: true, sub: <>平成9年<br />設立</> },
     { label: "Pros", value: "88", unit: "名", sub: "TSUMORA掲載数" },
     { label: "Events", value: "主要", sub: "将王 · BIG1 · μ-M1 · インビテーション" },
+    { label: "Representative", value: "忍田", valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 }, sub: "忍田 幸夫 代表" },
     { label: "Concept", value: "麻将", accent: true, valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 }, sub: "金銭を賭けない競技" },
     {
       label: "Format",
@@ -76,6 +77,7 @@ const MU: OrgDetailPageData = {
         </>
       ),
     },
+    { dt: "代表", dd: "忍田 幸夫" },
     { dt: "掲載プロ", dd: "88名 (TSUMORA掲載数)" },
     { dt: "本部", dd: "東京都" },
     { dt: "理念", dd: "金銭を賭けない競技としての麻将" },

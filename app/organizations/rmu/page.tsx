@@ -28,6 +28,7 @@ const RMU: OrgDetailPageData = {
     { label: "Founded", value: "2007", accent: true, sub: <>平成19年<br />設立</> },
     { label: "Active Pros", value: "46", unit: "名", sub: "TSUMORA掲載数" },
     { label: "Events", value: "主要", sub: "令昭位 · クラウン · スプリント ほか" },
+    { label: "Representative", value: "多井", valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 }, sub: "多井 隆晴 代表" },
     { label: "License", value: "SSS〜B", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "公式掲載ライセンス区分" },
     {
       label: "System",
@@ -76,6 +77,7 @@ const RMU: OrgDetailPageData = {
         </>
       ),
     },
+    { dt: "代表", dd: "多井 隆晴" },
     { dt: "掲載プロ", dd: "46名 (TSUMORA掲載数)" },
     { dt: "本部", dd: "東京都" },
     { dt: "ライセンス", dd: "SSS / SS / S / A / B の5階級" },
