@@ -48,10 +48,6 @@ export interface OrgRosterRow {
   league: string;
   leagueClass: string;
   titles: Array<{ kind: "primary" | "plain"; label: string }>;
-  rate?: string;
-  games?: string;
-  top?: string;
-  avg?: string;
 }
 
 export interface OrgRosterFilter {

@@ -144,7 +144,7 @@ export const TITLES: TitleData[] = [
     holder: { name: "白鳥 翔", href: "/players/shiratori", note: "第42期 (2026)" },
     season: "A1・A2は年間、B以下は半期制",
     tags: ["JPML最高峰", "リーグ戦", "公式ルール"],
-    founded: 1972,
+    founded: 1984,
     formatLabel: "A〜Eリーグ + 鳳凰位決定戦",
     about: [
       "鳳凰戦は日本プロ麻雀連盟の最高峰リーグ戦。A〜Eの各リーグで昇降級を行い、A1上位者と現鳳凰位が決定戦で鳳凰位を争う。",
