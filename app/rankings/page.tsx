@@ -82,10 +82,6 @@ function computeBestScores(): BestScoreEntry[] {
   return out.sort((a, b) => b.bestScore - a.bestScore);
 }
 
-function computeWomensRanking(): SeasonPtEntry[] {
-  return computeSeasonPts().filter((e: SeasonPtEntry) => e.player.gender === "female");
-}
-
 interface OrgLeaderEntry {
   org: string;
   player: FeaturedPlayer;
@@ -298,7 +294,6 @@ export default function RankingsPage() {
   const topRateRanking = computeTopRates().slice(0, 10);
   const bestScoreRanking = computeBestScores().slice(0, 8);
   const orgLeaders = computeOrgLeaders();
-  const womenRanking = computeWomensRanking().slice(0, 10);
 
   const totalFeatured = FEATURED_PLAYERS.length;
   const totalRoster = ROSTER_PLAYERS.length + totalFeatured; // total tracked
@@ -604,35 +599,6 @@ export default function RankingsPage() {
           );
         })}
       </div>
-
-      {/* WOMEN'S */}
-      {womenRanking.length > 0 && (
-        <>
-          <h2 className="sh">
-            <span>女流ランキング</span>
-            <span className="num">06 / Women&apos;s Division · {CURRENT_SEASON}</span>
-            <span className="rule"></span>
-          </h2>
-          <RankTable
-            cols={[
-              { label: "#", width: 50, align: "left" },
-              { label: "選手 / チーム" },
-              { label: "獲得pt", align: "right", width: 130 },
-            ]}
-            rows={womenRanking.map((entry, i) => (
-              <RankRow
-                key={entry.player.id}
-                rank={i + 1}
-                player={entry.player}
-                team={entry.team}
-                cells={[
-                  { label: "pt", value: fmtPts(entry.pts), tone: entry.pts >= 0 ? "plus" : undefined },
-                ]}
-              />
-            ))}
-          />
-        </>
-      )}
 
       {/* DATA NOTE */}
       <section

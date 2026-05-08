@@ -48,10 +48,10 @@ export interface OrgRosterRow {
   league: string;
   leagueClass: string;
   titles: Array<{ kind: "primary" | "plain"; label: string }>;
-  rate: string;
-  games: string;
-  top: string;
-  avg: string;
+  rate?: string;
+  games?: string;
+  top?: string;
+  avg?: string;
 }
 
 export interface OrgRosterFilter {
@@ -262,9 +262,10 @@ export function OrgDetailPage({ data }: { data: OrgDetailPageData }) {
         </div>
       </section>
 
+      {/*
       <h2 className="sh">
         <span>所属プロ名鑑</span>
-        <span className="num">Active Roster · Top {data.roster.rows.length} by Rating</span>
+        <span className="num">Active Roster · Featured {data.roster.rows.length}</span>
         <span className="rule"></span>
         <span className="more">全{data.roster.totalCount}名 →</span>
       </h2>
@@ -286,10 +287,6 @@ export function OrgDetailPage({ data }: { data: OrgDetailPageData }) {
               <th>選手</th>
               <th style={{ width: 80 }}>リーグ</th>
               <th>主要タイトル</th>
-              <th className="n">レート</th>
-              <th className="n">通算戦</th>
-              <th className="n">1位率</th>
-              <th className="n">平均着順</th>
             </tr>
           </thead>
           <tbody>
@@ -319,15 +316,12 @@ export function OrgDetailPage({ data }: { data: OrgDetailPageData }) {
                     ))}
                   </div>
                 </td>
-                <td className="n">{r.rate}</td>
-                <td className="n">{r.games}</td>
-                <td className="n p">{r.top}</td>
-                <td className="n">{r.avg}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </section>
+      */}
 
       <div className="two-col">
         <section className="timeline">
