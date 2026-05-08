@@ -1413,6 +1413,7 @@ footer.main .cr {
   .p-hero .tag-chip { padding: 4px 10px; border: 2px solid rgba(235,228,210,.25); font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.12em; color: rgba(235,228,210,.85); }
   .p-hero .tag-chip.v { background: var(--vermilion); border-color: var(--vermilion-d); color: var(--paper); }
   .p-hero .tag-chip.g { background: #f0c86d; color: var(--ink); border-color: #a07e28; }
+  .p-hero .tag-chip.dev { background: #2f5c3f; border-color: #f0c86d; color: var(--paper); }
   .p-hero .side { background: rgba(235,228,210,.05); border-left: 2px solid rgba(235,228,210,.15); padding: 28px 28px 28px 32px; min-width: 240px; }
   .p-hero .side .kv { margin-bottom: 18px; }
   .p-hero .side .kv:last-child { margin-bottom: 0; }

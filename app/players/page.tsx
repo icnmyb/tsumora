@@ -1002,6 +1002,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
   const years = player.joinYear ? CURRENT_YEAR - player.joinYear : null;
   const number = String(index + 1).padStart(4, "0");
   const isMleaguer = !!player.mleagueTeam;
+  const isDeveloper = player.id === "takamitoshiya";
   const href = player.href ?? `/players/${player.id}`;
 
   const rowStyle: React.CSSProperties = {
@@ -1070,6 +1071,27 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             >
               {player.name}
             </span>
+            {isDeveloper && (
+              <span
+                className="all-player-dev-badge"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: "2px 7px",
+                  border: "1.5px solid var(--moss)",
+                  background: "var(--moss)",
+                  color: "var(--paper)",
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 9.5,
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  lineHeight: 1.35,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                開発者
+              </span>
+            )}
             {player.nameEn && (
               <span
                 className="all-player-name-en"

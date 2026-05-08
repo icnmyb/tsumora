@@ -83,6 +83,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const proYears = calcProYears(player.joinYear);
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
+  const isDeveloper = player.id === "takamitoshiya";
   const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints);
   const hasCareerData = careerBars.length > 0;
   const titleCount = getTitleCount(player);
@@ -127,6 +128,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             </div>
           )}
           <div className="tags-row">
+            {isDeveloper && <span className="tag-chip dev">開発者</span>}
             {player.title && <span className="tag-chip v">● {player.title}</span>}
             {player.mleagueTeam && <span className="tag-chip g">Mリーグ {player.mleagueTeam}</span>}
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>

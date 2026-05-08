@@ -59,6 +59,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
   const birthYear = formatBirthYear(player.birthday);
   const proYears = calcProYears(player.joinYear);
   const related = getRelatedPlayers(player);
+  const isDeveloper = player.id === "takamitoshiya";
 
   return (
     <div className="wrap">
@@ -99,6 +100,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
             <div className="nickname">{player.nickname}</div>
           )}
           <div className="tags-row">
+            {isDeveloper && <span className="tag-chip dev">開発者</span>}
             {player.title && <span className="tag-chip v">● {player.title}</span>}
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>
               {org.label}
