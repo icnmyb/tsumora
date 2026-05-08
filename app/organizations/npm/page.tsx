@@ -130,7 +130,7 @@ const NPM: OrgDetailPageData = {
         title: "日本オープン",
         en: "Japan Open",
         since: "第22回 · プロアマ混合",
-        leaderName: "現日本オープン：岩崎 啓悟",
+        leaderName: "現日本オープン：岩崎啓悟",
         leaderPt: "第22回",
         leaderPtDone: true,
       },

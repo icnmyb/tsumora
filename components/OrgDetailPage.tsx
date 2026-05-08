@@ -229,7 +229,6 @@ export function OrgDetailPage({ data }: { data: OrgDetailPageData }) {
               <div className="since">{t.since}</div>
               <div className="leader">
                 <span className="name">{t.leaderName}</span>
-                <span className={`pt ${t.leaderPtDone ? "done" : ""}`.trim()}>{t.leaderPt}</span>
               </div>
             </>
           );
