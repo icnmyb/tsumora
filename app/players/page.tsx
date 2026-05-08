@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { ALL_PLAYERS, ORG_META, getAllPlayers, type RosterPlayer, type OrgCode, type Gender } from "./data";
+import { trackEvent } from "@/lib/analytics";
 
 type OrgFilter = "ALL" | OrgCode;
 type GenderFilter = "ALL" | Gender;
@@ -148,10 +149,12 @@ function PlayersIndexInner() {
   const goToPage = (n: number) => {
     paginatingRef.current = true;
     const url = n <= 1 ? "/players" : `/players?page=${n}`;
+    trackEvent("Players Pagination", { page: n, totalPages });
     router.push(url, { scroll: false });
   };
 
   const switchView = (nextView: PlayerView) => {
+    trackEvent("Players View Switch", { view: nextView });
     setView(nextView);
     if (nextView === "mleague" && page > 1) {
       router.replace("/players", { scroll: false });
@@ -266,7 +269,10 @@ function PlayersIndexInner() {
               key={`feat-${f.key}`}
               type="button"
               aria-pressed={active}
-              onClick={() => setOrgFilter(f.key)}
+              onClick={() => {
+                trackEvent("Player Filter", { area: "mleague_org", filter: String(f.key) });
+                setOrgFilter(f.key);
+              }}
               style={{
                 position: "relative",
                 display: "inline-flex",
@@ -377,7 +383,10 @@ function PlayersIndexInner() {
               key={`team-${t.key}`}
               type="button"
               aria-pressed={active}
-              onClick={() => setMleagueTeamFilter(t.key)}
+              onClick={() => {
+                trackEvent("Player Filter", { area: "mleague_team", filter: String(t.key) });
+                setMleagueTeamFilter(t.key);
+              }}
               style={{
                 position: "relative",
                 display: "inline-flex",
@@ -676,6 +685,10 @@ function PlayersIndexInner() {
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          onBlur={() => {
+            const length = search.trim().length;
+            if (length > 0) trackEvent("Player Search", { lengthBucket: length < 3 ? "1-2" : length < 8 ? "3-7" : "8+" });
+          }}
           placeholder="名前で検索 / Search by name (kanji or English)"
           style={{
             width: "100%",
@@ -712,7 +725,10 @@ function PlayersIndexInner() {
               key={`org-${f.key}`}
               type="button"
               aria-pressed={active}
-              onClick={() => setOrgFilter(f.key)}
+              onClick={() => {
+                trackEvent("Player Filter", { area: "all_org", filter: String(f.key) });
+                setOrgFilter(f.key);
+              }}
               style={{
                 display: "inline-flex",
                 alignItems: "baseline",
@@ -780,7 +796,10 @@ function PlayersIndexInner() {
               key={`gender-${g.key}`}
               type="button"
               aria-pressed={active}
-              onClick={() => setGenderFilter(g.key)}
+              onClick={() => {
+                trackEvent("Player Filter", { area: "gender", filter: String(g.key) });
+                setGenderFilter(g.key);
+              }}
               style={{
                 display: "inline-flex",
                 alignItems: "baseline",

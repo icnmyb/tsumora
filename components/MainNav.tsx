@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { trackEvent } from "@/lib/analytics";
 
 const NAV_ITEMS = [
   { idx: "01", label: "ホーム", href: "/", match: (p: string) => p === "/" },
@@ -25,7 +26,12 @@ export function MainNav() {
         {NAV_ITEMS.map((item) => {
           const isActive = item.match(pathname);
           return (
-            <Link key={item.idx} href={item.href} className={isActive ? "active" : undefined}>
+            <Link
+              key={item.idx}
+              href={item.href}
+              className={isActive ? "active" : undefined}
+              onClick={() => trackEvent("Nav Click", { label: item.label, href: item.href })}
+            >
               <span className="idx">{item.idx}</span>
               {item.label}
             </Link>

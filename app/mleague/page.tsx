@@ -6,6 +6,7 @@ import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
 import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
 import { FINAL_2025_26, REGULAR_FINAL_2025_26, SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
 import { getPlayerPhaseStats, getTeamPhaseStats } from "@/app/mleague/stats-db";
+import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 
 const CURRENT_SEASON = "2025-26";
 type PhaseKey = "regular" | "semifinal" | "final";
@@ -772,14 +773,14 @@ export default function MleaguePage() {
             </dd>
             <dt>公式</dt>
             <dd>
-              <a
+              <TrackedExternalLink
                 href="https://m-league.jp"
-                target="_blank"
-                rel="noreferrer noopener"
                 style={{ borderBottom: "1px dotted var(--ink)" }}
+                eventName="External Link Click"
+                eventProps={{ area: "mleague_official", destination: "M.LEAGUE", url: "https://m-league.jp" }}
               >
                 m-league.jp
-              </a>
+              </TrackedExternalLink>
             </dd>
           </dl>
         </section>

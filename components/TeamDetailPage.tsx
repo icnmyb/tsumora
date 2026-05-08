@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { getAllPlayers, type RosterPlayer } from "@/app/players/data";
 import { TEAM_NAME_TO_SLUG, TEAMS, type TeamData } from "@/app/teams/data";
+import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 
 interface TeamDetailPageProps {
   team: TeamData;
@@ -192,9 +193,17 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
             <dt>運営会社</dt>
             <dd>
               {team.parentCompanyHref ? (
-                <a href={team.parentCompanyHref} target="_blank" rel="noopener noreferrer">
+                <TrackedExternalLink
+                  href={team.parentCompanyHref}
+                  eventName="External Link Click"
+                  eventProps={{
+                    area: "team_parent_company",
+                    team: team.slug,
+                    destination: team.parentCompany,
+                  }}
+                >
                   {team.parentCompany}
-                </a>
+                </TrackedExternalLink>
               ) : (
                 team.parentCompany
               )}
@@ -231,9 +240,17 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
                   {team.social.map((s, i) => (
                     <span key={i}>
                       {i > 0 && " / "}
-                      <a href={s.href} target="_blank" rel="noopener noreferrer">
+                      <TrackedExternalLink
+                        href={s.href}
+                        eventName="External Link Click"
+                        eventProps={{
+                          area: "team_social",
+                          team: team.slug,
+                          destination: s.label,
+                        }}
+                      >
                         {s.handle ?? s.label}
-                      </a>
+                      </TrackedExternalLink>
                     </span>
                   ))}
                 </dd>

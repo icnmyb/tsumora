@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 
 export const metadata: Metadata = {
   title: "About — TSUMORA",
@@ -44,13 +45,13 @@ export default function AboutPage() {
           </p>
           <p className="about-editor-x">
             X →{" "}
-            <a
+            <TrackedExternalLink
               href="https://x.com/tt_23_mm"
-              target="_blank"
-              rel="noopener noreferrer"
+              eventName="External Link Click"
+              eventProps={{ area: "about_editor_x", destination: "X", url: "https://x.com/tt_23_mm" }}
             >
               @tt_23_mm
-            </a>
+            </TrackedExternalLink>
           </p>
         </div>
       </section>
@@ -71,13 +72,13 @@ export default function AboutPage() {
         </p>
         <p className="about-contact-handle">
           →{" "}
-          <a
+          <TrackedExternalLink
             href="https://x.com/tt_23_mm"
-            target="_blank"
-            rel="noopener noreferrer"
+            eventName="External Link Click"
+            eventProps={{ area: "about_contact_x", destination: "X", url: "https://x.com/tt_23_mm" }}
           >
             @tt_23_mm
-          </a>
+          </TrackedExternalLink>
         </p>
       </section>
 

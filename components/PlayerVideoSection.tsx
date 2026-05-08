@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { PlayerVideo, PlayerVideoType } from "@/app/players/data";
+import { trackEvent } from "@/lib/analytics";
 
 interface Props {
   videos: PlayerVideo[];
@@ -50,7 +51,15 @@ function VideoCard({ video, variant, isPlaying, onPlay, playerName }: VideoCardP
           <button
             type="button"
             className="thumb-btn"
-            onClick={onPlay}
+            onClick={() => {
+              trackEvent("Video Play", {
+                player: playerName,
+                videoId: video.id,
+                type: video.type,
+                official: Boolean(video.isOfficial),
+              });
+              onPlay();
+            }}
             aria-label={`動画を再生: ${video.title}`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

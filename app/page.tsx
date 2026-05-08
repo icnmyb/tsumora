@@ -5,6 +5,7 @@ import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
 import { getCategoryLabel, getHomeNewsSelection } from "@/app/news/data";
 import { MLEAGUE_FINAL_MATCHES, URL_ABEMA_MAHJONG } from "@/app/schedule/data";
+import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 import {
   FINAL_2025_26,
   type FinalState,
@@ -52,6 +53,7 @@ const MLEAGUE_LOGO_COLORS: Record<string, string> = {
 };
 
 const KANJI_RANK = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+const URL_SAKURAO_ACADEMY_X = "https://x.com/ouhouacademy?s=21";
 
 // 各主要団体から最高峰タイトルを1つずつ厳選 (5団体 → 5タイトル)
 const ORG_PRIORITY = ["JPML", "NPM", "SAIKOUISEN", "RMU", "MU"] as const;
@@ -386,20 +388,27 @@ export default function Home() {
       </section>
 
       <section className="home-ad-banner" aria-label="広告">
-        <picture>
-          <source
-            media="(max-width: 720px)"
-            srcSet="/ads/sakurao-academy-mobile.png"
-          />
-          <img
-            src="/ads/sakurao-academy-desktop.png"
-            alt="桜鳳アカデミー 大学生向け麻雀スクール"
-            width={1774}
-            height={887}
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
+        <TrackedExternalLink
+          href={URL_SAKURAO_ACADEMY_X}
+          aria-label="桜鳳アカデミーのXアカウントを開く"
+          eventName="External Link Click"
+          eventProps={{ area: "home_ad_banner", destination: "X", url: URL_SAKURAO_ACADEMY_X }}
+        >
+          <picture>
+            <source
+              media="(max-width: 720px)"
+              srcSet="/ads/sakurao-academy-mobile.png"
+            />
+            <img
+              src="/ads/sakurao-academy-desktop.png"
+              alt="桜鳳アカデミー 大学生向け麻雀スクール"
+              width={1774}
+              height={887}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </TrackedExternalLink>
       </section>
 
       {/* 現タイトル保持者 — 5団体 banzuke */}
@@ -492,12 +501,12 @@ export default function Home() {
                     {watchNowTeams.map((t) => t.shortName).join(" / ")}
                   </span>
                 </span>
-                <a
+                <TrackedExternalLink
                   href={URL_ABEMA_MAHJONG}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="dot on"
                   aria-label="ABEMA 麻雀チャンネルを開く"
+                  eventName="External Link Click"
+                  eventProps={{ area: "home_watch_dot", destination: "ABEMA", url: URL_ABEMA_MAHJONG }}
                 />
               </li>
             ) : (
@@ -512,14 +521,14 @@ export default function Home() {
             )}
           </ul>
           {watchNowMatch && (
-            <a
+            <TrackedExternalLink
               href={URL_ABEMA_MAHJONG}
-              target="_blank"
-              rel="noopener noreferrer"
               className="watch-cta"
+              eventName="External Link Click"
+              eventProps={{ area: "home_watch_cta", destination: "ABEMA", url: URL_ABEMA_MAHJONG }}
             >
               ABEMAで見る →
-            </a>
+            </TrackedExternalLink>
           )}
           <Link href="/schedule" className="box-link">
             対局スケジュール →

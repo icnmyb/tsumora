@@ -4,6 +4,10 @@
 
 ## 完了済みのマイルストーン
 
+- ✅ Plausible 基本計測導入
+  - `app/layout.tsx` に Plausible の基本スクリプトを設置済み
+  - `lib/analytics.ts` と `components/TrackedExternalLink.tsx` を追加し、手動カスタムイベントを送れる状態にした
+  - ナビクリック、外部リンク、YouTube動画再生、選手一覧の表示切替/フィルタ/検索を計測対象にした
 - ✅ Featured / Roster の型分離 (`FeaturedPlayer extends RosterPlayer`)
 - ✅ `RosterPlayerPage` コンポーネント (Hero slim + Facts + Related + Org)
 - ✅ `[id]` ルーティング dispatch (Featured/Roster で自動分岐)
@@ -52,6 +56,20 @@
 ---
 
 ## 残タスク
+
+### ★★ 計測 / Analytics
+
+#### #A1 Plausible 本番発火確認
+- `app/layout.tsx` に Plausible script は導入済み
+- 本番 `https://tsumora.com` で pageview が Plausible 側に入るか確認する
+- script URL は現状 `https://plausible.io/js/pa-YHnbajbr6mQ8AX5gVKHY5.js`
+- カスタムイベントは Plausible 側で custom event goal を作成しないとダッシュボード上の conversion として見えないため、`Nav Click` / `External Link Click` / `Video Play` / `Player Filter` / `Player Search` / `Players View Switch` / `Players Pagination` を必要に応じて goal 登録する
+- 確認後、必要なら `README.md` または運用メモに Plausible dashboard / site 設定を追記する
+
+#### #A2 カスタムイベント設計
+- ✅ 初期実装済み。今後追加するなら、ニュース記事CTA、`/predict` のログイン/予想投稿導線、検索/フィルタ利用の深掘りなどに絞る
+- 実装時は `trackEvent("Event Name", { props: ... })` を使う
+- 個人情報や選手検索クエリの生文字列など、不要に細かい行動データは送らない
 
 ### ★★★ 5/4リリースまでに必要
 

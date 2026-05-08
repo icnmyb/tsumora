@@ -775,6 +775,7 @@ main { padding: 20px 0 60px; }
   overflow: hidden;
 }
 
+.home-ad-banner a,
 .home-ad-banner picture,
 .home-ad-banner img {
   display: block;

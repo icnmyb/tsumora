@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 import {
   MLEAGUE_FINAL_EVENTS,
   URL_ABEMA_MAHJONG,
@@ -695,16 +696,21 @@ export default async function SchedulePage({
                             </>
                           );
                           return link ? (
-                            <a
+                            <TrackedExternalLink
                               key={idx}
                               href={link}
-                              target="_blank"
-                              rel="noopener noreferrer"
                               className="event"
                               style={{ top, height, textDecoration: "none", color: "inherit" }}
+                              eventName="External Link Click"
+                              eventProps={{
+                                area: "schedule_week_event",
+                                org: ev.org,
+                                channel: ev.channel,
+                                title: ev.title,
+                              }}
                             >
                               {inner}
-                            </a>
+                            </TrackedExternalLink>
                           ) : (
                             <div key={idx} className="event" style={{ top, height }}>
                               {inner}
@@ -752,16 +758,21 @@ export default async function SchedulePage({
                             </>
                           );
                           return ev.link ? (
-                            <a
+                            <TrackedExternalLink
                               key={`${iso}-${idx}`}
                               href={ev.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
                               className="month-event"
                               style={{ ["--oc" as string]: ev.tagColor } as React.CSSProperties}
+                              eventName="External Link Click"
+                              eventProps={{
+                                area: "schedule_month_event",
+                                org: ev.org,
+                                channel: ev.channel,
+                                title: ev.title,
+                              }}
                             >
                               {item}
-                            </a>
+                            </TrackedExternalLink>
                           ) : (
                             <div
                               key={`${iso}-${idx}`}
@@ -830,9 +841,18 @@ export default async function SchedulePage({
                       <div className="title">
                         <h4>
                           {link ? (
-                            <a href={link} target="_blank" rel="noopener noreferrer">
+                            <TrackedExternalLink
+                              href={link}
+                              eventName="External Link Click"
+                              eventProps={{
+                                area: "schedule_today_event",
+                                org: m.org,
+                                channel: m.channel,
+                                title: m.title,
+                              }}
+                            >
                               {m.title}
-                            </a>
+                            </TrackedExternalLink>
                           ) : (
                             <span>{m.title}</span>
                           )}

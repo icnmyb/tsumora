@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 
 const LAUNCH_DATE = new Date("2025-09-01T00:00:00+09:00");
 
@@ -74,22 +75,22 @@ export function SiteFooter() {
           <ul>
             <li><Link href="/about">このサイトについて</Link></li>
             <li>
-              <a
+              <TrackedExternalLink
                 href="https://x.com/tt_23_mm"
-                target="_blank"
-                rel="noopener noreferrer"
+                eventName="External Link Click"
+                eventProps={{ area: "footer_contact", destination: "X", url: "https://x.com/tt_23_mm" }}
               >
                 お問い合わせ（X DM）
-              </a>
+              </TrackedExternalLink>
             </li>
             <li>
-              <a
+              <TrackedExternalLink
                 href="https://x.com/tt_23_mm"
-                target="_blank"
-                rel="noopener noreferrer"
+                eventName="External Link Click"
+                eventProps={{ area: "footer_sponsor", destination: "X", url: "https://x.com/tt_23_mm" }}
               >
                 Founding Sponsor
-              </a>
+              </TrackedExternalLink>
             </li>
           </ul>
         </div>
