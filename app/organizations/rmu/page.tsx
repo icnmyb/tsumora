@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
 
 export const metadata: Metadata = {
-  title: "麻雀競技連盟（RMU）— TSUMORA",
+  title: "RMU — TSUMORA",
   description:
-    "2007年設立、麻雀競技連盟（RMU）の概要・主要タイトル戦（令昭位戦 / RMUクラウン / 闘魂杯 ほか）・所属プロ。",
+    "2007年設立、RMU（Real Mahjong Unit）の概要・主要タイトル戦（令昭位戦 / RMUクラウン / 闘魂杯 ほか）・所属プロ。",
   openGraph: {
-    title: "麻雀競技連盟（RMU）— TSUMORA",
+    title: "RMU — TSUMORA",
     description: "RMU の概要・主要タイトル戦・所属プロ。",
     siteName: "TSUMORA",
     type: "website",
@@ -22,33 +22,33 @@ const RMU: OrgDetailPageData = {
   nameJa: "RMU",
   nameEn: "Real Mahjong Unit",
   kite: "R",
-  highlightTag: "実力派志向",
-  extraTags: ["創設 2007年", "掲載プロ 46名", "タイトル戦 5", "代表 多井 隆晴"],
+  highlightTag: "2007年設立",
+  extraTags: ["掲載プロ 46名", "ライセンス制", "令昭位戦", "RMUクラウン"],
   meta: [
-    { label: "Founded", value: "2007", accent: true, sub: <>平成19年<br />多井隆晴が設立</> },
+    { label: "Founded", value: "2007", accent: true, sub: <>平成19年<br />設立</> },
     { label: "Active Pros", value: "46", unit: "名", sub: "TSUMORA掲載数" },
-    { label: "Titles", value: "05", unit: "戦", sub: "令昭位 · クラウン · 太陽系シリーズ ほか" },
-    { label: "License", value: "SSS〜B", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "実力ベース 5階級" },
+    { label: "Events", value: "主要", sub: "令昭位 · クラウン · スプリント ほか" },
+    { label: "License", value: "SSS〜B", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "公式掲載ライセンス区分" },
     {
-      label: "Founder",
-      value: "多井",
+      label: "System",
+      value: "Point",
       valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 },
-      sub: "多井 隆晴 代表",
+      sub: "選手ポイントを年4回公表",
     },
   ],
   about: {
     en: "About RMU",
     leadParagraphs: [
-      "RMU（Real Mahjong Unit）は、2007年に多井隆晴が中心となって設立された麻雀プロ団体である。「実力主義」を掲げ、ライセンス制（SSS・SS・S・A・B）による厳格な実力評価を採用する点が最大の特徴。",
-      "団体最高峰タイトルは令昭位戦（れいしょういせん）。A1リーグを頂点とした昇降級制で、2026年現在では多井隆晴がA1リーグでも上位常連となっている。",
-      "他にRMUクラウン・アースカップ・ネプチューンカップ・ペルセウスカップなど、太陽系シリーズと総称される独自のオープンタイトル戦を多数開催。TSUMORAでは現時点で公式ページから確認できたライセンス保持者を中心に46名を掲載している。",
-      "Mリーグには代表の多井隆晴が渋谷ABEMASに所属。「麻雀星人」「最速最強」と呼ばれるその雀風はRMUのブランドそのものとなっている。",
+      "RMU（Real Mahjong Unit）は、2007年に設立された競技麻雀団体である。公式サイトでは「真の麻雀プロを創出すること」を第一義に掲げ、アスリート会員が公式戦やタイトル戦で実績を積む仕組みを説明している。",
+      "プロライセンスは、選手ポイントが規定値に達し、技量・理論・マナー・作法が備わったと審議会の過半数が判断した場合に発行される。選手ポイントランキングは年4回公表される。",
+      "令昭位戦はアスリート会員が参加するリーグ戦で、A1リーグが上部に位置する年間リーグ戦として案内されている。主要タイトルには令昭位戦、RMUクラウン、スプリントカップ、ティアラリーグ、オープンリーグなどがある。",
+      "代表的な所属選手には、Mリーグ初年度から渋谷ABEMASで活躍する多井隆晴をはじめ、令昭位戦やRMUクラウンで実績を残す選手が並ぶ。ライセンス制と選手ポイントを軸に、競技成績を可視化する色合いの強い団体である。",
     ],
     pullQuote: (
       <>
-        「実力ベースのライセンス制が貫く、純度の高い競技団体。」
+        「選手ポイントと審議を経てプロライセンスを発行する競技団体。」
         <br />
-        多井隆晴のリーダーシップのもと、若手育成と国際展開を進める。
+        令昭位戦を軸に、公式戦の成績管理とライセンス制度で選手育成を進めている。
       </>
     ),
   },
@@ -72,11 +72,10 @@ const RMU: OrgDetailPageData = {
         <>
           2007年
           <br />
-          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>多井隆晴が設立</span>
+          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>競技麻雀団体</span>
         </>
       ),
     },
-    { dt: "代表", dd: "多井 隆晴" },
     { dt: "掲載プロ", dd: "46名 (TSUMORA掲載数)" },
     { dt: "本部", dd: "東京都" },
     { dt: "ライセンス", dd: "SSS / SS / S / A / B の5階級" },
@@ -85,7 +84,7 @@ const RMU: OrgDetailPageData = {
   ],
   titles: {
     title: "主要タイトル戦",
-    en: "Major Titles · 5 Events",
+    en: "Selected Major Events",
     cards: [
       {
         pill: "● LIVE",
@@ -95,8 +94,9 @@ const RMU: OrgDetailPageData = {
         title: "令昭位戦A1",
         en: "The Reishōi A1",
         since: "Since 2009 · 第18期 · 団体最高峰",
-        leaderName: "多井 隆晴",
-        leaderPt: "+82.7 首位",
+        leaderName: "現令昭位：小川 光",
+        leaderPt: "第17期",
+        leaderPtDone: true,
       },
       {
         pill: "進行中",
@@ -105,8 +105,8 @@ const RMU: OrgDetailPageData = {
         title: "RMUクラウン",
         en: "The RMU Crown",
         since: "Since 2010 · 第16回 · オープン参加",
-        leaderName: "前覇者：藤中 慎一郎",
-        leaderPt: "予選 →",
+        leaderName: "現覇者：福原 慎平",
+        leaderPt: "第17回",
         leaderPtDone: true,
       },
       {
@@ -202,29 +202,29 @@ const RMU: OrgDetailPageData = {
     ],
   },
   milestones: [
-    { year: "2007", kind: "設立", title: "RMU、創設", desc: "多井隆晴を中心に「実力主義」を掲げて発足。ライセンス制を初めて導入したプロ団体。" },
+    { year: "2007", kind: "設立", title: "RMU、創設", desc: "競技麻雀団体として発足。選手ポイントと審議を経たプロライセンス制度を運用。" },
     { year: "2007", kind: "タイトル", title: "ペルセウスカップ 開始", desc: "ライセンス保持者限定の最初のタイトル戦が開催。" },
     { year: "2009", kind: "最高峰", title: "令昭位戦 開始", desc: "団体最高峰タイトルとして第1期がスタート。" },
     { year: "2010", kind: "オープン", title: "RMUクラウン 開始", desc: "オープン参加型のRMUクラウンが第1回開催。" },
     { year: "2015", kind: "Mリーグ前夜", title: "RTDリーグ 多井優勝", desc: "RTDリーグ Avocadoカップで多井隆晴が優勝、Mリーグ前夜の象徴に。" },
     { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "多井隆晴が渋谷ABEMASのドラフト1巡目指名でMリーグ初年度から参戦。" },
-    { year: "2024", kind: "個人", title: "Mリーグ MVP獲得", desc: "多井隆晴がMリーグ2024-25シーズンでMVP相当の活躍。" },
-    { year: "2026", kind: "現在", title: "第18期令昭位戦 進行中", desc: "多井隆晴がA1リーグで首位独走、決定戦進出を窺う。" },
+    { year: "2024", kind: "成績", title: "公式成績ランキングを更新", desc: "公式サイトで生涯成績・年度成績・選手ポイントランキングを継続的に公表。" },
+    { year: "2026", kind: "タイトル", title: "第17期令昭位、小川光が戴冠", desc: "第17期令昭位戦で小川光が優勝し、現令昭位として掲載。" },
   ],
   champions: {
     title: "歴代令昭位",
     en: "Past Reishōi",
     rows: [
-      { ep: "17", name: "多井 隆晴", note: "現令昭位 · 連覇", yr: "2025" },
-      { ep: "16", name: "多井 隆晴", note: "8度目", yr: "2024" },
-      { ep: "15", name: "藤中 慎一郎", yr: "2023" },
-      { ep: "14", name: "多井 隆晴", note: "7度目", yr: "2022" },
+      { ep: "17", name: "小川 光", note: "現令昭位", yr: "2026" },
+      { ep: "16", name: "河野 高志", yr: "2025" },
+      { ep: "15", name: "谷井 茂文", yr: "2024" },
+      { ep: "14", name: "多井 隆晴", yr: "2022" },
       { ep: "13", name: "阿部 孝則", yr: "2021" },
-      { ep: "12", name: "多井 隆晴", note: "6度目", yr: "2020" },
-      { ep: "11", name: "多井 隆晴", note: "5度目", yr: "2019" },
+      { ep: "12", name: "多井 隆晴", yr: "2020" },
+      { ep: "11", name: "多井 隆晴", yr: "2019" },
       { ep: "10", name: "谷井 茂文", yr: "2018" },
-      { ep: "09", name: "多井 隆晴", note: "4度目", yr: "2017" },
-      { ep: "08", name: "多井 隆晴", note: "3度目", yr: "2016" },
+      { ep: "09", name: "多井 隆晴", yr: "2017" },
+      { ep: "08", name: "多井 隆晴", yr: "2016" },
     ],
   },
   media: {

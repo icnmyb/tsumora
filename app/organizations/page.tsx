@@ -58,9 +58,9 @@ const ORGS: OrgCard[] = [
     glyph: "連",
     color: "var(--vermilion)",
     founded: "1981",
-    titles: "14",
-    tags: ["● 最大手", "創設1981", "鳳凰位戦"],
-    desc: "小島武夫・灘麻太郎らが1981年に創設。鳳凰位戦・十段位戦を擁する国内最大のプロ団体。",
+    titles: "主要",
+    tags: ["設立1981", "鳳凰位戦", "段位制"],
+    desc: "1981年3月6日設立。競技会の開催、段位審査、麻雀普及活動を行い、鳳凰位戦・十段位戦などを主催する。",
   },
   {
     slug: "npm",
@@ -72,9 +72,9 @@ const ORGS: OrgCard[] = [
     glyph: "協",
     color: "#2563eb",
     founded: "2001",
-    titles: "09",
-    tags: ["雀王戦", "独立系", "赤あり"],
-    desc: "2001年に連盟から分派して発足。最高峰タイトル雀王戦、一発裏ドラ赤牌ありの現代寄りルール。",
+    titles: "主要",
+    tags: ["雀王戦", "法人設立2010", "普及活動"],
+    desc: "2001年に活動を開始し、2010年4月21日に一般社団法人として法人設立。雀王戦・雀竜位戦などを主催する。",
   },
   {
     slug: "saikouisen",
@@ -86,9 +86,9 @@ const ORGS: OrgCard[] = [
     glyph: "最",
     color: "#7c3aed",
     founded: "1976",
-    titles: "07",
-    tags: ["最古", "最高位戦", "理論派"],
-    desc: "1976年発足、国内最古のプロ団体。最高位戦を中心に理論派プロを多く輩出する老舗。",
+    titles: "主要",
+    tags: ["源流1976", "最高位戦", "長期リーグ"],
+    desc: "1976年創設のタイトル戦を源流とし、1985年に団体組織として活動開始。年間リーグを通じて最高位を決める。",
   },
   {
     slug: "rmu",
@@ -100,9 +100,9 @@ const ORGS: OrgCard[] = [
     glyph: "R",
     color: "var(--gold)",
     founded: "2007",
-    titles: "05",
-    tags: ["クリスタルカップ", "少数精鋭", "競技重視"],
-    desc: "2007年設立。クリスタルカップ・RMUリーグを擁する少数精鋭の競技志向団体。",
+    titles: "主要",
+    tags: ["設立2007", "ライセンス制", "令昭位戦"],
+    desc: "2007年設立。選手ポイントや審議を経たライセンス制を採用し、令昭位戦・RMUクラウンなどを主催する。",
   },
   {
     slug: "mu",
@@ -114,9 +114,9 @@ const ORGS: OrgCard[] = [
     glyph: "μ",
     color: "var(--moss)",
     founded: "1997",
-    titles: "06",
-    tags: ["μカップ", "競技麻将", "井出洋介"],
-    desc: "1997年に井出洋介らが設立。「競技麻将」の名を掲げ、μカップをはじめとする厳格なルールで知られる。",
+    titles: "主要",
+    tags: ["設立1997", "競技麻将", "将王戦"],
+    desc: "1997年設立。金銭を賭けない競技としての「麻将」を掲げ、将王戦・BIG1カップ・μ-M1カップなどを主催する。",
   },
 ];
 
@@ -145,8 +145,8 @@ export default function OrganizationsIndexPage() {
             <div className="tags">
               <span className="highlight">● 全5団体</span>
               <span>所属プロ {TOTAL_PROS.toLocaleString()}名</span>
-              <span>公式タイトル戦 41</span>
-              <span>最古 1976 / 最新 2007</span>
+              <span>公式戦・タイトル戦を横断掲載</span>
+              <span>源流 1976 / 最新設立 2007</span>
             </div>
           </div>
           <div className="kite">
@@ -292,7 +292,7 @@ export default function OrganizationsIndexPage() {
               {[
                 { l: "Founded", v: o.founded },
                 { l: "Pros", v: (ORG_COUNTS[ORG_BY_SLUG[o.slug]] ?? 0).toLocaleString() },
-                { l: "Titles", v: o.titles },
+                { l: "Events", v: o.titles },
               ].map((s) => (
                 <div key={s.l}>
                   <div

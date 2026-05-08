@@ -20,12 +20,12 @@ const JPML: OrgDetailPageData = {
   nameJa: "日本プロ麻雀連盟",
   nameEn: "Japan Professional Mahjong League",
   kite: "連",
-  highlightTag: "最大手団体",
-  extraTags: ["創設1981年", "掲載プロ 1,067名", "タイトル戦 14", "45年の歴史"],
+  highlightTag: "1981年設立",
+  extraTags: ["掲載プロ 1,067名", "鳳凰位戦", "十段位戦", "公式競技・段位制"],
   meta: [
-    { label: "Founded", value: "1981", accent: true, sub: <>昭和56年 · 小島武夫ら<br />創設45周年</> },
+    { label: "Founded", value: "1981", accent: true, sub: <>昭和56年<br />3月6日設立</> },
     { label: "Active Pros", value: "1,067", unit: "名", sub: "TSUMORA掲載数" },
-    { label: "Titles", value: "14", unit: "戦", sub: "鳳凰位 · 十段 · 王位 ほか" },
+    { label: "Events", value: "主要", sub: "鳳凰位 · 十段 · 王位 ほか" },
     { label: "M-League", value: "05", unit: "名", sub: "格闘倶楽部 · 風林火山 他" },
     {
       label: "This Week",
@@ -38,16 +38,16 @@ const JPML: OrgDetailPageData = {
   about: {
     en: "About JPML",
     leadParagraphs: [
-      "日本プロ麻雀連盟（JPML）は、1981年に小島武夫・灘麻太郎・古川凱章らによって設立された、日本最大級の麻雀プロ団体である。TSUMORAでは連盟所属プロ1,067名を掲載している。",
-      "連盟の象徴である鳳凰位戦は、最高峰タイトルとして1984年から連綿と続き、第42期を迎えた現在もプロ麻雀界の頂点に位置する。A1〜A2〜B〜C〜Dの5部リーグ制を採用し、毎年厳しい昇降級争いが繰り広げられる。",
-      "他にも十段位戦・王位戦・女流桜花など、格式ある競技会を14タイトル擁する。競技ルールは「一発・裏ドラなし / 赤牌なし」の正統派で、純然たる技術戦を重視する姿勢が特徴である。",
-      "MリーグにはKONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電、EX風林火山などを中心に多数の所属プロが参加。佐々木寿人・滝沢和典・白鳥翔ら攻撃型から技巧派まで幅広い名手が看板として戦っている。",
+      "日本プロ麻雀連盟（JPML）は、1981年3月6日に設立された競技麻雀のプロ団体である。公式競技の開催を主な活動とし、段位審査、免許状の発行、麻雀教室、執筆・メディア活動なども行っている。",
+      "公式サイトでは、競技麻雀を通じた職業棋士の育成・社会的地位の向上、健全な麻雀遊戯の普及・発展、伝統文化・大衆文化の発展向上と国際親善への寄与を目的として掲げている。",
+      "主要タイトルには鳳凰位戦、十段位戦、王位戦、女流桜花などがある。長期リーグで頂点を決める鳳凰位戦と、トーナメント色の強いタイトル戦が並び、所属プロは年間を通じて複数の舞台で競う。",
+      "MリーグにはKONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電、EX風林火山、BEAST Xなどで連盟所属プロが出場している。攻撃型から守備型、若手からベテランまで幅広い選手層を持つ団体である。",
     ],
     pullQuote: (
       <>
-        「競技麻雀の矜持を守り続ける、日本最大のプロ団体。」
+        「公式競技、段位制、普及活動を柱にする競技麻雀団体。」
         <br />
-        鳳凰位戦・十段位戦の伝統と、Mリーグ時代への適応の両立が現在のテーマである。
+        鳳凰位戦・十段位戦などのタイトル戦と、道場・教室・メディア活動を通じて麻雀文化の普及に取り組む。
       </>
     ),
   },
@@ -69,16 +69,14 @@ const JPML: OrgDetailPageData = {
       dt: "設立",
       dd: (
         <>
-          1981年6月
+          1981年3月6日
           <br />
           <span style={{ color: "var(--ink-3)", fontSize: 11 }}>45年の歴史</span>
         </>
       ),
     },
-    { dt: "創設者", dd: "小島武夫・灘麻太郎・古川凱章" },
     { dt: "現会長", dd: "森山 茂和" },
-    { dt: "本部", dd: "東京都新宿区" },
-    { dt: "所属", dd: "日本プロスポーツ協会 加盟" },
+    { dt: "本部道場", dd: "東京都豊島区巣鴨" },
     {
       dt: "支部",
       dd: (
@@ -101,7 +99,7 @@ const JPML: OrgDetailPageData = {
   ],
   titles: {
     title: "主要タイトル戦",
-    en: "Major Titles · 14 Events",
+    en: "Selected Major Events",
     cards: [
       {
         pill: "● LIVE",
@@ -111,8 +109,9 @@ const JPML: OrgDetailPageData = {
         title: "鳳凰位戦",
         en: "The Hōōi",
         since: "Since 1984 · 第42期 · 賞金 ¥5,000,000",
-        leaderName: "瀬戸熊 直樹",
-        leaderPt: "+124.5 首位",
+        leaderName: "現鳳凰位：白鳥 翔",
+        leaderPt: "第42期",
+        leaderPtDone: true,
         href: "/titles/houou-isen",
       },
       {
@@ -122,8 +121,8 @@ const JPML: OrgDetailPageData = {
         title: "十段位戦",
         en: "The Jūdan",
         since: "Since 1984 · 第42期 · トーナメント制",
-        leaderName: "前 十段位：佐々木 寿人",
-        leaderPt: "防衛戦 →",
+        leaderName: "現十段位：浜野 太陽",
+        leaderPt: "第42期",
         leaderPtDone: true,
       },
       {
@@ -133,8 +132,8 @@ const JPML: OrgDetailPageData = {
         title: "王位戦",
         en: "The Ōi",
         since: "Since 1977 · 第50期 · 5団体交流",
-        leaderName: "前 王位：近藤 誠一",
-        leaderPt: "本戦 4/28",
+        leaderName: "現王位：石川 正明",
+        leaderPt: "第50期",
         leaderPtDone: true,
       },
       {
@@ -240,7 +239,7 @@ const JPML: OrgDetailPageData = {
     rows: [
       { rk: "一", top3: true, avatar: "瀬", avatarClass: "vermilion", name: "瀬戸熊 直樹", href: "/players/setokuma", sub: "1975生 · 1997年入会 · 第39-41期鳳凰位（3連覇）", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "鳳凰位×3" }, { kind: "plain", label: "十段×2" }, { kind: "plain", label: "発王" }], rate: "2184", games: "4,287", top: "28.4%", avg: "2.38" },
       { rk: "二", top3: true, avatar: "佐", name: "佐々木 寿人", href: "/players/sasaki", sub: "1976生 · 2001年入会 · 攻撃型の代名詞 · 格闘倶楽部", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "十段位×3" }, { kind: "plain", label: "王位×2" }], rate: "2147", games: "5,103", top: "31.2%", avg: "2.41" },
-      { rk: "三", top3: true, avatar: "鈴", name: "鈴木 大介", href: "/players/suzuki-d", sub: "1974生 · 第27期入会 · 元将棋棋士 · 渋谷ABEMAS", league: "A1", leagueClass: "a1", titles: [{ kind: "plain", label: "雀竜位" }], rate: "2098", games: "2,841", top: "26.8%", avg: "2.47" },
+      { rk: "三", top3: true, avatar: "鈴", name: "鈴木 大介", href: "/players/suzuki-d", sub: "1974生 · 第39期生 · 五段 · BEAST X", league: "A1", leagueClass: "a1", titles: [{ kind: "plain", label: "最強位" }], rate: "2098", games: "2,841", top: "26.8%", avg: "2.47" },
       { rk: "四", avatar: "滝", name: "滝沢 和典", href: "/players/takizawa", sub: "1979生 · 2002年入会 · 第38期鳳凰位 · 格闘倶楽部", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "鳳凰位" }, { kind: "plain", label: "モンド杯" }], rate: "2072", games: "3,942", top: "25.9%", avg: "2.49" },
       { rk: "五", avatar: "藤", avatarClass: "gold", name: "藤崎 智", sub: "1970生 · 1995年入会 · 第32期鳳凰位 · GPM覇者", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "鳳凰位" }, { kind: "plain", label: "GPM" }], rate: "2041", games: "4,658", top: "25.1%", avg: "2.51" },
       { rk: "六", avatar: "白", name: "白鳥 翔", href: "/players/shiratori", sub: "1988生 · 2010年入会 · サクラナイツ · 新世代の旗手", league: "A2", leagueClass: "a2", titles: [{ kind: "primary", label: "チャンピオンズリーグ" }], rate: "2018", games: "2,847", top: "27.3%", avg: "2.44" },
@@ -262,22 +261,22 @@ const JPML: OrgDetailPageData = {
     { year: "2009", kind: "電脳化", title: "ニコニコ生放送で「麻雀連盟チャンネル」開設", desc: "配信時代の幕開け。年間視聴者数が急拡大。" },
     { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "佐々木寿人・前原雄大・沢崎誠・瀬戸熊直樹らが各チームに選抜。" },
     { year: "2024", kind: "記念", title: "創設45周年", desc: "所属プロ600名を突破。支部も全国7拠点に拡大。" },
-    { year: "2026", kind: "現在", title: "第42期鳳凰位戦 進行中", desc: "瀬戸熊直樹が4連覇を狙う。第5節B卓 本日19:30〜。" },
+    { year: "2025", kind: "タイトル", title: "第42期鳳凰位、白鳥翔が連覇", desc: "第42期鳳凰位決定戦を白鳥翔が制し、第41期に続く連覇を達成。" },
   ],
   champions: {
     title: "歴代鳳凰位",
     en: "Past Champions",
     rows: [
-      { ep: "41", name: "瀬戸熊 直樹", note: "3連覇 · 現鳳凰位", yr: "2025" },
-      { ep: "40", name: "瀬戸熊 直樹", note: "2連覇", yr: "2024" },
-      { ep: "39", name: "瀬戸熊 直樹", note: "初戴冠", yr: "2023" },
-      { ep: "38", name: "滝沢 和典", note: "初", yr: "2022" },
-      { ep: "37", name: "沢崎 誠", note: "最年長記録", yr: "2021" },
-      { ep: "36", name: "前原 雄大", note: "2度目", yr: "2020" },
-      { ep: "35", name: "山井 弘", yr: "2019" },
-      { ep: "34", name: "HIRO柴田", yr: "2018" },
-      { ep: "33", name: "前原 雄大", note: "初", yr: "2017" },
-      { ep: "32", name: "藤崎 智", yr: "2016" },
+      { ep: "42", name: "白鳥 翔", note: "現鳳凰位", yr: "2025" },
+      { ep: "41", name: "白鳥 翔", note: "初戴冠", yr: "2024" },
+      { ep: "40", name: "佐々木 寿人", yr: "2023" },
+      { ep: "39", name: "HIRO柴田", yr: "2022" },
+      { ep: "38", name: "佐々木 寿人", yr: "2021" },
+      { ep: "37", name: "佐々木 寿人", yr: "2020" },
+      { ep: "36", name: "藤崎 智", yr: "2019" },
+      { ep: "35", name: "吉田 直", yr: "2018" },
+      { ep: "34", name: "前原 雄大", yr: "2017" },
+      { ep: "33", name: "前原 雄大", yr: "2016" },
     ],
   },
   media: {

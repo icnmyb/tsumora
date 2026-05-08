@@ -22,35 +22,35 @@ const NPM: OrgDetailPageData = {
   nameJa: "日本プロ麻雀協会",
   nameEn: "Nippon Professional Mahjong",
   kite: "協",
-  highlightTag: "第二団体",
-  extraTags: ["創設 2001年", "掲載プロ 748名", "タイトル戦 4", "25年の歴史"],
+  highlightTag: "2001年活動開始",
+  extraTags: ["法人設立 2010年", "掲載プロ 748名", "雀王戦", "雀竜位戦"],
   meta: [
-    { label: "Founded", value: "2001", accent: true, sub: <>平成13年<br />創設25周年</> },
+    { label: "Founded", value: "2001", accent: true, sub: <>平成13年<br />活動開始</> },
     { label: "Active Pros", value: "748", unit: "名", sub: "TSUMORA掲載数" },
-    { label: "Titles", value: "04", unit: "戦", sub: "雀王 · 雀竜位 · 新人王 · 日本オープン" },
+    { label: "Events", value: "主要", sub: "雀王 · 雀竜位 · 新人王 · 日本オープン" },
     { label: "League", value: "09", unit: "部", accent: true, sub: "A1 〜 D3 の9部制" },
     {
-      label: "Chairman",
-      value: "森岡",
+      label: "Representative",
+      value: "鍛冶田",
       valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 },
-      sub: "森岡 貞臣 会長",
+      sub: "鍛冶田 良一 代表理事",
     },
   ],
   about: {
     en: "About NPM",
     leadParagraphs: [
-      "日本プロ麻雀協会（NPM）は、2001年に発足した麻雀プロ団体である。現会長は森岡貞臣。TSUMORAでは協会所属プロ748名を掲載し、競技性とエンターテインメント性の両立を掲げる団体として紹介している。",
+      "日本プロ麻雀協会（NPM）は、2001年に活動を開始した競技麻雀のプロ団体である。現在の法人名は一般社団法人 日本プロ麻雀協会で、公式の団体概要では2010年4月21日を法人設立日としている。",
       <>
-        協会の象徴である雀王戦は、2002年の第1期開始から続く最高峰タイトルである。A1・A2・B1・B2・C1・C2・D1・D2・D3の<b>9部制リーグ</b>を採用し、所属プロ全員が年間を通じて昇降級を懸けて戦う。現雀王は石橋伸洋。
+        公式サイトでは、麻雀の普及と発展、麻雀文化の向上発展を目的に、プロ育成、競技会・講習会の開催、麻雀教室、人材派遣、書籍・映像資料の作成などを事業として掲げている。
       </>,
-      "雀王戦に加え、雀竜位戦・新人王戦・日本オープンを協会の主要タイトル戦として擁する。いずれも配信・解説の整った大会として知られ、オープン参加の大会も多い。",
-      "Mリーグには現在、U-NEXT Pirates・セガサミーフェニックス・KADOKAWAサクラナイツに所属プロが在籍。仲林圭・浅井堂岐・松本吉弘らが看板として活躍する。",
+      "主要タイトルには雀王戦、女流雀王戦、雀竜位戦、新人王戦、日本オープン、オータムチャンピオンシップなどがある。雀王戦はA1を頂点とするリーグ制、雀竜位戦は短期で上位を目指せる昇級制を特徴としている。",
+      "MリーグにはU-NEXT Pirates、KADOKAWAサクラナイツ、セガサミーフェニックス、BEAST Xなどで協会所属・出身プロが出場している。配信文化やオープン参加型大会との相性も強く、競技と発信の両面で存在感を持つ。",
     ],
     pullQuote: (
       <>
-        「競技とエンタメを両立させる、新世代のプロ団体。」
+        「普及、育成、競技会運営を通じて麻雀文化の発展を目指す団体。」
         <br />
-        雀王戦9部制リーグを軸に、タイトル戦の層の厚さと配信文化で麻雀界を牽引する。
+        雀王戦を中心に、多数の公式戦・地域大会・普及事業を展開している。
       </>
     ),
   },
@@ -72,22 +72,22 @@ const NPM: OrgDetailPageData = {
       dt: "設立",
       dd: (
         <>
-          2001年
+          2001年活動開始
           <br />
-          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>25年の歴史</span>
+          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>法人設立 2010年4月21日</span>
         </>
       ),
     },
-    { dt: "現会長", dd: "森岡 貞臣" },
+    { dt: "代表理事", dd: "鍛冶田 良一" },
     { dt: "掲載プロ", dd: "748名 (TSUMORA掲載数)" },
     { dt: "リーグ", dd: "A1〜D3 · 9部制" },
-    { dt: "本部", dd: "東京都中央区" },
-    { dt: "支部", dd: "本部 / 関西 / 東海 / 東北 / 九州 · 全5地域" },
+    { dt: "主たる事務所", dd: "東京都千代田区飯田橋" },
+    { dt: "事務局", dd: "本部 / 関西 / 宮崎 ほか" },
     { dt: "公式", dd: <span>npm2001.com</span> },
   ],
   titles: {
     title: "主要タイトル戦",
-    en: "Major Titles · 4 Events",
+    en: "Selected Major Events",
     cards: [
       {
         pill: "● LIVE",
@@ -97,8 +97,9 @@ const NPM: OrgDetailPageData = {
         title: "雀王戦",
         en: "The Jan-ō",
         since: "Since 2002 · 第25期 · 9部制リーグ",
-        leaderName: "現雀王：仲林 圭",
-        leaderPt: "防衛戦 進行中",
+        leaderName: "現雀王：西村 雄一郎",
+        leaderPt: "第24期",
+        leaderPtDone: true,
       },
       {
         pill: "進行中",
@@ -118,8 +119,8 @@ const NPM: OrgDetailPageData = {
         title: "雀竜位戦",
         en: "The Janryū-i",
         since: "Since 2003 · 全協会員参加",
-        leaderName: "前雀竜位：浅井 堂岐",
-        leaderPt: "予選 →",
+        leaderName: "現雀竜位：大川 冬馬",
+        leaderPt: "第24期",
         leaderPtDone: true,
       },
       {
@@ -193,29 +194,29 @@ const NPM: OrgDetailPageData = {
     ],
   },
   milestones: [
-    { year: "2001", kind: "設立", title: "日本プロ麻雀協会、創設", desc: "森岡貞臣ら現役プロが集結し、競技とエンタメの両立を掲げる第二団体として発足。" },
+    { year: "2001", kind: "発足", title: "日本プロ麻雀協会、活動開始", desc: "日本プロ麻雀協会として活動を開始。2010年4月21日に一般社団法人として法人設立。" },
     { year: "2002", kind: "タイトル", title: "雀王戦 開始", desc: "協会最高峰タイトルとして第1期が開催。9部制リーグの原型ができる。" },
     { year: "2003", kind: "新タイトル", title: "雀竜位戦 開始", desc: "全協会員参加の大規模タイトル戦としてスタート。" },
     { year: "2005", kind: "女流", title: "女流雀王戦 開始", desc: "女流最高峰タイトルとして第1期が開催。" },
     { year: "2013", kind: "国際", title: "日本オープン 開始", desc: "オープン参加形式の国際大会としてスタート。" },
     { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "小林剛・園田賢・鈴木たろうらが各チームに選抜（後に協会所属プロ多数が参戦）。" },
     { year: "2008", kind: "新タイトル", title: "新人王戦 開始", desc: "若手育成を目的とした新人王戦が第1期開催。入会5年以内の選手が対象。" },
-    { year: "2026", kind: "現在", title: "第25期雀王戦 進行中", desc: "現雀王の仲林圭が防衛戦を迎える。" },
+    { year: "2025", kind: "タイトル", title: "第24期雀王、西村雄一郎が初戴冠", desc: "第24期雀王決定戦で西村雄一郎が雀王位を獲得。" },
   ],
   champions: {
     title: "歴代雀王",
     en: "Past Jan-ō",
     rows: [
-      { ep: "24", name: "仲林 圭", note: "現雀王 · 連覇", yr: "2025" },
-      { ep: "23", name: "仲林 圭", note: "初戴冠", yr: "2024" },
-      { ep: "22", name: "石橋 伸洋", note: "2連覇", yr: "2023" },
-      { ep: "21", name: "石橋 伸洋", note: "初", yr: "2022" },
-      { ep: "20", name: "千貫 陽祐", yr: "2021" },
-      { ep: "19", name: "松本 吉弘", yr: "2020" },
-      { ep: "18", name: "下石 戟", yr: "2019" },
-      { ep: "17", name: "矢島 亨", yr: "2018" },
-      { ep: "16", name: "鈴木 たろう", note: "Mリーガー", yr: "2017" },
-      { ep: "15", name: "金 太賢", yr: "2016" },
+      { ep: "24", name: "西村 雄一郎", note: "現雀王", yr: "2025" },
+      { ep: "23", name: "仲林 圭", yr: "2024" },
+      { ep: "22", name: "仲林 圭", yr: "2023" },
+      { ep: "21", name: "浅井 堂岐", yr: "2022" },
+      { ep: "20", name: "渋川 難波", yr: "2021" },
+      { ep: "19", name: "矢島 亨", yr: "2020" },
+      { ep: "18", name: "堀 慎吾", yr: "2019" },
+      { ep: "17", name: "金 太賢", yr: "2018" },
+      { ep: "16", name: "金 太賢", yr: "2017" },
+      { ep: "15", name: "角谷 ヨウスケ", yr: "2016" },
     ],
   },
   media: {

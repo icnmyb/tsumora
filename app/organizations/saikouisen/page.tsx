@@ -4,7 +4,7 @@ import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPag
 export const metadata: Metadata = {
   title: "最高位戦日本プロ麻雀協会 — TSUMORA",
   description:
-    "1976年設立、最高位戦日本プロ麻雀協会の概要・主要タイトル戦（最高位戦 / Classic / 發王戦 ほか）・所属プロ。",
+    "1976年創設のタイトル戦を源流とする、最高位戦日本プロ麻雀協会の概要・主要タイトル戦（最高位戦 / Classic / 發王戦 ほか）・所属プロ。",
   openGraph: {
     title: "最高位戦日本プロ麻雀協会 — TSUMORA",
     description: "最高位戦の概要・主要タイトル戦・所属プロ。",
@@ -22,33 +22,33 @@ const SAIKOUISEN: OrgDetailPageData = {
   nameJa: "最高位戦日本プロ麻雀協会",
   nameEn: "Saikouisen Japan Pro Mahjong Association",
   kite: "高",
-  highlightTag: "日本最古のプロ麻雀団体",
-  extraTags: ["創設 1976年", "掲載プロ 1,024名", "タイトル戦 5", "50年の歴史"],
+  highlightTag: "1976年創設の最高位戦が源流",
+  extraTags: ["掲載プロ 1,024名", "最高位決定戦", "Classic", "發王戦"],
   meta: [
-    { label: "Founded", value: "1976", accent: true, sub: <>昭和51年<br />日本最古のプロ団体</> },
+    { label: "Origin", value: "1976", accent: true, sub: <>昭和51年<br />最高位戦創設</> },
     { label: "Active Pros", value: "1,024", unit: "名", sub: "TSUMORA掲載数" },
-    { label: "Titles", value: "05", unit: "戦", sub: "最高位 · Classic · 發王 · 女流 ほか" },
-    { label: "League", value: "07", unit: "部", accent: true, sub: "A1 〜 C3 · 女流A〜B" },
+    { label: "Events", value: "主要", sub: "最高位 · Classic · 發王 · 女流 ほか" },
+    { label: "League", value: "10", unit: "部", accent: true, sub: "A1 〜 D3" },
     {
-      label: "Founder",
-      value: "阿佐田",
+      label: "Representative",
+      value: "新津",
       valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 },
-      sub: "阿佐田 哲也ら",
+      sub: "新津 潔 代表者",
     },
   ],
   about: {
     en: "About Saikouisen",
     leadParagraphs: [
-      "最高位戦日本プロ麻雀協会は、1976年に小説家・阿佐田哲也らによって設立された、日本最古の麻雀プロ団体である。古典派の象徴として「一発・裏ドラなし」「赤牌なし」の正統派ルールを守り、競技麻雀の伝統を受け継ぐ。",
-      "団体最高峰の最高位決定戦は1976年から続き、現最高位は石井一馬。A1・A2・B1・B2・C1・C2・C3の7部制リーグを採用し、所属プロは年間を通じて昇降級を競う。",
-      "Classic（古典ルール採用）と發王戦（オープン参加型）も看板タイトルで、女流最高位戦・USA Aリーグなど国際展開も活発。USA・CHINA各支部に複数名の海外プロが在籍する。",
-      "Mリーグには園田賢・鈴木たろう・茅森早香・醍醐大・竹内元太・日向藍子・渋川難波（協会から移籍）・永井孝典・瑞原明奈・鈴木優・石井一馬・近藤誠一らが所属。Mリーグ全選手中最大勢力を誇る。",
+      "最高位戦日本プロ麻雀協会は、1976年に創設されたタイトル戦「最高位戦」を源流とする競技麻雀団体である。公式の団体概要では、1985年にタイトル戦参加選手の集合体にとどまらず、一つの団体組織として活動を開始したと説明されている。",
+      "最高位戦は、その日限りの強者ではなく、1年にわたる長期リーグを通して真の強者を決定し、「最高位」の称号を与えることを特徴としている。現在の最高位戦リーグはA1からD3までの10リーグ編成で運営されている。",
+      "主要タイトルには最高位決定戦、發王戦、飯田正人杯・最高位戦Classic、女流最高位決定戦、新人王戦、新輝戦、蒼翼戦などがある。2025年にはUSA本部・CHINA本部の発足も公式沿革に記載されている。",
+      "Mリーグには赤坂ドリブンズ、U-NEXT Pirates、渋谷ABEMAS、セガサミーフェニックスなどで最高位戦所属・出身プロが出場している。長期リーグで培われる安定感と、Classicや發王戦に見られるルールの多様さが団体の個性になっている。",
     ],
     pullQuote: (
       <>
-        「半世紀の伝統と、国際的な開放性を両立する団体。」
+        「長期リーグで最高位を決める、1976年創設タイトルを源流とする団体。」
         <br />
-        Classic ルールに代表される技術重視の競技姿勢と、海外支部による多様性の受容が共存する。
+        最高位決定戦を中心に、Classic、發王戦、女流・若手・海外リーグまで大会体系を広げている。
       </>
     ),
   },
@@ -72,20 +72,20 @@ const SAIKOUISEN: OrgDetailPageData = {
         <>
           1976年
           <br />
-          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>日本最古のプロ麻雀団体</span>
+          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>1985年に団体組織として活動開始</span>
         </>
       ),
     },
-    { dt: "創設者", dd: "阿佐田 哲也ら" },
+    { dt: "代表者", dd: "新津 潔" },
     { dt: "掲載プロ", dd: "1,024名 (TSUMORA掲載数)" },
-    { dt: "本部", dd: "東京都" },
-    { dt: "支部", dd: "本部 / 関西 / 九州 / 北海道 / USA / CHINA" },
+    { dt: "所在地", dd: "東京都千代田区神田小川町" },
+    { dt: "支部・本部", dd: "関西 / 北海道 / 東海 / 九州 / 東北 / USA / CHINA ほか" },
     { dt: "主要タイトル", dd: "最高位決定戦 · Classic · 發王戦" },
     { dt: "公式", dd: <span>saikouisen.com</span> },
   ],
   titles: {
     title: "主要タイトル戦",
-    en: "Major Titles · 5 Events",
+    en: "Selected Major Events",
     cards: [
       {
         pill: "● LIVE",
@@ -95,8 +95,9 @@ const SAIKOUISEN: OrgDetailPageData = {
         title: "最高位決定戦",
         en: "The Saikoui",
         since: "Since 1976 · 第51期 · 団体最高峰",
-        leaderName: "現最高位：石井 一馬",
-        leaderPt: "防衛戦 進行中",
+        leaderName: "現最高位：牧野 伸彦",
+        leaderPt: "第50期",
+        leaderPtDone: true,
       },
       {
         pill: "進行中",
@@ -105,8 +106,9 @@ const SAIKOUISEN: OrgDetailPageData = {
         title: "Classic",
         en: "The Classic",
         since: "Since 2007 · 古典ルール採用",
-        leaderName: "現Classic王者：石井 一馬",
-        leaderPt: "+52.4 首位",
+        leaderName: "現Classic王者：小池 諒",
+        leaderPt: "第19期",
+        leaderPtDone: true,
       },
       {
         pill: "予選中",
@@ -115,8 +117,8 @@ const SAIKOUISEN: OrgDetailPageData = {
         title: "發王戦",
         en: "The Hatsu-ō",
         since: "Since 1985 · オープン参加型",
-        leaderName: "前發王：鈴木 たろう",
-        leaderPt: "予選 →",
+        leaderName: "現發王：宮﨑 和樹",
+        leaderPt: "第33期",
         leaderPtDone: true,
       },
       {
@@ -201,7 +203,7 @@ const SAIKOUISEN: OrgDetailPageData = {
     ],
   },
   milestones: [
-    { year: "1976", kind: "設立", title: "最高位戦、創設", desc: "阿佐田哲也らによって設立。日本初のプロ麻雀団体として発足。" },
+    { year: "1976", kind: "創設", title: "最高位戦、開始", desc: "麻雀専門誌「近代麻雀」によって、年間リーグで最高位を決めるタイトル戦として開始。" },
     { year: "1976", kind: "タイトル", title: "最高位決定戦 第1期", desc: "団体最高峰タイトルが同年に開始。初代最高位：藤田 和久。" },
     { year: "1985", kind: "オープン", title: "發王戦 開始", desc: "オープン参加型タイトル戦としてスタート。プロ・アマ問わず参加可能。" },
     { year: "1990", kind: "女流", title: "女流最高位戦 開始", desc: "女流最高峰タイトルとして第1期が開催。" },
@@ -214,16 +216,16 @@ const SAIKOUISEN: OrgDetailPageData = {
     title: "歴代最高位",
     en: "Past Saikoui",
     rows: [
-      { ep: "50", name: "石井 一馬", note: "現最高位 · 連覇", yr: "2025" },
-      { ep: "49", name: "石井 一馬", note: "初戴冠", yr: "2024" },
-      { ep: "48", name: "渡辺 太", yr: "2023" },
-      { ep: "47", name: "村上 淳", note: "3度目", yr: "2022" },
-      { ep: "46", name: "鈴木 優", note: "Mリーガー", yr: "2021" },
-      { ep: "45", name: "醍醐 大", note: "Mリーガー", yr: "2020" },
-      { ep: "44", name: "村上 淳", note: "2度目", yr: "2019" },
-      { ep: "43", name: "近藤 誠一", note: "Mリーガー", yr: "2018" },
-      { ep: "42", name: "新津 潔", yr: "2017" },
-      { ep: "41", name: "村上 淳", yr: "2016" },
+      { ep: "50", name: "牧野 伸彦", note: "現最高位", yr: "2026" },
+      { ep: "49", name: "石井 一馬", yr: "2025" },
+      { ep: "48", name: "竹内 元太", yr: "2024" },
+      { ep: "47", name: "竹内 元太", yr: "2023" },
+      { ep: "46", name: "鈴木 優", yr: "2021" },
+      { ep: "45", name: "醍醐 大", yr: "2020" },
+      { ep: "44", name: "坂本 大志", yr: "2019" },
+      { ep: "43", name: "近藤 誠一", yr: "2018" },
+      { ep: "42", name: "村上 淳", yr: "2017" },
+      { ep: "41", name: "近藤 誠一", yr: "2016" },
     ],
   },
   media: {
@@ -254,7 +256,7 @@ const SAIKOUISEN: OrgDetailPageData = {
         iconClass: "abema",
         iconLabel: "A",
         title: "ABEMA · Mリーグ",
-        desc: "Mリーグ公式放送にて、最高位戦所属プロ12名前後の対局をレギュラーシーズン中放映。最大勢力。",
+        desc: "Mリーグ公式放送にて、最高位戦所属プロの対局をレギュラーシーズン中に放映。",
         meta: [
           { label: "週", value: "5対局" },
           { label: "レギュラー", value: "10月〜5月" },
