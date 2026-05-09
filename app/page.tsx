@@ -13,7 +13,6 @@ import {
 } from "@/app/mleague/sf-data";
 import type { TeamData } from "@/app/teams/data";
 import {
-  computeTitleRanking,
   fmtPts,
   getCurrentTitlists,
 } from "@/lib/computed";
@@ -210,7 +209,6 @@ export default function Home() {
     ? watchNowMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
 
-  const titleRanking = computeTitleRanking().slice(0, 5);
   const currentTitlists = getCurrentTitlists();
 
   // HOMEの注目記事は app/news/data.ts の HOME_NEWS_SELECTION で手動選択する
@@ -676,63 +674,6 @@ export default function Home() {
             <span className="players-cta-arrow">→</span>
           </Link>
 
-          {/* RANKINGS — 編集誌型 通算タイトル番付 */}
-          <section className="home-ranking-section">
-            <h2 className="home-section-h">
-              <span className="hsh-num">02</span>
-              <span className="hsh-jp">通算タイトル数 番付</span>
-              <span className="hsh-en">Career Title Counts · Featured 40</span>
-              <span className="hsh-rule"></span>
-              <Link href="/rankings" className="hsh-more">FULL RANKING →</Link>
-            </h2>
-            <ol className="title-rank">
-              {titleRanking.slice(0, 5).map((entry, i) => {
-                const rank = i + 1;
-                const team = TEAMS.find((t) => t.name === entry.player.mleagueTeam);
-                const teamLabel = team?.shortName ?? entry.player.org;
-                const titles = entry.player.titles ?? [];
-                const recentTitles = titles.slice(0, 3);
-                const remaining = titles.length - recentTitles.length;
-                return (
-                  <li
-                    key={entry.player.id}
-                    className={`tr-row${rank === 1 ? " tr-first" : ""}`}
-                    style={{ ["--accent" as string]: team?.color ?? "var(--vermilion)" } as React.CSSProperties}
-                  >
-                    <Link href={entry.player.href} className="tr-link">
-                      <div className="tr-rank">{String(rank).padStart(2, "0")}</div>
-                      <div className="tr-count">
-                        <span className="tr-count-num">{entry.count}</span>
-                        <span className="tr-count-u">冠</span>
-                      </div>
-                      <div className="tr-body">
-                        <div className="tr-head">
-                          <span className="tr-name">{entry.player.name}</span>
-                          <span className="tr-team">
-                            <span className="tr-team-sw" />
-                            {teamLabel}
-                          </span>
-                        </div>
-                        <ul className="tr-titles">
-                          {recentTitles.map((t, j) => (
-                            <li key={`${t.year}-${j}`}>
-                              <span className="tr-titles-name">{t.name}</span>
-                              <span className="tr-titles-year">&apos;{t.year.slice(-2)}</span>
-                            </li>
-                          ))}
-                          {remaining > 0 && (
-                            <li className="tr-titles-more">
-                              ほか{remaining}タイトル
-                            </li>
-                          )}
-                        </ul>
-                      </div>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
         </div>
 
         {/* RIGHT SIDEBAR */}
