@@ -52,7 +52,7 @@ export function SiteFooter() {
             <li><Link href="/organizations/npm">日本プロ麻雀協会</Link></li>
             <li><Link href="/organizations/saikouisen">最高位戦日本プロ麻雀協会</Link></li>
             <li><Link href="/organizations/rmu">RMU</Link></li>
-            <li><Link href="/organizations/mu">麻将連合-μ-</Link></li>
+            <li><Link href="/organizations/mu">麻将連合</Link></li>
           </ul>
         </div>
         <div>

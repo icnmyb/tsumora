@@ -13,7 +13,7 @@ const ORG_COLOR: Record<string, string> = {
   RMU: "#a07e28",
   "Real Mahjong Unit (RMU)": "#a07e28",
   μ: "#4b2a7a",
-  "麻将連合-μ-": "#4b2a7a",
+  "麻将連合": "#4b2a7a",
 };
 
 export async function GET(req: NextRequest) {

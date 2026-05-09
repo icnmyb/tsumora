@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { OrgDetailPage, type OrgDetailPageData } from "@/components/OrgDetailPage";
 
 export const metadata: Metadata = {
-  title: "麻将連合-μ- — TSUMORA",
+  title: "麻将連合 — TSUMORA",
   description:
-    "1997年設立、麻将連合-μ-の概要・主要タイトル戦（μリーグ / BIG1カップ / 将妃戦 ほか）・所属プロ。",
+    "1997年設立、麻将連合の概要・主要タイトル戦（μリーグ / BIG1カップ / 将妃戦 ほか）・所属プロ。",
   openGraph: {
-    title: "麻将連合-μ- — TSUMORA",
+    title: "麻将連合 — TSUMORA",
     description: "μ の概要・主要タイトル戦・所属プロ。",
     siteName: "TSUMORA",
     type: "website",
@@ -16,10 +16,10 @@ export const metadata: Metadata = {
 const MU_ACCENT = "#2f5c3f";
 
 const MU: OrgDetailPageData = {
-  crumbLabel: "麻将連合-μ-",
+  crumbLabel: "麻将連合",
   accent: MU_ACCENT,
   code: "μ · MAHJONG UNION · EST. 1997",
-  nameJa: "麻将連合-μ-",
+  nameJa: "麻将連合",
   nameEn: "Mahjong Union μ",
   kite: "μ",
   highlightTag: "競技としての麻将",
@@ -40,7 +40,7 @@ const MU: OrgDetailPageData = {
   about: {
     en: "About μ",
     leadParagraphs: [
-      "麻将連合-μ-（通称ミュー）は、金銭を賭けないマージャンを「麻将」と表記し、競技・文化として広めることを掲げる団体である。公式の麻将連合憲章では、マージャンをギャンブルではなく室内ゲーム、競技、文化として愛する立場を明記している。",
+      "麻将連合（通称ミュー）は、金銭を賭けないマージャンを「麻将」と表記し、競技・文化として広めることを掲げる団体である。公式の麻将連合憲章では、マージャンをギャンブルではなく室内ゲーム、競技、文化として愛する立場を明記している。",
       "公式戦には、選手・プロが参加するμリーグ（将王）、プロランキング戦、ツアー選手ランキング戦（将星）、女流ランキング戦（将妃）などがある。オープン参加の公式戦として、BIG1カップ、μ-M1カップ、ツアーGP、μカップ、インビテーションカップ、μレディースオープンなども案内されている。",
       "プロを目指す人向けにはミュー育成会やツアー試験が用意され、認定プロによる指導、記録・牌譜整理、ルール・マナー、戦術・戦略などの学習機会が案内されている。",
       "認定プロ、ツアー選手、女流ツアー選手がそれぞれの公式戦に参加し、成績を重ねながら上位の舞台を目指す。小林剛をはじめ、Mリーグや各種タイトル戦で知られる選手も輩出している。",
@@ -58,7 +58,7 @@ const MU: OrgDetailPageData = {
       dt: "正式名称",
       dd: (
         <>
-          <b>麻将連合-μ-</b>
+          <b>麻将連合</b>
           <br />
           <span style={{ fontFamily: "'Instrument Serif'", fontStyle: "italic", color: "var(--ink-3)" }}>
             Mahjong Union μ
@@ -166,7 +166,7 @@ const MU: OrgDetailPageData = {
     ],
   },
   milestones: [
-    { year: "1997", kind: "設立", title: "麻将連合-μ-、創設", desc: "金銭を賭けないマージャンを「麻将」と表記し、競技・文化として広める理念を掲げて設立。" },
+    { year: "1997", kind: "設立", title: "麻将連合、創設", desc: "金銭を賭けないマージャンを「麻将」と表記し、競技・文化として広める理念を掲げて設立。" },
     { year: "1998", kind: "オープン", title: "BIG1カップ 開始", desc: "オープン参加のμ最古参タイトル戦として第1回開催。" },
     { year: "2003", kind: "タイトル", title: "将王戦・μ-M1カップ 開始", desc: "認定プロ上位10名による将王戦（μリーグ）と、短期トーナメント制のμ-M1カップが同年スタート。" },
     { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "小林剛がU-NEXT Piratesのドラフト1巡目指名でMリーグ初年度から参戦。" },

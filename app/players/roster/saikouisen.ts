@@ -464,7 +464,7 @@ export const SAIKOUISEN_ROSTER: RosterPlayer[] = [
   { id: "hara_eita", name: "原英多", org: "最高位戦", league: "D3", gender: "male", nameEn: "Hara Eita", period: "第47期前期", birthday: "3月20日", birthplace: "横浜市", bloodType: "A型", href: "/players/hara_eita", joinYear: 2022 },
   { id: "muramatsu_yasushi", name: "村松泰志", org: "最高位戦", league: "D3", gender: "male", nameEn: "Muramatsu Yasushi", period: "第47期前期", birthday: "1988/05/08", birthplace: "静岡県⇒パリ⇒東京都", href: "/players/muramatsu_yasushi", joinYear: 2022 },
   { id: "kurimoto_anna", name: "栗本杏奈", org: "最高位戦", league: "D1", gender: "female", nameEn: "Kurimoto Anna", period: "第47期前期", birthday: "11/21", bloodType: "AB", href: "/players/kurimoto_anna", joinYear: 2022 },
-  { id: "arae_yuri", name: "新榮有理", org: "最高位戦", league: "C2", gender: "male", nameEn: "Arae Yuri", period: "第47期前期", birthday: "2月9日", birthplace: "静岡県", href: "/players/arae_yuri", joinYear: 2022 },
+  { id: "arae_yuri", name: "新榮有理", org: "最高位戦", league: "C2", gender: "female", nameEn: "Arae Yuri", period: "第47期前期", birthday: "2月9日", birthplace: "静岡県", href: "/players/arae_yuri", joinYear: 2022 },
   { id: "miyashita_fumiya", name: "宮下史也", org: "最高位戦", league: "D1", gender: "male", nameEn: "Miyashita Fumiya", period: "第47期前期", birthday: "1999年6月8日", birthplace: "福井県", bloodType: "A型", href: "/players/miyashita_fumiya", joinYear: 2022 },
   { id: "wakairo_yoshiki", name: "若色良樹", org: "最高位戦", league: "C1", gender: "male", nameEn: "Wakairo Yoshiki", period: "第47期前期", href: "/players/wakairo_yoshiki", joinYear: 2022 },
   { id: "sato_mei", name: "佐藤芽衣", org: "最高位戦", league: "D3", gender: "female", nameEn: "Sato Mei", period: "第47期前期", birthday: "3/6", birthplace: "三重県", bloodType: "B型", href: "/players/sato_mei", joinYear: 2022 },

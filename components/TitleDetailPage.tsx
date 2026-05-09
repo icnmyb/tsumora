@@ -14,7 +14,7 @@ export function TitleDetailPage({ title: t }: Props) {
   const topCrowns = [...champCount.entries()]
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
-  const topCrownPlayers = topCrowns.map(([name]) => {
+  const topCrownPlayers = t.crownRanking?.slice(0, 5) ?? topCrowns.map(([name]) => {
     const champ = t.pastChampions.find((c) => c.name === name);
     return {
       name,

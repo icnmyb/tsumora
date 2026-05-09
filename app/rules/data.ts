@@ -101,7 +101,7 @@ export const ORG_RULE_GROUPS: OrgRuleGroup[] = [
     ],
   },
   {
-    org: "μ", label: "麻将連合μ", color: "#2f5c3f",
+    org: "μ", label: "麻将連合", color: "#2f5c3f",
     rules: [
       {
         id: "mu-official", org: "μ", name: "公式ルール",

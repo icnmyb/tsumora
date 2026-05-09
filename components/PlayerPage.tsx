@@ -2,10 +2,7 @@ import Link from "next/link";
 import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/players/data";
 import { TEAM_NAME_TO_SLUG } from "@/app/teams/data";
 import { PlayerVideoSection } from "@/components/PlayerVideoSection";
-
-function calcProYears(joinYear: number): number {
-  return new Date().getFullYear() - joinYear;
-}
+import { calcYearsSinceJoin, periodToYear, type SupportedOrg } from "@/lib/period";
 
 function formatBirthYear(bd: string): string {
   const parts = bd.split("/");
@@ -80,7 +77,9 @@ function getRelatedPlayers(player: AllPlayer): { av: string; nm: string; meta: s
 
 export function PlayerPage({ player }: { player: AllPlayer }) {
   const org = ORG_META[player.org];
-  const proYears = calcProYears(player.joinYear);
+  // 期 → 年マッピングが効く団体（最高位戦）は期から計算、それ以外は joinYear をフォールバック
+  const proYears = calcYearsSinceJoin(player.org as SupportedOrg, player.period, player.joinYear) ?? 0;
+  const derivedJoinYear = periodToYear(player.org as SupportedOrg, player.period) ?? player.joinYear;
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
   const isDeveloper = player.id === "takamitoshiya";
@@ -113,7 +112,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             <span>{player.name}</span>
           </div>
           <span className="kicker">
-            ● {org.label} · {player.league} · {player.period ? `${player.period}生` : `${player.joinYear}年入会`}
+            ● {org.label} · {player.league} · {player.period ? `${player.period}生` : `${derivedJoinYear}年入会`}
           </span>
           <h1>
             {player.name}
@@ -157,7 +156,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             <div className="v">
               <b>{proYears}</b> 年{" "}
               <span style={{ fontFamily: "'Geist Mono'", fontSize: 11, color: "rgba(235,228,210,.6)" }}>
-                SINCE {player.joinYear}
+                SINCE {derivedJoinYear}
               </span>
             </div>
           </div>
@@ -235,7 +234,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             ) : (
               <p>
                 {player.nickname ? `「${player.nickname}」の異名を持つ` : ""}
-                {org.label}所属、{player.period ? `${player.period}生` : `${player.joinYear}年入会`}。
+                {org.label}所属、{player.period ? `${player.period}生` : `${derivedJoinYear}年入会`}。
                 {player.league}リーグで活躍中。
                 {player.title ? `主要タイトルに${player.title}がある。` : ""}
                 {player.mleagueTeam ? `Mリーグでは${player.mleagueTeam}に所属。` : ""}
@@ -280,7 +279,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
               <li>
                 <span className="l">Debut プロ入り</span>
                 <span className="v">
-                  {player.joinYear}年{player.period ? ` · ${player.period}` : ""}
+                  {derivedJoinYear}年{player.period ? ` · ${player.period}` : ""}
                 </span>
               </li>
               <li>
@@ -417,8 +416,8 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             </span>
             <span className="n">
               {player.titles && player.titles.length > 0
-                ? `${player.titles.length} TITLES · SINCE ${player.joinYear}`
-                : `SINCE ${player.joinYear}`}
+                ? `${player.titles.length} TITLES · SINCE ${derivedJoinYear}`
+                : `SINCE ${derivedJoinYear}`}
             </span>
           </div>
           <ul className="timeline-list">
@@ -445,7 +444,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
               </li>
             )}
             <li>
-              <span className="yr">{player.joinYear}</span>
+              <span className="yr">{derivedJoinYear}</span>
               <span className="dot"></span>
               <span className="what">
                 {org.label}入会
@@ -508,7 +507,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             {org.label}
           </div>
           <div className="meta" style={{ color: "rgba(255,255,255,.75)", marginTop: 6 }}>
-            {player.period ? `${player.period}生として在籍${proYears}年` : `${player.joinYear}年入会 · 在籍${proYears}年`}
+            {player.period ? `${player.period}生として在籍${proYears}年` : `${derivedJoinYear}年入会 · 在籍${proYears}年`}
           </div>
           <span className="tag" style={{ background: "var(--ink)", color: "var(--paper)", marginTop: 14 }}>
             団体ページへ →

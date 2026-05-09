@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ORG_META, getAllPlayers, type RosterPlayer } from "@/app/players/data";
+import { calcYearsSinceJoin, periodToYear, type SupportedOrg } from "@/lib/period";
 
 interface RelatedCard {
   av: string;
@@ -27,9 +28,12 @@ function formatBirthdayFull(bd?: string): string {
   return bd;
 }
 
-function calcProYears(joinYear?: number): number | null {
-  if (!joinYear) return null;
-  return new Date().getFullYear() - joinYear;
+function calcProYears(player: RosterPlayer): number | null {
+  return calcYearsSinceJoin(player.org as SupportedOrg, player.period, player.joinYear);
+}
+
+function getDerivedJoinYear(player: RosterPlayer): number | undefined {
+  return periodToYear(player.org as SupportedOrg, player.period) ?? player.joinYear;
 }
 
 function getRelatedPlayers(player: RosterPlayer): RelatedCard[] {
@@ -57,7 +61,8 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
   const org = ORG_META[player.org];
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
-  const proYears = calcProYears(player.joinYear);
+  const proYears = calcProYears(player);
+  const derivedJoinYear = getDerivedJoinYear(player);
   const related = getRelatedPlayers(player);
   const isDeveloper = player.id === "takamitoshiya";
 
@@ -83,8 +88,8 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
             ● {org.label} · {player.league}
             {player.period
               ? ` · ${player.period}生`
-              : player.joinYear
-                ? ` · ${player.joinYear}年入会`
+              : derivedJoinYear
+                ? ` · ${derivedJoinYear}年入会`
                 : ""}
           </span>
           <h1>
@@ -155,11 +160,11 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
                   <span className="v">{player.hobby}</span>
                 </li>
               )}
-              {player.joinYear && (
+              {(derivedJoinYear || player.period) && (
                 <li>
                   <span className="l">Debut プロ入り</span>
                   <span className="v">
-                    {player.joinYear}年{player.period ? ` · ${player.period}` : ""}
+                    {derivedJoinYear ? `${derivedJoinYear}年` : ""}{player.period ? ` · ${player.period}` : ""}
                   </span>
                 </li>
               )}
@@ -241,8 +246,8 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
           <div className="meta" style={{ color: "rgba(255,255,255,.75)", marginTop: 6 }}>
             {player.period
               ? `${player.period}生${proYears !== null ? ` · 在籍${proYears}年` : ""}`
-              : player.joinYear
-                ? `${player.joinYear}年入会${proYears !== null ? ` · 在籍${proYears}年` : ""}`
+              : derivedJoinYear
+                ? `${derivedJoinYear}年入会${proYears !== null ? ` · 在籍${proYears}年` : ""}`
                 : "所属選手"}
           </div>
           <span

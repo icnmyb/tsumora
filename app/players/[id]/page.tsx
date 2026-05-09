@@ -9,7 +9,7 @@ const ORG_LABEL: Record<string, string> = {
   NPM: "日本プロ麻雀協会",
   最高位戦: "最高位戦日本プロ麻雀協会",
   RMU: "Real Mahjong Unit (RMU)",
-  μ: "麻将連合-μ-",
+  μ: "麻将連合",
 };
 
 export function generateStaticParams() {

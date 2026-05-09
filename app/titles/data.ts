@@ -13,6 +13,12 @@ export interface PastChampion {
   pts?: string;
 }
 
+export interface CrownRankingEntry {
+  name: string;
+  count: number;
+  href?: string;
+}
+
 export interface RuleRow {
   label: string;
   value: string;
@@ -46,6 +52,7 @@ export interface TitleData {
   rules?: RuleRow[];
   leagueTiers?: LeagueTier[];
   pastChampions: PastChampion[];
+  crownRanking?: CrownRankingEntry[];
   relatedTitles?: { slug: string; name: string }[];
 }
 
@@ -172,6 +179,13 @@ export const TITLES: TitleData[] = [
       { ep: "33", year: "2016", name: "前原 雄大" },
       { ep: "32", year: "2015", name: "勝又 健志" },
     ],
+    crownRanking: [
+      { name: "前原 雄大", count: 4 },
+      { name: "安藤 満", count: 4 },
+      { name: "佐々木 寿人", href: "/players/sasaki", count: 3 },
+      { name: "瀬戸熊 直樹", href: "/players/setokuma", count: 3 },
+      { name: "阿部 孝則", count: 3 },
+    ],
     relatedTitles: [
       { slug: "judan-isen", name: "十段戦" },
       { slug: "oui-isen", name: "王位戦" },
@@ -210,6 +224,13 @@ export const TITLES: TitleData[] = [
       { ep: "36", year: "2019", name: "伊藤 優孝" },
       { ep: "35", year: "2018", name: "内川 幸太郎", href: "/players/uchikawa" },
       { ep: "34", year: "2017", name: "藤崎 智" },
+    ],
+    crownRanking: [
+      { name: "前原 雄大", count: 5 },
+      { name: "藤崎 智", count: 3 },
+      { name: "瀬戸熊 直樹", href: "/players/setokuma", count: 3 },
+      { name: "河野 高志", count: 3 },
+      { name: "石崎 洋", count: 3 },
     ],
     relatedTitles: [
       { slug: "houou-isen", name: "鳳凰戦" },
@@ -253,6 +274,13 @@ export const TITLES: TitleData[] = [
       { ep: "40", year: "2014", name: "清原 継光" },
       { ep: "39", year: "2013", name: "森下 剛任" },
       { ep: "38", year: "2012", name: "二見 大輔" },
+    ],
+    crownRanking: [
+      { name: "灘 麻太郎", count: 4 },
+      { name: "滝沢 和典", href: "/players/takizawa", count: 2 },
+      { name: "森下 剛任", count: 2 },
+      { name: "羽山 真生", count: 2 },
+      { name: "青木 博", count: 2 },
     ],
     relatedTitles: [
       { slug: "houou-isen", name: "鳳凰戦" },
@@ -464,6 +492,13 @@ export const TITLES: TitleData[] = [
       { ep: "48", year: "2024", name: "竹内 元太", href: "/players/takeuchi" },
       { ep: "47", year: "2023", name: "竹内 元太", href: "/players/takeuchi" },
     ],
+    crownRanking: [
+      { name: "飯田 正人", count: 10 },
+      { name: "近藤 誠一", count: 4 },
+      { name: "金子 正輝", count: 4 },
+      { name: "古久根 英孝", count: 3 },
+      { name: "村上 淳", count: 3 },
+    ],
     relatedTitles: [
       { slug: "saikouisen-classic", name: "最高位戦Classic" },
       { slug: "ryuou-sen", name: "發王戦" },
@@ -495,6 +530,11 @@ export const TITLES: TitleData[] = [
       { ep: "19", year: "2025", name: "小池 諒", current: true },
       { ep: "18", year: "2024", name: "石井 一馬", href: "/players/ishii" },
       { ep: "10", year: "2016", name: "石井 一馬", href: "/players/ishii" },
+    ],
+    crownRanking: [
+      { name: "石井 一馬", href: "/players/ishii", count: 2 },
+      { name: "下出 和洋", count: 2 },
+      { name: "村上 淳", count: 2 },
     ],
     relatedTitles: [
       { slug: "saikouisen", name: "最高位戦" },
@@ -531,9 +571,216 @@ export const TITLES: TitleData[] = [
       { ep: "30", year: "2022", name: "仲林 圭", href: "/players/nakabayashi" },
       { ep: "29", year: "2021", name: "仲林 圭", href: "/players/nakabayashi" },
     ],
+    crownRanking: [
+      { name: "水巻 渉", count: 3 },
+      { name: "原 浩明", count: 2 },
+      { name: "伊藤 優孝", count: 2 },
+      { name: "土井 泰昭", count: 2 },
+      { name: "菊池 俊幸", count: 2 },
+    ],
     relatedTitles: [
       { slug: "saikouisen", name: "最高位戦" },
       { slug: "saikouisen-classic", name: "最高位戦Classic" },
+    ],
+  },
+  {
+    slug: "saikouisen-female",
+    href: "/titles/saikouisen-female",
+    code: "16 · WSAIKŌI",
+    name: "女流最高位決定戦",
+    shortName: "女流最高位",
+    en: "The Women's Saikōi Championship",
+    glyph: "女",
+    color: "#7c3aed",
+    org: "SAIKOUISEN",
+    orgLabel: "最高位戦日本プロ麻雀協会",
+    orgHref: "/organizations/saikouisen",
+    holder: { name: "瑞原 明奈", href: "/players/mizuhara", note: "第24期 (2024)" },
+    season: "女流リーグ + 女流最高位決定戦",
+    tags: ["最高位戦", "女流", "リーグ戦"],
+    founded: 2001,
+    formatLabel: "女流A〜Dリーグ + 決定戦",
+    about: [
+      "女流最高位決定戦は最高位戦日本プロ麻雀協会の女流タイトル戦。2001年に第1期が開催された。",
+      "女流A・B・C・Dリーグの成績に基づいて選手が振り分けられ、女流Aリーグ優勝者・プレーオフ勝者・前女流最高位の計4名が、2日間8回戦の決定戦に進出する。",
+      "採用ルールは最高位戦リーグと同じ。長期リーグでの安定感と決定戦での勝負強さの両方が問われる。",
+    ],
+    rules: SAIKOUISEN_RULES,
+    pastChampions: [
+      { ep: "24", year: "2024", name: "瑞原 明奈", href: "/players/mizuhara", current: true },
+      { ep: "23", year: "2023", name: "相川 まりえ" },
+      { ep: "22", year: "2022", name: "西嶋 千春" },
+      { ep: "21", year: "2021", name: "内間 祐海" },
+      { ep: "20", year: "2020", name: "伊藤 奏子" },
+    ],
+    relatedTitles: [
+      { slug: "saikouisen", name: "最高位戦" },
+      { slug: "saikouisen-female-meijin", name: "女流名人戦" },
+    ],
+  },
+  {
+    slug: "saikouisen-souyoku",
+    href: "/titles/saikouisen-souyoku",
+    code: "17 · SŌYOKU",
+    name: "蒼翼戦",
+    shortName: "蒼翼",
+    en: "The Sōyoku Championship",
+    glyph: "蒼",
+    color: "#7c3aed",
+    org: "SAIKOUISEN",
+    orgLabel: "最高位戦日本プロ麻雀協会",
+    orgHref: "/organizations/saikouisen",
+    holder: { name: "石井 一馬", href: "/players/ishii", note: "第2期 (2025)" },
+    season: "選抜トーナメント",
+    tags: ["最高位戦", "選抜", "トーナメント"],
+    founded: 2024,
+    formatLabel: "段階的トーナメント制（4名×2半荘）",
+    about: [
+      "蒼翼戦は2024年（最高位戦第49期）に創設された選抜タイトル戦。期を代表する限られた選手にのみ参加資格が与えられる。",
+      "出場対象は前王者、リーグ戦優勝者、次期A1リーガー、Mリーガーなど。",
+      "STAGE1・2・3は4名による2半荘トーナメント、決勝は最高位保持者を含む5名で6半荘を戦う。",
+    ],
+    pastChampions: [
+      { ep: "2", year: "2025", name: "石井 一馬", href: "/players/ishii", current: true },
+      { ep: "1", year: "2024", name: "石井 一馬", href: "/players/ishii" },
+    ],
+    relatedTitles: [
+      { slug: "saikouisen", name: "最高位戦" },
+      { slug: "saikouisen-classic", name: "最高位戦Classic" },
+    ],
+  },
+  {
+    slug: "saikouisen-shinki",
+    href: "/titles/saikouisen-shinki",
+    code: "18 · SHINKI",
+    name: "新輝戦",
+    shortName: "新輝",
+    en: "The Shinki Championship",
+    glyph: "輝",
+    color: "#7c3aed",
+    org: "SAIKOUISEN",
+    orgLabel: "最高位戦日本プロ麻雀協会",
+    orgHref: "/organizations/saikouisen",
+    holder: { name: "加藤 浩高", note: "第9期 (2025)" },
+    season: "ステージ制トーナメント",
+    tags: ["最高位戦", "ステージ制"],
+    founded: 2017,
+    formatLabel: "段階的に絞り込むステージ制",
+    about: [
+      "新輝戦は最高位戦日本プロ麻雀協会主催のタイトル戦。2017年第1期開催。",
+      "最高位戦所属選手のみが参加可能。第7期までは段階によってルールが異なっていたが、現在は統一されている。",
+      "現行ルールは赤1枚ありのオカありルール。",
+    ],
+    pastChampions: [
+      { ep: "9", year: "2025", name: "加藤 浩高", current: true },
+      { ep: "8", year: "2024", name: "田中 祥平" },
+      { ep: "7", year: "2023", name: "竹内 元太", href: "/players/takeuchi" },
+      { ep: "6", year: "2022", name: "粟野 大樹" },
+      { ep: "5", year: "2021", name: "中郡 慧樹" },
+    ],
+    relatedTitles: [
+      { slug: "saikouisen", name: "最高位戦" },
+      { slug: "saikouisen-rookie", name: "新人王戦（最高位戦）" },
+    ],
+  },
+  {
+    slug: "saikouisen-female-meijin",
+    href: "/titles/saikouisen-female-meijin",
+    code: "19 · WMEIJIN",
+    name: "女流名人戦",
+    shortName: "女流名人",
+    en: "The Women's Meijin Championship",
+    glyph: "名",
+    color: "#7c3aed",
+    org: "SAIKOUISEN",
+    orgLabel: "最高位戦日本プロ麻雀協会",
+    orgHref: "/organizations/saikouisen",
+    holder: { name: "羽月 まりえ", note: "第26期 (2026)" },
+    season: "オールカマー女流タイトル",
+    tags: ["最高位戦", "女流", "オープン"],
+    founded: 1984,
+    formatLabel: "オールカマー（団体不問）女流タイトル戦",
+    about: [
+      "女流名人戦は1984年に創設された、初のオールカマー女流タイトル戦。",
+      "当初は麻雀専門誌『月刊プロ麻雀』が主催し、第15期（2010年）より最高位戦日本プロ麻雀協会が主催となっている。",
+      "団体を問わず女流プロが参加でき、女流タイトル戦の中でも長い歴史を持つ大会。",
+    ],
+    pastChampions: [
+      { ep: "26", year: "2026", name: "羽月 まりえ", current: true },
+      { ep: "25", year: "2025", name: "逢川 恵夢", href: "/players/aikawa" },
+      { ep: "24", year: "2024", name: "谷崎 舞華" },
+      { ep: "23", year: "2023", name: "中月 裕子" },
+      { ep: "22", year: "2022", name: "小宮 悠" },
+      { ep: "21", year: "2020", name: "松山 由希" },
+    ],
+    relatedTitles: [
+      { slug: "saikouisen-female", name: "女流最高位決定戦" },
+      { slug: "saikouisen", name: "最高位戦" },
+    ],
+  },
+  {
+    slug: "saikouisen-mjryujin",
+    href: "/titles/saikouisen-mjryujin",
+    code: "20 · MJRYŪ",
+    name: "MJ杯龍神戦",
+    shortName: "龍神",
+    en: "The MJ Cup Ryūjin",
+    glyph: "龍",
+    color: "#7c3aed",
+    org: "SAIKOUISEN",
+    orgLabel: "最高位戦日本プロ麻雀協会",
+    orgHref: "/organizations/saikouisen",
+    holder: { name: "塩澤 彰大", note: "第1期 (2025)" },
+    season: "オンライン開催",
+    tags: ["最高位戦", "オンライン", "新設"],
+    founded: 2025,
+    formatLabel: "予選から決勝まで全対局を『MJ』で実施",
+    about: [
+      "MJ杯龍神戦は2025年に創設された、最高位戦日本プロ麻雀協会初のオンラインタイトル戦。",
+      "予選から決勝までのすべての対局をオンライン麻雀『MJ』で行う。",
+      "MJの上位段位『龍』『神』を冠とした、伝統とオンライン競技を融合する新時代のタイトル戦。",
+    ],
+    pastChampions: [
+      { ep: "1", year: "2025", name: "塩澤 彰大", current: true },
+    ],
+    relatedTitles: [
+      { slug: "saikouisen", name: "最高位戦" },
+      { slug: "saikouisen-souyoku", name: "蒼翼戦" },
+    ],
+  },
+  {
+    slug: "saikouisen-rookie",
+    href: "/titles/saikouisen-rookie",
+    code: "21 · SROOKIE",
+    name: "新人王戦（最高位戦）",
+    shortName: "新人王",
+    en: "The Saikōisen Rookie",
+    glyph: "新",
+    color: "#7c3aed",
+    org: "SAIKOUISEN",
+    orgLabel: "最高位戦日本プロ麻雀協会",
+    orgHref: "/organizations/saikouisen",
+    holder: { name: "今村 大樹", note: "第50期 (2025)" },
+    season: "新人プロ対象",
+    tags: ["最高位戦", "新人", "若手限定"],
+    founded: 2012,
+    formatLabel: "入会5年以内の選手対象",
+    about: [
+      "新人王戦は最高位戦日本プロ麻雀協会の若手プロ向けタイトル戦。第37期（2012年）に正式タイトル戦として発足。",
+      "元々はB1リーグ首位昇級者に与えられた称号だったが、リーグ拡大に伴い独立タイトルへ。",
+      "参加資格は入会5年以内の選手。タイトル戦優勝者・Aリーグ経験者は出場できない制限がある。",
+    ],
+    pastChampions: [
+      { ep: "50", year: "2025", name: "今村 大樹", current: true },
+      { ep: "49", year: "2024", name: "高倉 拓馬" },
+      { ep: "48", year: "2023", name: "小川 瑠以" },
+      { ep: "47", year: "2022", name: "村中 啓太" },
+      { ep: "46", year: "2021", name: "小田 直人" },
+      { ep: "45", year: "2020", name: "岩澤 圭佑" },
+    ],
+    relatedTitles: [
+      { slug: "saikouisen", name: "最高位戦" },
+      { slug: "saikouisen-shinki", name: "新輝戦" },
     ],
   },
   {
@@ -569,6 +816,13 @@ export const TITLES: TitleData[] = [
       { ep: "16", year: "2025", name: "河野 高志" },
       { ep: "15", year: "2024", name: "谷井 茂文" },
     ],
+    crownRanking: [
+      { name: "多井 隆晴", href: "/players/taii", count: 5 },
+      { name: "河野 高志", count: 4 },
+      { name: "谷井 茂文", count: 3 },
+      { name: "阿部 孝則", count: 2 },
+      { name: "松ヶ瀬 隆弥", count: 1 },
+    ],
     relatedTitles: [
       { slug: "rmu-crown", name: "RMUクラウン" },
       { slug: "tiara-league", name: "ティアラリーグ" },
@@ -600,6 +854,13 @@ export const TITLES: TitleData[] = [
       { ep: "17", year: "2025", name: "福原 慎平", current: true },
       { ep: "16", year: "2024", name: "河野 高志" },
       { ep: "15", year: "2023", name: "下石 戟", href: "/players/shimoishi" },
+    ],
+    crownRanking: [
+      { name: "河野 高志", count: 3 },
+      { name: "浅井 裕介", count: 2 },
+      { name: "福原 慎平", count: 1 },
+      { name: "下石 戟", href: "/players/shimoishi", count: 1 },
+      { name: "齋藤 豪", count: 1 },
     ],
     relatedTitles: [
       { slug: "reishouisen", name: "令昭位戦" },
@@ -660,14 +921,14 @@ export const TITLES: TitleData[] = [
     glyph: "将",
     color: "#2f5c3f",
     org: "MU",
-    orgLabel: "麻将連合-μ-",
+    orgLabel: "麻将連合",
     orgHref: "/organizations/mu",
     holder: { name: "石原 真人", note: "第23期" },
     season: "μリーグ + 将王決定戦",
     tags: ["μ最高峰", "リーグ戦", "μリーグルール"],
     formatLabel: "期首順位上位10名のμリーグ + 将王決定戦",
     about: [
-      "将王は麻将連合-μ-の最高峰タイトル。公式ページでは『将王』をμ最高峰タイトルの称号としている。",
+      "将王は麻将連合の最高峰タイトル。公式ページでは『将王』をμ最高峰タイトルの称号としている。",
       "将王を除いた期首順位上位10名のプロが10節40半荘を行い、上位3名が将王決定戦で現将王への挑戦権を得る。",
       "μリーグルールではテンパイ料なし。順位点は12-4方式で、素点と順位点の合計を競う。",
     ],
@@ -697,6 +958,13 @@ export const TITLES: TitleData[] = [
       { ep: "2", year: "2004", name: "原 浩明" },
       { ep: "1", year: "2003", name: "原 浩明" },
     ],
+    crownRanking: [
+      { name: "忍田 幸夫", count: 6 },
+      { name: "小林 剛", href: "/players/kobayashi", count: 4 },
+      { name: "原 浩明", count: 3 },
+      { name: "三原 孝博", count: 2 },
+      { name: "武則 輝海", count: 2 },
+    ],
     relatedTitles: [
       { slug: "big1-cup", name: "BIG1カップ" },
       { slug: "mu-m1-cup", name: "μ-M1カップ" },
@@ -712,7 +980,7 @@ export const TITLES: TitleData[] = [
     glyph: "一",
     color: "#2f5c3f",
     org: "MU",
-    orgLabel: "麻将連合-μ-",
+    orgLabel: "麻将連合",
     orgHref: "/organizations/mu",
     holder: { name: "鹿 健太郎", note: "第29回" },
     season: "年1回 · オープン予選あり",
@@ -736,6 +1004,13 @@ export const TITLES: TitleData[] = [
       { ep: "21", year: "2018", name: "板川 和俊" },
       { ep: "20", year: "2017", name: "奈良 圭純" },
     ],
+    crownRanking: [
+      { name: "松井 一義", count: 4 },
+      { name: "井出 洋介", count: 3 },
+      { name: "忍田 幸夫", count: 2 },
+      { name: "楠橋 思", count: 2 },
+      { name: "原 浩明", count: 1 },
+    ],
     relatedTitles: [
       { slug: "shouou-isen", name: "将王戦" },
       { slug: "mu-m1-cup", name: "μ-M1カップ" },
@@ -751,7 +1026,7 @@ export const TITLES: TitleData[] = [
     glyph: "μ",
     color: "#2f5c3f",
     org: "MU",
-    orgLabel: "麻将連合-μ-",
+    orgLabel: "麻将連合",
     orgHref: "/organizations/mu",
     holder: { name: "中西 龍", note: "第23回" },
     season: "7月〜翌5月 月例予選 · 6月本戦",
@@ -777,6 +1052,13 @@ export const TITLES: TitleData[] = [
       { ep: "13", year: "2015", name: "忍田 幸夫" },
       { ep: "12", year: "2014", name: "松井 一義" },
     ],
+    crownRanking: [
+      { name: "寺本 喜一", count: 2 },
+      { name: "須藤 泰久", count: 2 },
+      { name: "三原 孝博", count: 2 },
+      { name: "中西 龍", count: 1 },
+      { name: "明村 諭", count: 1 },
+    ],
     relatedTitles: [
       { slug: "shouou-isen", name: "将王戦" },
       { slug: "big1-cup", name: "BIG1カップ" },
@@ -797,7 +1079,7 @@ export const TITLE_FILTERS: FilterTab[] = [
   { key: "NPM", label: "NPM", en: "協会", color: "#2563eb" },
   { key: "SAIKOUISEN", label: "最高位戦", en: "Saikōisen", color: "#7c3aed" },
   { key: "RMU", label: "RMU", en: "Real Mahjong Unit", color: "var(--gold)" },
-  { key: "MU", label: "μ", en: "麻将連合-μ-", color: "#2f5c3f" },
+  { key: "MU", label: "μ", en: "麻将連合", color: "#2f5c3f" },
 ];
 
 export function getTitleBySlug(slug: string): TitleData | undefined {
