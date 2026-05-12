@@ -7671,3 +7671,98 @@ html::-webkit-scrollbar { display: none; }
     padding: 18px 16px;
   }
 }
+
+/* ============ FONT BALANCE OVERRIDES ============ */
+:root {
+  --font-sans: "Noto Sans JP", system-ui, sans-serif;
+  --font-serif: "Shippori Mincho", "Noto Serif JP", serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+nav.main,
+nav.main a,
+.hero-lead .watchbtn,
+.today-strip .hd,
+.today-items .it .t,
+.hero-scores .score-row .name,
+.title-card .sr .nm,
+.org-card .titles-list,
+.side-hd,
+.live-list .title,
+.mleague .team,
+.ranks-box .hd,
+.ranks-table .name,
+.news-box .t,
+.pick-box .tag,
+.sched-grid .ev,
+footer.main ul,
+.fs-hd .ttl,
+.fs-table .name,
+.rule-box .rr .l,
+.history-box .hhd .ttl,
+.history-list .champ,
+.sched-list .title,
+.timeline .hd .t,
+.timeline-list li .what,
+.fact-box .fhd .t,
+.fact-box li .v,
+.sc-bar .lab,
+.recent-matches .rhd .t,
+.rm-table .mt,
+.roster-card .name,
+.roster-table .name,
+.tl-item .ev,
+.champ-row .ch-name,
+.t-card .leader .name,
+.predict-soon-features .ft-text h3,
+.predict-soon-back {
+  font-family: var(--font-sans);
+  font-feature-settings: "palt";
+}
+
+nav.main,
+.hero-lead .watchbtn,
+.today-strip .hd,
+.side-hd,
+.ranks-box .hd,
+.fs-hd .ttl,
+.history-box .hhd .ttl,
+.timeline .hd .t,
+.fact-box .fhd .t,
+.recent-matches .rhd .t {
+  font-weight: 700;
+}
+
+.title-card .sr .nm,
+.today-items .it .t,
+.hero-scores .score-row .name,
+.live-list .title,
+.mleague .team,
+.ranks-table .name,
+.fs-table .name,
+.history-list .champ,
+.sched-list .title,
+.roster-card .name,
+.roster-table .name,
+.tl-item .ev,
+.champ-row .ch-name,
+.t-card .leader .name,
+.predict-soon-features .ft-text h3 {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.hero-scores .score-row .rk,
+.title-card .sr .r,
+.mleague .rk,
+.ranks-table .rank,
+.fs-table .rk,
+.history-list .ep,
+.sched-grid .d .dn,
+.stat-card .v,
+.stat-b .v-num,
+.rm-table .rk,
+.rk-row .rk,
+.pod-card .rk-big {
+  font-family: var(--font-serif);
+}

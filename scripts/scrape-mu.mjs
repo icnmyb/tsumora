@@ -92,12 +92,10 @@ function serializePlayer(p) {
     period: p.period,
     birthplace: p.birthplace,
     href: p.href,
+    officialUrl: p.officialUrl,
   })) {
     const f = fmtField(k, v);
     if (f) parts.push(f);
-  }
-  if (typeof p.joinYear === "number") {
-    parts.push(`joinYear: ${p.joinYear}`);
   }
   return `  { ${parts.join(", ")} }`;
 }
@@ -225,11 +223,10 @@ async function main() {
       name,
       org: "μ",
       league: p.category || "—",
-      nameEn: formatNameEn(p.yomi),
       period,
-      joinYear: periodToJoinYear(period),
       birthplace: p.birthplace || undefined,
       href: `/players/${id}`,
+      officialUrl: `https://mu-mahjong.jp/player/profile/?player_id=${p.playerId}`,
     });
   }
 

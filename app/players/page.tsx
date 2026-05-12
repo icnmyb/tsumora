@@ -76,6 +76,14 @@ function formatBirthday(b?: string): string {
   return b; // YYYY/MM/DD
 }
 
+function formatLeaguePeriod(player: Pick<RosterPlayer, "league" | "period">): string {
+  const parts = [
+    player.league && player.league !== "—" ? player.league : null,
+    player.period || null,
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : "現役";
+}
+
 export default function PlayersIndexPage() {
   return (
     <Suspense fallback={null}>
@@ -570,8 +578,7 @@ function PlayersIndexInner() {
                     marginTop: 4,
                   }}
                 >
-                  {p.league}
-                  {p.period ? ` · ${p.period}` : ""}
+                  {formatLeaguePeriod(p)}
                 </div>
               </div>
 

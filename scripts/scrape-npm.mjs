@@ -8,6 +8,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { toRomaji } from "./romaji.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -42,7 +43,7 @@ function stripTags(s) {
 
 function parseList(html) {
   // Extract all unique /player/{slug}/ URLs
-  const matches = [...html.matchAll(/href="https:\/\/npm2001\.com\/player\/([a-z0-9_-]+)\/"/g)];
+  const matches = [...html.matchAll(/href="https:\/\/npm2001\.com\/player\/([^/"#?]+)\/"/g)];
   const seen = new Set();
   const out = [];
   for (const m of matches) {
@@ -156,12 +157,10 @@ function serializePlayer(p) {
     birthplace: p.birthplace,
     bloodType: p.bloodType,
     href: p.href,
+    officialUrl: p.officialUrl,
   })) {
     const f = fmtField(k, v);
     if (f) parts.push(f);
-  }
-  if (typeof p.joinYear === "number") {
-    parts.push(`joinYear: ${p.joinYear}`);
   }
   return `  { ${parts.join(", ")} }`;
 }
@@ -179,10 +178,19 @@ function periodToJoinYear(periodRaw) {
 
 function formatNameEnFromSlug(slug) {
   // "aikawa-megumu" → "Aikawa Megumu"
+  if (!/^[a-z0-9-]+$/i.test(slug)) return undefined;
   return slug
+    .replace(/-\d+$/, "")
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
+}
+
+function formatNameEnFromFurigana(furigana) {
+  if (!furigana) return undefined;
+  const romaji = toRomaji(furigana);
+  if (!romaji) return undefined;
+  return romaji.charAt(0).toUpperCase() + romaji.slice(1);
 }
 
 async function pool(items, concurrency, fn) {
@@ -246,7 +254,11 @@ async function main() {
       skipped++;
       continue;
     }
-    let id = p.slug.replace(/-/g, "_");
+    const decodedSlug = decodeURIComponent(p.slug);
+    let id = /[ぁ-んァ-ヶ]/.test(decodedSlug)
+      ? toRomaji(decodedSlug)
+      : p.slug.replace(/-/g, "_").replace(/[^a-z0-9_]/gi, "").toLowerCase();
+    if (!id) id = `npm_${rosterEntries.length + 1}`;
     while (usedIds.has(id)) id = `${id}-2`;
     usedIds.add(id);
 
@@ -259,19 +271,20 @@ async function main() {
     const birthday = parseBirthday(f.birthday);
     const birthplace = f.birthplace;
     const bloodType = f.bloodType;
+    const nameEn = formatNameEnFromSlug(decodedSlug) ?? formatNameEnFromFurigana(f.furigana ?? decodedSlug);
 
     rosterEntries.push({
       id,
       name,
       org: "NPM",
       league,
-      nameEn: formatNameEnFromSlug(p.slug),
+      nameEn,
       period,
-      joinYear: periodToJoinYear(period),
       birthday,
       birthplace,
       bloodType,
       href: `/players/${id}`,
+      officialUrl: `https://npm2001.com/player/${p.slug}/`,
     });
   }
 

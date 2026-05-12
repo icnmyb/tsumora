@@ -2897,3 +2897,75 @@
     gap: 14px;
   }
 }
+
+/* ============ FONT BALANCE OVERRIDES ============ */
+.predict-page {
+  --predict-font-sans: "Noto Sans JP", system-ui, sans-serif;
+  --predict-font-serif: "Shippori Mincho", "Noto Serif JP", serif;
+  --predict-font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+.predict-page button,
+.predict-page input,
+.predict-page select,
+.predict-page textarea,
+.match-card .top-bar .info,
+.match-card .countdown .meta .start,
+.match-card .pl .name,
+.match-card .pl .team,
+.match-card .choice,
+.match-card .submit,
+.match-card .status-text,
+.predict-frame .match-info .title,
+.predict-frame .player .name,
+.predict-frame .team-name,
+.my-hero .profile .name,
+.my-hero .notice,
+.ranking-table .name,
+.ranking-table .team,
+.history-card .title,
+.result-card .name,
+.result-card .team,
+.you-fixed .name,
+.leader-frame .info .desc {
+  font-family: var(--predict-font-sans);
+  font-feature-settings: "palt";
+}
+
+.match-card .pl .name,
+.match-card .choice,
+.match-card .submit,
+.predict-frame .match-info .title,
+.predict-frame .player .name,
+.my-hero .profile .name,
+.ranking-table .name,
+.history-card .title,
+.result-card .name,
+.you-fixed .name {
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.game-hero .brand .logo,
+.game-hero .brand h1,
+.predict-page .sec-head h2,
+.game-hero::before,
+.match-card .result-rank,
+.leader-frame .vert .text-vert,
+.leader-frame .portrait .face-big,
+.res-hero h1,
+.res-hero .title {
+  font-family: var(--predict-font-serif);
+}
+
+.game-hero .my-stats .v,
+.game-hero .you .pts b,
+.match-card .countdown .clock,
+.predict-frame .match-info .stats .v,
+.my-hero .stat .v,
+.ranking-table .pts,
+.result-card .score,
+.you-fixed .stat .v {
+  font-family: var(--predict-font-mono);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,6 +1,6 @@
 // scripts/scrape-jpml.mjs
 // 日本プロ麻雀連盟（JPML）の連盟員名簿をスクレイプし、Ampai の現リーグ情報をマージして
-// app/players/roster.ts を生成する。
+// app/players/roster/jpml.ts を生成する。
 //
 // データソース:
 //   - 連盟員名簿: https://www.ma-jan.or.jp/activity/members.html
@@ -85,12 +85,21 @@ function parseMembers(html) {
       name,
       furigana,
       gender: genderJp === "女" ? "female" : genderJp === "男" ? "male" : undefined,
-      period: periodRaw ? `第${periodRaw}` : undefined,
+      period: normalizePeriod(periodRaw),
       rank,
       birthday: birthdayRaw,
     });
   }
   return members;
+}
+
+function normalizePeriod(periodRaw) {
+  if (!periodRaw) return undefined;
+  const cleaned = periodRaw
+    .replace(/^[\s・·•]+/, "")
+    .replace(/^第/, "")
+    .trim();
+  return cleaned ? `第${cleaned}` : undefined;
 }
 
 function parseAmpaiMembers(html) {
@@ -115,7 +124,7 @@ function parseAmpaiMembers(html) {
 }
 
 async function buildLeagueMap() {
-  const map = new Map(); // name → { league, slug, ampaiId }
+  const map = new Map(); // name -> { league, slug, ampaiId }
   for (const lg of AMPAI_LEAGUES) {
     const url = `https://app.ampai.jp/public/leagues/${lg.token}/members`;
     process.stderr.write(`  fetch ${lg.league} ... `);
@@ -133,10 +142,9 @@ async function buildLeagueMap() {
 }
 
 function makeId(member, takenIds) {
-  // Prefer Ampai romaji slug (kansuke.sugiura → kansuke_sugiura)
-  // Fallback: romanize furigana
-  const fromSlug = member.ampaiSlug
-    ? member.ampaiSlug.replace(/\./g, "_").replace(/[^a-z0-9_-]/g, "").toLowerCase()
+  const validSlug = normalizeAmpaiSlug(member.ampaiSlug);
+  const fromSlug = validSlug
+    ? validSlug.replace(/\./g, "_").replace(/[^a-z0-9_-]/g, "").toLowerCase()
     : null;
   let id = fromSlug ?? toRomaji(member.furigana);
   if (!id) return null;
@@ -148,6 +156,12 @@ function makeId(member, takenIds) {
   }
   takenIds.add(candidate);
   return candidate;
+}
+
+function normalizeAmpaiSlug(slug) {
+  if (!slug) return null;
+  const decoded = decodeURIComponent(slug).trim();
+  return /^[a-z]+(?:\.[a-z]+)+$/i.test(decoded) ? decoded : null;
 }
 
 function escapeJsString(s) {
@@ -178,16 +192,14 @@ function serializePlayer(p) {
     const f = fmtField(k, v);
     if (f) parts.push(f);
   }
-  if (typeof p.joinYear === "number") {
-    parts.push(`joinYear: ${p.joinYear}`);
-  }
   return `  { ${parts.join(", ")} }`;
 }
 
 function formatNameEn(slug) {
   // "kansuke.sugiura" → "Kansuke Sugiura"
-  if (!slug) return undefined;
-  return slug
+  const validSlug = normalizeAmpaiSlug(slug);
+  if (!validSlug) return undefined;
+  return validSlug
     .split(".")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
@@ -225,7 +237,7 @@ async function main() {
   const leagueMap = await buildLeagueMap();
   console.error(`      → ${leagueMap.size} unique names with league info`);
 
-  console.error("[3/3] merge + generate roster.ts");
+  console.error("[3/3] merge + generate roster/jpml.ts");
 
   // Read existing FEATURED player names + ids to dedup
   const dataTs = await fs.readFile(path.join(REPO_ROOT, "app/players/data.ts"), "utf-8");
@@ -259,7 +271,6 @@ async function main() {
       league: ampai?.league ?? "—",
       nameEn: formatNameEn(ampai?.slug) ?? formatNameEnFromFurigana(m.furigana),
       period: m.period,
-      joinYear: periodToJoinYear(m.period),
       gender: m.gender,
       birthday: m.birthday,
       birthplace: m.region || undefined,

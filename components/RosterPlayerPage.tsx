@@ -186,6 +186,16 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
                   <span style={{ color: org.color, fontWeight: 700 }}>●</span> {org.label}
                 </span>
               </li>
+              {player.officialUrl && (
+                <li>
+                  <span className="l">Official 公式プロフィール</span>
+                  <span className="v">
+                    <a href={player.officialUrl} target="_blank" rel="noopener noreferrer">
+                      団体HPの選手ページ
+                    </a>
+                  </span>
+                </li>
+              )}
               <li>
                 <span className="l">League リーグ</span>
                 <span className="v">

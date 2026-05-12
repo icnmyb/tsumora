@@ -88,6 +88,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const titleCount = getTitleCount(player);
   const related = getRelatedPlayers(player);
   const cs = player.currentSeason;
+  const leagueLabel = player.league && player.league !== "—" ? player.league : null;
   const csSeason = cs?.season ?? "";
   const csPoints = cs?.season
     ? player.annualPoints?.find((p) => p.season === cs.season)?.points
@@ -112,7 +113,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             <span>{player.name}</span>
           </div>
           <span className="kicker">
-            ● {org.label} · {player.league} · {player.period ? `${player.period}生` : `${derivedJoinYear}年入会`}
+            ● {[org.label, leagueLabel, player.period ? `${player.period}生` : `${derivedJoinYear}年入会`].filter(Boolean).join(" · ")}
           </span>
           <h1>
             {player.name}
@@ -307,6 +308,16 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                   {org.label}
                 </span>
               </li>
+              {player.officialUrl && (
+                <li>
+                  <span className="l">Official 公式プロフィール</span>
+                  <span className="v">
+                    <a href={player.officialUrl} target="_blank" rel="noopener noreferrer">
+                      団体HPの選手ページ
+                    </a>
+                  </span>
+                </li>
+              )}
               {player.title && (
                 <li>
                   <span className="l">Title 主要タイトル</span>

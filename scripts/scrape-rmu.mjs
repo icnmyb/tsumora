@@ -2,7 +2,7 @@
 // RMU の選手名簿をスクレイプし、app/players/roster/rmu.ts を生成する。
 //
 // データソース:
-//   - 一覧:   https://rmu.jp/player_index/license, /player_index/girl, /cms/player_index/player_athlete, /cms/player_index/player_nagasaki
+//   - 一覧:   https://rmu.jp/player_index/license, https://rmu.jp/player_index/girl
 //   - 個別:   https://rmu.jp/player/prof/{id}.htm
 
 import fs from "node:fs/promises";
@@ -15,7 +15,6 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 const LIST_URLS = [
   { url: "https://rmu.jp/player_index/license", category: "license" },
   { url: "https://rmu.jp/player_index/girl", category: "girl" },
-  { url: "https://rmu.jp/cms/player_index/player_athlete", category: "athlete" },
 ];
 const CONCURRENCY = 6;
 const THROTTLE_MS = 150;
@@ -40,13 +39,20 @@ function decodeEntities(s) {
 }
 
 function parseListImgs(html) {
-  // <img src="/img/player/{id}_index_{rank}.jpg" alt="{name}" ...>
-  const matches = [...html.matchAll(/<img[^>]+src="\/img\/player\/(\d+)_index_([A-Za-z]+)\.jpg"[^>]*alt="([^"]+)"/g)];
-  return matches.map((m) => ({
-    playerId: m[1],
-    rank: m[2],
-    name: decodeEntities(m[3]).replace(/\s+/g, ""),
-  }));
+  // The RMU page uses several filename patterns:
+  // 1001_index_SSS.jpg, 1472_indexA.jpg, 1260_index.jpg, 1263_index_3.jpg,
+  // title/nowprinting.jpg. Count every named player, not only one pattern.
+  const matches = [...html.matchAll(/<img[^>]+src="\/img\/player\/([^"]+)"[^>]*alt="([^"]*)"/g)];
+  return matches
+    .map((m) => {
+      const src = m[1];
+      const name = decodeEntities(m[2]).replace(/\s+/g, "");
+      if (!name) return null;
+      const playerId = src.match(/^(\d+)/)?.[1] ?? null;
+      const rank = src.match(/_index_?(SSS|SS|S|A|B)(?:\.|_)/)?.[1];
+      return { playerId, rank, name };
+    })
+    .filter(Boolean);
 }
 
 function parseMemberPage(html) {
@@ -113,6 +119,7 @@ function serializePlayer(p) {
     bloodType: p.bloodType,
     rank: p.rank,
     href: p.href,
+    officialUrl: p.officialUrl,
   })) {
     const f = fmtField(k, v);
     if (f) parts.push(f);
@@ -177,14 +184,15 @@ async function pool(items, concurrency, fn) {
 
 async function main() {
   console.error("[1/3] fetch RMU listing pages");
-  const allPlayers = new Map(); // playerId → { rank, name, category }
+  const allPlayers = new Map(); // playerId/name → { rank, name, category }
   for (const lst of LIST_URLS) {
     try {
       const html = await fetchText(lst.url);
       const found = parseListImgs(html);
       for (const f of found) {
-        if (!allPlayers.has(f.playerId)) {
-          allPlayers.set(f.playerId, { ...f, category: lst.category });
+        const key = f.playerId ?? `${lst.category}:${f.name}`;
+        if (!allPlayers.has(key)) {
+          allPlayers.set(key, { ...f, category: lst.category, listUrl: lst.url });
         }
       }
       console.error(`      ${lst.category}: ${found.length} entries`);
@@ -198,6 +206,10 @@ async function main() {
   let done = 0;
   const profiles = await pool([...allPlayers.values()], CONCURRENCY, async (m) => {
     try {
+      if (!m.playerId) {
+        done++;
+        return { ...m, profileMissing: true };
+      }
       const html = await fetchText(`https://rmu.jp/player/prof/${m.playerId}.htm`);
       const parsed = parseMemberPage(html);
       done++;
@@ -206,7 +218,7 @@ async function main() {
     } catch (err) {
       done++;
       console.error(`      WARN ${m.playerId}: ${err.message}`);
-      return m;
+      return { ...m, profileMissing: true };
     }
   });
 
@@ -237,7 +249,7 @@ async function main() {
       continue;
     }
     let id = toRomaji(p.yomi || "").replace(/\s+/g, "_");
-    if (!id) id = `rmu_${p.playerId}`;
+    if (!id) id = p.playerId ? `rmu_${p.playerId}` : `rmu_${rosterEntries.length + 1}`;
     while (usedIds.has(id)) id = `${id}-2`;
     usedIds.add(id);
 
@@ -246,13 +258,13 @@ async function main() {
       id,
       name,
       org: "RMU",
-      league: license || "—",
-      nameEn: formatNameEn(p.yomi),
+      league: license || (p.category === "girl" ? "女流" : "—"),
       birthday: parseBirthday(p.birthday),
       birthplace: p.birthplace,
       bloodType: p.bloodType,
       rank: license,
       href: `/players/${id}`,
+      officialUrl: p.profileMissing ? undefined : `https://rmu.jp/player/prof/${p.playerId}.htm`,
     });
   }
 

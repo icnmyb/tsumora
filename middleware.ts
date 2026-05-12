@@ -15,6 +15,7 @@ const REVIEW_PREFIXES = [
 ];
 
 function shouldShowDataReview(pathname: string): boolean {
+  if (process.env.NODE_ENV !== "production") return false;
   if (pathname === DATA_REVIEW_PATH) return false;
   return REVIEW_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
