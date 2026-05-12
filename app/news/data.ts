@@ -29,14 +29,50 @@ export interface NewsArticle {
 
 // HOMEの大きいニュース1件・小さいニュース2件はここで手動選択する。
 export const HOME_NEWS_SELECTION = {
-  primary: "mleague-2025-26-final-day4",
+  primary: "mleague-2025-26-final-day5",
   secondary: [
+    "mleague-2025-26-final-day4",
     "mleague-2025-26-final-day3",
-    "mleague-2025-26-final-day2",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "mleague-2025-26-final-day5",
+    date: "2026-05-11",
+    publishedAt: "2026-05-11T23:45:00+09:00",
+    category: "mleague",
+    headline: "ファイナル5日目、滝沢・中田がトップ。BEASTが首位を守る",
+    lead:
+      "Mリーグ2025-26ファイナル5日目は中田花奈(53.1pt)と滝沢和典(62.4pt)がトップを獲得。10試合終了時点のチーム順位はBEAST Xが247.7ptで首位、KONAMI麻雀格闘倶楽部が244.2ptで2位と3.5pt差の接戦となった。",
+    body: [
+      "第1試合はBEAST Xの中田花奈が53.1ptでトップ。EX風林火山の内川幸太郎が11.1ptで2着、TEAM RAIDEN/雷電の本田朋広が-10.4pt、KONAMI麻雀格闘倶楽部の佐々木寿人が-53.8ptとなった。",
+      "第2試合はKONAMIの滝沢和典が62.4ptでトップ。雷電の勝又健志が10.1ptで2着、雷電の萩原聖人が-25.2pt、BEAST Xの鈴木大介が-47.3ptとなった。",
+      "10試合終了時点のチーム順位はBEAST Xが247.7ptで首位、KONAMIが244.2ptで2位、風林火山が130.7ptで3位、雷電が-14.3ptで4位。個人成績では滝沢和典(125.1pt)が首位に立ち、東城りお(114.6pt)、伊達朱里紗(68.1pt)が続く。",
+    ],
+    seoTitle: "Mリーグ2025-26ファイナル5日目結果（BEAST首位キープ）",
+    seoDescription:
+      "Mリーグ2025-26ファイナル5日目、中田花奈と滝沢和典がトップ。10試合終了時点のチーム順位と個人成績上位を短報で整理。",
+    sources: [
+      {
+        label: "M.LEAGUE公式：試合日程（2025-26）",
+        url: "https://m-league.jp/games/",
+        checkedAt: "2026-05-11",
+      },
+      {
+        label: "M.LEAGUE公式：ファイナル順位（進行中）",
+        url: "https://m-league.jp/",
+        checkedAt: "2026-05-11",
+      },
+    ],
+    related: [
+      { type: "team", id: "beast-x" },
+      { type: "team", id: "konami" },
+      { type: "team", id: "furinkazan" },
+      { type: "team", id: "raiden" },
+      { type: "player", id: "takizawa" },
+    ],
+  },
   {
     slug: "mleague-2025-26-final-day4",
     date: "2026-05-08",
