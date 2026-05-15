@@ -29,14 +29,50 @@ export interface NewsArticle {
 
 // HOMEの大きいニュース1件・小さいニュース2件はここで手動選択する。
 export const HOME_NEWS_SELECTION = {
-  primary: "mleague-2025-26-final-day6",
+  primary: "mleague-2025-26-final-day7",
   secondary: [
+    "mleague-2025-26-final-day6",
     "mleague-2025-26-final-day5",
-    "mleague-2025-26-final-day4",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "mleague-2025-26-final-day7",
+    date: "2026-05-14",
+    publishedAt: "2026-05-14T23:45:00+09:00",
+    category: "mleague",
+    headline: "ファイナル7日目、中田・勝又がトップ。風林火山が首位を守り最終日へ",
+    lead:
+      "Mリーグ2025-26ファイナル7日目は中田花奈(66.6pt)と勝又健志(69.8pt)がトップを獲得。14試合終了時点のチーム順位はEX風林火山が335.3ptで首位、BEAST Xが165.6ptで2位、KONAMI麻雀格闘倶楽部が108.3ptで3位となった。",
+    body: [
+      "第1試合はBEAST Xの中田花奈が66.6ptでトップ。雷電の萩原聖人が22.6ptで2着、風林火山の内川幸太郎が-30.2pt、KONAMIの滝沢和典が-59.0ptとなった。",
+      "第2試合は雷電の勝又健志が69.8ptでトップ。KONAMIの佐々木寿人が12.9ptで2着、雷電の本田朋広が-19.8pt、BEAST Xの東城りおが-62.9ptとなった。",
+      "14試合終了時点のチーム順位は風林火山が335.3ptで首位、BEAST Xが165.6ptで2位、KONAMIが108.3ptで3位、雷電が-0.9ptで4位。個人成績では勝又健志(197.7pt)が首位を守り、中田花奈(75.4pt)、滝沢和典(66.1pt)が続く。",
+    ],
+    seoTitle: "Mリーグ2025-26ファイナル7日目結果（風林火山が首位キープ）",
+    seoDescription:
+      "Mリーグ2025-26ファイナル7日目、中田花奈と勝又健志がトップ。14試合終了時点のチーム順位と個人成績上位を短報で整理。",
+    sources: [
+      {
+        label: "M.LEAGUE公式：試合日程（2025-26）",
+        url: "https://m-league.jp/games/",
+        checkedAt: "2026-05-14",
+      },
+      {
+        label: "M.LEAGUE公式：ファイナル順位（進行中）",
+        url: "https://m-league.jp/",
+        checkedAt: "2026-05-14",
+      },
+    ],
+    related: [
+      { type: "team", id: "furinkazan" },
+      { type: "team", id: "beast-x" },
+      { type: "team", id: "konami" },
+      { type: "team", id: "raiden" },
+      { type: "player", id: "katsumata" },
+    ],
+  },
   {
     slug: "mleague-2025-26-final-day6",
     date: "2026-05-12",
