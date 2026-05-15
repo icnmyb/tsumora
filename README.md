@@ -35,6 +35,47 @@ npm run build
 npm start
 ```
 
+## 誤情報レポート
+
+全ページ右下の「誤りを報告」フォームは `app/api/report-error/route.ts` から Google Apps Script などのWebhookへPOSTする。
+
+Vercelの環境変数:
+
+```bash
+REPORT_WEBHOOK_URL="https://script.google.com/macros/s/..."
+REPORT_WEBHOOK_SECRET="任意の共有シークレット"
+```
+
+Webhookには `submittedAt`, `category`, `message`, `contact`, `pageUrl`, `userAgent`, `referer`, `secret` がJSONで届く。Apps Script側で `secret` を確認し、スプレッドシートへ `appendRow` すれば蓄積できる。
+
+Apps Script例:
+
+```js
+const SHEET_NAME = "reports";
+const SECRET = "REPORT_WEBHOOK_SECRETと同じ値";
+
+function doPost(e) {
+  const data = JSON.parse(e.postData.contents || "{}");
+  if (data.secret !== SECRET) {
+    return ContentService.createTextOutput("forbidden").setMimeType(ContentService.MimeType.TEXT);
+  }
+
+  SpreadsheetApp.getActiveSpreadsheet()
+    .getSheetByName(SHEET_NAME)
+    .appendRow([
+      data.submittedAt,
+      data.category,
+      data.message,
+      data.contact,
+      data.pageUrl,
+      data.userAgent,
+      data.referer,
+    ]);
+
+  return ContentService.createTextOutput("ok").setMimeType(ContentService.MimeType.TEXT);
+}
+```
+
 ## ディレクトリ構造
 
 ```

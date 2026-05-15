@@ -21,6 +21,207 @@
   --shadow-sm: 3px 3px 0 var(--ink);
 }
 
+.error-report-fab {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 80;
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px 10px 11px;
+  border: var(--border);
+  background: var(--vermilion);
+  color: #fff8e8;
+  box-shadow: var(--shadow-sm);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.error-report-fab span:first-child {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-family: "Geist Mono", monospace;
+  font-size: 15px;
+}
+
+.error-report-fab:hover,
+.error-report-fab:focus-visible {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.error-report-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.error-report-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(11, 11, 9, 0.2);
+  cursor: default;
+  pointer-events: auto;
+}
+
+.error-report-panel {
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: calc(max(18px, env(safe-area-inset-bottom)) + 58px);
+  width: min(420px, calc(100vw - 36px));
+  max-height: min(660px, calc(100vh - 96px));
+  overflow: auto;
+  border: var(--border-thick);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  pointer-events: auto;
+}
+
+.error-report-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 18px 14px;
+  border-bottom: var(--border);
+  background: #f4eedf;
+}
+
+.error-report-head p {
+  margin: 0 0 5px;
+  color: var(--vermilion);
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.error-report-head h2 {
+  margin: 0;
+  font-family: "Shippori Mincho", serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.error-report-head button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.error-report-panel form {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.error-report-panel label {
+  display: grid;
+  gap: 7px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.error-report-panel select,
+.error-report-panel textarea,
+.error-report-panel input {
+  width: 100%;
+  border: 2px solid var(--ink);
+  background: #fffaf0;
+  color: var(--ink);
+  font: 500 15px/1.5 "Noto Sans JP", sans-serif;
+}
+
+.error-report-panel select,
+.error-report-panel input {
+  min-height: 42px;
+  padding: 8px 10px;
+}
+
+.error-report-panel textarea {
+  min-height: 120px;
+  resize: vertical;
+  padding: 10px;
+}
+
+.error-report-panel textarea::placeholder,
+.error-report-panel input::placeholder {
+  color: var(--ink-4);
+}
+
+.error-report-trap {
+  position: absolute;
+  left: -9999px;
+}
+
+.error-report-page {
+  overflow: hidden;
+  padding: 8px 10px;
+  border: 1.5px solid var(--ink);
+  color: var(--ink-3);
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.error-report-panel form > button[type="submit"] {
+  min-height: 46px;
+  border: var(--border);
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--shadow-sm);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.error-report-panel form > button[type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.error-report-status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 2px solid var(--moss);
+  background: rgba(47, 92, 63, 0.1);
+  color: var(--moss);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.error-report-status.error {
+  border-color: var(--vermilion-d);
+  background: rgba(200, 40, 42, 0.1);
+  color: var(--vermilion-d);
+}
+
 .title-short {
   display: none;
 }
@@ -87,6 +288,25 @@
 }
 
 @media (max-width: 720px) {
+  .error-report-fab {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    min-height: 44px;
+    padding: 9px 11px 9px 9px;
+    font-size: 12px;
+  }
+
+  .error-report-panel {
+    right: 12px;
+    bottom: 68px;
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 92px);
+  }
+
+  .error-report-head h2 {
+    font-size: 21px;
+  }
+
   .org-hero h1 .title-full,
   .sc-hero h1 .title-full {
     display: none;
@@ -314,6 +534,8 @@ a, button, [role="button"], label, select, input[type="submit"], input[type="but
 /* ============ BACKGROUND ANIMATIONS ============ */
 .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 body > *:not(.bg-layer) { position: relative; z-index: 1; }
+body > .error-report-fab { position: fixed; z-index: 80; }
+body > .error-report-layer { position: fixed; z-index: 90; }
 
 /* 1. 点棒 horizontal scroll (ultra slow) */
 .bg-tenbo { opacity: .07; }
