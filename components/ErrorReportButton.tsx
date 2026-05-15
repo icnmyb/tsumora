@@ -126,7 +126,7 @@ export function ErrorReportButton() {
                 <textarea
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
-                  minLength={8}
+                  minLength={1}
                   maxLength={1000}
                   required
                   placeholder="例: ○○選手の所属団体が違う / タイトル獲得年が異なる など"
@@ -157,7 +157,7 @@ export function ErrorReportButton() {
                 {pageUrl}
               </div>
 
-              <button type="submit" disabled={state === "sending" || message.trim().length < 8}>
+              <button type="submit" disabled={state === "sending" || message.trim().length === 0}>
                 {state === "sending" ? "送信中..." : "送信"}
               </button>
 

@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   const contact = asTrimmedString(body.contact, 120);
   const pageUrl = asTrimmedString(body.pageUrl, 500);
 
-  if (message.length < 8) {
+  if (!message) {
     return NextResponse.json({ error: "Message is too short" }, { status: 400 });
   }
 
@@ -46,6 +46,7 @@ export async function POST(request: Request) {
   try {
     response = await fetch(webhookUrl, {
       method: "POST",
+      redirect: "manual",
       headers: {
         "content-type": "application/json",
         ...(process.env.REPORT_WEBHOOK_SECRET
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Webhook request failed" }, { status: 502 });
   }
 
-  if (!response.ok) {
+  if (response.status < 200 || response.status >= 400) {
     return NextResponse.json({ error: "Webhook rejected report" }, { status: 502 });
   }
 
