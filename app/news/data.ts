@@ -29,14 +29,56 @@ export interface NewsArticle {
 
 // HOMEの大きいニュース1件・小さいニュース2件はここで手動選択する。
 export const HOME_NEWS_SELECTION = {
-  primary: "mleague-2025-26-final-day7",
+  primary: "mleague-2025-26-final-day8",
   secondary: [
+    "mleague-2025-26-final-day7",
     "mleague-2025-26-final-day6",
-    "mleague-2025-26-final-day5",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "mleague-2025-26-final-day8",
+    date: "2026-05-15",
+    publishedAt: "2026-05-15T23:45:00+09:00",
+    category: "mleague",
+    headline: "ファイナル最終日、黒沢・瀬戸熊がトップ。EX風林火山が2度目の優勝",
+    lead:
+      "Mリーグ2025-26ファイナル最終日は黒沢咲(66.6pt)と瀬戸熊直樹(56.4pt)がトップを獲得。最終順位はEX風林火山が268.8ptで優勝、KONAMI麻雀格闘倶楽部が124.7ptで2位、TEAM RAIDEN/雷電が122.1ptで3位となった。",
+    body: [
+      "第1試合は雷電の黒沢咲が66.6ptでトップ。KONAMIの佐々木寿人が4.0ptで2着、BEAST Xの鈴木大介が-24.7pt、風林火山の二階堂亜樹が-45.9ptとなった。",
+      "第2試合は雷電の瀬戸熊直樹が56.4ptでトップ。KONAMIの佐々木寿人が12.4ptで2着、雷電の勝又健志が-20.6pt、BEAST Xの下石戟が-48.2ptとなった。",
+      "16試合終了時点のチーム順位は風林火山が268.8ptで優勝、KONAMIが124.7ptで2位、雷電が122.1ptで3位、BEAST Xが92.7ptで4位。個人成績では勝又健志(177.1pt)が首位、黒沢咲(97.8pt)、中田花奈(75.4pt)が続いた。",
+    ],
+    seoTitle: "Mリーグ2025-26ファイナル最終日結果（EX風林火山が優勝）",
+    seoDescription:
+      "Mリーグ2025-26ファイナル最終日、黒沢咲と瀬戸熊直樹がトップ。最終順位と個人成績上位を短報で整理。",
+    sources: [
+      {
+        label: "M.LEAGUE公式：試合日程（2025-26）",
+        url: "https://m-league.jp/games/",
+        checkedAt: "2026-05-16",
+      },
+      {
+        label: "M.LEAGUE公式：ファイナル順位（最終）",
+        url: "https://m-league.jp/",
+        checkedAt: "2026-05-16",
+      },
+      {
+        label: "日刊スポーツ：Mリーグ2025-26 EX風林火山が優勝",
+        url: "https://www.nikkansports.com/entertainment/news/202605150002066.html",
+        checkedAt: "2026-05-16",
+      },
+    ],
+    related: [
+      { type: "team", id: "furinkazan" },
+      { type: "team", id: "beast-x" },
+      { type: "team", id: "konami" },
+      { type: "team", id: "raiden" },
+      { type: "player", id: "katsumata" },
+      { type: "player", id: "kurosawa" },
+    ],
+  },
   {
     slug: "mleague-2025-26-final-day7",
     date: "2026-05-14",
