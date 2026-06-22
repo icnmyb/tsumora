@@ -23,10 +23,10 @@ const SAIKOUISEN: OrgDetailPageData = {
   nameEn: "Saikouisen Japan Pro Mahjong Association",
   kite: "高",
   highlightTag: "1976年創設の最高位戦が源流",
-  extraTags: ["掲載プロ 1,024名", "最高位戦", "飯田正人杯・最高位戦Classic", "發王戦"],
+  extraTags: ["掲載プロ 1,091名", "最高位戦", "飯田正人杯・最高位戦Classic", "發王戦"],
   meta: [
     { label: "Origin", value: "1976", accent: true, sub: <>昭和51年<br />最高位戦創設</> },
-    { label: "Active Pros", value: "1,024", unit: "名", sub: "TSUMORA掲載数" },
+    { label: "Active Pros", value: "1,091", unit: "名", sub: "公式HP掲載数" },
     { label: "Events", value: "主要", sub: "最高位 · Classic · 發王 · 女流 ほか" },
     { label: "League", value: "10", unit: "部", accent: true, sub: "A1 〜 D3" },
     {
@@ -77,7 +77,7 @@ const SAIKOUISEN: OrgDetailPageData = {
       ),
     },
     { dt: "代表者", dd: "新津 潔" },
-    { dt: "掲載プロ", dd: "1,024名 (TSUMORA掲載数)" },
+    { dt: "掲載プロ", dd: "1,091名 (公式HP掲載数)" },
     { dt: "所在地", dd: "東京都千代田区神田小川町" },
     { dt: "支部・本部", dd: "関西 / 北海道 / 東海 / 九州 / 東北 / USA / CHINA ほか" },
     { dt: "主要タイトル", dd: "最高位戦 · 飯田正人杯・最高位戦Classic · 發王戦" },
@@ -151,7 +151,7 @@ const SAIKOUISEN: OrgDetailPageData = {
     cards: [],
   },
   roster: {
-    totalCount: 480,
+    totalCount: 1091,
     showingTitle: "レーティング上位",
     showingEn: "Top 10 by Saikouisen Rating",
     primaryTitleClass: "t-jpml",
@@ -178,13 +178,13 @@ const SAIKOUISEN: OrgDetailPageData = {
   },
   milestones: [
     { year: "1976", kind: "創設", title: "最高位戦、開始", desc: "麻雀専門誌「近代麻雀」によって、年間リーグで最高位を決めるタイトル戦として開始。" },
-    { year: "1976", kind: "タイトル", title: "最高位戦 第1期", desc: "団体最高峰タイトルが同年に開始。第1期は2部門制で、順位率部門：灘 麻太郎、得点部門：川田 隆。" },
+    { year: "1976", kind: "タイトル", title: "最高位戦 第1期", desc: "団体最高峰タイトルが同年に開始。第1期は2部門制で行われた。" },
     { year: "1992", kind: "オープン", title: "發王戦 開始", desc: "一発・裏ドラ・ノーテン罰符ありのルールによるタイトル戦として創設。" },
     { year: "2001", kind: "女流", title: "女流最高位戦 開始", desc: "女流タイトルとして第1期が開催。" },
     { year: "2006", kind: "古典", title: "最高位戦Classic 開始", desc: "一発・裏ドラ・ノーテン罰符なしのClassicルール採用タイトルとしてスタート。" },
-    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "園田賢・近藤誠一・茅森早香らが各チームに選抜。" },
+    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "最高位戦所属・出身プロが初年度から参戦。" },
     { year: "2024", kind: "新タイトル", title: "蒼翼戦 創設", desc: "タイトルホルダーやリーグ優勝者などが出場する選抜タイトルとして創設。" },
-    { year: "2026", kind: "現在", title: "創設50周年に向けて", desc: "国際支部 (USA・CHINA) を含む各支部での活動が継続中。" },
+    { year: "2025", kind: "国際", title: "USA本部・CHINA本部発足", desc: "公式沿革に、第50期の出来事としてUSA本部・CHINA本部の発足が記載されている。" },
   ],
   champions: {
     title: "歴代最高位",
