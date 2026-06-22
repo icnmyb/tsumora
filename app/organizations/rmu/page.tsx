@@ -23,10 +23,10 @@ const RMU: OrgDetailPageData = {
   nameEn: "Real Mahjong Unit",
   kite: "R",
   highlightTag: "2007年設立",
-  extraTags: ["掲載プロ 46名", "ライセンス制", "令昭位戦", "RMUクラウン"],
+  extraTags: ["掲載プロ 117名", "ライセンス制", "令昭位戦", "RMUクラウン"],
   meta: [
     { label: "Founded", value: "2007", accent: true, sub: <>平成19年<br />設立</> },
-    { label: "Active Pros", value: "46", unit: "名", sub: "TSUMORA掲載数" },
+    { label: "Active Pros", value: "117", unit: "名", sub: "公式HP掲載数" },
     { label: "Events", value: "主要", sub: "令昭位 · クラウン · スプリント ほか" },
     { label: "Representative", value: "多井", valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 }, sub: "多井 隆晴 代表" },
     { label: "License", value: "SSS〜A", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "公式掲載ライセンス区分" },
@@ -40,9 +40,9 @@ const RMU: OrgDetailPageData = {
   about: {
     en: "About RMU",
     leadParagraphs: [
-      "RMU（Real Mahjong Unit）は、2007年に設立された競技麻雀団体である。公式サイトでは「真の麻雀プロを創出すること」を第一義に掲げ、アスリート会員が公式戦やタイトル戦で実績を積む仕組みを説明している。",
+      "RMU（Real Mahjong Unit）は、2007年に設立された競技麻雀団体である。「真の麻雀プロを創出すること」を第一義に掲げ、アスリート会員が公式戦やタイトル戦で実績を積む仕組みを設けている。",
       "プロライセンスは、選手ポイントが規定値に達し、技量・理論・マナー・作法が備わったと審議会の過半数が判断した場合に発行される。選手ポイントランキングは年4回公表される。",
-      "令昭位戦はアスリート会員が参加するリーグ戦で、A1リーグが上部に位置する年間リーグ戦として案内されている。主要タイトルには令昭位戦、RMUクラウン、スプリントカップ、ティアラリーグ、オープンリーグなどがある。",
+      "令昭位戦はアスリート会員が参加するリーグ戦で、A1リーグが最高峰の年間リーグ戦として案内されている。主要タイトルには令昭位戦、RMUクラウン、スプリントカップ、ティアラリーグ、オープンリーグなどがある。",
       "代表的な所属選手には、Mリーグ初年度から渋谷ABEMASで活躍する多井隆晴をはじめ、令昭位戦やRMUクラウンで実績を残す選手が並ぶ。ライセンス制と選手ポイントを軸に、競技成績を可視化する色合いの強い団体である。",
     ],
     pullQuote: (
@@ -78,7 +78,7 @@ const RMU: OrgDetailPageData = {
       ),
     },
     { dt: "代表", dd: "多井 隆晴" },
-    { dt: "掲載プロ", dd: "46名 (TSUMORA掲載数)" },
+    { dt: "掲載プロ", dd: "117名 (公式HP掲載数)" },
     { dt: "本部", dd: "東京都" },
     { dt: "ライセンス", dd: "SSS / SS / S / A" },
     { dt: "主要タイトル", dd: "令昭位戦 · RMUクラウン · スプリントカップ" },
@@ -152,7 +152,7 @@ const RMU: OrgDetailPageData = {
     cards: [],
   },
   roster: {
-    totalCount: 85,
+    totalCount: 117,
     showingTitle: "ライセンス上位",
     showingEn: "Top by License Tier",
     primaryTitleClass: "t-jpml",
@@ -182,10 +182,8 @@ const RMU: OrgDetailPageData = {
     { year: "2007", kind: "設立", title: "ライセンス制度を軸に活動開始", desc: "競技成績と審議をもとにしたライセンス制度を運用。" },
     { year: "2009", kind: "最高峰", title: "令昭位戦 開始", desc: "団体最高峰タイトルとして第1期がスタート。" },
     { year: "2010", kind: "オープン", title: "RMUクラウン 開始", desc: "オープン参加型のRMUクラウンが第1回開催。" },
-    { year: "2015", kind: "Mリーグ前夜", title: "RTDリーグ 多井優勝", desc: "RTDリーグ Avocadoカップで多井隆晴が優勝、Mリーグ前夜の象徴に。" },
-    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "多井隆晴が渋谷ABEMASのドラフト1巡目指名でMリーグ初年度から参戦。" },
-    { year: "2024", kind: "成績", title: "公式成績ランキングを更新", desc: "公式サイトで生涯成績・年度成績・選手ポイントランキングを継続的に公表。" },
-    { year: "2026", kind: "タイトル", title: "第17期令昭位、小川光が戴冠", desc: "第17期令昭位戦で小川光が優勝し、現令昭位として掲載。" },
+    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "RMU所属プロがMリーグ初年度から参戦。" },
+    { year: "2024", kind: "成績", title: "公式成績ランキングを更新", desc: "生涯成績・年度成績・選手ポイントランキングを継続的に公表。" },
   ],
   champions: {
     title: "歴代令昭位",

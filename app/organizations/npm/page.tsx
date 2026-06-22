@@ -23,10 +23,10 @@ const NPM: OrgDetailPageData = {
   nameEn: "Nippon Professional Mahjong",
   kite: "協",
   highlightTag: "2001年活動開始",
-  extraTags: ["法人設立 2010年", "掲載プロ 748名", "雀王戦", "雀竜位戦"],
+  extraTags: ["法人設立 2010年", "掲載プロ 847名", "雀王戦", "雀竜位戦"],
   meta: [
     { label: "Founded", value: "2001", accent: true, sub: <>平成13年<br />活動開始</> },
-    { label: "Active Pros", value: "748", unit: "名", sub: "TSUMORA掲載数" },
+    { label: "Active Pros", value: "847", unit: "名", sub: "公式HP掲載数" },
     { label: "Events", value: "主要", sub: "雀王 · 雀竜位 · 新人王 · 日本オープン" },
     { label: "League", value: "A1〜F1", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "雀王戦リーグ" },
     {
@@ -41,7 +41,7 @@ const NPM: OrgDetailPageData = {
     leadParagraphs: [
       "日本プロ麻雀協会（NPM）は、2001年に活動を開始した競技麻雀のプロ団体である。現在の法人名は一般社団法人 日本プロ麻雀協会で、公式の団体概要では2010年4月21日を法人設立日としている。",
       <>
-        公式サイトでは、麻雀の普及と発展、麻雀文化の向上発展を目的に、プロ育成、競技会・講習会の開催、麻雀教室、人材派遣、書籍・映像資料の作成などを事業として掲げている。
+        麻雀の普及と発展、麻雀文化の向上発展を目的に、プロ育成、競技会・講習会の開催、麻雀教室、人材派遣、書籍・映像資料の作成などを事業として掲げている。
       </>,
       "主要タイトルには雀王戦、女流雀王戦、雀竜位戦、新人王戦、日本オープン、オータムチャンピオンシップなどがある。雀王戦はA1を頂点とするリーグ制、雀竜位戦は短期で上位を目指せる昇級制を特徴としている。",
       "MリーグにはU-NEXT Pirates、KADOKAWAサクラナイツ、セガサミーフェニックス、BEAST Xなどで協会所属・出身プロが出場している。配信文化やオープン参加型大会との相性も強く、競技と発信の両面で存在感を持つ。",
@@ -79,7 +79,7 @@ const NPM: OrgDetailPageData = {
       ),
     },
     { dt: "代表理事", dd: "鍛冶田 良一" },
-    { dt: "掲載プロ", dd: "748名 (TSUMORA掲載数)" },
+    { dt: "掲載プロ", dd: "847名 (公式HP掲載数)" },
     { dt: "リーグ", dd: "雀王戦 A1〜F1" },
     { dt: "主たる事務所", dd: "東京都千代田区飯田橋" },
     { dt: "事務局", dd: "本部 / 関西 / 宮崎 ほか" },
@@ -115,10 +115,10 @@ const NPM: OrgDetailPageData = {
       {
         pill: "予選中",
         kanji: "竜",
-        rk: "03 · 協会三大タイトル",
+        rk: "03 · 主要タイトル",
         title: "雀竜位戦",
         en: "The Janryū-i",
-        since: "Since 2003 · 全協会員参加",
+        since: "Since 2002 · 全協会員参加",
         leaderName: "現雀竜位：大川 冬馬",
         leaderPt: "第24期",
         leaderPtDone: true,
@@ -134,6 +134,17 @@ const NPM: OrgDetailPageData = {
         leaderPt: "公式戦",
         leaderPtDone: true,
       },
+      {
+        pill: "公式戦",
+        kanji: "秋",
+        rk: "05 · 主要タイトル",
+        title: "オータムチャンピオンシップ",
+        en: "Autumn Championship",
+        since: "一発裏無しルール",
+        leaderName: "現タイトル：茨城 啓太",
+        leaderPt: "公式戦",
+        leaderPtDone: true,
+      },
     ],
   },
   schedule: {
@@ -142,7 +153,7 @@ const NPM: OrgDetailPageData = {
     cards: [],
   },
   roster: {
-    totalCount: 298,
+    totalCount: 847,
     showingTitle: "レーティング上位",
     showingEn: "Top 10 by NPM Rating",
     primaryTitleClass: "t-jpml",
@@ -170,10 +181,9 @@ const NPM: OrgDetailPageData = {
   milestones: [
     { year: "2001", kind: "発足", title: "日本プロ麻雀協会、活動開始", desc: "日本プロ麻雀協会として活動を開始。2010年4月21日に一般社団法人として法人設立。" },
     { year: "2002", kind: "タイトル", title: "雀王戦 開始", desc: "協会最高峰タイトルとして第1期が開催。リーグ制の原型ができる。" },
-    { year: "2002", kind: "新タイトル", title: "雀竜位戦 開始", desc: "全協会員参加の大規模タイトル戦としてスタート。初代雀竜位：鍛冶田 良一。" },
-    { year: "2002", kind: "女流", title: "女流雀王戦 開始", desc: "女流最高峰タイトルとして第1期が開催。初代女流雀王：手塚 紗掬。" },
-    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "小林剛・園田賢・鈴木たろうらが各チームに選抜（後に協会所属プロ多数が参戦）。" },
-    { year: "2025", kind: "タイトル", title: "第24期雀王、西村雄一郎が初戴冠", desc: "第24期雀王決定戦で西村雄一郎が雀王位を獲得。" },
+    { year: "2002", kind: "新タイトル", title: "雀竜位戦 開始", desc: "全協会員参加の大規模タイトル戦としてスタート。" },
+    { year: "2002", kind: "女流", title: "女流雀王戦 開始", desc: "女流最高峰タイトルとして第1期が開催。" },
+    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "協会所属・出身プロが初年度から参戦。" },
   ],
   champions: {
     title: "歴代雀王",
