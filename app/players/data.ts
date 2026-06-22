@@ -64,6 +64,7 @@ export interface RosterPlayer {
   tags?: string[];
   period?: string;
   joinYear?: number;
+  careerNote?: string;
   birthday?: string;
   gender?: Gender;
   href?: string;

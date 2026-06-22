@@ -56,7 +56,7 @@ export function periodToYear(org: SupportedOrg, period: string | undefined): num
 }
 
 /**
- * 入会期 or 入会年 から「現在までの在籍年数」を計算。
+ * 入会期 or 入会年 から「現在の年目」を計算。
  * - period が解析でき、org のマッピングが効くなら period を優先。
  * - 効かない場合は joinYear を使う。
  * - どちらも無い場合は null。
@@ -70,11 +70,11 @@ export function calcYearsSinceJoin(
   if (org) {
     const yearFromPeriod = periodToYear(org, period);
     if (yearFromPeriod !== undefined) {
-      return Math.max(0, asOfYear - yearFromPeriod);
+      return Math.max(1, asOfYear - yearFromPeriod + 1);
     }
   }
   if (joinYear) {
-    return Math.max(0, asOfYear - joinYear);
+    return Math.max(1, asOfYear - joinYear + 1);
   }
   return null;
 }

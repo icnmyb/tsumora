@@ -1,6 +1,7 @@
 // scripts/add-joinyear.mjs
-// JPML 以外の roster ファイルに joinYear を追加する one-off スクリプト。
+// roster ファイルに joinYear を追加する one-off スクリプト。
 // 各団体の period から年を逆算する:
+//   JPML:     1984 + N  (第N期 → 1984+N年)
 //   最高位戦: 1975 + N  (第N期前期/後期 → 1975+N年)
 //   NPM:      2000 + N  (第N期前期/後期 → 2000+N年)
 //   μ:        YYYY年度 から年抽出
@@ -24,6 +25,7 @@ function jpFromPeriodN(period, base, foundingYear) {
 
 const saikouisenJoinYear = (period) => jpFromPeriodN(period, 1975, 1976);
 const npmJoinYear = (period) => jpFromPeriodN(period, 2000, 2001);
+const jpmlJoinYear = (period) => jpFromPeriodN(period, 1984, 1984);
 const muJoinYear = (period) => {
   const m = period?.match(/(\d{4})年度/);
   if (!m) return undefined;
@@ -59,6 +61,7 @@ async function processFile(rel, computeFn) {
 
 async function main() {
   console.error("[add-joinyear] processing roster files...");
+  await processFile("app/players/roster/jpml.ts", jpmlJoinYear);
   await processFile("app/players/roster/saikouisen.ts", saikouisenJoinYear);
   await processFile("app/players/roster/npm.ts", npmJoinYear);
   await processFile("app/players/roster/mu.ts", muJoinYear);

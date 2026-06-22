@@ -1006,7 +1006,7 @@ interface PlayerRowProps {
 
 function PlayerRow({ player, index, isLast }: PlayerRowProps) {
   const meta = ORG_META[player.org];
-  const years = player.joinYear ? CURRENT_YEAR - player.joinYear : null;
+  const years = player.joinYear ? CURRENT_YEAR - player.joinYear + 1 : null;
   const number = String(index + 1).padStart(4, "0");
   const isMleaguer = !!player.mleagueTeam;
   const isDeveloper = player.id === "takamitoshiya";

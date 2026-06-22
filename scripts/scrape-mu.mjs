@@ -77,6 +77,7 @@ function escapeJsString(s) {
 
 function fmtField(key, val) {
   if (val === undefined || val === null || val === "") return null;
+  if (typeof val === "number") return `${key}: ${val}`;
   return `${key}: "${escapeJsString(String(val))}"`;
 }
 
@@ -90,6 +91,7 @@ function serializePlayer(p) {
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
     period: p.period,
+    joinYear: p.joinYear,
     birthplace: p.birthplace,
     href: p.href,
     officialUrl: p.officialUrl,
@@ -224,6 +226,7 @@ async function main() {
       org: "μ",
       league: p.category || "—",
       period,
+      joinYear: periodToJoinYear(period),
       birthplace: p.birthplace || undefined,
       href: `/players/${id}`,
       officialUrl: `https://mu-mahjong.jp/player/profile/?player_id=${p.playerId}`,

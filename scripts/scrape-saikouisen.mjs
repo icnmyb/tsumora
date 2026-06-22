@@ -126,6 +126,7 @@ function escapeJsString(s) {
 
 function fmtField(key, val) {
   if (val === undefined || val === null || val === "") return null;
+  if (typeof val === "number") return `${key}: ${val}`;
   return `${key}: "${escapeJsString(String(val))}"`;
 }
 
@@ -139,6 +140,7 @@ function serializePlayer(p) {
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
     period: p.period,
+    joinYear: p.joinYear,
     gender: p.gender,
     birthday: p.birthday,
     birthplace: p.birthplace,
@@ -258,6 +260,7 @@ async function main() {
       org: "最高位戦",
       league,
       period,
+      joinYear: periodToJoinYear(period),
       gender: inferGender(f),
       birthday,
       birthplace,

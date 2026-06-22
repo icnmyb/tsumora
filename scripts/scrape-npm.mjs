@@ -140,6 +140,7 @@ function escapeJsString(s) {
 
 function fmtField(key, val) {
   if (val === undefined || val === null || val === "") return null;
+  if (typeof val === "number") return `${key}: ${val}`;
   return `${key}: "${escapeJsString(String(val))}"`;
 }
 
@@ -153,6 +154,7 @@ function serializePlayer(p) {
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
     period: p.period,
+    joinYear: p.joinYear,
     birthday: p.birthday,
     birthplace: p.birthplace,
     bloodType: p.bloodType,
@@ -280,6 +282,7 @@ async function main() {
       league,
       nameEn,
       period,
+      joinYear: periodToJoinYear(period),
       birthday,
       birthplace,
       bloodType,

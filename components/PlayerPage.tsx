@@ -155,7 +155,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           <div className="kv">
             <div className="l">Pro Since プロ歴</div>
             <div className="v">
-              <b>{proYears}</b> 年{" "}
+              <b>{proYears}</b> 年目{" "}
               <span style={{ fontFamily: "'Geist Mono'", fontSize: 11, color: "rgba(235,228,210,.6)" }}>
                 SINCE {derivedJoinYear}
               </span>
@@ -286,7 +286,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
               <li>
                 <span className="l">Career プロ歴</span>
                 <span className="v">
-                  <span className="h">{proYears}</span> 年
+                  <span className="h">{proYears}</span> 年目
                 </span>
               </li>
               {player.hobby && (
@@ -518,7 +518,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             {org.label}
           </div>
           <div className="meta" style={{ color: "rgba(255,255,255,.75)", marginTop: 6 }}>
-            {player.period ? `${player.period}生として在籍${proYears}年` : `${derivedJoinYear}年入会 · 在籍${proYears}年`}
+            {player.period ? `${player.period}生として在籍${proYears}年目` : `${derivedJoinYear}年入会 · 在籍${proYears}年目`}
           </div>
           <span className="tag" style={{ background: "var(--ink)", color: "var(--paper)", marginTop: 14 }}>
             団体ページへ →

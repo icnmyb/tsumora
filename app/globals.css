@@ -7988,3 +7988,114 @@ nav.main,
 .pod-card .rk-big {
   font-family: var(--font-serif);
 }
+
+/* ============ READABILITY OVERRIDES ============ */
+/* netkeiba寄りに、DB面は装飾より一覧性を優先する。 */
+:root {
+  --font-db: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-db);
+  font-size: 14px;
+  line-height: 1.65;
+  letter-spacing: 0;
+}
+
+.lead,
+.desc,
+.hero-lead .lead-body,
+.about-body,
+.about-section,
+.org-about,
+.fact-box,
+.history-list,
+.timeline-list,
+.news-box,
+.rule-box,
+.profile-copy,
+.player-bio,
+.champions,
+.roster-table,
+.all-player-list,
+.all-player-main,
+.all-player-sub,
+.related-card,
+.schedule-list,
+.titles-section,
+.orgs-section {
+  font-family: var(--font-db) !important;
+  letter-spacing: 0 !important;
+  line-height: 1.68;
+}
+
+.all-player-name,
+.roster-card .name,
+.roster-table .name,
+.fs-table .name,
+.ranks-table .name,
+.champ-row .ch-name,
+.history-list .champ,
+.timeline-list li .what,
+.fact-box li .v,
+.related-card .nm,
+.p-hero h1,
+.p-hero .nickname,
+.org-card .jp,
+.title-card h3,
+.live-list .title,
+.today-items .it .t,
+.mleague .team,
+.t-card .leader .name {
+  font-family: var(--font-db) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.all-player-name {
+  font-size: 16px !important;
+  line-height: 1.35 !important;
+}
+
+.all-player-name-en,
+.p-hero h1 .en,
+.sh .num,
+.side-hd .en,
+.box-hd .en,
+.fs-hd .ttl .en,
+.ranks-box .hd .en,
+.mleague .mhd h2 .en,
+.orgs-section h2 .num,
+.titles-section h2 .num {
+  font-family: var(--font-db) !important;
+  font-style: normal !important;
+  letter-spacing: 0 !important;
+}
+
+.all-player-meta,
+.all-player-index,
+.tag-chip,
+.tag,
+.chip,
+.badge,
+.side-hd,
+.box-hd,
+.timeline .hd .t,
+.fact-box .fhd .t,
+.sc-bar .lab,
+.mono {
+  letter-spacing: 0.02em !important;
+}
+
+.all-player-meta {
+  font-size: 11px !important;
+}
+
+.fact-box li .l,
+.timeline-list li .yr,
+.history-list .yr,
+.all-player-sub,
+.related-card .meta,
+.roster-card .meta {
+  color: var(--ink-2) !important;
+}

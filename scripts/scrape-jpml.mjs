@@ -16,6 +16,13 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 
 const MEMBERS_URL = "https://www.ma-jan.or.jp/activity/members.html";
 
+const PLAYER_OVERRIDES = {
+  古小路亜美: {
+    joinYear: undefined,
+    careerNote: "日本プロ麻雀協会第17期として入会後、日本プロ麻雀連盟へ移籍。",
+  },
+};
+
 const AMPAI_LEAGUES = [
   { league: "A1",  token: "355a516a4145564c36567a726a4370494f704d7178773d3d" },
   { league: "A2",  token: "7a564f687677553534566b554d39693636634a5854773d3d" },
@@ -170,6 +177,7 @@ function escapeJsString(s) {
 
 function fmtField(key, val) {
   if (val === undefined || val === null || val === "") return null;
+  if (typeof val === "number") return `${key}: ${val}`;
   return `${key}: "${escapeJsString(String(val))}"`;
 }
 
@@ -183,6 +191,8 @@ function serializePlayer(p) {
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
     period: p.period,
+    joinYear: p.joinYear,
+    careerNote: p.careerNote,
     gender: p.gender,
     birthday: p.birthday,
     birthplace: p.birthplace,
@@ -271,11 +281,13 @@ async function main() {
       league: ampai?.league ?? "—",
       nameEn: formatNameEn(ampai?.slug) ?? formatNameEnFromFurigana(m.furigana),
       period: m.period,
+      joinYear: periodToJoinYear(m.period),
       gender: m.gender,
       birthday: m.birthday,
       birthplace: m.region || undefined,
       rank: m.rank || undefined,
       href: `/players/${id}`,
+      ...PLAYER_OVERRIDES[m.name],
     });
   }
 
