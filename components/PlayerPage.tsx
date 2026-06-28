@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/players/data";
-import { TEAM_NAME_TO_SLUG } from "@/app/teams/data";
+import { TEAM_NAME_TO_SLUG, TEAMS, type SeasonResult } from "@/app/teams/data";
 import { PlayerVideoSection } from "@/components/PlayerVideoSection";
 import { calcYearsSinceJoin, periodToYear, type SupportedOrg } from "@/lib/period";
 
@@ -17,21 +17,39 @@ function formatBirthdayFull(bd: string): string {
   return bd;
 }
 
-type CareerBar = { h: number; v: string; cls: string };
+type CareerBar = { h: number; v: string; cls: string; isNegative: boolean };
 
-function buildCareerChart(annualPoints: AnnualPoint[] | undefined): { bars: CareerBar[]; labels: string[] } {
+function seasonResultToAnnualNote(result: SeasonResult | undefined): "final" | "semifinal" | "regular" {
+  if (result === "champion" || result === "final") return "final";
+  if (result === "semifinal") return "semifinal";
+  return "regular";
+}
+
+function getAnnualPointNote(mleagueTeam: string | undefined, point: AnnualPoint): "final" | "semifinal" | "regular" {
+  const teamName = point.team ?? mleagueTeam;
+  const teamSlug = teamName ? TEAM_NAME_TO_SLUG[teamName] : undefined;
+  const result = TEAMS.find((team) => team.slug === teamSlug)?.seasons.find((season) => season.season === point.season)?.result;
+  return seasonResultToAnnualNote(result ?? point.note);
+}
+
+function buildCareerChart(
+  annualPoints: AnnualPoint[] | undefined,
+  mleagueTeam: string | undefined,
+): { bars: CareerBar[]; labels: string[] } {
   if (!annualPoints || annualPoints.length === 0) return { bars: [], labels: [] };
 
   const sorted = [...annualPoints].sort((a, b) => a.season.localeCompare(b.season));
   const absMax = Math.max(...sorted.map((p) => Math.abs(p.points)), 1);
 
   const bars: CareerBar[] = sorted.map((p) => {
-    const h = Math.max(8, Math.round((Math.abs(p.points) / absMax) * 92));
+    const magnitude = Math.abs(p.points);
+    const h = magnitude === 0 ? 0 : Math.max(16, Math.round(Math.sqrt(magnitude / absMax) * 86));
     const sign = p.points >= 0 ? "+" : "−";
     const v = `${sign}${Math.abs(Math.round(p.points))}`;
-    const base = p.note === "final" ? "champ" : p.note === "semifinal" ? "fin" : "";
-    const cls = p.points < 0 ? `${base} neg`.trim() : base;
-    return { h, v, cls };
+    const note = getAnnualPointNote(mleagueTeam, p);
+    const cls = note === "final" ? "champ" : note === "semifinal" ? "fin" : "";
+    const isNegative = p.points < 0;
+    return { h, v, cls, isNegative };
   });
 
   const labels = sorted.map((p, i) => (i === 0 ? p.season.slice(0, 4) : `'${p.season.slice(2, 4)}`));
@@ -83,7 +101,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
   const isDeveloper = player.id === "takamitoshiya";
-  const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints);
+  const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints, player.mleagueTeam);
   const hasCareerData = careerBars.length > 0;
   const titleCount = getTitleCount(player);
   const related = getRelatedPlayers(player);
@@ -141,7 +159,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="side">
           <div className="kv">
-            <div className="l">Total Titles 獲得タイトル</div>
+            <div className="l">Total Titles 主な獲得タイトル</div>
             <div className="v">
               <b>{titleCount || "—"}</b> {titleCount > 0 ? "冠" : ""}
             </div>
@@ -389,8 +407,9 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           <>
             <div className="cc-grid" style={{ gridTemplateColumns: `repeat(${careerBars.length}, 1fr)` }}>
               {careerBars.map((b, i) => (
-                <div key={i} className={`cc-bar ${b.cls}`.trim()} style={{ height: `${b.h}%` }}>
-                  {b.v}
+                <div key={i} className={`cc-cell ${b.isNegative ? "is-neg" : "is-pos"}`}>
+                  <div className={`cc-bar ${b.cls}`.trim()} style={{ height: `${b.h}%` }}></div>
+                  <span className="cc-value">{b.v}</span>
                 </div>
               ))}
             </div>
@@ -423,7 +442,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         <section className="timeline">
           <div className="hd">
             <span className="t">
-              獲得タイトル <span className="en">All Titles Won</span>
+              主な獲得タイトル <span className="en">All Titles Won</span>
             </span>
             <span className="n">
               {player.titles && player.titles.length > 0

@@ -193,7 +193,7 @@ const JPML: OrgDetailPageData = {
       { label: "Mリーグ" },
     ],
     rows: [
-      { rk: "一", top3: true, avatar: "瀬", avatarClass: "vermilion", name: "瀬戸熊 直樹", href: "/players/setokuma", sub: "1975生 · 1997年入会 · 第39-41期鳳凰位（3連覇）", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "鳳凰位×3" }, { kind: "plain", label: "十段×2" }, { kind: "plain", label: "発王" }] },
+      { rk: "一", top3: true, avatar: "瀬", avatarClass: "vermilion", name: "瀬戸熊 直樹", href: "/players/setokuma", sub: "1970生 · 1998年入会 · 第26・27・29期鳳凰位", league: "B1", leagueClass: "b", titles: [{ kind: "primary", label: "鳳凰位×3" }, { kind: "plain", label: "十段位×3" }, { kind: "plain", label: "発王位" }] },
       { rk: "二", top3: true, avatar: "佐", name: "佐々木 寿人", href: "/players/sasaki", sub: "1976生 · 2001年入会 · 攻撃型の代名詞 · 格闘倶楽部", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "十段位×3" }, { kind: "plain", label: "王位×2" }] },
       { rk: "三", top3: true, avatar: "鈴", name: "鈴木 大介", href: "/players/suzuki-d", sub: "1974生 · 第39期生 · 五段 · BEAST X", league: "A1", leagueClass: "a1", titles: [{ kind: "plain", label: "最強位" }] },
       { rk: "四", avatar: "滝", name: "滝沢 和典", href: "/players/takizawa", sub: "1979生 · 2002年入会 · 第38期鳳凰位 · 格闘倶楽部", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "鳳凰位" }, { kind: "plain", label: "モンド杯" }] },

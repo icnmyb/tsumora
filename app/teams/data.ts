@@ -109,7 +109,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 7, result: "regular" },
       { season: "2023-24", rank: 2, result: "final", note: "準優勝" },
       { season: "2024-25", rank: 3, result: "final" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 6, result: "semifinal" },
     ],
     milestones: [
       { year: "2018", kind: "設立", title: "Mリーグ初年度参戦", desc: "2018年8月のドラフトで園田賢・村上淳・鈴木たろうの3名を指名し発足。" },
@@ -169,7 +169,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 4, result: "final" },
       { season: "2023-24", rank: 4, result: "final" },
       { season: "2024-25", rank: 8, result: "regular" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 1, result: "final" },
     ],
     milestones: [
       { year: "2018", kind: "設立", title: "Mリーグ初年度参戦", desc: "二階堂亜樹・滝沢和典・勝又健志の3名で発足、初代監督は藤沢晴信。" },
@@ -228,7 +228,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 2, points: 1058.5, result: "final", note: "準優勝、レギュラー最多pt" },
       { season: "2023-24", rank: 6, result: "semifinal" },
       { season: "2024-25", rank: 5, result: "semifinal" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 3, result: "final" },
     ],
     milestones: [
       { year: "2018", kind: "設立", title: "Mリーグ初年度参戦", desc: "2018年8月のドラフトで佐々木寿人・高宮まりら3名を指名し発足、初代監督は石田進矢。" },
@@ -283,7 +283,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 1, result: "champion", note: "悲願の初優勝" },
       { season: "2023-24", rank: 5, result: "semifinal" },
       { season: "2024-25", rank: 6, result: "semifinal" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 7, result: "regular" },
     ],
     milestones: [
       { year: "2018", kind: "設立", title: "Mリーグ初年度参戦", desc: "ドラフトで多井隆晴・白鳥翔・松本吉弘の3名を指名し発足。" },
@@ -344,7 +344,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 8, result: "regular" },
       { season: "2023-24", rank: 9, result: "regular" },
       { season: "2024-25", rank: 1, result: "champion", note: "悲願の初優勝" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 5, result: "semifinal" },
     ],
     milestones: [
       { year: "2018", kind: "設立", title: "Mリーグ初年度参戦", desc: "ドラフトで魚谷侑未・近藤誠一・茅森早香の3名を指名し発足、初代監督は高畑大輔。" },
@@ -384,12 +384,12 @@ export const TEAMS: TeamData[] = [
     about: [
       "TEAM RAIDEN/雷電は、電通が運営するMリーグ初年度参入チーム。日本プロ麻雀連盟所属プロのみで構成される、Mリーグ唯一の単一団体チーム。",
       "創設メンバーは萩原聖人 (俳優プロ)・瀬戸熊直樹・黒沢咲の3名。萩原聖人はドラフト1位指名で加入し、俳優としての知名度とプロ雀士としての実力でMリーグの顔となっている。",
-      "瀬戸熊直樹は連盟「卓上の暴君」「クマクマタイム」と称される攻撃型ベテラン (鳳凰位3連覇経験者)、黒沢咲は連盟初の女流A1リーガー、本田朋広 (2021年加入) は若手のホープと、世代バランスのとれた布陣。",
+      "瀬戸熊直樹は連盟「卓上の暴君」「クマクマタイム」と称される攻撃型ベテラン (鳳凰位3期・十段位3期)、黒沢咲は連盟初の女流A1リーガー、本田朋広 (2021年加入) は若手のホープと、世代バランスのとれた布陣。",
       "Mリーグ通算でファイナル進出は2回 (2022-23・2024-25)、優勝は未経験。攻撃型「全部和了る」スタイルが代名詞で、爆発力と粘り強さの振れ幅が大きいチーム。",
     ],
     currentRoster: [
       { id: "hagiwara", role: "創設メンバー · 俳優プロ" },
-      { id: "setokuma", role: "創設メンバー · 鳳凰位3連覇" },
+      { id: "setokuma", role: "創設メンバー · 鳳凰位3期" },
       { id: "kurosawa", role: "創設メンバー" },
       { id: "honda", },
     ],
@@ -402,7 +402,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 3, result: "final", note: "初のファイナル進出" },
       { season: "2023-24", rank: 8, result: "regular" },
       { season: "2024-25", rank: 4, result: "final" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 4, result: "final" },
     ],
     milestones: [
       { year: "2018", kind: "設立", title: "Mリーグ初年度参戦", desc: "ドラフトで萩原聖人 (1位)・瀬戸熊直樹・黒沢咲の3名を指名し発足。" },
@@ -458,7 +458,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 5, result: "regular" },
       { season: "2023-24", rank: 1, result: "champion", note: "2回目の優勝、鈴木優MVP" },
       { season: "2024-25", rank: 2, result: "final", note: "準優勝" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 8, result: "regular" },
     ],
     milestones: [
       { year: "2018", kind: "設立", title: "Mリーグ初年度参戦", desc: "ドラフトで小林剛 (μ)・朝倉康心 (μ)・石橋伸洋 (最高位戦) の3名を指名し発足。" },
@@ -516,7 +516,7 @@ export const TEAMS: TeamData[] = [
       { season: "2022-23", rank: 6, result: "regular" },
       { season: "2023-24", rank: 3, result: "final" },
       { season: "2024-25", rank: 7, result: "regular", note: "創設以来初のセミファイナル逃し" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 9, result: "regular" },
     ],
     milestones: [
       { year: "2019", kind: "設立", title: "Mリーグ8番目のチームとして参入", desc: "ドラフトで内川幸太郎・沢崎誠・岡田紗佳の3名を指名し発足、初代監督は森井巧 (現職)。" },
@@ -570,7 +570,7 @@ export const TEAMS: TeamData[] = [
     seasons: [
       { season: "2023-24", rank: 7, result: "regular", note: "初年度" },
       { season: "2024-25", rank: 9, result: "regular" },
-      { season: "2025-26", result: "ongoing" },
+      { season: "2025-26", rank: 2, result: "final" },
     ],
     milestones: [
       { year: "2023", kind: "設立", title: "Mリーグ9番目のチームとして参入", desc: "鈴木大介・中田花奈・猿川真寿・菅原千瑛の4名で発足、BEAST Japanextとして開幕。" },
@@ -616,7 +616,7 @@ export const TEAMS: TeamData[] = [
     ],
     pastMembers: [],
     seasons: [
-      { season: "2025-26", result: "ongoing", note: "新規参入初年度" },
+      { season: "2025-26", rank: 10, result: "regular", note: "新規参入初年度" },
     ],
     milestones: [
       { year: "2025", kind: "設立", title: "Mリーグ10番目のチームとして参入", desc: "石井一馬・三浦智博・逢川恵夢・HIRO柴田の4名で発足、Mリーグを10チーム体制に。" },
