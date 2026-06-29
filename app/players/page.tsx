@@ -81,7 +81,7 @@ function formatLeaguePeriod(player: Pick<RosterPlayer, "league" | "period">): st
     player.league && player.league !== "—" ? player.league : null,
     player.period || null,
   ].filter(Boolean);
-  return parts.length > 0 ? parts.join(" · ") : "現役";
+  return parts.length > 0 ? parts.join(" · ") : "—";
 }
 
 export default function PlayersIndexPage() {
@@ -95,17 +95,26 @@ export default function PlayersIndexPage() {
 function PlayersIndexInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const viewParam = searchParams.get("view");
+  const view: PlayerView = viewParam === "mleague" ? "mleague" : "all";
   const pageParam = parseInt(searchParams.get("page") ?? "1", 10);
-  const page = Number.isFinite(pageParam) && pageParam >= 1 ? pageParam : 1;
+  const page = view === "mleague" ? 1 : Number.isFinite(pageParam) && pageParam >= 1 ? pageParam : 1;
 
   const [orgFilter, setOrgFilter] = useState<OrgFilter>("ALL");
   const [genderFilter, setGenderFilter] = useState<GenderFilter>("ALL");
   const [mleagueTeamFilter, setMleagueTeamFilter] = useState<MLeagueTeamFilter>("ALL");
   const [search, setSearch] = useState("");
-  const [view, setView] = useState<PlayerView>("all");
   const allListRef = useRef<HTMLHeadingElement | null>(null);
 
   const allPlayers = useMemo(() => getAllPlayers(), []);
+
+  const getPlayersUrl = (nextView: PlayerView, nextPage = 1) => {
+    const params = new URLSearchParams();
+    if (nextView === "mleague") params.set("view", "mleague");
+    if (nextView === "all" && nextPage > 1) params.set("page", String(nextPage));
+    const query = params.toString();
+    return query ? `/players?${query}` : "/players";
+  };
 
   const featured = useMemo(() => {
     return ALL_PLAYERS.filter((p) => {
@@ -140,7 +149,7 @@ function PlayersIndexInner() {
   // フィルタ・検索が変わったら page=1 に戻す (URLから page を落とす)
   useEffect(() => {
     if (page > 1) {
-      router.replace("/players");
+      router.replace(getPlayersUrl(view), { scroll: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orgFilter, genderFilter, search]);
@@ -150,23 +159,19 @@ function PlayersIndexInner() {
   useEffect(() => {
     if (!paginatingRef.current) return;
     paginatingRef.current = false;
-    setView("all");
     allListRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [currentPage]);
 
   const goToPage = (n: number) => {
     paginatingRef.current = true;
-    const url = n <= 1 ? "/players" : `/players?page=${n}`;
+    const url = getPlayersUrl("all", n);
     trackEvent("Players Pagination", { page: n, totalPages });
     router.push(url, { scroll: false });
   };
 
   const switchView = (nextView: PlayerView) => {
     trackEvent("Players View Switch", { view: nextView });
-    setView(nextView);
-    if (nextView === "mleague" && page > 1) {
-      router.replace("/players", { scroll: false });
-    }
+    router.push(getPlayersUrl(nextView), { scroll: false });
   };
 
   return (
@@ -568,7 +573,7 @@ function PlayersIndexInner() {
                     lineHeight: 1.3,
                   }}
                 >
-                  {p.title || (p.league && p.league !== "—" ? p.league : "現役")}
+                  {p.title || (p.league && p.league !== "—" ? p.league : "—")}
                 </div>
                 <div
                   style={{
@@ -1126,7 +1131,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             }}
           >
             <span style={{ color: "var(--ink-2)" }}>
-              {player.title || (player.league && player.league !== "—" ? player.league : "現役")}
+              {player.title || (player.league && player.league !== "—" ? player.league : "—")}
             </span>
             {player.title && player.league && player.league !== "—" && (
               <span style={{ color: "var(--ink-3)" }}> · {player.league}</span>
