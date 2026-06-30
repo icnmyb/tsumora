@@ -21,10 +21,10 @@ const JPML: OrgDetailPageData = {
   nameEn: "Japan Professional Mahjong League",
   kite: "連",
   highlightTag: "1981年設立",
-  extraTags: ["掲載プロ 1,067名", "鳳凰戦", "十段戦", "公式競技・段位制"],
+  extraTags: ["掲載プロ 1,065名", "鳳凰戦", "十段戦", "公式競技・段位制"],
   meta: [
     { label: "Founded", value: "1981", accent: true, sub: <>昭和56年<br />3月6日設立</> },
-    { label: "Active Pros", value: "1,067", unit: "名", sub: "TSUMORA掲載数" },
+    { label: "Active Pros", value: "1,065", unit: "名", sub: "公式HP掲載数" },
     { label: "Events", value: "主要", sub: "鳳凰位 · 十段 · 王位 ほか" },
     { label: "M-League", value: "出場", valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 }, sub: "所属プロが複数チームで活動" },
   ],
@@ -32,7 +32,7 @@ const JPML: OrgDetailPageData = {
     en: "About JPML",
     leadParagraphs: [
       "日本プロ麻雀連盟（JPML）は、1981年3月6日に設立された競技麻雀のプロ団体である。公式競技の開催を主な活動とし、段位審査、免許状の発行、麻雀教室、執筆・メディア活動なども行っている。",
-      "公式サイトでは、競技麻雀を通じた職業棋士の育成・社会的地位の向上、健全な麻雀遊戯の普及・発展、伝統文化・大衆文化の発展向上と国際親善への寄与を目的として掲げている。",
+      "競技麻雀を通じた職業棋士の育成・社会的地位の向上、健全な麻雀遊戯の普及・発展、伝統文化・大衆文化の発展向上と国際親善への寄与を目的に掲げている。",
       "主要タイトルには鳳凰戦、十段戦、王位戦、女流桜花などがある。長期リーグで頂点を決める鳳凰戦と、トーナメント色の強いタイトル戦が並び、所属プロは年間を通じて複数の舞台で競う。",
       "MリーグにはKONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電、EX風林火山、BEAST Xなどで連盟所属プロが出場している。攻撃型から守備型、若手からベテランまで幅広い選手層を持つ団体である。",
     ],
@@ -64,7 +64,7 @@ const JPML: OrgDetailPageData = {
         <>
           1981年3月6日
           <br />
-          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>45年の歴史</span>
+          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>1981年3月6日設立</span>
         </>
       ),
     },
@@ -74,7 +74,7 @@ const JPML: OrgDetailPageData = {
       dt: "支部",
       dd: (
         <>
-          北海道 / 東北 / 関東 / 中部 / 関西 / 中国 / 九州 · <b>全7支部</b>
+          北海道 / 東北 / 中部 / 関西 / 九州 / 静岡 / 北陸 / 北関東 / 四国 / 山口 / 沖縄 ほか
         </>
       ),
     },
@@ -110,7 +110,7 @@ const JPML: OrgDetailPageData = {
       {
         pill: "5月開始",
         kanji: "十",
-        rk: "02 · 二大タイトル",
+        rk: "02 · 主要タイトル",
         title: "十段戦",
         en: "The Jūdan",
         since: "Since 1984 · 第43期 · トーナメント制",
@@ -121,7 +121,7 @@ const JPML: OrgDetailPageData = {
       {
         pill: "進行中",
         kanji: "王",
-        rk: "03 · 三大タイトル",
+        rk: "03 · オープンタイトル",
         title: "王位戦",
         en: "The Ōi",
         since: "Since 1973 · 第50期 · 5団体交流",
@@ -180,7 +180,7 @@ const JPML: OrgDetailPageData = {
     cards: [],
   },
   roster: {
-    totalCount: 612,
+    totalCount: 1065,
     showingTitle: "レーティング上位",
     showingEn: "Top 14 by JPML Rating",
     primaryTitleClass: "t-jpml",
@@ -193,7 +193,7 @@ const JPML: OrgDetailPageData = {
       { label: "Mリーグ" },
     ],
     rows: [
-      { rk: "一", top3: true, avatar: "瀬", avatarClass: "vermilion", name: "瀬戸熊 直樹", href: "/players/setokuma", sub: "1975生 · 1997年入会 · 第39-41期鳳凰位（3連覇）", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "鳳凰位×3" }, { kind: "plain", label: "十段×2" }, { kind: "plain", label: "発王" }] },
+      { rk: "一", top3: true, avatar: "瀬", avatarClass: "vermilion", name: "瀬戸熊 直樹", href: "/players/setokuma", sub: "1970生 · 1998年入会 · 第26・27・29期鳳凰位", league: "B1", leagueClass: "b", titles: [{ kind: "primary", label: "鳳凰位×3" }, { kind: "plain", label: "十段位×3" }, { kind: "plain", label: "発王位" }] },
       { rk: "二", top3: true, avatar: "佐", name: "佐々木 寿人", href: "/players/sasaki", sub: "1976生 · 2001年入会 · 攻撃型の代名詞 · 格闘倶楽部", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "十段位×3" }, { kind: "plain", label: "王位×2" }] },
       { rk: "三", top3: true, avatar: "鈴", name: "鈴木 大介", href: "/players/suzuki-d", sub: "1974生 · 第39期生 · 五段 · BEAST X", league: "A1", leagueClass: "a1", titles: [{ kind: "plain", label: "最強位" }] },
       { rk: "四", avatar: "滝", name: "滝沢 和典", href: "/players/takizawa", sub: "1979生 · 2002年入会 · 第38期鳳凰位 · 格闘倶楽部", league: "A1", leagueClass: "a1", titles: [{ kind: "primary", label: "鳳凰位" }, { kind: "plain", label: "モンド杯" }] },
@@ -210,14 +210,13 @@ const JPML: OrgDetailPageData = {
     ],
   },
   milestones: [
-    { year: "1981", kind: "設立", title: "日本プロ麻雀連盟、創設", desc: "小島武夫・灘麻太郎・古川凱章らが参画。日本で初めての本格プロ麻雀団体として発足。" },
-    { year: "1984", kind: "タイトル", title: "鳳凰戦・十段戦が発足", desc: "最高峰タイトル「鳳凰戦」と「十段戦」が同年開始。初代鳳凰位：島田 昭。" },
+    { year: "1981", kind: "設立", title: "日本プロ麻雀連盟、創設", desc: "1981年3月6日、競技麻雀の開催や段位審査、普及活動を行う団体として設立。" },
+    { year: "1984", kind: "タイトル", title: "鳳凰戦・十段戦が発足", desc: "最高峰タイトル「鳳凰戦」と「十段戦」が同年開始。" },
     { year: "1990", kind: "新世代", title: "新人王戦 発足", desc: "若手発掘を目的とした新人王戦がスタート。" },
     { year: "1997", kind: "女流", title: "女流桜花 開始", desc: "女流最高峰タイトルとして第1期が開催。" },
     { year: "2009", kind: "配信", title: "ニコニコ生放送で「麻雀連盟チャンネル」開設", desc: "公式タイトル戦などの中継・アーカイブを扱うチャンネルとして運用。" },
-    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "佐々木寿人・瀬戸熊直樹・滝沢和典・勝又健志らが連盟所属プロとして初年度から参戦。" },
-    { year: "2024", kind: "記念", title: "創設45周年", desc: "所属プロ600名を突破。支部も全国7拠点に拡大。" },
-    { year: "2025", kind: "タイトル", title: "第42期鳳凰位、白鳥翔が連覇", desc: "第42期鳳凰位決定戦を白鳥翔が制し、第41期に続く連覇を達成。" },
+    { year: "2018", kind: "Mリーグ", title: "Mリーグ参戦", desc: "連盟所属プロが初年度から参戦。" },
+    { year: "2026", kind: "記念", title: "設立45年", desc: "1981年3月6日の設立から45年。全国各地に本部・支部を置き、地域ごとの競技活動も展開している。" },
   ],
   champions: {
     title: "歴代鳳凰位",

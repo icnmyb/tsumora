@@ -16,13 +16,6 @@ const TYPE_LABEL: Record<PlayerVideoType, string> = {
   tactics: "TACTICS",
 };
 
-const TYPE_LABEL_JP: Record<PlayerVideoType, string> = {
-  highlight: "神業",
-  match: "対局",
-  interview: "ロングインタビュー",
-  tactics: "戦術解説",
-};
-
 interface VideoCardProps {
   video: PlayerVideo;
   variant: "main" | "sub";
@@ -88,8 +81,6 @@ function VideoCard({ video, variant, isPlaying, onPlay, playerName }: VideoCardP
           {video.durationLabel && <span className="v-duration">{video.durationLabel}</span>}
           {video.date && <span className="v-dot">·</span>}
           {video.date && <span className="v-date">{video.date}</span>}
-          <span className="v-dot">·</span>
-          <span className="v-kind">{TYPE_LABEL_JP[video.type]}</span>
         </div>
         {!isMain && (
           <div style={{ height: 0 }} />

@@ -7,6 +7,7 @@ import { Masthead } from "@/components/Masthead";
 import { MainNav } from "@/components/MainNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CustomScrollbar } from "@/components/CustomScrollbar";
+import { ErrorReportButton } from "@/components/ErrorReportButton";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://tsumora.com"),
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MainNav />
         <main>{children}</main>
         <SiteFooter />
+        <ErrorReportButton />
         {/* Privacy-friendly analytics by Plausible */}
         <Script
           src="https://plausible.io/js/pa-YHnbajbr6mQ8AX5gVKHY5.js"

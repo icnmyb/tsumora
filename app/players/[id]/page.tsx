@@ -33,12 +33,15 @@ function buildDescription(player: ReturnType<typeof getPlayer>): string {
   if (player.league && player.league !== "—") {
     orgInfo.push(`${player.league}リーグ`);
   }
-  if (player.period) orgInfo.push(`${player.period}生`);
+  if (player.period) orgInfo.push(player.careerNote ? player.period : `${player.period}生`);
   parts.push(orgInfo.join(" · "));
 
   // Career hint
   if (player.joinYear) {
     parts.push(`${player.joinYear}年プロ入り`);
+  }
+  if (player.careerNote) {
+    parts.push(player.careerNote);
   }
 
   // Mリーグ

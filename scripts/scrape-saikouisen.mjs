@@ -126,6 +126,7 @@ function escapeJsString(s) {
 
 function fmtField(key, val) {
   if (val === undefined || val === null || val === "") return null;
+  if (typeof val === "number") return `${key}: ${val}`;
   return `${key}: "${escapeJsString(String(val))}"`;
 }
 
@@ -139,17 +140,16 @@ function serializePlayer(p) {
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
     period: p.period,
+    joinYear: p.joinYear,
     gender: p.gender,
     birthday: p.birthday,
     birthplace: p.birthplace,
     bloodType: p.bloodType,
     href: p.href,
+    officialUrl: p.officialUrl,
   })) {
     const f = fmtField(k, v);
     if (f) parts.push(f);
-  }
-  if (typeof p.joinYear === "number") {
-    parts.push(`joinYear: ${p.joinYear}`);
   }
   return `  { ${parts.join(", ")} }`;
 }
@@ -259,7 +259,6 @@ async function main() {
       name,
       org: "最高位戦",
       league,
-      nameEn: isJP ? formatNameEnFromSlug(p.slug) : p.displayName,
       period,
       joinYear: periodToJoinYear(period),
       gender: inferGender(f),
@@ -267,6 +266,7 @@ async function main() {
       birthplace,
       bloodType,
       href: `/players/${id}`,
+      officialUrl: `https://saikouisen.com/members/${p.slug}/`,
     });
   }
 

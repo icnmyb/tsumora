@@ -21,6 +21,207 @@
   --shadow-sm: 3px 3px 0 var(--ink);
 }
 
+.error-report-fab {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 80;
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px 10px 11px;
+  border: var(--border);
+  background: var(--vermilion);
+  color: #fff8e8;
+  box-shadow: var(--shadow-sm);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.error-report-fab span:first-child {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-family: "Geist Mono", monospace;
+  font-size: 15px;
+}
+
+.error-report-fab:hover,
+.error-report-fab:focus-visible {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.error-report-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.error-report-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(11, 11, 9, 0.2);
+  cursor: default;
+  pointer-events: auto;
+}
+
+.error-report-panel {
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: calc(max(18px, env(safe-area-inset-bottom)) + 58px);
+  width: min(420px, calc(100vw - 36px));
+  max-height: min(660px, calc(100vh - 96px));
+  overflow: auto;
+  border: var(--border-thick);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  pointer-events: auto;
+}
+
+.error-report-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 18px 14px;
+  border-bottom: var(--border);
+  background: #f4eedf;
+}
+
+.error-report-head p {
+  margin: 0 0 5px;
+  color: var(--vermilion);
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.error-report-head h2 {
+  margin: 0;
+  font-family: "Shippori Mincho", serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.error-report-head button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.error-report-panel form {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.error-report-panel label {
+  display: grid;
+  gap: 7px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.error-report-panel select,
+.error-report-panel textarea,
+.error-report-panel input {
+  width: 100%;
+  border: 2px solid var(--ink);
+  background: #fffaf0;
+  color: var(--ink);
+  font: 500 15px/1.5 "Noto Sans JP", sans-serif;
+}
+
+.error-report-panel select,
+.error-report-panel input {
+  min-height: 42px;
+  padding: 8px 10px;
+}
+
+.error-report-panel textarea {
+  min-height: 120px;
+  resize: vertical;
+  padding: 10px;
+}
+
+.error-report-panel textarea::placeholder,
+.error-report-panel input::placeholder {
+  color: var(--ink-4);
+}
+
+.error-report-trap {
+  position: absolute;
+  left: -9999px;
+}
+
+.error-report-page {
+  overflow: hidden;
+  padding: 8px 10px;
+  border: 1.5px solid var(--ink);
+  color: var(--ink-3);
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.error-report-panel form > button[type="submit"] {
+  min-height: 46px;
+  border: var(--border);
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--shadow-sm);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.error-report-panel form > button[type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.error-report-status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 2px solid var(--moss);
+  background: rgba(47, 92, 63, 0.1);
+  color: var(--moss);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.error-report-status.error {
+  border-color: var(--vermilion-d);
+  background: rgba(200, 40, 42, 0.1);
+  color: var(--vermilion-d);
+}
+
 .title-short {
   display: none;
 }
@@ -87,6 +288,25 @@
 }
 
 @media (max-width: 720px) {
+  .error-report-fab {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    min-height: 44px;
+    padding: 9px 11px 9px 9px;
+    font-size: 12px;
+  }
+
+  .error-report-panel {
+    right: 12px;
+    bottom: 68px;
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 92px);
+  }
+
+  .error-report-head h2 {
+    font-size: 21px;
+  }
+
   .org-hero h1 .title-full,
   .sc-hero h1 .title-full {
     display: none;
@@ -314,6 +534,8 @@ a, button, [role="button"], label, select, input[type="submit"], input[type="but
 /* ============ BACKGROUND ANIMATIONS ============ */
 .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 body > *:not(.bg-layer) { position: relative; z-index: 1; }
+body > .error-report-fab { position: fixed; z-index: 80; }
+body > .error-report-layer { position: fixed; z-index: 90; }
 
 /* 1. 点棒 horizontal scroll (ultra slow) */
 .bg-tenbo { opacity: .07; }
@@ -1520,14 +1742,27 @@ footer.main .cr {
   .career-chart { background: var(--paper); border: var(--border); box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 14px; }
   .career-chart h3 { margin: 0 0 18px; font-family: "Shippori Mincho"; font-weight: 900; font-size: 22px; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 10px; }
   .career-chart h3 .en { font-family: "Instrument Serif"; font-style: italic; font-size: 14px; color: var(--ink-3); font-weight: 400; }
-  .cc-grid { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; align-items: end; height: 180px; border-bottom: 3px solid var(--ink); padding-bottom: 4px; }
-  .cc-bar { background: var(--ink); position: relative; display: flex; align-items: flex-end; justify-content: center; color: var(--paper); font-family: "Geist Mono"; font-size: 9px; font-weight: 700; padding: 2px 0; }
+  .cc-grid { display: grid; grid-template-columns: repeat(14, 1fr); gap: 6px; height: 168px; border-bottom: 3px solid var(--ink); padding-bottom: 4px; position: relative; }
+  .cc-grid::before { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 2px); border-top: 3px solid var(--ink); opacity: .72; z-index: 0; }
+  .cc-grid::after { content: "0"; position: absolute; right: -14px; top: calc(50% - 10px); font-family: "Geist Mono"; font-size: 10px; font-weight: 700; color: var(--ink-3); }
+  .cc-cell { position: relative; z-index: 1; display: grid; grid-template-rows: 1fr 1fr; min-width: 0; height: 100%; }
+  .cc-cell.is-pos .cc-bar { grid-row: 1; align-self: end; }
+  .cc-cell.is-neg .cc-bar { grid-row: 2; align-self: start; }
+  .cc-bar { background: var(--ink); position: relative; min-height: 0; width: 100%; }
   .cc-bar.champ { background: var(--vermilion); }
   .cc-bar.fin { background: #a07e28; }
-  .cc-grid + .cc-labels { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; margin-top: 8px; }
+  .cc-value { position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; font-family: "Geist Mono"; font-size: 11px; font-weight: 800; line-height: 1; color: var(--ink); background: var(--paper); border: 1.5px solid var(--ink); padding: 2px 5px; white-space: nowrap; box-shadow: 2px 2px 0 rgba(11,11,9,.16); }
+  .cc-cell.is-pos .cc-value { bottom: calc(50% + 8px); }
+  .cc-cell.is-neg .cc-value { top: calc(50% + 8px); }
+  .cc-grid + .cc-labels { display: grid; grid-template-columns: repeat(14, 1fr); gap: 6px; margin-top: 8px; }
   .cc-labels span { text-align: center; font-family: "Geist Mono"; font-size: 10px; color: var(--ink-3); font-weight: 600; }
   .cc-legend { display: flex; gap: 16px; margin-top: 14px; font-size: 11.5px; color: var(--ink-2); }
   .cc-legend .k { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border: 1.5px solid var(--ink); }
+  @media (max-width: 520px) {
+    .cc-grid { gap: 5px; height: 156px; }
+    .cc-value { font-size: 9px; padding: 2px 3px; }
+    .cc-grid + .cc-labels { gap: 5px; }
+  }
 
   /* related */
   .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
@@ -1537,6 +1772,49 @@ footer.main .cr {
   .related-card .nm { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
   .related-card .meta { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 3px; }
   .related-card .tag { display: inline-block; margin-top: 10px; padding: 2px 7px; background: var(--ink); color: var(--paper); font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.12em; font-weight: 700; }
+  .team-roster-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 286px;
+  }
+  .team-roster-meta {
+    margin-bottom: 14px;
+  }
+  .team-profile-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 12px;
+    font-family: "Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 800;
+  }
+  .team-profile-cta span:first-child {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 10px;
+    background: color-mix(in srgb, var(--team-cta, var(--ink)) 72%, var(--ink) 28%);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .team-profile-cta span:last-child {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    font-weight: 900;
+  }
   .ml-hero {
     background: var(--ink); color: var(--paper);
     border: var(--border); box-shadow: var(--shadow);
@@ -3490,9 +3768,10 @@ footer.main .cr {
   }
   .org-hero .crumb {
     font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em;
-    color: rgba(235,228,210,.55); margin-bottom: 22px; text-transform: uppercase;
+    color: rgba(255,248,229,.76); margin-bottom: 22px; text-transform: uppercase;
+    font-weight: 700;
   }
-  .org-hero .crumb a { color: rgba(235,228,210,.55); border-bottom: 1px dotted rgba(235,228,210,.3); padding-bottom: 1px; }
+  .org-hero .crumb a { color: rgba(255,248,229,.76); border-bottom: 1px dotted rgba(255,248,229,.45); padding-bottom: 1px; }
   .org-hero .crumb a:hover { color: var(--paper); }
   .org-hero .crumb .sep { margin: 0 8px; opacity: .4; }
 
@@ -3510,14 +3789,17 @@ footer.main .cr {
     font-weight: 400; font-size: 26px; color: #f0c86d;
     margin-top: 14px; letter-spacing: 0.01em;
   }
-  .org-hero .tags { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+  .org-hero .tags { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; position: relative; z-index: 2; }
   .org-hero .tags span {
     font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
-    padding: 4px 10px; background: rgba(235,228,210,.08);
-    border: 1px solid rgba(235,228,210,.2); color: rgba(235,228,210,.85);
+    padding: 5px 12px; background: rgba(43, 7, 7, .62);
+    border: 1px solid rgba(255,248,229,.46); color: rgba(255,248,229,.96);
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
   }
   .org-hero .tags span.highlight {
-    background: var(--vermilion); color: var(--paper); border-color: var(--vermilion);
+    background: rgba(200,40,42,.92); color: #fff8e5; border-color: rgba(255,248,229,.38);
   }
 
   .org-hero .kite {
@@ -4171,7 +4453,8 @@ footer.main .cr {
   .org-hero .m:last-child { padding-right: 0; border-right: 0; }
   .org-hero .m .l {
     font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.16em;
-    text-transform: uppercase; color: rgba(235,228,210,.55); margin-bottom: 8px;
+    text-transform: uppercase; color: rgba(255,248,229,.78); margin-bottom: 8px;
+    font-weight: 700;
   }
   .org-hero .m .v {
     font-family: "Shippori Mincho"; font-weight: 900;
@@ -4179,7 +4462,8 @@ footer.main .cr {
   }
   .org-hero .m .v.accent { color: #f0c86d; }
   .org-hero .m .sub {
-    font-family: "Noto Sans JP"; font-size: 11px; color: rgba(235,228,210,.65);
+    font-family: "Noto Sans JP"; font-size: 11px; color: rgba(255,248,229,.84);
+    font-weight: 600;
     margin-top: 6px;
   }
 
@@ -7670,4 +7954,224 @@ html::-webkit-scrollbar { display: none; }
   .news-item {
     padding: 18px 16px;
   }
+}
+
+/* ============ FONT BALANCE OVERRIDES ============ */
+:root {
+  --font-sans: "Noto Sans JP", system-ui, sans-serif;
+  --font-serif: "Shippori Mincho", "Noto Serif JP", serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+nav.main,
+nav.main a,
+.hero-lead .watchbtn,
+.today-strip .hd,
+.today-items .it .t,
+.hero-scores .score-row .name,
+.title-card .sr .nm,
+.org-card .titles-list,
+.side-hd,
+.live-list .title,
+.mleague .team,
+.ranks-box .hd,
+.ranks-table .name,
+.news-box .t,
+.pick-box .tag,
+.sched-grid .ev,
+footer.main ul,
+.fs-hd .ttl,
+.fs-table .name,
+.rule-box .rr .l,
+.history-box .hhd .ttl,
+.history-list .champ,
+.sched-list .title,
+.timeline .hd .t,
+.timeline-list li .what,
+.fact-box .fhd .t,
+.fact-box li .v,
+.sc-bar .lab,
+.recent-matches .rhd .t,
+.rm-table .mt,
+.roster-card .name,
+.roster-table .name,
+.tl-item .ev,
+.champ-row .ch-name,
+.t-card .leader .name,
+.predict-soon-features .ft-text h3,
+.predict-soon-back {
+  font-family: var(--font-sans);
+  font-feature-settings: "palt";
+}
+
+nav.main,
+.hero-lead .watchbtn,
+.today-strip .hd,
+.side-hd,
+.ranks-box .hd,
+.fs-hd .ttl,
+.history-box .hhd .ttl,
+.timeline .hd .t,
+.fact-box .fhd .t,
+.recent-matches .rhd .t {
+  font-weight: 700;
+}
+
+.title-card .sr .nm,
+.today-items .it .t,
+.hero-scores .score-row .name,
+.live-list .title,
+.mleague .team,
+.ranks-table .name,
+.fs-table .name,
+.history-list .champ,
+.sched-list .title,
+.roster-card .name,
+.roster-table .name,
+.tl-item .ev,
+.champ-row .ch-name,
+.t-card .leader .name,
+.predict-soon-features .ft-text h3 {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.hero-scores .score-row .rk,
+.title-card .sr .r,
+.mleague .rk,
+.ranks-table .rank,
+.fs-table .rk,
+.history-list .ep,
+.sched-grid .d .dn,
+.stat-card .v,
+.stat-b .v-num,
+.rm-table .rk,
+.rk-row .rk,
+.pod-card .rk-big {
+  font-family: var(--font-serif);
+}
+
+/* ============ READABILITY OVERRIDES ============ */
+/* netkeiba寄りに、DB面は装飾より一覧性を優先する。 */
+:root {
+  --font-db: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-db);
+  font-size: 14px;
+  line-height: 1.65;
+  letter-spacing: 0;
+}
+
+.lead,
+.desc,
+.hero-lead .lead-body,
+.about-body,
+.about-section,
+.org-about,
+.fact-box,
+.history-list,
+.timeline-list,
+.news-box,
+.rule-box,
+.profile-copy,
+.player-bio,
+.champions,
+.roster-table,
+.all-player-list,
+.all-player-main,
+.all-player-sub,
+.related-card,
+.schedule-list,
+.titles-section,
+.orgs-section {
+  font-family: var(--font-db) !important;
+  letter-spacing: 0 !important;
+  line-height: 1.68;
+}
+
+.all-player-name,
+.roster-card .name,
+.roster-table .name,
+.fs-table .name,
+.ranks-table .name,
+.champ-row .ch-name,
+.history-list .champ,
+.timeline-list li .what,
+.fact-box li .v,
+.related-card .nm,
+.p-hero h1,
+.p-hero .nickname,
+.org-card .jp,
+.title-card h3,
+.live-list .title,
+.today-items .it .t,
+.mleague .team,
+.t-card .leader .name {
+  font-family: var(--font-db) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.all-player-name {
+  font-size: 16px !important;
+  line-height: 1.35 !important;
+}
+
+.all-player-name-en,
+.p-hero h1 .en,
+.sh .num,
+.side-hd .en,
+.box-hd .en,
+.fs-hd .ttl .en,
+.ranks-box .hd .en,
+.mleague .mhd h2 .en,
+.orgs-section h2 .num,
+.titles-section h2 .num {
+  font-family: var(--font-db) !important;
+  font-style: normal !important;
+  letter-spacing: 0 !important;
+}
+
+.all-player-meta,
+.all-player-index,
+.tag-chip,
+.tag,
+.chip,
+.badge,
+.side-hd,
+.box-hd,
+.timeline .hd .t,
+.fact-box .fhd .t,
+.sc-bar .lab,
+.mono {
+  letter-spacing: 0.02em !important;
+}
+
+.all-player-meta {
+  font-size: 11px !important;
+}
+
+.timeline-list li .yr,
+.history-list .yr,
+.all-player-sub,
+.related-card .meta,
+.roster-card .meta {
+  color: var(--ink-2) !important;
+}
+
+.fact-box li .l {
+  color: rgba(235, 228, 210, 0.82) !important;
+  font-weight: 700;
+}
+
+.league-cta-card .meta {
+  color: rgba(255, 248, 229, 0.82) !important;
+  font-weight: 700;
+}
+
+.team-related-card .meta {
+  color: rgba(255, 248, 229, 0.82) !important;
+  font-weight: 700;
 }

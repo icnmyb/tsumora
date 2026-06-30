@@ -64,6 +64,8 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
   const others = getOtherTeams(team);
   const accentStyle: CSSProperties = { color: team.color };
   const isDarkBg = team.background && team.background.toLowerCase() !== "#ffffff";
+  const coachRoleLabel = team.coachIsPlayer ? "選手兼任" : team.coachLabel ?? "監督";
+  const coachInfoLabel = team.coachIsPlayer ? "選手兼任監督" : team.coachLabel ?? "監督";
   const heroBgStyle: CSSProperties = {
     ...(team.background ? { background: team.background, color: team.colorOnDark ?? team.color } : {}),
     // 背景の透かし漢字をチームカンジに置き換え
@@ -158,8 +160,8 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
           </div>
           <div className="m">
             <div className="l">Coach</div>
-            <div className="v" style={{ fontFamily: "'Noto Sans JP'", fontSize: 22 }}>{team.coach.replace(/\s+/g, "").slice(0, 4)}</div>
-            <div className="sub">{team.coachIsPlayer ? "選手兼任" : "監督"} {team.coach}</div>
+            <div className="v" style={{ fontFamily: "'Noto Sans JP'", fontSize: 22 }}>{team.coach}</div>
+            <div className="sub">{coachRoleLabel}</div>
           </div>
         </div>
       </section>
@@ -224,11 +226,8 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
                 参入{new Date().getFullYear() - team.founded + 1}年目
               </span>
             </dd>
-            <dt>監督</dt>
-            <dd>
-              {team.coach}
-              {team.coachIsPlayer && <small style={{ display: "block", color: "var(--ink-3)" }}>選手兼任</small>}
-            </dd>
+            <dt>{coachInfoLabel}</dt>
+            <dd>{team.coach}</dd>
             <dt>通算成績</dt>
             <dd>
               優勝 <b>{team.championships}</b>回 / ファイナル <b>{team.finalAppearances}</b>回
@@ -281,10 +280,9 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
             <Link
               key={c.id}
               href={c.href}
-              className="org-index-card"
+              className="org-index-card team-roster-card"
               style={{
                 position: "relative",
-                display: "block",
                 background: "var(--paper)",
                 border: "var(--border)",
                 boxShadow: "var(--shadow)",
@@ -389,10 +387,10 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
                 </div>
               )}
               <div
+                className="team-roster-meta"
                 style={{
                   borderTop: "1.5px solid var(--ink)",
                   paddingTop: 12,
-                  marginBottom: 12,
                   fontFamily: "'Noto Sans JP', sans-serif",
                   fontSize: 12.5,
                   color: "var(--ink-2)",
@@ -409,18 +407,10 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
                 )}
               </div>
               <div
+                className="team-profile-cta"
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  fontFamily: "'Geist Mono', monospace",
-                  fontSize: 11,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: team.color,
-                  fontWeight: 600,
                   borderTop: "1.5px solid var(--ink)",
-                  paddingTop: 12,
+                  ["--team-cta" as string]: team.color,
                 }}
               >
                 <span>View Profile</span>
@@ -668,7 +658,7 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
           <Link
             key={t.slug}
             href={`/teams/${t.slug}`}
-            className="related-card"
+            className="related-card team-related-card"
             style={{
               background: t.background ?? "var(--paper)",
               color: t.colorOnDark ?? t.color,
@@ -677,13 +667,13 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
               display: "block",
             }}
           >
-            <div className="meta" style={{ color: t.color, fontFamily: "'Geist Mono'", fontSize: 10 }}>
+            <div className="meta" style={{ color: t.colorOnDark ?? t.color, fontFamily: "'Geist Mono'", fontSize: 10, opacity: 0.9 }}>
               MLEAGUE · EST. {t.founded}
             </div>
             <div className="nm" style={{ fontSize: 18, marginTop: 6, fontWeight: 800 }}>
               {t.shortName}
             </div>
-            <div className="meta" style={{ color: t.colorOnDark ?? t.color, opacity: 0.7, marginTop: 4, fontSize: 11 }}>
+            <div className="meta" style={{ color: t.colorOnDark ?? t.color, opacity: 0.9, marginTop: 4, fontSize: 11, fontWeight: 600 }}>
               {t.parentCompany}
             </div>
             <span
@@ -699,7 +689,7 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
       {/* ── Mリーグ全体カード ─────────────────────────────── */}
       <Link
         href="/mleague"
-        className="related-card"
+        className="related-card league-cta-card"
         style={{
           background: "var(--ink)",
           color: "var(--paper)",
@@ -708,9 +698,9 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
           marginBottom: 48,
         }}
       >
-        <div className="meta" style={{ color: "rgba(255,255,255,0.6)" }}>M.LEAGUE</div>
+        <div className="meta" style={{ color: "rgba(255,255,255,0.82)" }}>M.LEAGUE</div>
         <div className="nm" style={{ fontSize: 26, marginTop: 4 }}>Mリーグ全体ページへ</div>
-        <div className="meta" style={{ color: "rgba(255,255,255,0.6)", marginTop: 6 }}>
+        <div className="meta" style={{ color: "rgba(255,255,255,0.82)", marginTop: 6 }}>
           全10チームの順位・スケジュール・最新ニュース
         </div>
         <span className="tag" style={{ background: "var(--paper)", color: "var(--ink)", marginTop: 14 }}>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/players/data";
-import { TEAM_NAME_TO_SLUG } from "@/app/teams/data";
+import { TEAM_NAME_TO_SLUG, TEAMS, type SeasonResult } from "@/app/teams/data";
 import { PlayerVideoSection } from "@/components/PlayerVideoSection";
 import { calcYearsSinceJoin, periodToYear, type SupportedOrg } from "@/lib/period";
 
@@ -17,21 +17,45 @@ function formatBirthdayFull(bd: string): string {
   return bd;
 }
 
-type CareerBar = { h: number; v: string; cls: string };
+function formatGenderLabel(gender?: AllPlayer["gender"]): string {
+  if (gender === "male") return "男性";
+  if (gender === "female") return "女性";
+  return "";
+}
 
-function buildCareerChart(annualPoints: AnnualPoint[] | undefined): { bars: CareerBar[]; labels: string[] } {
+type CareerBar = { h: number; v: string; cls: string; isNegative: boolean };
+
+function seasonResultToAnnualNote(result: SeasonResult | undefined): "final" | "semifinal" | "regular" {
+  if (result === "champion" || result === "final") return "final";
+  if (result === "semifinal") return "semifinal";
+  return "regular";
+}
+
+function getAnnualPointNote(mleagueTeam: string | undefined, point: AnnualPoint): "final" | "semifinal" | "regular" {
+  const teamName = point.team ?? mleagueTeam;
+  const teamSlug = teamName ? TEAM_NAME_TO_SLUG[teamName] : undefined;
+  const result = TEAMS.find((team) => team.slug === teamSlug)?.seasons.find((season) => season.season === point.season)?.result;
+  return seasonResultToAnnualNote(result ?? point.note);
+}
+
+function buildCareerChart(
+  annualPoints: AnnualPoint[] | undefined,
+  mleagueTeam: string | undefined,
+): { bars: CareerBar[]; labels: string[] } {
   if (!annualPoints || annualPoints.length === 0) return { bars: [], labels: [] };
 
   const sorted = [...annualPoints].sort((a, b) => a.season.localeCompare(b.season));
   const absMax = Math.max(...sorted.map((p) => Math.abs(p.points)), 1);
 
   const bars: CareerBar[] = sorted.map((p) => {
-    const h = Math.max(8, Math.round((Math.abs(p.points) / absMax) * 92));
+    const magnitude = Math.abs(p.points);
+    const h = magnitude === 0 ? 0 : Math.max(16, Math.round(Math.sqrt(magnitude / absMax) * 86));
     const sign = p.points >= 0 ? "+" : "−";
     const v = `${sign}${Math.abs(Math.round(p.points))}`;
-    const base = p.note === "final" ? "champ" : p.note === "semifinal" ? "fin" : "";
-    const cls = p.points < 0 ? `${base} neg`.trim() : base;
-    return { h, v, cls };
+    const note = getAnnualPointNote(mleagueTeam, p);
+    const cls = note === "final" ? "champ" : note === "semifinal" ? "fin" : "";
+    const isNegative = p.points < 0;
+    return { h, v, cls, isNegative };
   });
 
   const labels = sorted.map((p, i) => (i === 0 ? p.season.slice(0, 4) : `'${p.season.slice(2, 4)}`));
@@ -48,10 +72,16 @@ function formatBestScore(n?: number): string {
   return n.toLocaleString();
 }
 
+function getDisplayTitle(title?: string): string {
+  if (!title || title === "—" || title === "-") return "";
+  return title;
+}
+
 function getTitleCount(player: AllPlayer): number {
   if (player.titles && player.titles.length > 0) return player.titles.length;
-  if (!player.title) return 0;
-  const m = player.title.match(/×(\d+)/);
+  const title = getDisplayTitle(player.title);
+  if (!title) return 0;
+  const m = title.match(/×(\d+)/);
   return m ? parseInt(m[1]) : 1;
 }
 
@@ -66,7 +96,7 @@ function getRelatedPlayers(player: AllPlayer): { av: string; nm: string; meta: s
       related.push({
         av: p.name.charAt(0),
         nm: p.name,
-        meta: `${ORG_META[p.org].label} · ${p.title || p.league}`,
+        meta: `${ORG_META[p.org].label} · ${getDisplayTitle(p.title) || p.league}`,
         tag: sameTeam ? "同チーム" : "同団体",
         href: p.href,
       });
@@ -83,15 +113,28 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
   const isDeveloper = player.id === "takamitoshiya";
-  const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints);
+  const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints, player.mleagueTeam);
   const hasCareerData = careerBars.length > 0;
   const titleCount = getTitleCount(player);
+  const titles = player.titles ?? [];
+  const timelineItems = [
+    ...titles.map((title) => ({ ...title, type: "title" as const })),
+    {
+      year: String(derivedJoinYear),
+      name: `${org.label}入会`,
+      sub: `${player.period ? `${player.period}生` : ""} · プロデビュー`,
+      type: "debut" as const,
+    },
+  ].sort((a, b) => Number(b.year) - Number(a.year));
+  const mainTitle = getDisplayTitle(player.title);
   const related = getRelatedPlayers(player);
   const cs = player.currentSeason;
+  const leagueLabel = player.league && player.league !== "—" ? player.league : null;
   const csSeason = cs?.season ?? "";
   const csPoints = cs?.season
     ? player.annualPoints?.find((p) => p.season === cs.season)?.points
     : undefined;
+  const genderLabel = formatGenderLabel(player.gender);
 
   return (
     <div className="wrap">
@@ -112,7 +155,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             <span>{player.name}</span>
           </div>
           <span className="kicker">
-            ● {org.label} · {player.league} · {player.period ? `${player.period}生` : `${derivedJoinYear}年入会`}
+            ● {[org.label, leagueLabel, player.period ? `${player.period}生` : `${derivedJoinYear}年入会`].filter(Boolean).join(" · ")}
           </span>
           <h1>
             {player.name}
@@ -128,7 +171,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           )}
           <div className="tags-row">
             {isDeveloper && <span className="tag-chip dev">開発者</span>}
-            {player.title && <span className="tag-chip v">● {player.title}</span>}
+            {mainTitle && <span className="tag-chip v">● {mainTitle}</span>}
             {player.mleagueTeam && <span className="tag-chip g">Mリーグ {player.mleagueTeam}</span>}
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>
               {org.label}
@@ -140,7 +183,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         </div>
         <div className="side">
           <div className="kv">
-            <div className="l">Total Titles 獲得タイトル</div>
+            <div className="l">Title Count 獲得タイトル数</div>
             <div className="v">
               <b>{titleCount || "—"}</b> {titleCount > 0 ? "冠" : ""}
             </div>
@@ -154,7 +197,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           <div className="kv">
             <div className="l">Pro Since プロ歴</div>
             <div className="v">
-              <b>{proYears}</b> 年{" "}
+              <b>{proYears}</b> 年目{" "}
               <span style={{ fontFamily: "'Geist Mono'", fontSize: 11, color: "rgba(235,228,210,.6)" }}>
                 SINCE {derivedJoinYear}
               </span>
@@ -167,12 +210,12 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
       <div className="stats4">
         <div className="stat-b v">
           <div className="lb">
-            Career Titles <span className="en">通算タイトル</span>
+            Title Count <span className="en">獲得タイトル数</span>
           </div>
           <div className="v-num">
             {titleCount || "—"}<span className="u">{titleCount > 0 ? "冠" : ""}</span>
           </div>
-          <div className="sub">{player.title || "タイトル情報なし"}</div>
+          <div className="sub">{mainTitle || "タイトル情報なし"}</div>
         </div>
         <div className="stat-b dark">
           <div className="lb">
@@ -236,7 +279,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                 {player.nickname ? `「${player.nickname}」の異名を持つ` : ""}
                 {org.label}所属、{player.period ? `${player.period}生` : `${derivedJoinYear}年入会`}。
                 {player.league}リーグで活躍中。
-                {player.title ? `主要タイトルに${player.title}がある。` : ""}
+                {mainTitle ? `主要タイトルに${mainTitle}がある。` : ""}
                 {player.mleagueTeam ? `Mリーグでは${player.mleagueTeam}に所属。` : ""}
                 プロ歴{proYears}年のキャリアを持つ。
               </p>
@@ -264,6 +307,12 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                   {formatBirthdayFull(player.birthday)}
                 </span>
               </li>
+              {genderLabel && (
+                <li>
+                  <span className="l">Gender 性別</span>
+                  <span className="v">{genderLabel}</span>
+                </li>
+              )}
               {player.birthplace && (
                 <li>
                   <span className="l">From 出身地</span>
@@ -285,7 +334,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
               <li>
                 <span className="l">Career プロ歴</span>
                 <span className="v">
-                  <span className="h">{proYears}</span> 年
+                  <span className="h">{proYears}</span> 年目
                 </span>
               </li>
               {player.hobby && (
@@ -307,10 +356,20 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                   {org.label}
                 </span>
               </li>
-              {player.title && (
+              {player.officialUrl && (
+                <li>
+                  <span className="l">Official 公式プロフィール</span>
+                  <span className="v">
+                    <a href={player.officialUrl} target="_blank" rel="noopener noreferrer">
+                      団体HPの選手ページ
+                    </a>
+                  </span>
+                </li>
+              )}
+              {mainTitle && (
                 <li>
                   <span className="l">Title 主要タイトル</span>
-                  <span className="v">{player.title}</span>
+                  <span className="v">{mainTitle}</span>
                 </li>
               )}
             </ul>
@@ -378,8 +437,9 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           <>
             <div className="cc-grid" style={{ gridTemplateColumns: `repeat(${careerBars.length}, 1fr)` }}>
               {careerBars.map((b, i) => (
-                <div key={i} className={`cc-bar ${b.cls}`.trim()} style={{ height: `${b.h}%` }}>
-                  {b.v}
+                <div key={i} className={`cc-cell ${b.isNegative ? "is-neg" : "is-pos"}`}>
+                  <div className={`cc-bar ${b.cls}`.trim()} style={{ height: `${b.h}%` }}></div>
+                  <span className="cc-value">{b.v}</span>
                 </div>
               ))}
             </div>
@@ -412,45 +472,24 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
         <section className="timeline">
           <div className="hd">
             <span className="t">
-              獲得タイトル <span className="en">All Titles Won</span>
+              主な獲得タイトル <span className="en">Major Titles Won</span>
             </span>
             <span className="n">
-              {player.titles && player.titles.length > 0
-                ? `${player.titles.length} TITLES · SINCE ${derivedJoinYear}`
-                : `SINCE ${derivedJoinYear}`}
+              {titles.length > 0 ? `${titles.length} TITLES · ` : ""}SINCE {derivedJoinYear}
             </span>
           </div>
           <ul className="timeline-list">
-            {player.titles && player.titles.length > 0 ? (
-              player.titles.map((t, i) => (
-                <li key={i} className="champ">
-                  <span className="yr">{t.year}</span>
-                  <span className="dot"></span>
-                  <span className="what">
-                    {t.name}
-                    {t.sub && <span className="sub">{t.sub}</span>}
-                  </span>
-                  <span className="tag win">優勝</span>
-                </li>
-              ))
-            ) : (
-              <li>
-                <span className="yr">—</span>
+            {timelineItems.map((item, i) => (
+              <li key={`${item.type}-${item.year}-${i}`} className={item.type === "title" ? "champ" : undefined}>
+                <span className="yr">{item.year}</span>
                 <span className="dot"></span>
                 <span className="what">
-                  タイトル歴準備中
-                  <span className="sub">今後更新予定</span>
+                  {item.name}
+                  {item.sub && <span className="sub">{item.sub}</span>}
                 </span>
+                {item.type === "title" && <span className="tag win">優勝</span>}
               </li>
-            )}
-            <li>
-              <span className="yr">{derivedJoinYear}</span>
-              <span className="dot"></span>
-              <span className="what">
-                {org.label}入会
-                <span className="sub">{player.period ? `${player.period}生` : ""} · プロデビュー</span>
-              </span>
-            </li>
+            ))}
           </ul>
         </section>
 
@@ -507,7 +546,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             {org.label}
           </div>
           <div className="meta" style={{ color: "rgba(255,255,255,.75)", marginTop: 6 }}>
-            {player.period ? `${player.period}生として在籍${proYears}年` : `${derivedJoinYear}年入会 · 在籍${proYears}年`}
+            {player.period ? `${player.period}生として在籍${proYears}年目` : `${derivedJoinYear}年入会 · 在籍${proYears}年目`}
           </div>
           <span className="tag" style={{ background: "var(--ink)", color: "var(--paper)", marginTop: 14 }}>
             団体ページへ →
