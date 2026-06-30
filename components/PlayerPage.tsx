@@ -111,6 +111,15 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const hasCareerData = careerBars.length > 0;
   const titleCount = getTitleCount(player);
   const titles = player.titles ?? [];
+  const timelineItems = [
+    ...titles.map((title) => ({ ...title, type: "title" as const })),
+    {
+      year: String(derivedJoinYear),
+      name: `${org.label}入会`,
+      sub: `${player.period ? `${player.period}生` : ""} · プロデビュー`,
+      type: "debut" as const,
+    },
+  ].sort((a, b) => Number(b.year) - Number(a.year));
   const mainTitle = getDisplayTitle(player.title);
   const related = getRelatedPlayers(player);
   const cs = player.currentSeason;
@@ -457,25 +466,17 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             </span>
           </div>
           <ul className="timeline-list">
-            {titles.map((t, i) => (
-                <li key={i} className="champ">
-                  <span className="yr">{t.year}</span>
-                  <span className="dot"></span>
-                  <span className="what">
-                    {t.name}
-                    {t.sub && <span className="sub">{t.sub}</span>}
-                  </span>
-                  <span className="tag win">優勝</span>
-                </li>
+            {timelineItems.map((item, i) => (
+              <li key={`${item.type}-${item.year}-${i}`} className={item.type === "title" ? "champ" : undefined}>
+                <span className="yr">{item.year}</span>
+                <span className="dot"></span>
+                <span className="what">
+                  {item.name}
+                  {item.sub && <span className="sub">{item.sub}</span>}
+                </span>
+                {item.type === "title" && <span className="tag win">優勝</span>}
+              </li>
             ))}
-            <li>
-              <span className="yr">{derivedJoinYear}</span>
-              <span className="dot"></span>
-              <span className="what">
-                {org.label}入会
-                <span className="sub">{player.period ? `${player.period}生` : ""} · プロデビュー</span>
-              </span>
-            </li>
           </ul>
         </section>
 
