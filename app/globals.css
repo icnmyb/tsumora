@@ -1772,6 +1772,49 @@ footer.main .cr {
   .related-card .nm { font-family: "Shippori Mincho"; font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
   .related-card .meta { font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 3px; }
   .related-card .tag { display: inline-block; margin-top: 10px; padding: 2px 7px; background: var(--ink); color: var(--paper); font-family: "Geist Mono"; font-size: 9px; letter-spacing: 0.12em; font-weight: 700; }
+  .team-roster-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 286px;
+  }
+  .team-roster-meta {
+    margin-bottom: 14px;
+  }
+  .team-profile-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 12px;
+    font-family: "Geist Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 800;
+  }
+  .team-profile-cta span:first-child {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 10px;
+    background: color-mix(in srgb, var(--team-cta, var(--ink)) 72%, var(--ink) 28%);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .team-profile-cta span:last-child {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--ink);
+    font-weight: 900;
+  }
   .ml-hero {
     background: var(--ink); color: var(--paper);
     border: var(--border); box-shadow: var(--shadow);
@@ -3725,9 +3768,10 @@ footer.main .cr {
   }
   .org-hero .crumb {
     font-family: "Geist Mono"; font-size: 11px; letter-spacing: 0.12em;
-    color: rgba(235,228,210,.55); margin-bottom: 22px; text-transform: uppercase;
+    color: rgba(255,248,229,.76); margin-bottom: 22px; text-transform: uppercase;
+    font-weight: 700;
   }
-  .org-hero .crumb a { color: rgba(235,228,210,.55); border-bottom: 1px dotted rgba(235,228,210,.3); padding-bottom: 1px; }
+  .org-hero .crumb a { color: rgba(255,248,229,.76); border-bottom: 1px dotted rgba(255,248,229,.45); padding-bottom: 1px; }
   .org-hero .crumb a:hover { color: var(--paper); }
   .org-hero .crumb .sep { margin: 0 8px; opacity: .4; }
 
@@ -3745,14 +3789,17 @@ footer.main .cr {
     font-weight: 400; font-size: 26px; color: #f0c86d;
     margin-top: 14px; letter-spacing: 0.01em;
   }
-  .org-hero .tags { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+  .org-hero .tags { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; position: relative; z-index: 2; }
   .org-hero .tags span {
     font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.14em;
-    padding: 4px 10px; background: rgba(235,228,210,.08);
-    border: 1px solid rgba(235,228,210,.2); color: rgba(235,228,210,.85);
+    padding: 5px 12px; background: rgba(43, 7, 7, .62);
+    border: 1px solid rgba(255,248,229,.46); color: rgba(255,248,229,.96);
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
   }
   .org-hero .tags span.highlight {
-    background: var(--vermilion); color: var(--paper); border-color: var(--vermilion);
+    background: rgba(200,40,42,.92); color: #fff8e5; border-color: rgba(255,248,229,.38);
   }
 
   .org-hero .kite {
@@ -4406,7 +4453,8 @@ footer.main .cr {
   .org-hero .m:last-child { padding-right: 0; border-right: 0; }
   .org-hero .m .l {
     font-family: "Geist Mono"; font-size: 10px; letter-spacing: 0.16em;
-    text-transform: uppercase; color: rgba(235,228,210,.55); margin-bottom: 8px;
+    text-transform: uppercase; color: rgba(255,248,229,.78); margin-bottom: 8px;
+    font-weight: 700;
   }
   .org-hero .m .v {
     font-family: "Shippori Mincho"; font-weight: 900;
@@ -4414,7 +4462,8 @@ footer.main .cr {
   }
   .org-hero .m .v.accent { color: #f0c86d; }
   .org-hero .m .sub {
-    font-family: "Noto Sans JP"; font-size: 11px; color: rgba(235,228,210,.65);
+    font-family: "Noto Sans JP"; font-size: 11px; color: rgba(255,248,229,.84);
+    font-weight: 600;
     margin-top: 6px;
   }
 
@@ -8114,5 +8163,15 @@ body {
 
 .fact-box li .l {
   color: rgba(235, 228, 210, 0.82) !important;
+  font-weight: 700;
+}
+
+.league-cta-card .meta {
+  color: rgba(255, 248, 229, 0.82) !important;
+  font-weight: 700;
+}
+
+.team-related-card .meta {
+  color: rgba(255, 248, 229, 0.82) !important;
   font-weight: 700;
 }

@@ -28,6 +28,12 @@ function formatBirthdayFull(bd?: string): string {
   return bd;
 }
 
+function formatGenderLabel(gender?: RosterPlayer["gender"]): string {
+  if (gender === "male") return "男性";
+  if (gender === "female") return "女性";
+  return "";
+}
+
 function calcProYears(player: RosterPlayer): number | null {
   return calcYearsSinceJoin(player.org as SupportedOrg, player.period, player.joinYear);
 }
@@ -79,6 +85,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
   const derivedJoinYear = getDerivedJoinYear(player);
   const related = getRelatedPlayers(player);
   const isDeveloper = player.id === "takamitoshiya";
+  const genderLabel = formatGenderLabel(player.gender);
 
   return (
     <div className="wrap">
@@ -160,6 +167,12 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
                 <li>
                   <span className="l">Born 生年月日</span>
                   <span className="v">{formatBirthdayFull(player.birthday)}</span>
+                </li>
+              )}
+              {genderLabel && (
+                <li>
+                  <span className="l">Gender 性別</span>
+                  <span className="v">{genderLabel}</span>
                 </li>
               )}
               {player.birthplace && (

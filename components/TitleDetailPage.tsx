@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { TITLES, type TitleData } from "@/app/titles/data";
+import { PaginatedPastChampions } from "@/components/PaginatedPastChampions";
+import { PAST_CHAMPIONS_PER_PAGE } from "@/components/pastChampionsConfig";
 
 interface Props {
   title: TitleData;
@@ -58,11 +60,6 @@ export function TitleDetailPage({ title: t }: Props) {
               ))}
             </div>
           </div>
-          <div className="kite">
-            <div className="k-main" style={{ color: orgColor }}>
-              {t.glyph}
-            </div>
-          </div>
         </div>
         {t.holder && (
           <div
@@ -70,10 +67,6 @@ export function TitleDetailPage({ title: t }: Props) {
               marginTop: 28,
               paddingTop: 18,
               borderTop: "var(--border)",
-              display: "grid",
-              gridTemplateColumns: "1fr auto",
-              gap: 18,
-              alignItems: "center",
             }}
           >
             <div>
@@ -99,11 +92,25 @@ export function TitleDetailPage({ title: t }: Props) {
                 }}
               >
                 {t.holder.href ? (
-                  <Link href={t.holder.href} style={{ color: "var(--ink)", borderBottom: `2px solid ${orgColor}` }}>
+                  <Link
+                    href={t.holder.href}
+                    style={{
+                      color: "var(--paper)",
+                      borderBottom: `2px solid ${orgColor}`,
+                      textDecoration: "none",
+                    }}
+                  >
                     {t.holder.name}
                   </Link>
                 ) : (
-                  t.holder.name
+                  <span
+                    style={{
+                      color: "var(--paper)",
+                      borderBottom: `2px solid ${orgColor}`,
+                    }}
+                  >
+                    {t.holder.name}
+                  </span>
                 )}
               </div>
               {t.holder.note && (
@@ -119,17 +126,6 @@ export function TitleDetailPage({ title: t }: Props) {
                   {t.holder.note}
                 </div>
               )}
-            </div>
-            <div
-              style={{
-                fontFamily: "Instrument Serif, serif",
-                fontStyle: "italic",
-                fontSize: 60,
-                color: orgColor,
-                lineHeight: 1,
-              }}
-            >
-              戴
             </div>
           </div>
         )}
@@ -241,144 +237,12 @@ export function TitleDetailPage({ title: t }: Props) {
         <>
           <h2 className="sh">
             <span>歴代優勝者</span>
-            <span className="num">Past Champions · {t.pastChampions.length}件掲載</span>
+            <span className="num">
+              Past Champions · {t.pastChampions.length}件掲載 · {PAST_CHAMPIONS_PER_PAGE}件/ページ
+            </span>
             <span className="rule"></span>
           </h2>
-          <div
-            style={{
-              background: "var(--paper)",
-              border: "var(--border)",
-              boxShadow: "var(--shadow)",
-              marginBottom: 36,
-            }}
-          >
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5 }}>
-              <thead>
-                <tr>
-              <th
-                style={{
-                  background: "var(--paper-2)",
-                  textAlign: "left",
-                  fontFamily: "Geist Mono, ui-monospace, monospace",
-                  fontSize: 10,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "var(--ink-3)",
-                  fontWeight: 700,
-                  padding: "10px 16px",
-                  borderBottom: "var(--border)",
-                  width: 100,
-                }}
-              >
-                期 / 年
-              </th>
-              <th
-                style={{
-                  background: "var(--paper-2)",
-                  textAlign: "left",
-                  fontFamily: "Geist Mono, ui-monospace, monospace",
-                  fontSize: 10,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "var(--ink-3)",
-                  fontWeight: 700,
-                  padding: "10px 16px",
-                  borderBottom: "var(--border)",
-                }}
-              >
-                優勝者
-              </th>
-              <th
-                style={{
-                  background: "var(--paper-2)",
-                  textAlign: "left",
-                  fontFamily: "Geist Mono, ui-monospace, monospace",
-                  fontSize: 10,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "var(--ink-3)",
-                  fontWeight: 700,
-                  padding: "10px 16px",
-                  borderBottom: "var(--border)",
-                }}
-              >
-                備考
-              </th>
-                </tr>
-              </thead>
-              <tbody>
-                {t.pastChampions.map((c, i) => (
-                  <tr
-                    key={`${c.ep}-${c.name}-${i}`}
-                    style={{
-                      background: c.current ? `${orgColor}20` : i % 2 === 0 ? "var(--paper)" : "var(--paper-2)",
-                    }}
-                  >
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    borderBottom: "1px solid rgba(11,11,9,.1)",
-                    fontFamily: "Shippori Mincho, serif",
-                    fontWeight: 900,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 22,
-                      color: c.current ? orgColor : "var(--ink)",
-                      letterSpacing: "-0.03em",
-                    }}
-                  >
-                    第{c.ep}期
-                  </span>
-                  <small
-                    style={{
-                      display: "block",
-                      fontFamily: "Geist Mono, ui-monospace, monospace",
-                      fontSize: 11,
-                      color: "var(--ink-3)",
-                      marginTop: 2,
-                      fontWeight: 600,
-                      letterSpacing: "0.04em",
-                    }}
-                  >
-                    {c.year}年
-                  </small>
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    borderBottom: "1px solid rgba(11,11,9,.1)",
-                    fontFamily: "Shippori Mincho, serif",
-                    fontWeight: 700,
-                    fontSize: 16,
-                  }}
-                >
-                  {c.href ? (
-                    <Link href={c.href} style={{ color: "var(--ink)", borderBottom: `2px dotted ${orgColor}` }}>
-                      {c.name}
-                    </Link>
-                  ) : (
-                    c.name
-                  )}
-                </td>
-                <td
-                  style={{
-                    padding: "12px 16px",
-                    borderBottom: "1px solid rgba(11,11,9,.1)",
-                    fontFamily: "Noto Sans JP, sans-serif",
-                    fontSize: 12.5,
-                    color: c.current ? orgColor : "var(--ink-3)",
-                    fontWeight: c.current ? 700 : 500,
-                  }}
-                >
-                  {c.note ?? ""}
-                </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <PaginatedPastChampions champions={t.pastChampions} orgColor={orgColor} />
         </>
       )}
 
@@ -459,63 +323,6 @@ export function TitleDetailPage({ title: t }: Props) {
                   >
                     回
                   </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* RULES */}
-      {t.rules && t.rules.length > 0 && (
-        <>
-          <h2 className="sh">
-            <span>ルール</span>
-            <span className="num">Rules</span>
-            <span className="rule"></span>
-          </h2>
-          <div
-            style={{
-              background: "var(--paper)",
-              border: "var(--border)",
-              boxShadow: "var(--shadow)",
-              padding: 0,
-              marginBottom: 36,
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-            }}
-          >
-            {t.rules.map((r, i) => (
-              <div
-                key={r.label}
-                style={{
-                  padding: "16px 18px",
-                  borderRight: i % 4 !== 3 ? "1px solid rgba(11,11,9,.12)" : "none",
-                  borderBottom: "1px solid rgba(11,11,9,.12)",
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "Geist Mono, ui-monospace, monospace",
-                    fontSize: 10,
-                    letterSpacing: "0.14em",
-                    color: "var(--ink-3)",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                    marginBottom: 6,
-                  }}
-                >
-                  {r.label}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "Shippori Mincho, serif",
-                    fontWeight: 700,
-                    fontSize: 16,
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  {r.value}
                 </div>
               </div>
             ))}

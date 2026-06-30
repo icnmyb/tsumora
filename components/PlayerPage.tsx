@@ -17,6 +17,12 @@ function formatBirthdayFull(bd: string): string {
   return bd;
 }
 
+function formatGenderLabel(gender?: AllPlayer["gender"]): string {
+  if (gender === "male") return "男性";
+  if (gender === "female") return "女性";
+  return "";
+}
+
 type CareerBar = { h: number; v: string; cls: string; isNegative: boolean };
 
 function seasonResultToAnnualNote(result: SeasonResult | undefined): "final" | "semifinal" | "regular" {
@@ -128,6 +134,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const csPoints = cs?.season
     ? player.annualPoints?.find((p) => p.season === cs.season)?.points
     : undefined;
+  const genderLabel = formatGenderLabel(player.gender);
 
   return (
     <div className="wrap">
@@ -300,6 +307,12 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                   {formatBirthdayFull(player.birthday)}
                 </span>
               </li>
+              {genderLabel && (
+                <li>
+                  <span className="l">Gender 性別</span>
+                  <span className="v">{genderLabel}</span>
+                </li>
+              )}
               {player.birthplace && (
                 <li>
                   <span className="l">From 出身地</span>

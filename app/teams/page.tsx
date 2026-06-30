@@ -68,7 +68,7 @@ export default function TeamsIndexPage() {
           <Link
             key={t.slug}
             href={`/teams/${t.slug}`}
-            className="org-index-card"
+            className="org-index-card team-index-card"
             style={{
               position: "relative",
               display: "block",
@@ -117,9 +117,9 @@ export default function TeamsIndexPage() {
                 fontSize: 10.5,
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: t.colorOnDark ?? t.color,
-                opacity: 0.85,
+                color: "rgba(255,248,229,0.82)",
                 marginTop: 6,
+                fontWeight: 800,
               }}
             >
               {String(idx + 1).padStart(2, "0")} · {t.nameEn.toUpperCase()}
@@ -142,9 +142,9 @@ export default function TeamsIndexPage() {
                 fontFamily: "'Instrument Serif', serif",
                 fontStyle: "italic",
                 fontSize: 13,
-                color: t.colorOnDark ?? t.color,
-                opacity: 0.7,
+                color: "rgba(255,248,229,0.82)",
                 marginBottom: 14,
+                fontWeight: 700,
               }}
             >
               {t.parentCompany} · {t.joinedSeason}〜
@@ -153,8 +153,8 @@ export default function TeamsIndexPage() {
               style={{
                 fontFamily: "'Noto Sans JP', sans-serif",
                 fontSize: 12.5,
-                color: t.colorOnDark ?? t.color,
-                opacity: 0.85,
+                color: "rgba(255,248,229,0.9)",
+                fontWeight: 600,
                 marginBottom: 16,
               }}
             >
@@ -166,21 +166,21 @@ export default function TeamsIndexPage() {
                 gap: 12,
                 fontFamily: "'Geist Mono', monospace",
                 fontSize: 11,
-                borderTop: `1px solid ${t.color}`,
+                borderTop: "1px solid rgba(255,248,229,0.32)",
                 paddingTop: 12,
-                color: t.colorOnDark ?? t.color,
+                color: "rgba(255,248,229,0.92)",
               }}
             >
               <div>
-                <div style={{ opacity: 0.6, fontSize: 9, letterSpacing: "0.12em" }}>優勝</div>
+                <div style={{ color: "rgba(255,248,229,0.74)", fontSize: 9, letterSpacing: "0.12em", fontWeight: 800 }}>優勝</div>
                 <div style={{ fontSize: 16, fontWeight: 800 }}>{t.championships}</div>
               </div>
               <div>
-                <div style={{ opacity: 0.6, fontSize: 9, letterSpacing: "0.12em" }}>F進出</div>
+                <div style={{ color: "rgba(255,248,229,0.74)", fontSize: 9, letterSpacing: "0.12em", fontWeight: 800 }}>F進出</div>
                 <div style={{ fontSize: 16, fontWeight: 800 }}>{t.finalAppearances}</div>
               </div>
               <div>
-                <div style={{ opacity: 0.6, fontSize: 9, letterSpacing: "0.12em" }}>選手</div>
+                <div style={{ color: "rgba(255,248,229,0.74)", fontSize: 9, letterSpacing: "0.12em", fontWeight: 800 }}>選手</div>
                 <div style={{ fontSize: 16, fontWeight: 800 }}>{t.currentRoster.length}</div>
               </div>
               <div style={{ marginLeft: "auto", alignSelf: "flex-end", color: t.color, fontWeight: 700, fontSize: 18 }}>
@@ -193,7 +193,7 @@ export default function TeamsIndexPage() {
 
       <Link
         href="/mleague"
-        className="related-card"
+        className="related-card league-cta-card"
         style={{
           background: "var(--ink)",
           color: "var(--paper)",
@@ -202,9 +202,9 @@ export default function TeamsIndexPage() {
           marginBottom: 48,
         }}
       >
-        <div className="meta" style={{ color: "rgba(255,255,255,0.6)" }}>M.LEAGUE</div>
+        <div className="meta" style={{ color: "rgba(255,255,255,0.82)" }}>M.LEAGUE</div>
         <div className="nm" style={{ fontSize: 26, marginTop: 4 }}>Mリーグ順位表 / スケジュール</div>
-        <div className="meta" style={{ color: "rgba(255,255,255,0.6)", marginTop: 6 }}>
+        <div className="meta" style={{ color: "rgba(255,255,255,0.82)", marginTop: 6 }}>
           現在のシーズン状況・最新ニュース
         </div>
         <span className="tag" style={{ background: "var(--paper)", color: "var(--ink)", marginTop: 14 }}>
