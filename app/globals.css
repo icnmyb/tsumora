@@ -502,10 +502,6 @@
     padding: 12px 14px !important;
   }
 
-  .rules-org-tabs > button span:nth-of-type(2) {
-    display: none;
-  }
-
   .rules-table-shell {
     margin-right: -18px !important;
     margin-left: -18px !important;

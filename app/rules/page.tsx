@@ -10,14 +10,25 @@ import { ORG_RULE_GROUPS, RULE_ITEMS, type OrgRuleGroup } from "./data";
 const ORG_TABS = ["ALL", "JPML", "NPM", "最高位戦", "RMU", "μ"] as const;
 type OrgTab = (typeof ORG_TABS)[number];
 
-const ORG_EN: Record<OrgTab, string> = {
-  ALL: "All Bodies",
+const ORG_LABEL: Record<OrgTab, string> = {
+  ALL: "全団体",
   JPML: "連盟",
   NPM: "協会",
-  最高位戦: "Saikōisen",
-  RMU: "Real Mahjong Unit",
+  最高位戦: "最高位戦",
+  RMU: "RMU",
   μ: "麻将連合",
 };
+
+function getOrgHeading(group: OrgRuleGroup) {
+  if (group.org === "JPML") return "連盟";
+  if (group.org === "NPM") return "協会";
+  if (group.org === "μ") return "麻将連合";
+  return group.org;
+}
+
+function getOrgSubLabel(group: OrgRuleGroup) {
+  return group.org === "μ" ? `μ · ${group.rules.length}種のルール` : `${group.label} · ${group.rules.length}種のルール`;
+}
 
 /* ============================================================
  * Rule cell
@@ -33,7 +44,7 @@ function RuleCell({
   size?: "sm" | "md";
   isDetail?: boolean;
 }) {
-  const displayValue = isDetail && value === "JPMLタブを参照" ? "↓詳細を参照" : value;
+  const displayValue = isDetail && value === "連盟タブを参照" ? "↓詳細を参照" : value;
   const isAri = displayValue === "あり";
   const isNashi = displayValue === "なし";
   return (
@@ -123,10 +134,9 @@ function CompareTable() {
                 padding: "14px 16px",
                 background: "var(--paper-2)",
                 color: "var(--ink)",
-                fontFamily: "'Geist Mono', monospace",
-                fontSize: 10.5,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
+                fontFamily: "'Noto Sans JP', sans-serif",
+                fontSize: 12,
+                letterSpacing: "0.04em",
                 textAlign: "left",
                 borderBottom: "2px solid var(--ink)",
                 borderRight: "2px solid var(--ink)",
@@ -164,7 +174,7 @@ function CompareTable() {
                       letterSpacing: "-0.01em",
                     }}
                   >
-                    {g.org}
+                    {getOrgHeading(g)}
                   </span>
                   {g.rules.length > 1 && (
                     <span
@@ -582,7 +592,7 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
               whiteSpace: "nowrap",
             }}
           >
-            Rule ⁄ ルール種別
+            ルール種別
           </span>
           {group.rules.map((r) => {
             const active = r.id === subId;
@@ -675,10 +685,9 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
                   padding: "12px 16px",
                   background: "var(--paper-2)",
                   color: "var(--ink)",
-                  fontFamily: "'Geist Mono', monospace",
-                  fontSize: 11,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
+                  fontFamily: "'Noto Sans JP', sans-serif",
+                  fontSize: 12,
+                  letterSpacing: "0.04em",
                   textAlign: "left",
                   borderBottom: "2px solid var(--ink)",
                   borderRight: "2px solid var(--ink)",
@@ -769,13 +778,12 @@ function OrgFilterBar({
           whiteSpace: "nowrap",
         }}
       >
-        Filter ⁄ 団体
+        団体
       </span>
       {ORG_TABS.map((tab, i) => {
         const group = ORG_RULE_GROUPS.find((g) => g.org === tab);
         const color = group?.color ?? "var(--ink)";
         const active = current === tab;
-        const en = ORG_EN[tab];
         return (
           <button
             key={tab}
@@ -821,18 +829,7 @@ function OrgFilterBar({
                 letterSpacing: "-0.01em",
               }}
             >
-              {tab}
-            </span>
-            <span
-              style={{
-                fontFamily: "'Instrument Serif', serif",
-                fontStyle: "italic",
-                fontSize: 11,
-                color: active ? color : "var(--ink-3)",
-                opacity: 0.85,
-              }}
-            >
-              {en}
+              {ORG_LABEL[tab]}
             </span>
             {group && group.rules.length > 1 && (
               <span
@@ -996,7 +993,7 @@ export default function RulesPage() {
             <h2 className="sh">
               <span>全団体比較表</span>
               <span className="num">
-                Compare · 代表ルールで比較（複数種ある場合は第1ルール）
+                代表ルールで比較（複数種ある場合は第1ルール）
               </span>
               <span className="rule"></span>
             </h2>
@@ -1008,10 +1005,10 @@ export default function RulesPage() {
           <>
             <h2 className="sh">
               <span style={{ color: currentGroup.color }}>
-                {currentGroup.org}
+                {getOrgHeading(currentGroup)}
               </span>
               <span className="num">
-                {currentGroup.label} · {currentGroup.rules.length}種のルール
+                {getOrgSubLabel(currentGroup)}
               </span>
               <span className="rule"></span>
               <span
@@ -1032,7 +1029,7 @@ export default function RulesPage() {
                 <span style={{ fontSize: 14, fontWeight: 900 }}>
                   {currentGroup.rules.length}
                 </span>
-                <span style={{ fontSize: 9.5, opacity: 0.85 }}>RULES</span>
+                <span style={{ fontSize: 9.5, opacity: 0.85 }}>ルール</span>
               </span>
             </h2>
             <OrgDetail group={currentGroup} />

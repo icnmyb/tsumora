@@ -20,11 +20,11 @@ type OrgTab = {
 
 const ORG_TABS: OrgTab[] = [
   { key: "ALL", label: "ALL", en: "全団体", color: "var(--ink)" },
-  { key: "JPML", label: "JPML", en: "連盟", color: ORG_META.JPML.color },
-  { key: "NPM", label: "NPM", en: "協会", color: ORG_META.NPM.color },
-  { key: "最高位戦", label: "最高位戦", en: "Saikōisen", color: ORG_META["最高位戦"].color },
+  { key: "JPML", label: "連盟", en: "日本プロ麻雀連盟", color: ORG_META.JPML.color },
+  { key: "NPM", label: "協会", en: "日本プロ麻雀協会", color: ORG_META.NPM.color },
+  { key: "最高位戦", label: "最高位戦", en: "最高位戦日本プロ麻雀協会", color: ORG_META["最高位戦"].color },
   { key: "RMU", label: "RMU", en: "Real Mahjong Unit", color: ORG_META.RMU.color },
-  { key: "μ", label: "μ", en: "麻将連合", color: ORG_META["μ"].color },
+  { key: "μ", label: "麻将連合", en: "μ", color: ORG_META["μ"].color },
 ];
 
 type GenderTab = {

@@ -38,7 +38,7 @@ export const ORG_RULE_GROUPS: OrgRuleGroup[] = [
       {
         id: "jpml-official", org: "JPML", name: "公式ルール",
         description: "競技麻雀の基本形。一発・裏ドラなし",
-        values: { kuitan:"あり", ippatsu:"なし", uradora:"なし", kandora:"なし", akadora:"なし", kuikae:"なし", tochuu:"なし", agariyame:"なし", points:"30000/30000", rankpts:"JPMLタブを参照", chombo:"▲20pt" },
+        values: { kuitan:"あり", ippatsu:"なし", uradora:"なし", kandora:"なし", akadora:"なし", kuikae:"なし", tochuu:"なし", agariyame:"なし", points:"30000/30000", rankpts:"連盟タブを参照", chombo:"▲20pt" },
         notes: {
           rankpts: "浮き人数によって変動。\n2人浮き: 1着+8 / 2着+4 / 3着-4 / 4着-8\n1人浮き: 1着+12 / 2着-1 / 3着-3 / 4着-8\n3人浮き: 1着+8 / 2着+3 / 3着+1 / 4着-12\n同点の場合は順位点を分ける"
         },
