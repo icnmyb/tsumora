@@ -145,8 +145,6 @@ export default function OrganizationsIndexPage() {
             <div className="tags">
               <span className="highlight">● 全5団体</span>
               <span>所属プロ {TOTAL_PROS.toLocaleString()}名</span>
-              <span>公式戦・タイトル戦を横断掲載</span>
-              <span>源流 1976 / 最新設立 2007</span>
             </div>
           </div>
           <div className="kite">

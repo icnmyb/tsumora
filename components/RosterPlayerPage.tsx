@@ -39,6 +39,10 @@ function getDisplayTitle(title?: string): string {
   return title;
 }
 
+function isCreatorPlayer(player: Pick<RosterPlayer, "id">): boolean {
+  return player.id === "toshiya_takami" || player.id === "takamitoshiya";
+}
+
 function calcProYears(player: RosterPlayer): number | null {
   return calcYearsSinceJoin(player.org as SupportedOrg, player.period, player.joinYear);
 }
@@ -89,7 +93,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
   const proYears = calcProYears(player);
   const derivedJoinYear = getDerivedJoinYear(player);
   const related = getRelatedPlayers(player);
-  const isDeveloper = player.id === "takamitoshiya";
+  const isDeveloper = isCreatorPlayer(player);
   const genderLabel = formatGenderLabel(player.gender);
   const mainTitle = getDisplayTitle(player.title);
 
@@ -133,7 +137,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
             <div className="nickname">{player.nickname}</div>
           )}
           <div className="tags-row">
-            {isDeveloper && <span className="tag-chip dev">開発者</span>}
+            {isDeveloper && <span className="tag-chip dev">製作者</span>}
             {mainTitle && <span className="tag-chip v">● {mainTitle}</span>}
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>
               {org.label}

@@ -339,12 +339,6 @@ export default function RankingsPage() {
             <div className="l">Current Season</div>
             <div className="v gold">{CURRENT_SEASON}</div>
           </div>
-          <div className="hs">
-            <div className="l">Source</div>
-            <div className="v" style={{ fontFamily: "Geist Mono, ui-monospace, monospace", fontSize: 16 }}>
-              players/data.ts
-            </div>
-          </div>
         </div>
       </section>
 

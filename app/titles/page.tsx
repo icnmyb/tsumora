@@ -41,9 +41,8 @@ export default async function TitlesIndexPage({
               <span className="en">Major Mahjong Championships</span>
             </h1>
             <div className="tags">
-              <span className="highlight">● 主要タイトル {TITLES.length}冠</span>
+              <span className="highlight">● 主要タイトル {TITLES.length}</span>
               <span>5団体横断</span>
-              <span>リーグ戦・トーナメント</span>
               <span>現保持者情報</span>
             </div>
           </div>

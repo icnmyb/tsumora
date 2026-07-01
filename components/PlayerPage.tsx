@@ -23,6 +23,10 @@ function formatGenderLabel(gender?: AllPlayer["gender"]): string {
   return "";
 }
 
+function isCreatorPlayer(player: Pick<AllPlayer, "id">): boolean {
+  return player.id === "toshiya_takami" || player.id === "takamitoshiya";
+}
+
 type CareerBar = { h: number; v: string; cls: string; isNegative: boolean };
 
 function seasonResultToAnnualNote(result: SeasonResult | undefined): "final" | "semifinal" | "regular" {
@@ -112,7 +116,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const derivedJoinYear = periodToYear(player.org as SupportedOrg, player.period) ?? player.joinYear;
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
-  const isDeveloper = player.id === "takamitoshiya";
+  const isDeveloper = isCreatorPlayer(player);
   const { bars: careerBars, labels: careerLabels } = buildCareerChart(player.annualPoints, player.mleagueTeam);
   const hasCareerData = careerBars.length > 0;
   const titleCount = getTitleCount(player);
@@ -170,7 +174,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             </div>
           )}
           <div className="tags-row">
-            {isDeveloper && <span className="tag-chip dev">開発者</span>}
+            {isDeveloper && <span className="tag-chip dev">製作者</span>}
             {mainTitle && <span className="tag-chip v">● {mainTitle}</span>}
             {player.mleagueTeam && <span className="tag-chip g">Mリーグ {player.mleagueTeam}</span>}
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>

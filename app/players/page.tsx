@@ -95,6 +95,10 @@ function getKanaSortKey(player: RosterPlayer): string {
   return (player.furigana || player.name).replace(/\s+/g, "");
 }
 
+function isCreatorPlayer(player: Pick<RosterPlayer, "id">): boolean {
+  return player.id === "toshiya_takami" || player.id === "takamitoshiya";
+}
+
 export default function PlayersIndexPage() {
   return (
     <Suspense fallback={null}>
@@ -1105,7 +1109,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
   const years = player.joinYear ? CURRENT_YEAR - player.joinYear + 1 : null;
   const number = String(index + 1).padStart(4, "0");
   const isMleaguer = !!player.mleagueTeam;
-  const isDeveloper = player.id === "takamitoshiya";
+  const isDeveloper = isCreatorPlayer(player);
   const href = player.href ?? `/players/${player.id}`;
 
   const rowStyle: React.CSSProperties = {
@@ -1192,7 +1196,7 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
                   whiteSpace: "nowrap",
                 }}
               >
-                開発者
+                製作者
               </span>
             )}
             {player.nameEn && (
