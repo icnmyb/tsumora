@@ -23,13 +23,14 @@ const RMU: OrgDetailPageData = {
   nameEn: "Real Mahjong Unit",
   kite: "R",
   highlightTag: "2007年設立",
-  extraTags: ["掲載プロ 117名", "ライセンス制", "令昭位戦", "RMUクラウン"],
+  extraTags: ["掲載 117名", "プロライセンス 66名", "令昭位戦", "RMUクラウン"],
   meta: [
     { label: "Founded", value: "2007", accent: true, sub: <>平成19年<br />設立</> },
-    { label: "Active Pros", value: "117", unit: "名", sub: "公式HP掲載数" },
+    { label: "Listed", value: "117", unit: "名", sub: "公式HP掲載数" },
+    { label: "Licensed Pros", value: "66", unit: "名", sub: "B級〜SSS級" },
     { label: "Events", value: "主要", sub: "令昭位 · クラウン · スプリント ほか" },
     { label: "Representative", value: "多井", valueStyle: { fontFamily: "'Noto Sans JP'", fontSize: 22 }, sub: "多井 隆晴 代表" },
-    { label: "License", value: "SSS〜A", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "公式掲載ライセンス区分" },
+    { label: "License", value: "B〜SSS", accent: true, valueStyle: { fontFamily: "'Geist Mono'", fontSize: 22 }, sub: "団体内プロ認定" },
     {
       label: "System",
       value: "Point",
@@ -41,6 +42,7 @@ const RMU: OrgDetailPageData = {
     en: "About RMU",
     leadParagraphs: [
       "RMU（Real Mahjong Unit）は、2007年に設立された競技麻雀団体である。「真の麻雀プロを創出すること」を第一義に掲げ、アスリート会員が公式戦やタイトル戦で実績を積む仕組みを設けている。",
+      "団体内のプロ認定はB級からSSS級までのプロライセンスで管理される。TSUMORAでは公式HP掲載117名のうち、プロライセンス所持者を66名として扱う。",
       "プロライセンスは、選手ポイントが規定値に達し、技量・理論・マナー・作法が備わったと審議会の過半数が判断した場合に発行される。選手ポイントランキングは年4回公表される。",
       "令昭位戦はアスリート会員が参加するリーグ戦で、A1リーグが最高峰の年間リーグ戦として案内されている。主要タイトルには令昭位戦、RMUクラウン、スプリントカップ、ティアラリーグ、オープンリーグなどがある。",
       "代表的な所属選手には、Mリーグ初年度から渋谷ABEMASで活躍する多井隆晴をはじめ、令昭位戦やRMUクラウンで実績を残す選手が並ぶ。ライセンス制と選手ポイントを軸に、競技成績を可視化する色合いの強い団体である。",
@@ -78,9 +80,20 @@ const RMU: OrgDetailPageData = {
       ),
     },
     { dt: "代表", dd: "多井 隆晴" },
-    { dt: "掲載プロ", dd: "117名 (公式HP掲載数)" },
+    {
+      dt: "掲載人数",
+      dd: (
+        <>
+          117名
+          <br />
+          <span style={{ color: "var(--ink-3)", fontSize: 11 }}>
+            うちプロライセンス所持 66名
+          </span>
+        </>
+      ),
+    },
     { dt: "本部", dd: "東京都" },
-    { dt: "ライセンス", dd: "SSS / SS / S / A" },
+    { dt: "ライセンス", dd: "SSS / SS / S / A / B" },
     { dt: "主要タイトル", dd: "令昭位戦 · RMUクラウン · スプリントカップ" },
     { dt: "公式", dd: <span>rmu.jp</span> },
   ],
@@ -153,7 +166,7 @@ const RMU: OrgDetailPageData = {
   },
   roster: {
     totalCount: 117,
-    showingTitle: "ライセンス上位",
+    showingTitle: "プロライセンス上位",
     showingEn: "Top by License Tier",
     primaryTitleClass: "t-jpml",
     filters: [
