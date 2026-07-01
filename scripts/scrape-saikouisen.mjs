@@ -65,6 +65,9 @@ function parseMemberPage(html) {
     ? kanjiNameWithSpace.replace(/\s+/g, "")
     : kanjiNameWithSpace;
 
+  const headingMatch = html.match(/<h3[^>]*>[\s\S]*?<small[^>]*>([\s\S]*?)<\/small>[\s\S]*?<\/h3>/);
+  const kanaName = headingMatch ? stripTags(headingMatch[1]).replace(/\s+/g, " ").trim() : undefined;
+
   // Profile dl
   const dlMatch = html.match(/<dl class="profile-list">([\s\S]*?)<\/dl>/);
   const fields = {};
@@ -76,7 +79,7 @@ function parseMemberPage(html) {
       fields[key] = val;
     }
   }
-  return { kanjiName, fields };
+  return { kanjiName, kanaName, fields };
 }
 
 function parseLeague(raw) {
@@ -130,6 +133,17 @@ function fmtField(key, val) {
   return `${key}: "${escapeJsString(String(val))}"`;
 }
 
+function katakanaToHiragana(s) {
+  return s.replace(/[ァ-ヶ]/g, (ch) =>
+    String.fromCharCode(ch.charCodeAt(0) - 0x60)
+  );
+}
+
+function formatFuriganaFromKana(kanaName) {
+  if (!kanaName || !/[ァ-ヶ]/.test(kanaName)) return undefined;
+  return katakanaToHiragana(kanaName).replace(/\s+/g, " ").trim();
+}
+
 function serializePlayer(p) {
   const parts = [
     `id: "${escapeJsString(p.id)}"`,
@@ -139,6 +153,7 @@ function serializePlayer(p) {
   ];
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
+    furigana: p.furigana,
     period: p.period,
     joinYear: p.joinYear,
     gender: p.gender,
@@ -170,6 +185,7 @@ function formatNameEnFromSlug(slug) {
   // Slugs are surname-givenname order in Japanese members.
   return slug
     .split("-")
+    .filter((w) => !/^\d+$/.test(w))
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 }
@@ -259,6 +275,8 @@ async function main() {
       name,
       org: "最高位戦",
       league,
+      nameEn: isJP ? formatNameEnFromSlug(p.slug) : name,
+      furigana: formatFuriganaFromKana(p.kanaName),
       period,
       joinYear: periodToJoinYear(period),
       gender: inferGender(f),

@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function TeamsIndexPage() {
-  const totalChampionships = TEAMS.reduce((sum, t) => sum + t.championships, 0);
   const sortedTeams = [...TEAMS].sort((a, b) => {
     if (b.championships !== a.championships) return b.championships - a.championships;
     if (b.finalAppearances !== a.finalAppearances) return b.finalAppearances - a.finalAppearances;
@@ -41,8 +40,6 @@ export default function TeamsIndexPage() {
             <div className="tags">
               <span className="highlight">● 10チーム体制</span>
               <span>2018-19シーズン開幕</span>
-              <span>累計優勝 {totalChampionships}回</span>
-              <span>2025-26 EARTH JETS新規参入</span>
             </div>
           </div>
           <div className="kite">

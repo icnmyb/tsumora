@@ -4,6 +4,7 @@
 // データソース:
 //   - 一覧:   https://rmu.jp/player_index/license, https://rmu.jp/player_index/girl
 //   - 個別:   https://rmu.jp/player/prof/{id}.htm
+//   - リーグ: https://rmu.jp/title/reisyouisen/*_league
 
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -15,6 +16,19 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 const LIST_URLS = [
   { url: "https://rmu.jp/player_index/license", category: "license" },
   { url: "https://rmu.jp/player_index/girl", category: "girl" },
+];
+const LEAGUE_URLS = [
+  { league: "A1", url: "https://rmu.jp/title/reisyouisen/a1_league" },
+  { league: "A2", url: "https://rmu.jp/title/reisyouisen/a2_league" },
+  { league: "B1", url: "https://rmu.jp/title/reisyouisen/b1_league" },
+  { league: "B2", url: "https://rmu.jp/title/reisyouisen/b2_league" },
+  { league: "C1", url: "https://rmu.jp/title/reisyouisen/c1_league" },
+  { league: "C2", url: "https://rmu.jp/title/reisyouisen/c2_league" },
+  { league: "C3", url: "https://rmu.jp/title/reisyouisen/c3_league" },
+  { league: "D1", url: "https://rmu.jp/title/reisyouisen/d1_league" },
+  { league: "D2", url: "https://rmu.jp/title/reisyouisen/d2_league" },
+  { league: "D3", url: "https://rmu.jp/title/reisyouisen/d3_league" },
+  { league: "E1", url: "https://rmu.jp/title/reisyouisen/e1_league" },
 ];
 const CONCURRENCY = 6;
 const THROTTLE_MS = 150;
@@ -55,9 +69,70 @@ function parseListImgs(html) {
     .filter(Boolean);
 }
 
+function stripTags(s) {
+  return decodeEntities(s.replace(/<!--[\s\S]*?-->/g, " ").replace(/<[^>]+>/g, " "))
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractCells(rowHtml) {
+  return [...rowHtml.matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((m) => m[1]);
+}
+
+function parseLeaguePlayerName(cellHtml) {
+  const alt = cellHtml.match(/<img[^>]+alt="([^"]+)"/)?.[1];
+  const raw = alt ? decodeEntities(alt) : stripTags(cellHtml);
+  const withoutArea = raw
+    .replace(/[（(][^）)]*[）)]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const name = withoutArea.split(/\s+/)[0]?.replace(/\s+/g, "");
+  return name && /[ぁ-んァ-ヶ一-龠々〆ヵヶ]/.test(name) ? name : "";
+}
+
+function parseLeaguePage(html, league) {
+  const tableMatches = [...html.matchAll(/<table[\s\S]*?<\/table>/g)];
+  for (const tableMatch of tableMatches) {
+    const tableHtml = tableMatch[0];
+    const tableText = stripTags(tableHtml);
+    if (!tableText.includes("順位") || !tableText.includes("選手名")) continue;
+
+    const names = new Map();
+    const rows = [...tableHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)];
+    for (const row of rows) {
+      const cells = extractCells(row[1]);
+      if (cells.length < 2) continue;
+      const rankText = stripTags(cells[0]);
+      if (!/^\d+$/.test(rankText)) continue;
+      const name = parseLeaguePlayerName(cells[1]);
+      if (name) names.set(name, league);
+    }
+    return names;
+  }
+  return new Map();
+}
+
+async function buildLeagueMap() {
+  const leagueByName = new Map();
+  for (const src of LEAGUE_URLS) {
+    try {
+      const html = await fetchText(src.url);
+      const names = parseLeaguePage(html, src.league);
+      for (const [name, league] of names) {
+        if (!leagueByName.has(name)) leagueByName.set(name, league);
+      }
+      console.error(`      ${src.league}: ${names.size} entries`);
+    } catch (err) {
+      console.error(`      WARN ${src.url}: ${err.message}`);
+    }
+    if (THROTTLE_MS) await new Promise((r) => setTimeout(r, THROTTLE_MS));
+  }
+  return leagueByName;
+}
+
 function parseMemberPage(html) {
   // Extract structured profile from <td> pairs
-  const text = decodeEntities(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+  const text = stripTags(html);
 
   function extract(label, stops) {
     const idx = text.indexOf(label);
@@ -114,10 +189,13 @@ function serializePlayer(p) {
   ];
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
+    furigana: p.furigana,
+    gender: p.gender,
     birthday: p.birthday,
     birthplace: p.birthplace,
     bloodType: p.bloodType,
     rank: p.rank,
+    license: p.license,
     href: p.href,
     officialUrl: p.officialUrl,
   })) {
@@ -183,7 +261,7 @@ async function pool(items, concurrency, fn) {
 }
 
 async function main() {
-  console.error("[1/3] fetch RMU listing pages");
+  console.error("[1/4] fetch RMU listing pages");
   const allPlayers = new Map(); // playerId/name → { rank, name, category }
   for (const lst of LIST_URLS) {
     try {
@@ -191,8 +269,16 @@ async function main() {
       const found = parseListImgs(html);
       for (const f of found) {
         const key = f.playerId ?? `${lst.category}:${f.name}`;
-        if (!allPlayers.has(key)) {
-          allPlayers.set(key, { ...f, category: lst.category, listUrl: lst.url });
+        const isFemale = lst.category === "girl";
+        if (allPlayers.has(key)) {
+          const existing = allPlayers.get(key);
+          allPlayers.set(key, {
+            ...existing,
+            rank: existing.rank ?? f.rank,
+            isFemale: existing.isFemale || isFemale,
+          });
+        } else {
+          allPlayers.set(key, { ...f, category: lst.category, listUrl: lst.url, isFemale });
         }
       }
       console.error(`      ${lst.category}: ${found.length} entries`);
@@ -202,7 +288,7 @@ async function main() {
   }
   console.error(`      → ${allPlayers.size} unique RMU players`);
 
-  console.error(`[2/3] fetch ${allPlayers.size} individual prof pages`);
+  console.error(`[2/4] fetch ${allPlayers.size} individual prof pages`);
   let done = 0;
   const profiles = await pool([...allPlayers.values()], CONCURRENCY, async (m) => {
     try {
@@ -222,7 +308,11 @@ async function main() {
     }
   });
 
-  console.error("[3/3] merge + generate roster/rmu.ts");
+  console.error("[3/4] fetch Reishouisen league pages");
+  const leagueByName = await buildLeagueMap();
+  console.error(`      → ${leagueByName.size} league players`);
+
+  console.error("[4/4] merge + generate roster/rmu.ts");
 
   const dataTs = await fs.readFile(path.join(REPO_ROOT, "app/players/data.ts"), "utf-8");
   const featuredNames = new Set(
@@ -258,11 +348,14 @@ async function main() {
       id,
       name,
       org: "RMU",
-      league: license || (p.category === "girl" ? "女流" : "—"),
+      league: leagueByName.get(name) || "—",
+      nameEn: formatNameEn(p.yomi),
+      furigana: p.yomi,
+      gender: p.isFemale ? "female" : "male",
       birthday: parseBirthday(p.birthday),
       birthplace: p.birthplace,
       bloodType: p.bloodType,
-      rank: license,
+      license,
       href: `/players/${id}`,
       officialUrl: p.profileMissing ? undefined : `https://rmu.jp/player/prof/${p.playerId}.htm`,
     });
@@ -272,7 +365,7 @@ async function main() {
 
   const header = `// app/players/roster/rmu.ts
 // AUTO-GENERATED by scripts/scrape-rmu.mjs — do not edit by hand.
-// Source: https://rmu.jp/player_index/*, https://rmu.jp/player/prof/{id}.htm
+// Source: https://rmu.jp/player_index/*, https://rmu.jp/player/prof/{id}.htm, https://rmu.jp/title/reisyouisen/*_league
 import type { RosterPlayer } from "../data";
 
 export const RMU_ROSTER: RosterPlayer[] = [

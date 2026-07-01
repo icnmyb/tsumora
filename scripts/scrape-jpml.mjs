@@ -190,6 +190,7 @@ function serializePlayer(p) {
   ];
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
+    furigana: p.furigana,
     period: p.period,
     joinYear: p.joinYear,
     careerNote: p.careerNote,
@@ -280,6 +281,7 @@ async function main() {
       org: "JPML",
       league: ampai?.league ?? "—",
       nameEn: formatNameEn(ampai?.slug) ?? formatNameEnFromFurigana(m.furigana),
+      furigana: m.furigana,
       period: m.period,
       joinYear: periodToJoinYear(m.period),
       gender: m.gender,

@@ -90,6 +90,8 @@ function serializePlayer(p) {
   ];
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
+    furigana: p.furigana,
+    gender: p.gender,
     period: p.period,
     joinYear: p.joinYear,
     birthplace: p.birthplace,
@@ -144,11 +146,48 @@ function toRomaji(yomi) {
 function formatNameEn(yomi) {
   if (!yomi) return undefined;
   const parts = yomi.trim().split(/\s+/);
-  if (parts.length < 2) return toRomaji(yomi).replace(/^./, (c) => c.toUpperCase());
+  if (parts.length < 2) return toDisplayRomaji(yomi).replace(/^./, (c) => c.toUpperCase());
   const [surname, ...rest] = parts;
   const given = rest.join("");
-  const cap = (s) => toRomaji(s).replace(/^./, (c) => c.toUpperCase());
+  const cap = (s) => toDisplayRomaji(s).replace(/^./, (c) => c.toUpperCase());
   return `${cap(given)} ${cap(surname)}`;
+}
+
+const YOON = {
+  きゃ:"kya",きゅ:"kyu",きょ:"kyo",
+  しゃ:"sha",しゅ:"shu",しょ:"sho",
+  ちゃ:"cha",ちゅ:"chu",ちょ:"cho",
+  にゃ:"nya",にゅ:"nyu",にょ:"nyo",
+  ひゃ:"hya",ひゅ:"hyu",ひょ:"hyo",
+  みゃ:"mya",みゅ:"myu",みょ:"myo",
+  りゃ:"rya",りゅ:"ryu",りょ:"ryo",
+  ぎゃ:"gya",ぎゅ:"gyu",ぎょ:"gyo",
+  じゃ:"ja",じゅ:"ju",じょ:"jo",
+  びゃ:"bya",びゅ:"byu",びょ:"byo",
+  ぴゃ:"pya",ぴゅ:"pyu",ぴょ:"pyo",
+};
+
+function toDisplayRomaji(yomi) {
+  if (!yomi) return "";
+  const s = yomi.replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60));
+  let out = "";
+  for (let i = 0; i < s.length; i++) {
+    const pair = s.slice(i, i + 2);
+    if (YOON[pair]) {
+      out += YOON[pair];
+      i++;
+      continue;
+    }
+    if (s[i] === "っ" && i + 1 < s.length) {
+      const nextPair = s.slice(i + 1, i + 3);
+      const next = YOON[nextPair] || KANA[s[i + 1]] || "";
+      if (next) out += next[0];
+      continue;
+    }
+    if (KANA[s[i]]) out += KANA[s[i]];
+    else if (/[a-z0-9]/.test(s[i])) out += s[i];
+  }
+  return out;
 }
 
 async function pool(items, concurrency, fn) {
@@ -194,6 +233,18 @@ async function main() {
     [...dataTs.matchAll(/name:\s*"([^"]+)"/g)].map((m) => m[1])
   );
 
+  const muTsPath = path.join(REPO_ROOT, "app/players/roster/mu.ts");
+  let existingMuTs = "";
+  try {
+    existingMuTs = await fs.readFile(muTsPath, "utf-8");
+  } catch {
+    // first generation
+  }
+  const existingGenderByName = new Map(
+    [...existingMuTs.matchAll(/name:\s*"([^"]+)"[\s\S]*?gender:\s*"(male|female)"/g)]
+      .map((m) => [m[1], m[2]])
+  );
+
   const usedIds = new Set();
   for (const file of ["jpml.ts", "saikouisen.ts", "npm.ts", "rmu.ts"]) {
     try {
@@ -225,6 +276,9 @@ async function main() {
       name,
       org: "μ",
       league: p.category || "—",
+      nameEn: formatNameEn(p.yomi),
+      furigana: p.yomi || undefined,
+      gender: existingGenderByName.get(name) || (p.category === "女流" ? "female" : undefined),
       period,
       joinYear: periodToJoinYear(period),
       birthplace: p.birthplace || undefined,
@@ -244,7 +298,7 @@ export const MU_ROSTER: RosterPlayer[] = [
 `;
   const body = rosterEntries.map(serializePlayer).join(",\n");
   const footer = "\n];\n";
-  await fs.writeFile(path.join(REPO_ROOT, "app/players/roster/mu.ts"), header + body + footer);
+  await fs.writeFile(muTsPath, header + body + footer);
   console.error(`      ✓ wrote app/players/roster/mu.ts`);
 }
 

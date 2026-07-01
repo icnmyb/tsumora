@@ -61,6 +61,11 @@ function parseMemberPage(html) {
   if (!articleMatch) return { kanjiName: "", fields: {} };
   const article = articleMatch[1];
   const text = decodeEntities(article.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+  const nameHeadingMatch = article.match(/<h1[^>]*class="[^"]*player-name[^"]*"[^>]*>([\s\S]*?)<\/h1>/);
+  const furiganaMatch = nameHeadingMatch?.[1].match(/<span[^>]*>([\s\S]*?)<\/span>/);
+  const furigana = furiganaMatch ? stripTags(furiganaMatch[1]).replace(/\s+/g, " ").trim() : undefined;
+  const nameEnMatch = article.match(/<p[^>]*class="[^"]*player-first-alphabet[^"]*"[^>]*>([\s\S]*?)<\/p>/);
+  const nameEn = nameEnMatch ? stripTags(nameEnMatch[1]).replace(/\s+/g, " ").trim() : undefined;
 
   // Title might be "逢川恵夢 | 日本プロ麻雀協会"
   const titleMatch = html.match(/<title>([\s\S]+?)<\/title>/);
@@ -101,11 +106,6 @@ function parseMemberPage(html) {
   const womenLeagueRaw = extract("女流雀王戦", ["雀竜位戦", "好きな", "獲得"]);
   const branch = extract("本部所属", stops);
 
-  // Try to grab furigana from the leading portion of article
-  // Pattern: "kanjiName ふりがな" appears at start
-  const furiganaMatch = text.match(/^[一-龥ぁ-んァ-ヴ\s]+?\s+([ぁ-んー\s]{3,30})\s+(?:入|本部|関西|九州|東北|北海道)/);
-  const furigana = furiganaMatch ? furiganaMatch[1].replace(/\s+/g, "") : undefined;
-
   return {
     kanjiName,
     fields: {
@@ -116,6 +116,7 @@ function parseMemberPage(html) {
       league: leagueRaw?.match(/^[ABCDEF][1-3]/)?.[0],
       womenLeague: womenLeagueRaw?.match(/^[ABC]/)?.[0],
       furigana,
+      nameEn,
     },
   };
 }
@@ -153,6 +154,7 @@ function serializePlayer(p) {
   ];
   for (const [k, v] of Object.entries({
     nameEn: p.nameEn,
+    furigana: p.furigana,
     period: p.period,
     joinYear: p.joinYear,
     birthday: p.birthday,
@@ -273,7 +275,7 @@ async function main() {
     const birthday = parseBirthday(f.birthday);
     const birthplace = f.birthplace;
     const bloodType = f.bloodType;
-    const nameEn = formatNameEnFromSlug(decodedSlug) ?? formatNameEnFromFurigana(f.furigana ?? decodedSlug);
+    const nameEn = f.nameEn || formatNameEnFromSlug(decodedSlug) || formatNameEnFromFurigana(f.furigana ?? decodedSlug);
 
     rosterEntries.push({
       id,
@@ -281,6 +283,7 @@ async function main() {
       org: "NPM",
       league,
       nameEn,
+      furigana: f.furigana,
       period,
       joinYear: periodToJoinYear(period),
       birthday,

@@ -76,10 +76,11 @@ function formatBirthday(b?: string): string {
   return b; // YYYY/MM/DD
 }
 
-function formatLeaguePeriod(player: Pick<RosterPlayer, "league" | "period">): string {
+function formatLeaguePeriod(player: Pick<RosterPlayer, "league" | "period" | "license">): string {
   const parts = [
     player.league && player.league !== "—" ? player.league : null,
     player.period || null,
+    player.license ? `${player.license}ライセンス` : null,
   ].filter(Boolean);
   return parts.length > 0 ? parts.join(" · ") : "—";
 }
@@ -134,6 +135,7 @@ function PlayersIndexInner() {
       if (!q) return true;
       if (p.name.toLowerCase().includes(q)) return true;
       if (p.nameEn && p.nameEn.toLowerCase().includes(q)) return true;
+      if (p.furigana && p.furigana.includes(q)) return true;
       return false;
     });
     // 五十音順 (player ID は yomi のローマ字表記なので、IDアルファベット順 ≒ 五十音順)
@@ -200,8 +202,6 @@ function PlayersIndexInner() {
             <div className="tags">
               <span className="highlight">● Mリーガー</span>
               <span>5団体横断</span>
-              <span>Mリーガー多数</span>
-              <span>現役タイトルホルダー含む</span>
             </div>
           </div>
           <div className="kite">
@@ -1135,6 +1135,9 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             </span>
             {player.title && player.league && player.league !== "—" && (
               <span style={{ color: "var(--ink-3)" }}> · {player.league}</span>
+            )}
+            {player.license && (
+              <span style={{ color: "var(--ink-3)" }}> · {player.license}ライセンス</span>
             )}
           </div>
         </div>

@@ -62,7 +62,7 @@ function getRelatedPlayers(player: RosterPlayer): RelatedCard[] {
   for (const p of all) {
     if (p.id === player.id) continue;
     if (related.length >= 6) break;
-    const sameLeague = p.org === player.org && p.league === player.league;
+    const sameLeague = player.league !== "—" && p.org === player.org && p.league === player.league;
     const sameOrg = p.org === player.org;
     if (sameLeague || sameOrg) {
       related.push({
@@ -107,6 +107,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
           </div>
           <span className="kicker">
             ● {org.label} · {player.league}
+            {player.license ? ` · ${player.license}ライセンス` : ""}
             {player.period
               ? ` · ${player.careerNote ? player.period : `${player.period}生`}`
               : derivedJoinYear
@@ -134,6 +135,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
             <span className="tag-chip">
               {player.league === "—" ? "現リーグ未登録" : `${player.league}リーグ`}
             </span>
+            {player.license && <span className="tag-chip">{player.license}ライセンス</span>}
             {player.period && <span className="tag-chip">{player.period}</span>}
             {(player.tags ?? []).map((t) => (
               <span key={t} className="tag-chip">{t}</span>
@@ -185,6 +187,12 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
                 <li>
                   <span className="l">Blood 血液型</span>
                   <span className="v">{player.bloodType}</span>
+                </li>
+              )}
+              {player.license && (
+                <li>
+                  <span className="l">License ライセンス</span>
+                  <span className="v">{player.license}</span>
                 </li>
               )}
               {player.hobby && (

@@ -155,7 +155,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             <span>{player.name}</span>
           </div>
           <span className="kicker">
-            ● {[org.label, leagueLabel, player.period ? `${player.period}生` : `${derivedJoinYear}年入会`].filter(Boolean).join(" · ")}
+            ● {[org.label, leagueLabel, player.license ? `${player.license}ライセンス` : null, player.period ? `${player.period}生` : `${derivedJoinYear}年入会`].filter(Boolean).join(" · ")}
           </span>
           <h1>
             {player.name}
@@ -176,6 +176,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>
               {org.label}
             </span>
+            {player.license && <span className="tag-chip">{player.license}ライセンス</span>}
             {player.tags.map((t) => (
               <span key={t} className="tag-chip">{t}</span>
             ))}
@@ -191,9 +192,17 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
           <div className="kv">
             <div className="l">Current League リーグ</div>
             <div className="v">
-              <b>{player.league}</b>
+              <b>{player.league === "—" ? "未登録" : player.league}</b>
             </div>
           </div>
+          {player.license && (
+            <div className="kv">
+              <div className="l">License ライセンス</div>
+              <div className="v">
+                <b>{player.license}</b>
+              </div>
+            </div>
+          )}
           <div className="kv">
             <div className="l">Pro Since プロ歴</div>
             <div className="v">
@@ -323,6 +332,12 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                 <li>
                   <span className="l">Blood 血液型</span>
                   <span className="v">{player.bloodType}</span>
+                </li>
+              )}
+              {player.license && (
+                <li>
+                  <span className="l">License ライセンス</span>
+                  <span className="v">{player.license}</span>
                 </li>
               )}
               <li>
