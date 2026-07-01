@@ -205,6 +205,18 @@ function serializePlayer(p) {
   return `  { ${parts.join(", ")} }`;
 }
 
+function buildExistingReadingMap(source) {
+  const map = new Map();
+  const entries = source.match(/\{[^{}]*\}/g) ?? [];
+  for (const entry of entries) {
+    const name = entry.match(/\bname:\s*"([^"]+)"/)?.[1];
+    const nameEn = entry.match(/\bnameEn:\s*"([^"]+)"/)?.[1];
+    const furigana = entry.match(/\bfurigana:\s*"([^"]+)"/)?.[1];
+    if (name && (nameEn || furigana)) map.set(name, { nameEn, furigana });
+  }
+  return map;
+}
+
 // Hepburn romanization for ID generation
 const KANA = {
   あ:"a",い:"i",う:"u",え:"e",お:"o",
@@ -322,6 +334,9 @@ async function main() {
   const jpmlTs = await fs.readFile(path.join(REPO_ROOT, "app/players/roster/jpml.ts"), "utf-8");
   const saiTs = await fs.readFile(path.join(REPO_ROOT, "app/players/roster/saikouisen.ts"), "utf-8");
   const npmTs = await fs.readFile(path.join(REPO_ROOT, "app/players/roster/npm.ts"), "utf-8");
+  const rmuPath = path.join(REPO_ROOT, "app/players/roster/rmu.ts");
+  const existingRmuTs = await fs.readFile(rmuPath, "utf-8").catch(() => "");
+  const existingReadings = buildExistingReadingMap(existingRmuTs);
   const usedIds = new Set([
     ...[...dataTs.matchAll(/id:\s*"([a-z0-9_-]+)"/g)].map((m) => m[1]),
     ...[...jpmlTs.matchAll(/id:\s*"([a-z0-9_-]+)"/g)].map((m) => m[1]),
@@ -344,13 +359,15 @@ async function main() {
     usedIds.add(id);
 
     const license = parseLicense(p.license) || p.rank;
+    const fallbackReading = existingReadings.get(name);
+    const yomi = p.yomi || fallbackReading?.furigana;
     rosterEntries.push({
       id,
       name,
       org: "RMU",
       league: leagueByName.get(name) || "—",
-      nameEn: formatNameEn(p.yomi),
-      furigana: p.yomi,
+      nameEn: formatNameEn(yomi) || fallbackReading?.nameEn,
+      furigana: yomi,
       gender: p.isFemale ? "female" : "male",
       birthday: parseBirthday(p.birthday),
       birthplace: p.birthplace,
@@ -372,7 +389,7 @@ export const RMU_ROSTER: RosterPlayer[] = [
 `;
   const body = rosterEntries.map(serializePlayer).join(",\n");
   const footer = "\n];\n";
-  await fs.writeFile(path.join(REPO_ROOT, "app/players/roster/rmu.ts"), header + body + footer);
+  await fs.writeFile(rmuPath, header + body + footer);
   console.error(`      ✓ wrote app/players/roster/rmu.ts`);
 }
 

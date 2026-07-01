@@ -66,6 +66,7 @@ export interface RosterPlayer {
   tags?: string[];
   period?: string;
   joinYear?: number;
+  proSinceYear?: number;
   careerNote?: string;
   birthday?: string;
   gender?: Gender;

@@ -10,6 +10,8 @@ type OrgFilter = "ALL" | OrgCode;
 type GenderFilter = "ALL" | Gender;
 type JoinYearFilter = "ALL" | number;
 type PlayerView = "mleague" | "all";
+type PlayerSort = "kana" | "career" | "league" | "rank";
+type SortDirection = "asc" | "desc";
 
 type OrgTab = {
   key: OrgFilter;
@@ -69,6 +71,13 @@ const MLEAGUE_TEAM_COLOR: Record<string, string> = Object.fromEntries(
 const CURRENT_YEAR = 2026;
 const PER_PAGE = 50;
 
+const SORT_OPTIONS: { key: PlayerSort; label: string }[] = [
+  { key: "kana", label: "五十音順" },
+  { key: "career", label: "プロ歴順" },
+  { key: "league", label: "所属リーグ順" },
+  { key: "rank", label: "段位順" },
+];
+
 /** "YYYY/MM/DD" → そのまま表示。"MM/DD" → 月日のみ表示 */
 function formatBirthday(b?: string): string {
   if (!b) return "—";
@@ -95,6 +104,57 @@ function getKanaSortKey(player: RosterPlayer): string {
   return (player.furigana || player.name).replace(/\s+/g, "");
 }
 
+function compareByKana(a: RosterPlayer, b: RosterPlayer): number {
+  const byKana = getKanaSortKey(a).localeCompare(getKanaSortKey(b), "ja");
+  if (byKana !== 0) return byKana;
+  return a.name.localeCompare(b.name, "ja");
+}
+
+function getLeagueSortValue(player: RosterPlayer): string {
+  const orgOrder: Record<OrgCode, string> = {
+    JPML: "1",
+    NPM: "2",
+    最高位戦: "3",
+    RMU: "4",
+    μ: "5",
+  };
+  const league = player.league && player.league !== "—" ? player.league : "ZZ";
+  return `${orgOrder[player.org]}-${league}`;
+}
+
+function getRankSortValue(rank?: string): number {
+  if (!rank) return -1;
+  const normalized = rank.replace(/\s+/g, "");
+  const kanjiMap: Record<string, number> = {
+    初段: 1,
+    二段: 2,
+    三段: 3,
+    四段: 4,
+    五段: 5,
+    六段: 6,
+    七段: 7,
+    八段: 8,
+    九段: 9,
+  };
+  if (kanjiMap[normalized] !== undefined) return kanjiMap[normalized];
+  const digit = normalized.match(/(\d+)段/);
+  if (digit) return Number(digit[1]);
+  return -1;
+}
+
+function getCareerSortValue(player: RosterPlayer): number {
+  const startYear = player.proSinceYear ?? player.joinYear;
+  return startYear ? CURRENT_YEAR - startYear + 1 : -1;
+}
+
+function hasSortValue(player: RosterPlayer, sortBy: PlayerSort, sortDirection: SortDirection): boolean {
+  if (sortBy === "kana") return sortDirection === "asc" || Boolean(player.furigana);
+  if (sortBy === "career") return Boolean(player.proSinceYear ?? player.joinYear);
+  if (sortBy === "league") return player.org !== "μ" && Boolean(player.league && player.league !== "—");
+  if (sortBy === "rank") return getRankSortValue(player.rank) >= 0;
+  return true;
+}
+
 function isCreatorPlayer(player: Pick<RosterPlayer, "id">): boolean {
   return player.id === "toshiya_takami" || player.id === "takamitoshiya";
 }
@@ -119,6 +179,8 @@ function PlayersIndexInner() {
   const [genderFilter, setGenderFilter] = useState<GenderFilter>("ALL");
   const [joinYearFilter, setJoinYearFilter] = useState<JoinYearFilter>("ALL");
   const [mleagueTeamFilter, setMleagueTeamFilter] = useState<MLeagueTeamFilter>("ALL");
+  const [sortBy, setSortBy] = useState<PlayerSort>("kana");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [search, setSearch] = useState("");
   const allListRef = useRef<HTMLHeadingElement | null>(null);
 
@@ -151,7 +213,8 @@ function PlayersIndexInner() {
       const orgOk = orgFilter === "ALL" || p.org === orgFilter;
       const genderOk = genderFilter === "ALL" || p.gender === genderFilter;
       const joinYearOk = joinYearFilter === "ALL" || p.joinYear === joinYearFilter;
-      if (!orgOk || !genderOk || !joinYearOk) return false;
+      const sortValueOk = hasSortValue(p, sortBy, sortDirection);
+      if (!orgOk || !genderOk || !joinYearOk || !sortValueOk) return false;
       if (!q) return true;
       if (p.name.toLowerCase().includes(q)) return true;
       if (p.nameEn && p.nameEn.toLowerCase().includes(q)) return true;
@@ -159,12 +222,24 @@ function PlayersIndexInner() {
       return false;
     });
     arr.sort((a, b) => {
-      const byKana = getKanaSortKey(a).localeCompare(getKanaSortKey(b), "ja");
-      if (byKana !== 0) return byKana;
-      return a.name.localeCompare(b.name, "ja");
+      let result = 0;
+      if (sortBy === "career") {
+        result = getCareerSortValue(a) - getCareerSortValue(b);
+      }
+      if (sortBy === "league") {
+        result = getLeagueSortValue(a).localeCompare(getLeagueSortValue(b), "ja", { numeric: true });
+      }
+      if (sortBy === "rank") {
+        result = getRankSortValue(a.rank) - getRankSortValue(b.rank);
+      }
+      if (sortBy === "kana") {
+        result = compareByKana(a, b);
+      }
+      if (result !== 0) return sortDirection === "asc" ? result : -result;
+      return compareByKana(a, b);
     });
     return arr;
-  }, [allPlayers, orgFilter, genderFilter, joinYearFilter, search]);
+  }, [allPlayers, orgFilter, genderFilter, joinYearFilter, search, sortBy, sortDirection]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const currentPage = Math.min(page, totalPages);
@@ -177,7 +252,7 @@ function PlayersIndexInner() {
       router.replace(getPlayersUrl(view), { scroll: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orgFilter, genderFilter, joinYearFilter, search]);
+  }, [orgFilter, genderFilter, joinYearFilter, sortBy, sortDirection, search]);
 
   // ページネーション後にスクロール (再レンダー後にレイアウトが確定してから実行)
   const paginatingRef = useRef(false);
@@ -628,7 +703,7 @@ function PlayersIndexInner() {
                 </div>
                 <div>
                   <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 3 }}>プロ歴</div>
-                  <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>{CURRENT_YEAR - p.joinYear + 1}年目</div>
+                  <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>{CURRENT_YEAR - (p.proSinceYear ?? p.joinYear) + 1}年目</div>
                 </div>
                 <div>
                   <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 3 }}>誕生日</div>
@@ -880,76 +955,193 @@ function PlayersIndexInner() {
         })}
       </nav>
 
-      {/* JOIN YEAR FILTER */}
       <div
-        className="player-filter-strip player-filter-strip--join-year"
+        className="player-filter-strip player-filter-strip--controls"
         style={{
           display: "flex",
           flexWrap: "wrap",
-          alignItems: "center",
-          gap: 10,
+          alignItems: "flex-end",
+          gap: "12px 14px",
           margin: "0 0 18px",
         }}
       >
-        <label
-          htmlFor="join-year-filter"
+        {/* JOIN YEAR FILTER */}
+        <div
+          className="player-filter-strip--join-year"
           style={{
-            fontFamily: "'Shippori Mincho', serif",
-            fontSize: 12,
-            fontWeight: 900,
-            color: "var(--ink)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: 6,
+            flex: "0 0 112px",
           }}
         >
-          入会年
-        </label>
-        <select
-          id="join-year-filter"
-          value={joinYearFilter === "ALL" ? "ALL" : String(joinYearFilter)}
-          onChange={(e) => {
-            const next = e.target.value === "ALL" ? "ALL" : Number(e.target.value);
-            trackEvent("Player Filter", { area: "join_year", filter: String(next) });
-            setJoinYearFilter(next);
-          }}
-          style={{
-            minWidth: 128,
-            padding: "6px 28px 6px 10px",
-            background: "var(--paper)",
-            color: "var(--ink)",
-            border: "1.5px solid var(--ink)",
-            borderRadius: 0,
-            fontFamily: "'Geist Mono', monospace",
-            fontSize: 10.5,
-            letterSpacing: "0.08em",
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-        >
-          <option value="ALL">ALL</option>
-          {joinYearOptions.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
-        {joinYearFilter !== "ALL" && (
-          <button
-            type="button"
-            onClick={() => setJoinYearFilter("ALL")}
+          <label
+            htmlFor="join-year-filter"
             style={{
-              padding: "5px 10px",
+              fontFamily: "'Shippori Mincho', serif",
+              fontSize: 12,
+              fontWeight: 900,
+              color: "var(--ink)",
+            }}
+          >
+            入会年
+          </label>
+          <select
+            id="join-year-filter"
+            value={joinYearFilter === "ALL" ? "ALL" : String(joinYearFilter)}
+            onChange={(e) => {
+              const next = e.target.value === "ALL" ? "ALL" : Number(e.target.value);
+              trackEvent("Player Filter", { area: "join_year", filter: String(next) });
+              setJoinYearFilter(next);
+            }}
+            style={{
+              width: "100%",
+              minWidth: 0,
+              height: 36,
+              padding: "5px 26px 5px 10px",
               background: "var(--paper)",
-              color: "var(--ink-3)",
-              border: "1px solid var(--ink-4)",
+              color: "var(--ink)",
+              border: "1.5px solid var(--ink)",
+              borderRadius: 0,
               fontFamily: "'Geist Mono', monospace",
-              fontSize: 10,
+              fontSize: 10.5,
               letterSpacing: "0.08em",
               fontWeight: 700,
               cursor: "pointer",
             }}
           >
-            CLEAR
-          </button>
-        )}
+            <option value="ALL">ALL</option>
+            {joinYearOptions.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          {joinYearFilter !== "ALL" && (
+            <button
+              type="button"
+              onClick={() => setJoinYearFilter("ALL")}
+              style={{
+                padding: "5px 10px",
+                background: "var(--paper)",
+                color: "var(--ink-3)",
+                border: "1px solid var(--ink-4)",
+                fontFamily: "'Geist Mono', monospace",
+                fontSize: 10,
+                letterSpacing: "0.08em",
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              CLEAR
+            </button>
+          )}
+        </div>
+
+        {/* SORT */}
+        <div
+          className="player-filter-strip--sort"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: 6,
+            flex: "0 1 196px",
+            maxWidth: 196,
+          }}
+        >
+          <label
+            htmlFor="player-sort"
+            style={{
+              fontFamily: "'Shippori Mincho', serif",
+              fontSize: 12,
+              fontWeight: 900,
+              color: "var(--ink)",
+            }}
+          >
+            並び順
+          </label>
+          <div
+            className="player-sort-control"
+            style={{
+              display: "flex",
+              alignItems: "stretch",
+              width: "100%",
+              maxWidth: 196,
+            }}
+          >
+            <select
+              id="player-sort"
+              value={sortBy}
+              onChange={(e) => {
+                const next = e.target.value as PlayerSort;
+                trackEvent("Player Sort", { sort: next });
+                setSortBy(next);
+              }}
+              style={{
+                flex: "1 1 auto",
+                minWidth: 0,
+                height: 36,
+                padding: "5px 26px 5px 10px",
+                background: "var(--paper)",
+                color: "var(--ink)",
+                border: "1.5px solid var(--ink)",
+                borderRight: "none",
+                borderRadius: 0,
+                fontFamily: "'Noto Sans JP', sans-serif",
+                fontSize: 11,
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              {SORT_OPTIONS.map((option) => (
+                <option key={option.key} value={option.key}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <button
+              className="player-sort-direction"
+              type="button"
+              aria-label={sortDirection === "asc" ? "降順にする" : "昇順にする"}
+              aria-pressed={sortDirection === "desc"}
+              onClick={() => {
+                const next = sortDirection === "asc" ? "desc" : "asc";
+                trackEvent("Player Sort Direction", { direction: next, sort: sortBy });
+                setSortDirection(next);
+              }}
+              title={sortDirection === "asc" ? "昇順" : "降順"}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: "0 0 auto",
+                width: 34,
+                height: 36,
+                border: "1.5px solid var(--ink)",
+                background: "var(--ink)",
+                color: "var(--paper)",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  display: "grid",
+                  placeItems: "center",
+                  fontFamily: "'Geist Mono', monospace",
+                  fontSize: 14,
+                  fontWeight: 900,
+                  lineHeight: 1,
+                }}
+              >
+                {sortDirection === "asc" ? "↑" : "↓"}
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* RESULT COUNT */}
@@ -1032,6 +1224,35 @@ function PlayersIndexInner() {
           color: var(--ink);
         }
         @media (max-width: 720px) {
+          .player-filter-strip--controls {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            align-items: flex-end !important;
+            gap: 10px 12px !important;
+            max-width: 100% !important;
+            overflow: visible !important;
+          }
+
+          .player-filter-strip--join-year,
+          .player-filter-strip--sort {
+            width: auto !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            flex: none !important;
+          }
+
+          .player-sort-control {
+            width: min(196px, 100%) !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+          }
+
+          .player-sort-direction {
+            width: 34px !important;
+            flex-shrink: 0 !important;
+          }
+
           .all-player-row {
             grid-template-columns: 44px minmax(0, 1fr) auto !important;
             gap: 10px !important;
@@ -1106,7 +1327,8 @@ interface PlayerRowProps {
 
 function PlayerRow({ player, index, isLast }: PlayerRowProps) {
   const meta = ORG_META[player.org];
-  const years = player.joinYear ? CURRENT_YEAR - player.joinYear + 1 : null;
+  const proStartYear = player.proSinceYear ?? player.joinYear;
+  const years = proStartYear ? CURRENT_YEAR - proStartYear + 1 : null;
   const number = String(index + 1).padStart(4, "0");
   const isMleaguer = !!player.mleagueTeam;
   const isDeveloper = isCreatorPlayer(player);
@@ -1310,7 +1532,6 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             fontFamily: "'Geist Mono', monospace",
             fontSize: 10.5,
             letterSpacing: "0.08em",
-            textTransform: "uppercase",
             fontWeight: 700,
             whiteSpace: "nowrap",
           }}
@@ -1379,7 +1600,7 @@ function Pagination({ page, totalPages, onChange }: PaginationProps) {
         display: "flex",
         flexWrap: "wrap",
         gap: 6,
-        margin: "0 0 48px",
+        margin: "0 0 18px",
         alignItems: "center",
       }}
     >

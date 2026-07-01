@@ -2,7 +2,7 @@ import Link from "next/link";
 import { type AllPlayer, type AnnualPoint, ALL_PLAYERS, ORG_META } from "@/app/players/data";
 import { TEAM_NAME_TO_SLUG, TEAMS, type SeasonResult } from "@/app/teams/data";
 import { PlayerVideoSection } from "@/components/PlayerVideoSection";
-import { calcYearsSinceJoin, periodToYear, type SupportedOrg } from "@/lib/period";
+import { calcYearsSinceProStart, getProStartYear, periodToYear, type SupportedOrg } from "@/lib/period";
 
 function formatBirthYear(bd: string): string {
   const parts = bd.split("/");
@@ -112,8 +112,9 @@ function getRelatedPlayers(player: AllPlayer): { av: string; nm: string; meta: s
 export function PlayerPage({ player }: { player: AllPlayer }) {
   const org = ORG_META[player.org];
   // 期 → 年マッピングが効く団体（最高位戦）は期から計算、それ以外は joinYear をフォールバック
-  const proYears = calcYearsSinceJoin(player.org as SupportedOrg, player.period, player.joinYear) ?? 0;
+  const proYears = calcYearsSinceProStart(player.org as SupportedOrg, player.period, player.joinYear, player.proSinceYear) ?? 0;
   const derivedJoinYear = periodToYear(player.org as SupportedOrg, player.period) ?? player.joinYear;
+  const derivedProStartYear = getProStartYear(player.org as SupportedOrg, player.period, player.joinYear, player.proSinceYear);
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
   const isDeveloper = isCreatorPlayer(player);
@@ -212,7 +213,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             <div className="v">
               <b>{proYears}</b> 年目{" "}
               <span style={{ fontFamily: "'Geist Mono'", fontSize: 11, color: "rgba(235,228,210,.6)" }}>
-                SINCE {derivedJoinYear}
+                SINCE {derivedProStartYear}
               </span>
             </div>
           </div>

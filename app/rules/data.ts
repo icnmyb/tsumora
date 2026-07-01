@@ -76,7 +76,7 @@ export const ORG_RULE_GROUPS: OrgRuleGroup[] = [
       {
         id: "saikouisen-classic", org: "最高位戦", name: "Classicルール",
         description: "ドラ1種・一発なし。競技色強め",
-        values: { kuitan:"あり", ippatsu:"なし", uradora:"なし", kandora:"なし", akadora:"なし", kuikae:"なし", tochuu:"なし", agariyame:"-", points:"30000/30000", rankpts:"+12/+4/-4/-12", chombo:"-" },
+        values: { kuitan:"あり", ippatsu:"なし", uradora:"なし", kandora:"なし", akadora:"なし", kuikae:"あり", tochuu:"なし", agariyame:"-", points:"30000/30000", rankpts:"+12/+4/-4/-12", chombo:"-" },
       },
     ],
   },
@@ -106,7 +106,7 @@ export const ORG_RULE_GROUPS: OrgRuleGroup[] = [
       {
         id: "mu-official", org: "μ", name: "公式ルール",
         description: "麻将連合標準ルール。一発・裏ドラ・槓ドラなし",
-        values: { kuitan:"あり", ippatsu:"なし", uradora:"なし", kandora:"なし", akadora:"なし", kuikae:"なし", tochuu:"なし", agariyame:"—", points:"30000/30000", rankpts:"+12/+4/-4/-12", chombo:"—" },
+        values: { kuitan:"あり", ippatsu:"なし", uradora:"なし", kandora:"なし", akadora:"なし", kuikae:"あり", tochuu:"なし", agariyame:"—", points:"30000/30000", rankpts:"+12/+4/-4/-12", chombo:"—" },
       },
     ],
   },

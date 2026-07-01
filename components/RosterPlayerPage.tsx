@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ORG_META, getAllPlayers, type RosterPlayer } from "@/app/players/data";
-import { calcYearsSinceJoin, periodToYear, type SupportedOrg } from "@/lib/period";
+import { calcYearsSinceProStart, getProStartYear, periodToYear, type SupportedOrg } from "@/lib/period";
 
 interface RelatedCard {
   av: string;
@@ -44,11 +44,15 @@ function isCreatorPlayer(player: Pick<RosterPlayer, "id">): boolean {
 }
 
 function calcProYears(player: RosterPlayer): number | null {
-  return calcYearsSinceJoin(player.org as SupportedOrg, player.period, player.joinYear);
+  return calcYearsSinceProStart(player.org as SupportedOrg, player.period, player.joinYear, player.proSinceYear);
 }
 
 function getDerivedJoinYear(player: RosterPlayer): number | undefined {
   return periodToYear(player.org as SupportedOrg, player.period) ?? player.joinYear;
+}
+
+function getDerivedProStartYear(player: RosterPlayer): number | undefined {
+  return getProStartYear(player.org as SupportedOrg, player.period, player.joinYear, player.proSinceYear);
 }
 
 function formatPeriodSummary(player: RosterPlayer, proYears: number | null, derivedJoinYear?: number): string {
@@ -92,6 +96,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
   const birthYear = formatBirthYear(player.birthday);
   const proYears = calcProYears(player);
   const derivedJoinYear = getDerivedJoinYear(player);
+  const derivedProStartYear = getDerivedProStartYear(player);
   const related = getRelatedPlayers(player);
   const isDeveloper = isCreatorPlayer(player);
   const genderLabel = formatGenderLabel(player.gender);
@@ -230,7 +235,10 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
               {proYears !== null && (
                 <li>
                   <span className="l">Career プロ歴</span>
-                  <span className="v"><span className="h">{proYears}</span> 年目</span>
+                  <span className="v">
+                    <span className="h">{proYears}</span> 年目
+                    {derivedProStartYear && derivedProStartYear !== derivedJoinYear ? ` (${derivedProStartYear}年プロ入り)` : ""}
+                  </span>
                 </li>
               )}
               {player.mleagueTeam && (

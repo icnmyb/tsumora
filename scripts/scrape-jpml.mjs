@@ -19,6 +19,7 @@ const MEMBERS_URL = "https://www.ma-jan.or.jp/activity/members.html";
 const PLAYER_OVERRIDES = {
   古小路亜美: {
     joinYear: undefined,
+    proSinceYear: 2017,
     careerNote: "日本プロ麻雀協会第17期として入会後、日本プロ麻雀連盟へ移籍。",
   },
 };
@@ -193,6 +194,7 @@ function serializePlayer(p) {
     furigana: p.furigana,
     period: p.period,
     joinYear: p.joinYear,
+    proSinceYear: p.proSinceYear,
     careerNote: p.careerNote,
     gender: p.gender,
     birthday: p.birthday,

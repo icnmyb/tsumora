@@ -78,3 +78,27 @@ export function calcYearsSinceJoin(
   }
   return null;
 }
+
+export function calcYearsSinceProStart(
+  org: SupportedOrg | undefined,
+  period: string | undefined,
+  joinYear: number | undefined,
+  proSinceYear: number | undefined,
+  asOfYear: number = new Date().getFullYear(),
+): number | null {
+  if (proSinceYear) {
+    return Math.max(1, asOfYear - proSinceYear + 1);
+  }
+  return calcYearsSinceJoin(org, period, joinYear, asOfYear);
+}
+
+export function getProStartYear(
+  org: SupportedOrg | undefined,
+  period: string | undefined,
+  joinYear: number | undefined,
+  proSinceYear: number | undefined,
+): number | undefined {
+  if (proSinceYear) return proSinceYear;
+  if (org) return periodToYear(org, period) ?? joinYear;
+  return joinYear;
+}

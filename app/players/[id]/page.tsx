@@ -43,8 +43,8 @@ function buildDescription(player: ReturnType<typeof getPlayer>): string {
   parts.push(orgInfo.join(" · "));
 
   // Career hint
-  if (player.joinYear) {
-    parts.push(`${player.joinYear}年プロ入り`);
+  if (player.proSinceYear ?? player.joinYear) {
+    parts.push(`${player.proSinceYear ?? player.joinYear}年プロ入り`);
   }
   if (player.careerNote) {
     parts.push(player.careerNote);
