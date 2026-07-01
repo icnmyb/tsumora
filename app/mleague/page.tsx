@@ -122,6 +122,8 @@ function computeStandings(phase: PhaseKey): ComputedStanding[] {
 }
 
 function getPhaseCopy(phase: PhaseKey) {
+  const isFinalComplete = FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
+
   switch (phase) {
     case "regular":
       return {
@@ -151,16 +153,26 @@ function getPhaseCopy(phase: PhaseKey) {
       };
     case "final":
       return {
-        tag: FINAL_2025_26.gamesPlayed > 0 ? "ファイナル進行中" : "ファイナル開幕前",
-        heading: FINAL_2025_26.gamesPlayed > 0 ? "ファイナル順位表" : "ファイナル開始時順位",
-        en: "Final Series Standings",
+        tag: isFinalComplete
+          ? "ファイナル終了"
+          : FINAL_2025_26.gamesPlayed > 0
+            ? "ファイナル進行中"
+            : "ファイナル開幕前",
+        heading: isFinalComplete
+          ? "ファイナル最終順位"
+          : FINAL_2025_26.gamesPlayed > 0
+            ? "ファイナル順位表"
+            : "ファイナル開始時順位",
+        en: isFinalComplete ? "Final Series Result" : "Final Series Standings",
         deskLabel: "Final進出4チーム",
         deskEn: "Finalists · 4 Teams",
         ptsLabel: "Final PTS",
         diffLabel: "首位差",
         borderLabel: "",
         lead:
-          FINAL_2025_26.gamesPlayed > 0
+          isFinalComplete
+            ? "2025-26シーズンのファイナルはEX風林火山が優勝。表示ポイントは持越pt + ファイナル獲得pt（合計）を表示。"
+            : FINAL_2025_26.gamesPlayed > 0
             ? "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントは持越pt + ファイナル獲得pt（合計）を表示。"
             : "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントはセミファイナル最終ptの半分を持ち越した開始時点の値。",
       };
@@ -176,8 +188,9 @@ function getLineInfo(phase: PhaseKey, idx: number) {
     if (idx < 4) return { label: "FINAL進出", cls: "f", eliminated: false, border: idx === 3 };
     return { label: "SF敗退", cls: "x", eliminated: true, border: false };
   }
+  const isFinalComplete = FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
   return {
-    label: FINAL_2025_26.gamesPlayed > 0 ? "FINAL" : "開幕前",
+    label: isFinalComplete ? (idx === 0 ? "優勝" : "最終順位") : FINAL_2025_26.gamesPlayed > 0 ? "FINAL" : "開幕前",
     cls: idx === 0 ? "f" : "s",
     eliminated: false,
     border: idx === 0,
@@ -266,6 +279,8 @@ export default function MleaguePage() {
   const standings = computeStandings(selectedPhase);
   const leaders = computeIndividualLeaders(standings, selectedPhase).slice(0, 10);
   const leader = standings[0];
+  const isSelectedFinalComplete =
+    selectedPhase === "final" && FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
   const totalPlayers = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
   // バーは max abs で正規化、片側 50% にキャップしてはみ出しを防ぐ
   const maxAbs = Math.max(...standings.map((s) => Math.abs(s.totalPts)), 1);
@@ -317,7 +332,7 @@ export default function MleaguePage() {
             <div className="sub">各チーム4名</div>
           </div>
           <div className="m">
-            <div className="l">Leader</div>
+            <div className="l">{isSelectedFinalComplete ? "Champion" : "Leader"}</div>
             <div className="v red">{leader ? fmtPts(leader.totalPts) : "—"}</div>
             <div className="sub">{leader?.team.shortName ?? "—"}</div>
           </div>
@@ -769,7 +784,7 @@ export default function MleaguePage() {
             <dd style={{ fontSize: 11.5, lineHeight: 1.6 }}>
               ドリブンズ&apos;18-19 / Pirates&apos;19-20 / 風林火山&apos;20-21 /<br/>
               サクラナイツ&apos;21-22 / ABEMAS&apos;22-23 /<br/>
-              Pirates&apos;23-24 / フェニックス&apos;24-25
+              Pirates&apos;23-24 / フェニックス&apos;24-25 / 風林火山&apos;25-26
             </dd>
             <dt>公式</dt>
             <dd>

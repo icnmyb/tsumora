@@ -97,13 +97,16 @@ function MLeagueStandingsCard({
 }) {
   const progressPct = (final.gamesPlayed / final.totalGames) * 100;
   const isBeforeOpen = final.gamesPlayed === 0;
+  const isFinalComplete = final.gamesPlayed >= final.totalGames;
   return (
     <>
       <div className="hmb-head">
         <div className="hmb-head-top">
           <div className="hmb-title-group">
             <h2 className="hmb-title">Mリーグ順位表</h2>
-            <span className="hmb-phase-chip">{isBeforeOpen ? "FINAL OPENING" : "FINAL"}</span>
+            <span className="hmb-phase-chip">
+              {isFinalComplete ? "FINAL RESULT" : isBeforeOpen ? "FINAL OPENING" : "FINAL"}
+            </span>
           </div>
           <Link href="/mleague" className="hmb-more">
             詳細 →
@@ -124,9 +127,19 @@ function MLeagueStandingsCard({
           </span>
         </div>
         <div className="hmb-meta-row">
-          <span>{isBeforeOpen ? "2025-26 · Final 5/4開幕" : "2025-26 · Final進行中"}</span>
+          <span>
+            {isFinalComplete
+              ? "2025-26 · Final終了"
+              : isBeforeOpen
+                ? "2025-26 · Final 5/4開幕"
+                : "2025-26 · Final進行中"}
+          </span>
           <span className="hmb-meta-final">
-            {isBeforeOpen ? "SF最終ptの半分を持越" : "確認済み結果を反映"}
+            {isFinalComplete
+              ? "最終結果を反映"
+              : isBeforeOpen
+                ? "SF最終ptの半分を持越"
+                : "確認済み結果を反映"}
           </span>
         </div>
       </div>
@@ -192,6 +205,7 @@ export const dynamic = "force-dynamic";
 
 export default function Home() {
   const final = FINAL_2025_26;
+  const isFinalComplete = final.gamesPlayed >= final.totalGames;
   const finalStandings = final.standings.map((s) => ({
     ...s,
     team: getTeamBySlug(s.teamSlug),
@@ -290,13 +304,15 @@ export default function Home() {
             </div>
             <div className="mlb-meta">
               <span className="mlb-season">2025-26</span>
-              <span className="mlb-phase">FINAL OPENING</span>
+              <span className="mlb-phase">{isFinalComplete ? "FINAL RESULT" : "FINAL OPENING"}</span>
             </div>
           </div>
 
           <div className="mlb-progress">
             <div className="mlb-progress-row">
-              <span className="mlb-progress-label">FINAL STARTING POINTS</span>
+              <span className="mlb-progress-label">
+                {isFinalComplete ? "FINAL RESULT POINTS" : "FINAL STARTING POINTS"}
+              </span>
               <span className="mlb-progress-count">
                 <strong>{final.gamesPlayed}</strong>
                 <span className="slash">/</span>
@@ -353,7 +369,7 @@ export default function Home() {
           {finalLeader && (
             <div className="mlb-leader-line">
               <Link href={`/teams/${finalLeader.team.slug}`}>
-                <span className="mlb-ll-tag">START LEADER</span>
+                <span className="mlb-ll-tag">{isFinalComplete ? "CHAMPION" : "START LEADER"}</span>
                 <span
                   className="mlb-ll-swatch"
                   style={{ background: finalLeader.team.color }}

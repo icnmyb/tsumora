@@ -3,6 +3,8 @@ import { getTeamBySlug } from "@/app/teams/data";
 
 export function TopStrip() {
   const nextFinal = FINAL_2025_26.upcoming[0];
+  const champion = getTeamBySlug(FINAL_2025_26.standings[0]?.teamSlug)?.shortName;
+  const isFinalComplete = FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
   const finalTeams = nextFinal?.teamSlugs
     .map((slug) => getTeamBySlug(slug)?.shortName)
     .filter((name): name is string => Boolean(name))
@@ -13,11 +15,11 @@ export function TopStrip() {
       <div className="wrap row">
         <span className="live-tag">INFO</span>
         <span className="item">
-          <b>Mリーグ</b> 2025-26 ファイナル · {FINAL_2025_26.startDate.replaceAll("-", ".")} 開幕
+          <b>Mリーグ</b> 2025-26 ファイナル · {isFinalComplete ? "最終結果" : `${FINAL_2025_26.startDate.replaceAll("-", ".")} 開幕`}
         </span>
         <span className="sep">／</span>
         <span className="item">
-          <b>出場</b> {finalTeams}
+          <b>{isFinalComplete ? "優勝" : "出場"}</b> {isFinalComplete ? champion : finalTeams}
         </span>
         <span className="sep">／</span>
         <span className="item">
