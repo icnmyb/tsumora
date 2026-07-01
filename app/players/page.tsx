@@ -8,6 +8,7 @@ import { trackEvent } from "@/lib/analytics";
 
 type OrgFilter = "ALL" | OrgCode;
 type GenderFilter = "ALL" | Gender;
+type JoinYearFilter = "ALL" | number;
 type PlayerView = "mleague" | "all";
 
 type OrgTab = {
@@ -85,6 +86,15 @@ function formatLeaguePeriod(player: Pick<RosterPlayer, "league" | "period" | "li
   return parts.length > 0 ? parts.join(" · ") : "—";
 }
 
+function getDisplayTitle(title?: string): string {
+  if (!title || title === "—" || title === "-") return "";
+  return title;
+}
+
+function getKanaSortKey(player: RosterPlayer): string {
+  return (player.furigana || player.name).replace(/\s+/g, "");
+}
+
 export default function PlayersIndexPage() {
   return (
     <Suspense fallback={null}>
@@ -103,11 +113,16 @@ function PlayersIndexInner() {
 
   const [orgFilter, setOrgFilter] = useState<OrgFilter>("ALL");
   const [genderFilter, setGenderFilter] = useState<GenderFilter>("ALL");
+  const [joinYearFilter, setJoinYearFilter] = useState<JoinYearFilter>("ALL");
   const [mleagueTeamFilter, setMleagueTeamFilter] = useState<MLeagueTeamFilter>("ALL");
   const [search, setSearch] = useState("");
   const allListRef = useRef<HTMLHeadingElement | null>(null);
 
   const allPlayers = useMemo(() => getAllPlayers(), []);
+  const joinYearOptions = useMemo(() => {
+    return [...new Set(allPlayers.map((p) => p.joinYear).filter((year): year is number => Boolean(year)))]
+      .sort((a, b) => b - a);
+  }, [allPlayers]);
 
   const getPlayersUrl = (nextView: PlayerView, nextPage = 1) => {
     const params = new URLSearchParams();
@@ -131,17 +146,21 @@ function PlayersIndexInner() {
     const arr = allPlayers.filter((p) => {
       const orgOk = orgFilter === "ALL" || p.org === orgFilter;
       const genderOk = genderFilter === "ALL" || p.gender === genderFilter;
-      if (!orgOk || !genderOk) return false;
+      const joinYearOk = joinYearFilter === "ALL" || p.joinYear === joinYearFilter;
+      if (!orgOk || !genderOk || !joinYearOk) return false;
       if (!q) return true;
       if (p.name.toLowerCase().includes(q)) return true;
       if (p.nameEn && p.nameEn.toLowerCase().includes(q)) return true;
       if (p.furigana && p.furigana.includes(q)) return true;
       return false;
     });
-    // 五十音順 (player ID は yomi のローマ字表記なので、IDアルファベット順 ≒ 五十音順)
-    arr.sort((a, b) => a.id.localeCompare(b.id));
+    arr.sort((a, b) => {
+      const byKana = getKanaSortKey(a).localeCompare(getKanaSortKey(b), "ja");
+      if (byKana !== 0) return byKana;
+      return a.name.localeCompare(b.name, "ja");
+    });
     return arr;
-  }, [allPlayers, orgFilter, genderFilter, search]);
+  }, [allPlayers, orgFilter, genderFilter, joinYearFilter, search]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const currentPage = Math.min(page, totalPages);
@@ -154,7 +173,7 @@ function PlayersIndexInner() {
       router.replace(getPlayersUrl(view), { scroll: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orgFilter, genderFilter, search]);
+  }, [orgFilter, genderFilter, joinYearFilter, search]);
 
   // ページネーション後にスクロール (再レンダー後にレイアウトが確定してから実行)
   const paginatingRef = useRef(false);
@@ -569,11 +588,11 @@ function PlayersIndexInner() {
                     fontFamily: "'Shippori Mincho', serif",
                     fontWeight: 800,
                     fontSize: 18,
-                    color: p.title ? "var(--ink)" : "var(--ink-2)",
+                    color: getDisplayTitle(p.title) ? "var(--ink)" : "var(--ink-2)",
                     lineHeight: 1.3,
                   }}
                 >
-                  {p.title || (p.league && p.league !== "—" ? p.league : "—")}
+                  {getDisplayTitle(p.title) || (p.league && p.league !== "—" ? p.league : "—")}
                 </div>
                 <div
                   style={{
@@ -857,6 +876,78 @@ function PlayersIndexInner() {
         })}
       </nav>
 
+      {/* JOIN YEAR FILTER */}
+      <div
+        className="player-filter-strip player-filter-strip--join-year"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          gap: 10,
+          margin: "0 0 18px",
+        }}
+      >
+        <label
+          htmlFor="join-year-filter"
+          style={{
+            fontFamily: "'Shippori Mincho', serif",
+            fontSize: 12,
+            fontWeight: 900,
+            color: "var(--ink)",
+          }}
+        >
+          入会年
+        </label>
+        <select
+          id="join-year-filter"
+          value={joinYearFilter === "ALL" ? "ALL" : String(joinYearFilter)}
+          onChange={(e) => {
+            const next = e.target.value === "ALL" ? "ALL" : Number(e.target.value);
+            trackEvent("Player Filter", { area: "join_year", filter: String(next) });
+            setJoinYearFilter(next);
+          }}
+          style={{
+            minWidth: 128,
+            padding: "6px 28px 6px 10px",
+            background: "var(--paper)",
+            color: "var(--ink)",
+            border: "1.5px solid var(--ink)",
+            borderRadius: 0,
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 10.5,
+            letterSpacing: "0.08em",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          <option value="ALL">ALL</option>
+          {joinYearOptions.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+        {joinYearFilter !== "ALL" && (
+          <button
+            type="button"
+            onClick={() => setJoinYearFilter("ALL")}
+            style={{
+              padding: "5px 10px",
+              background: "var(--paper)",
+              color: "var(--ink-3)",
+              border: "1px solid var(--ink-4)",
+              fontFamily: "'Geist Mono', monospace",
+              fontSize: 10,
+              letterSpacing: "0.08em",
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            CLEAR
+          </button>
+        )}
+      </div>
+
       {/* RESULT COUNT */}
       <div
         style={{
@@ -1131,9 +1222,9 @@ function PlayerRow({ player, index, isLast }: PlayerRowProps) {
             }}
           >
             <span style={{ color: "var(--ink-2)" }}>
-              {player.title || (player.league && player.league !== "—" ? player.league : "—")}
+              {getDisplayTitle(player.title) || (player.league && player.league !== "—" ? player.league : "—")}
             </span>
-            {player.title && player.league && player.league !== "—" && (
+            {getDisplayTitle(player.title) && player.league && player.league !== "—" && (
               <span style={{ color: "var(--ink-3)" }}> · {player.league}</span>
             )}
             {player.license && (

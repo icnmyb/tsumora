@@ -16,9 +16,15 @@ export function generateStaticParams() {
   return getAllPlayers().map((p) => ({ id: p.id }));
 }
 
+function getDisplayTitle(title?: string): string {
+  if (!title || title === "—" || title === "-") return "";
+  return title;
+}
+
 function buildDescription(player: ReturnType<typeof getPlayer>): string {
   if (!player) return "";
   const orgLabel = ORG_LABEL[player.org] ?? player.org;
+  const mainTitle = getDisplayTitle(player.title);
   const parts: string[] = [];
 
   // Lead
@@ -50,7 +56,7 @@ function buildDescription(player: ReturnType<typeof getPlayer>): string {
   }
 
   // Title
-  if (player.title) parts.push(player.title);
+  if (mainTitle) parts.push(mainTitle);
 
   // Birthplace
   if (player.birthplace) parts.push(`${player.birthplace}出身`);
@@ -79,6 +85,7 @@ export async function generateMetadata({
   const title = `${player.name}${nameEn} — TSUMORA`;
   const description = buildDescription(player);
   const url = `https://tsumora.com${player.href}`;
+  const mainTitle = getDisplayTitle(player.title);
 
   // Build dynamic OG image URL using Vercel OG handler
   const orgLabel = ORG_LABEL[player.org] ?? player.org;
@@ -87,7 +94,7 @@ export async function generateMetadata({
     nameEn: player.nameEn ?? "",
     org: orgLabel,
     league: player.league !== "—" ? player.league : "",
-    title: player.title ?? "",
+    title: mainTitle,
     team: player.mleagueTeam ?? "",
   });
   const ogImage = `/api/og/player?${ogParams.toString()}`;
@@ -126,7 +133,7 @@ export async function generateMetadata({
       "プロ雀士",
       "麻雀",
       ...(player.mleagueTeam ? ["Mリーグ", player.mleagueTeam] : []),
-      ...(player.title ? [player.title] : []),
+      ...(mainTitle ? [mainTitle] : []),
     ].filter((s): s is string => Boolean(s)),
   };
 }

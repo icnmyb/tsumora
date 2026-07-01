@@ -34,6 +34,11 @@ function formatGenderLabel(gender?: RosterPlayer["gender"]): string {
   return "";
 }
 
+function getDisplayTitle(title?: string): string {
+  if (!title || title === "—" || title === "-") return "";
+  return title;
+}
+
 function calcProYears(player: RosterPlayer): number | null {
   return calcYearsSinceJoin(player.org as SupportedOrg, player.period, player.joinYear);
 }
@@ -86,6 +91,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
   const related = getRelatedPlayers(player);
   const isDeveloper = player.id === "takamitoshiya";
   const genderLabel = formatGenderLabel(player.gender);
+  const mainTitle = getDisplayTitle(player.title);
 
   return (
     <div className="wrap">
@@ -128,7 +134,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
           )}
           <div className="tags-row">
             {isDeveloper && <span className="tag-chip dev">開発者</span>}
-            {player.title && <span className="tag-chip v">● {player.title}</span>}
+            {mainTitle && <span className="tag-chip v">● {mainTitle}</span>}
             <span className="tag-chip" style={{ background: org.color, color: "#fff" }}>
               {org.label}
             </span>
@@ -245,10 +251,10 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
                   {player.league === "—" ? "現リーグ未登録" : player.league}
                 </span>
               </li>
-              {player.title && (
+              {mainTitle && (
                 <li>
                   <span className="l">Title 主要タイトル</span>
-                  <span className="v">{player.title}</span>
+                  <span className="v">{mainTitle}</span>
                 </li>
               )}
             </ul>
