@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { Fragment, useState } from "react";
-import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
-import { getPlayer, type FeaturedPlayer } from "@/app/players/data";
+import { TEAM_NAME_TO_SLUG, TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
+import { ALL_PLAYERS, getPlayer, isFeaturedPlayer, type AnnualPoint, type FeaturedPlayer } from "@/app/players/data";
 import { FINAL_2025_26, REGULAR_FINAL_2025_26, SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
-import { getPlayerPhaseStats, getTeamPhaseStats } from "@/app/mleague/stats-db";
+import { getPlayerPhaseStats, getPlayerPhaseStatsByTeam, getTeamPhaseStats } from "@/app/mleague/stats-db";
 import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 
 const CURRENT_SEASON = "2025-26";
@@ -42,17 +42,12 @@ function enrichStanding(
   gamesPlayed: number,
   gamesTotal: number,
 ): ComputedStanding {
-  const rosterPlayers: FeaturedPlayer[] = [];
+  const rosterPlayers = getSeasonRosterPlayers(phase, team.slug);
   let topRateSum = 0;
   let topRateCount = 0;
   let bestScore = 0;
-  for (const slot of team.currentRoster) {
-    const p = getPlayer(slot.id);
-    if (!p) continue;
-    // FeaturedPlayer guard via annualPoints presence
-    if (!("annualPoints" in p) || !p.annualPoints) continue;
-    rosterPlayers.push(p as FeaturedPlayer);
-    const cs = (p as FeaturedPlayer).currentSeason;
+  for (const p of rosterPlayers) {
+    const cs = p.currentSeason;
     if (cs?.season === CURRENT_SEASON) {
       if (typeof cs.topRate === "number") {
         topRateSum += cs.topRate;
@@ -79,6 +74,29 @@ function enrichStanding(
     bestScore: phaseStats?.bestScore ?? (shouldUseFallbackSeasonStats ? bestScore : 0),
     rosterPlayers,
   };
+}
+
+function getAnnualPointTeamSlug(player: FeaturedPlayer, annualPoint: AnnualPoint): string | undefined {
+  const teamName = annualPoint.team ?? player.mleagueTeam;
+  return teamName ? TEAM_NAME_TO_SLUG[teamName] : undefined;
+}
+
+function getSeasonRosterPlayers(phase: PhaseKey, teamSlug: string): FeaturedPlayer[] {
+  if (phase === "regular") {
+    return ALL_PLAYERS
+      .filter((player) =>
+        player.annualPoints?.some((annualPoint) =>
+          annualPoint.season === CURRENT_SEASON &&
+          getAnnualPointTeamSlug(player, annualPoint) === teamSlug,
+        ),
+      )
+      .sort((a, b) => (getPlayerPhasePts(b, phase) ?? 0) - (getPlayerPhasePts(a, phase) ?? 0));
+  }
+
+  return getPlayerPhaseStatsByTeam(phase, teamSlug)
+    .map((stats) => getPlayer(stats.playerId))
+    .filter((player): player is FeaturedPlayer => !!player && isFeaturedPlayer(player))
+    .sort((a, b) => (getPlayerPhasePts(b, phase) ?? 0) - (getPlayerPhasePts(a, phase) ?? 0));
 }
 
 function computeStandings(phase: PhaseKey): ComputedStanding[] {
@@ -279,6 +297,7 @@ export default function MleaguePage() {
   const standings = computeStandings(selectedPhase);
   const leaders = computeIndividualLeaders(standings, selectedPhase).slice(0, 10);
   const leader = standings[0];
+  const seasonPlayerTotal = computeStandings("regular").reduce((acc, s) => acc + s.rosterPlayers.length, 0);
   const isSelectedFinalComplete =
     selectedPhase === "final" && FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
   const totalPlayers = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
@@ -329,7 +348,7 @@ export default function MleaguePage() {
           <div className="m">
             <div className="l">Players</div>
             <div className="v">{totalPlayers}</div>
-            <div className="sub">各チーム4名</div>
+            <div className="sub">表示中フェーズの出場者</div>
           </div>
           <div className="m">
             <div className="l">{isSelectedFinalComplete ? "Champion" : "Leader"}</div>
@@ -761,7 +780,7 @@ export default function MleaguePage() {
               5団体から選抜
             </dd>
             <dt>参加プロ</dt>
-            <dd>全{totalPlayers}名（各4名）</dd>
+            <dd>全{seasonPlayerTotal}名（レギュラーシーズン）</dd>
             <dt>レギュラー</dt>
             <dd>
               10月〜翌5月
@@ -821,7 +840,7 @@ export default function MleaguePage() {
 const RULE_ROWS: { l: string; v: React.ReactNode }[] = [
   { l: "Game Type", v: <>4人<b>東南戦</b></> },
   { l: "Starting Score", v: <><b>25,000点</b>持ち · 30,000点返し</> },
-  { l: "Uma / Oka", v: <>ウマ <b>+30 / +10 / −10 / −30</b></> },
+  { l: "Uma / Oka", v: <>ウマ <b>+30 / +10 / −10 / −30</b> · オカ <b>+20</b></> },
   { l: "Akadora", v: <><b>あり</b> · 各色1枚</> },
   { l: "Ippatsu", v: <b>あり</b> },
   { l: "Uradora", v: <b>あり</b> },

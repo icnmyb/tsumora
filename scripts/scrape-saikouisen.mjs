@@ -16,6 +16,14 @@ const LIST_URL = "https://saikouisen.com/members/";
 const CONCURRENCY = 8;
 const THROTTLE_MS = 100;
 
+const PLAYER_OVERRIDES = {
+  綱川隆晃: {
+    proSinceYear: 2007,
+    debutOrgLabel: "日本プロ麻雀協会",
+    careerNote: "日本プロ麻雀協会第6期後期として入会後、2026年に最高位戦へ移籍。",
+  },
+};
+
 async function fetchText(url) {
   const res = await fetch(url, {
     headers: { "User-Agent": "hora-scraper/1.0 (research)" },
@@ -156,6 +164,9 @@ function serializePlayer(p) {
     furigana: p.furigana,
     period: p.period,
     joinYear: p.joinYear,
+    proSinceYear: p.proSinceYear,
+    debutOrgLabel: p.debutOrgLabel,
+    careerNote: p.careerNote,
     gender: p.gender,
     birthday: p.birthday,
     birthplace: p.birthplace,
@@ -285,6 +296,7 @@ async function main() {
       bloodType,
       href: `/players/${id}`,
       officialUrl: `https://saikouisen.com/members/${p.slug}/`,
+      ...PLAYER_OVERRIDES[name],
     });
   }
 

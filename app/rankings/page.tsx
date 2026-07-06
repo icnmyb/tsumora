@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import { ALL_PLAYERS as FEATURED_PLAYERS, ROSTER_PLAYERS, type FeaturedPlayer } from "@/app/players/data";
-import { TEAMS, type TeamData } from "@/app/teams/data";
+import { TEAM_NAME_TO_SLUG, TEAMS, type TeamData } from "@/app/teams/data";
 
 export const metadata: Metadata = {
   title: "ランキング — TSUMORA",
@@ -37,12 +37,19 @@ interface SeasonPtEntry {
   team?: TeamData;
 }
 
+function getSeasonTeam(player: FeaturedPlayer, season: string): TeamData | undefined {
+  const annualPoint = player.annualPoints?.find((a) => a.season === season);
+  const teamName = annualPoint?.team ?? player.mleagueTeam;
+  const teamSlug = teamName ? TEAM_NAME_TO_SLUG[teamName] : undefined;
+  return teamSlug ? TEAMS.find((t) => t.slug === teamSlug) : undefined;
+}
+
 function computeSeasonPts(): SeasonPtEntry[] {
   const out: SeasonPtEntry[] = [];
   for (const p of FEATURED_PLAYERS) {
     const ap = p.annualPoints?.find((a) => a.season === CURRENT_SEASON);
     if (ap?.points === undefined) continue;
-    const team = TEAMS.find((t) => t.name === p.mleagueTeam);
+    const team = getSeasonTeam(p, CURRENT_SEASON);
     out.push({ player: p, pts: ap.points, team });
   }
   return out.sort((a, b) => b.pts - a.pts);
@@ -59,7 +66,7 @@ function computeTopRates(): TopRateEntry[] {
   for (const p of FEATURED_PLAYERS) {
     const rate = p.currentSeason?.topRate;
     if (typeof rate !== "number" || rate <= 0) continue;
-    const team = TEAMS.find((t) => t.name === p.mleagueTeam);
+    const team = getSeasonTeam(p, p.currentSeason?.season ?? CURRENT_SEASON);
     out.push({ player: p, topRate: rate, team });
   }
   return out.sort((a, b) => b.topRate - a.topRate);
@@ -76,7 +83,7 @@ function computeBestScores(): BestScoreEntry[] {
   for (const p of FEATURED_PLAYERS) {
     const score = p.currentSeason?.bestScore;
     if (typeof score !== "number" || score <= 0) continue;
-    const team = TEAMS.find((t) => t.name === p.mleagueTeam);
+    const team = getSeasonTeam(p, p.currentSeason?.season ?? CURRENT_SEASON);
     out.push({ player: p, bestScore: score, team });
   }
   return out.sort((a, b) => b.bestScore - a.bestScore);

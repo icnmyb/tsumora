@@ -115,6 +115,11 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const proYears = calcYearsSinceProStart(player.org as SupportedOrg, player.period, player.joinYear, player.proSinceYear) ?? 0;
   const derivedJoinYear = periodToYear(player.org as SupportedOrg, player.period) ?? player.joinYear;
   const derivedProStartYear = getProStartYear(player.org as SupportedOrg, player.period, player.joinYear, player.proSinceYear);
+  const hasTransferHistory =
+    typeof derivedProStartYear === "number" &&
+    typeof derivedJoinYear === "number" &&
+    derivedProStartYear !== derivedJoinYear;
+  const timelineSinceYear = derivedProStartYear ?? derivedJoinYear;
   const firstChar = player.name.charAt(0);
   const birthYear = formatBirthYear(player.birthday);
   const isDeveloper = isCreatorPlayer(player);
@@ -124,12 +129,23 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
   const titles = player.titles ?? [];
   const timelineItems = [
     ...titles.map((title) => ({ ...title, type: "title" as const })),
-    {
-      year: String(derivedJoinYear),
-      name: `${org.label}入会`,
-      sub: `${player.period ? `${player.period}生` : ""} · プロデビュー`,
-      type: "debut" as const,
-    },
+    ...(player.careerTimeline ?? []).map((event) => ({ ...event, type: "career" as const })),
+    ...(hasTransferHistory && derivedJoinYear
+      ? [{
+          year: String(derivedJoinYear),
+          name: `${org.label}へ移籍`,
+          sub: player.period ? `${player.period}生` : `${derivedJoinYear}年入会`,
+          type: "debut" as const,
+        }]
+      : []),
+    ...(timelineSinceYear
+      ? [{
+          year: String(timelineSinceYear),
+          name: `${player.debutOrgLabel ?? org.label}入会`,
+          sub: hasTransferHistory ? "プロデビュー" : `${player.period ? `${player.period}生` : ""} · プロデビュー`,
+          type: "debut" as const,
+        }]
+      : []),
   ].sort((a, b) => Number(b.year) - Number(a.year));
   const mainTitle = getDisplayTitle(player.title);
   const related = getRelatedPlayers(player);
@@ -333,6 +349,12 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                   <span className="v">{player.birthplace}</span>
                 </li>
               )}
+              {player.branch && (
+                <li>
+                  <span className="l">Branch 所属本部・支部</span>
+                  <span className="v">{player.branch}</span>
+                </li>
+              )}
               {player.bloodType && (
                 <li>
                   <span className="l">Blood 血液型</span>
@@ -348,7 +370,10 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
               <li>
                 <span className="l">Debut プロ入り</span>
                 <span className="v">
-                  {derivedJoinYear}年{player.period ? ` · ${player.period}` : ""}
+                  {timelineSinceYear}年
+                  {hasTransferHistory
+                    ? ` · ${player.debutOrgLabel ?? "プロデビュー"}${derivedJoinYear ? `（${derivedJoinYear}年${org.label}へ移籍）` : ""}`
+                    : player.period ? ` · ${player.period}` : ""}
                 </span>
               </li>
               <li>
@@ -357,6 +382,12 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
                   <span className="h">{proYears}</span> 年目
                 </span>
               </li>
+              {player.careerNote && (
+                <li>
+                  <span className="l">Transfer 移籍歴</span>
+                  <span className="v">{player.careerNote}</span>
+                </li>
+              )}
               {player.hobby && (
                 <li>
                   <span className="l">Hobby 趣味</span>
@@ -495,7 +526,7 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
               主な獲得タイトル <span className="en">Major Titles Won</span>
             </span>
             <span className="n">
-              {titles.length > 0 ? `${titles.length} TITLES · ` : ""}SINCE {derivedJoinYear}
+              {titles.length > 0 ? `${titles.length} TITLES · ` : ""}SINCE {timelineSinceYear}
             </span>
           </div>
           <ul className="timeline-list">
@@ -566,7 +597,9 @@ export function PlayerPage({ player }: { player: AllPlayer }) {
             {org.label}
           </div>
           <div className="meta" style={{ color: "rgba(255,255,255,.75)", marginTop: 6 }}>
-            {player.period ? `${player.period}生として在籍${proYears}年目` : `${derivedJoinYear}年入会 · 在籍${proYears}年目`}
+            {hasTransferHistory && derivedJoinYear
+              ? `${derivedJoinYear}年移籍 · プロ歴${proYears}年目`
+              : player.period ? `${player.period}生として在籍${proYears}年目` : `${derivedJoinYear}年入会 · 在籍${proYears}年目`}
           </div>
           <span className="tag" style={{ background: "var(--ink)", color: "var(--paper)", marginTop: 14 }}>
             団体ページへ →

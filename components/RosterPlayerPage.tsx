@@ -62,7 +62,19 @@ function formatPeriodSummary(player: RosterPlayer, proYears: number | null, deri
   return "所属選手";
 }
 
-function formatDebutOrPeriod(player: RosterPlayer, derivedJoinYear?: number): string {
+function formatDebutOrPeriod(
+  player: RosterPlayer,
+  derivedJoinYear?: number,
+  derivedProStartYear?: number,
+): string {
+  if (derivedProStartYear && derivedJoinYear && derivedProStartYear !== derivedJoinYear) {
+    return [
+      `${derivedProStartYear}年`,
+      player.debutOrgLabel ?? "プロデビュー",
+      player.period ? `${player.period}に${ORG_META[player.org].label}へ移籍` : `${derivedJoinYear}年${ORG_META[player.org].label}へ移籍`,
+    ].filter(Boolean).join(" · ");
+  }
+
   return [
     derivedJoinYear ? `${derivedJoinYear}年` : "",
     player.period ?? "",
@@ -198,6 +210,12 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
                   <span className="v">{player.birthplace}</span>
                 </li>
               )}
+              {player.branch && (
+                <li>
+                  <span className="l">Branch 所属本部・支部</span>
+                  <span className="v">{player.branch}</span>
+                </li>
+              )}
               {player.bloodType && (
                 <li>
                   <span className="l">Blood 血液型</span>
@@ -222,7 +240,7 @@ export function RosterPlayerPage({ player }: RosterPlayerPageProps) {
                     {derivedJoinYear ? "Debut プロ入り" : "Period 所属期"}
                   </span>
                   <span className="v">
-                    {formatDebutOrPeriod(player, derivedJoinYear)}
+                    {formatDebutOrPeriod(player, derivedJoinYear, derivedProStartYear)}
                   </span>
                 </li>
               )}

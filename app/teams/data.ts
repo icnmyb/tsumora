@@ -601,7 +601,7 @@ export const TEAMS: TeamData[] = [
     championships: 0,
     finalAppearances: 1,
     social: [
-      { label: "公式X", href: "https://x.com/BeastX_M", handle: "@BeastX_M" },
+      { label: "公式X", href: "https://x.com/BEAST_Japanext", handle: "@BEAST_Japanext" },
     ],
   },
 

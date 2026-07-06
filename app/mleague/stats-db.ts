@@ -126,7 +126,7 @@ export const PLAYER_PHASE_STATS_2025_26: PlayerPhaseStats[] = [
   { season: "2025-26", phase: "final", playerId: "date", teamSlug: "konami", games: 3, firsts: 1, seconds: 1, thirds: 0, fourths: 1, points: 17.1, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "tojo", teamSlug: "beast-x", games: 4, firsts: 1, seconds: 1, thirds: 1, fourths: 1, points: 39.0, source: FINAL_GAMES_SOURCE },
   { season: "2025-26", phase: "final", playerId: "honda", teamSlug: "raiden", games: 4, firsts: 1, seconds: 0, thirds: 3, fourths: 0, points: 37.6, source: FINAL_GAMES_SOURCE },
-  { season: "2025-26", phase: "final", playerId: "katsumata", teamSlug: "raiden", games: 5, firsts: 2, seconds: 2, thirds: 1, fourths: 0, points: 177.1, source: FINAL_GAMES_SOURCE },
+  { season: "2025-26", phase: "final", playerId: "katsumata", teamSlug: "furinkazan", games: 5, firsts: 2, seconds: 2, thirds: 1, fourths: 0, points: 177.1, source: FINAL_GAMES_SOURCE },
 
   { season: "2025-26", phase: "semifinal", playerId: "suzuki-d", teamSlug: "beast-x", games: 5, firsts: 3, seconds: 1, thirds: 1, fourths: 0, points: 176.5, topRate: 60.0, avoidFourthRate: 100.0, bestScore: 55400, source: SEMIFINAL_POINTS_SOURCE },
   { season: "2025-26", phase: "semifinal", playerId: "kurosawa", teamSlug: "raiden", games: 5, firsts: 2, seconds: 1, thirds: 2, fourths: 0, points: 101.9, topRate: 40.0, avoidFourthRate: 100.0, bestScore: 66200, source: SEMIFINAL_POINTS_SOURCE },
@@ -163,4 +163,11 @@ export function getPlayerPhaseStats(
   playerId: string,
 ): PlayerPhaseStats | undefined {
   return PLAYER_PHASE_STATS_2025_26.find((s) => s.phase === phase && s.playerId === playerId);
+}
+
+export function getPlayerPhaseStatsByTeam(
+  phase: MLeaguePhaseKey,
+  teamSlug: string,
+): PlayerPhaseStats[] {
+  return PLAYER_PHASE_STATS_2025_26.filter((s) => s.phase === phase && s.teamSlug === teamSlug);
 }

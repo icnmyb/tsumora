@@ -71,7 +71,7 @@ export const ORG_RULE_GROUPS: OrgRuleGroup[] = [
       {
         id: "saikouisen-standard", org: "最高位戦", name: "標準ルール",
         description: "一発・裏ドラあり",
-        values: { kuitan:"あり", ippatsu:"あり", uradora:"あり", kandora:"あり", akadora:"なし", kuikae:"なし", tochuu:"なし", agariyame:"-", points:"30000/30000", rankpts:"+50/+10/-10/-30", chombo:"-" },
+        values: { kuitan:"あり", ippatsu:"あり", uradora:"あり", kandora:"あり", akadora:"なし", kuikae:"なし", tochuu:"なし", agariyame:"-", points:"30000/30000", rankpts:"+30/+10/-10/-30", chombo:"-" },
       },
       {
         id: "saikouisen-classic", org: "最高位戦", name: "Classicルール",
