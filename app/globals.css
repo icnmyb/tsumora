@@ -288,6 +288,23 @@
 }
 
 @media (max-width: 720px) {
+  .strip .row {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+  }
+
+  .strip .row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .strip .row > * {
+    flex: 0 0 auto;
+  }
+
   .error-report-fab {
     right: max(12px, env(safe-area-inset-right));
     bottom: max(12px, env(safe-area-inset-bottom));
@@ -514,6 +531,30 @@
     min-width: 620px !important;
   }
 
+  .rules-table-shell {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .rules-table-shell .rules-item-head,
+  .rules-table-shell .rules-item-cell {
+    position: sticky;
+    left: 0;
+    min-width: 138px !important;
+    width: 138px !important;
+    max-width: 138px;
+    white-space: normal !important;
+    box-shadow: 2px 0 0 var(--ink);
+  }
+
+  .rules-table-shell .rules-item-head {
+    z-index: 4;
+  }
+
+  .rules-table-shell .rules-item-cell {
+    z-index: 3;
+  }
+
   .rules-subtabs {
     padding-left: 0;
   }
@@ -649,6 +690,9 @@ img { max-width: 100%; display: block; }
   display: flex; align-items: center; gap: 18px;
   height: 32px; overflow: hidden; font-family: "Geist Mono";
 }
+.strip-marquee { display: flex; align-items: center; min-width: 100%; }
+.strip-marquee-group { display: flex; align-items: center; gap: 18px; }
+.strip-marquee-group[aria-hidden="true"] { display: none; }
 .strip .live-tag {
   background: var(--vermilion); color: var(--paper);
   padding: 3px 10px; font-weight: 800; letter-spacing: 0.15em;
@@ -659,6 +703,50 @@ img { max-width: 100%; display: block; }
 .strip .item { white-space: nowrap; opacity: .85; }
 .strip .item b { color: #f0c86d; font-weight: 700; letter-spacing: 0; font-family: "Shippori Mincho"; }
 .strip .sep { opacity: .3; }
+@keyframes strip-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 720px) {
+  .strip-marquee {
+    width: max-content;
+    animation: strip-marquee 18s linear infinite;
+  }
+
+  .strip-marquee-group {
+    flex: 0 0 auto;
+    gap: 10px;
+    padding-right: 10px;
+  }
+
+  .strip-marquee-group[aria-hidden="true"] {
+    display: flex;
+  }
+
+  .strip .live-tag {
+    padding: 2px 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .strip .item {
+    letter-spacing: 0.04em;
+  }
+}
+
+@media (max-width: 720px) and (prefers-reduced-motion: reduce) {
+  .strip .row {
+    overflow-x: auto !important;
+  }
+
+  .strip-marquee {
+    animation: none;
+  }
+
+  .strip-marquee-group[aria-hidden="true"] {
+    display: none;
+  }
+}
 
 /* ============ MASTHEAD ============ */
 .masthead {
@@ -689,7 +777,7 @@ img { max-width: 100%; display: block; }
 .masthead h1 .en {
   display: block; font-family: "Instrument Serif"; font-style: italic;
   font-weight: 400; font-size: 22px; letter-spacing: 0.02em;
-  margin-top: 4px; color: var(--ink-2);
+  margin-top: 16px; color: var(--ink-2);
   line-height: 1;
 }
 
@@ -711,12 +799,27 @@ img { max-width: 100%; display: block; }
   .masthead-left { flex-direction: column; align-items: flex-start; gap: 10px; width: 100%; }
   .masthead h1 { font-size: clamp(34px, 11vw, 52px); max-width: 100%; }
   .masthead h1 .en { font-size: clamp(13px, 3.6vw, 16px); }
-  .masthead-right { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; width: 100%; }
+  .masthead-right {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .masthead-right::-webkit-scrollbar { display: none; }
+  .masthead-right .kv,
+  .masthead-right .big { flex: 0 0 auto; }
   .masthead-right .kv { gap: 6px; font-size: 10px; }
-  .masthead-right .big { font-size: 18px; margin-top: 0; margin-left: auto; }
+  .masthead-right .big { font-size: 18px; margin-top: 0; margin-left: 0; }
 }
 @media (max-width: 380px) {
-  .masthead-right .kv:nth-child(3) { display: none; }
+  .masthead-right .kv:nth-child(3) { display: flex; }
 }
 
 /* ============ NAV ============ */

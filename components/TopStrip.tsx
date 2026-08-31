@@ -9,26 +9,34 @@ export function TopStrip() {
     .map((slug) => getTeamBySlug(slug)?.shortName)
     .filter((name): name is string => Boolean(name))
     .join(" / ");
+  const renderInfoItems = () => (
+    <>
+      <span className="live-tag">INFO</span>
+      <span className="item">
+        <b>Mリーグ</b> 2025-26 ファイナル · {isFinalComplete ? "最終結果" : `${FINAL_2025_26.startDate.replaceAll("-", ".")} 開幕`}
+      </span>
+      <span className="sep">／</span>
+      <span className="item">
+        <b>{isFinalComplete ? "優勝" : "出場"}</b> {isFinalComplete ? champion : finalTeams}
+      </span>
+      <span className="sep">／</span>
+      <span className="item">
+        全<b>{FINAL_2025_26.totalGames}</b>試合 · 最終日 {FINAL_2025_26.endDate.replaceAll("-", ".")}
+      </span>
+      <span className="sep">／</span>
+      <span className="item">
+        <b>TSUMORA</b> データは確認済み情報から順次更新
+      </span>
+    </>
+  );
 
   return (
     <div className="strip">
       <div className="wrap row">
-        <span className="live-tag">INFO</span>
-        <span className="item">
-          <b>Mリーグ</b> 2025-26 ファイナル · {isFinalComplete ? "最終結果" : `${FINAL_2025_26.startDate.replaceAll("-", ".")} 開幕`}
-        </span>
-        <span className="sep">／</span>
-        <span className="item">
-          <b>{isFinalComplete ? "優勝" : "出場"}</b> {isFinalComplete ? champion : finalTeams}
-        </span>
-        <span className="sep">／</span>
-        <span className="item">
-          全<b>{FINAL_2025_26.totalGames}</b>試合 · 最終日 {FINAL_2025_26.endDate.replaceAll("-", ".")}
-        </span>
-        <span className="sep">／</span>
-        <span className="item">
-          <b>TSUMORA</b> データは確認済み情報から順次更新
-        </span>
+        <div className="strip-marquee">
+          <div className="strip-marquee-group">{renderInfoItems()}</div>
+          <div className="strip-marquee-group" aria-hidden="true">{renderInfoItems()}</div>
+        </div>
       </div>
     </div>
   );

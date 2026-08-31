@@ -76,6 +76,7 @@ function RuleCell({
 function RuleItemCell({ label, desc }: { label: string; desc?: string }) {
   return (
     <td
+      className="rules-item-cell"
       style={{
         padding: "10px 16px",
         fontFamily: "'Noto Sans JP', sans-serif",
@@ -130,6 +131,7 @@ function CompareTable() {
         <thead>
           <tr>
             <th
+              className="rules-item-head"
               style={{
                 padding: "14px 16px",
                 background: "var(--paper-2)",
@@ -676,11 +678,12 @@ function OrgDetail({ group }: { group: OrgRuleGroup }) {
         </div>
       )}
 
-      <div style={{ overflowX: "auto" }}>
+      <div className="rules-table-shell rules-table-shell--detail" style={{ overflowX: "auto" }}>
         <table style={{ borderCollapse: "collapse", width: "100%", border: "2px solid var(--ink)" }}>
           <thead>
             <tr>
               <th
+                className="rules-item-head"
                 style={{
                   padding: "12px 16px",
                   background: "var(--paper-2)",

@@ -52,7 +52,7 @@ const MLEAGUE_LOGO_COLORS: Record<string, string> = {
 };
 
 const KANJI_RANK = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
-const URL_SAKURAO_ACADEMY_X = "https://x.com/ouhouacademy?s=21";
+const URL_UNIVERSITY_MAHJONG_TOURNAMENT_LINE = "https://lin.ee/zSB9bq9";
 
 // 各主要団体から最高峰タイトルを1つずつ厳選 (5団体 → 5タイトル)
 const ORG_PRIORITY = ["JPML", "NPM", "SAIKOUISEN", "RMU", "MU"] as const;
@@ -403,25 +403,23 @@ export default function Home() {
 
       <section className="home-ad-banner" aria-label="広告">
         <TrackedExternalLink
-          href={URL_SAKURAO_ACADEMY_X}
-          aria-label="桜鳳アカデミーのXアカウントを開く"
+          href={URL_UNIVERSITY_MAHJONG_TOURNAMENT_LINE}
+          aria-label="大学生限定チーム制麻雀大会の公式LINEを開く"
           eventName="External Link Click"
-          eventProps={{ area: "home_ad_banner", destination: "X", url: URL_SAKURAO_ACADEMY_X }}
+          eventProps={{
+            area: "home_ad_banner",
+            destination: "LINE",
+            url: URL_UNIVERSITY_MAHJONG_TOURNAMENT_LINE,
+          }}
         >
-          <picture>
-            <source
-              media="(max-width: 720px)"
-              srcSet="/ads/sakurao-academy-mobile.png"
-            />
-            <img
-              src="/ads/sakurao-academy-desktop.png"
-              alt="桜鳳アカデミー 大学生向け麻雀スクール"
-              width={1774}
-              height={887}
-              loading="lazy"
-              decoding="async"
-            />
-          </picture>
+          <img
+            src="/ads/university-mahjong-tournament-2026.png"
+            alt="大学生限定 チーム制麻雀大会 2026年10月4日12時開始 2人1組のチーム戦 初心者歓迎"
+            width={1774}
+            height={887}
+            loading="lazy"
+            decoding="async"
+          />
         </TrackedExternalLink>
       </section>
 
