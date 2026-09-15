@@ -29,14 +29,59 @@ export interface NewsArticle {
 
 // HOMEの大きいニュース1件・小さいニュース2件はここで手動選択する。
 export const HOME_NEWS_SELECTION = {
-  primary: "mleague-2025-26-final-day8",
+  primary: "mleague-2026-27-opening-day",
   secondary: [
+    "mleague-2025-26-final-day8",
     "mleague-2025-26-final-day7",
-    "mleague-2025-26-final-day6",
   ],
 } as const;
 
 export const NEWS: NewsArticle[] = [
+  {
+    slug: "mleague-2026-27-opening-day",
+    date: "2026-09-15",
+    publishedAt: "2026-09-15T19:46:00+09:00",
+    category: "mleague",
+    headline: "Mリーグ2026-27開幕。逢川恵夢・朝倉康心が初日トップ",
+    lead:
+      "大和証券Mリーグ2026-27が9月14日に開幕。第1試合はEARTH JETSの逢川恵夢が58.0pt、第2試合はU-NEXT Piratesの朝倉康心が54.7ptでトップを獲得し、新シーズンが始まった。",
+    body: [
+      "第1試合は逢川恵夢が3万8000点・58.0ptでトップ。仲林圭が3.8ptで2着、日向藍子が-19.5ptで3着、滝沢和典が-42.3ptで4着となった。",
+      "第2試合はU-NEXT Piratesに5年ぶりに復帰した朝倉康心が、東場で2度の満貫ツモを決めて54.7ptのトップ。松本吉弘が7.4ptで2着、佐々木寿人が-14.0ptで3着、三浦智博が-48.1ptで4着となった。朝倉のMリーグでのトップは2022年2月15日以来、1672日ぶり。",
+      "開幕日を終えた出場4チームの合計ポイントは、U-NEXT Piratesが58.5pt、EARTH JETSが9.9pt、渋谷ABEMASが-12.1pt、KONAMI麻雀格闘倶楽部が-56.3pt。今季は全10チーム・40選手が参加し、全試合がABEMAで生放送される。",
+    ],
+    seoTitle: "Mリーグ2026-27開幕戦結果（逢川恵夢・朝倉康心がトップ）",
+    seoDescription:
+      "大和証券Mリーグ2026-27が開幕。9月14日の第1試合は逢川恵夢、第2試合は朝倉康心がトップを獲得した開幕日の結果を整理。",
+    sources: [
+      {
+        label: "M.LEAGUE公式：2026-27シーズン試合日程・結果",
+        url: "https://m-league.jp/games/",
+        checkedAt: "2026-09-15",
+      },
+      {
+        label: "M.LEAGUE公式：2026-27シーズン開幕・放送概要",
+        url: "https://m-league.jp/news202609111700/",
+        checkedAt: "2026-09-15",
+      },
+      {
+        label: "ABEMA TIMES：逢川恵夢が開幕第1試合トップ",
+        url: "https://times.abema.tv/articles/-/10272980",
+        checkedAt: "2026-09-15",
+      },
+      {
+        label: "ABEMA TIMES：朝倉康心が開幕第2試合トップ",
+        url: "https://times.abema.tv/articles/-/10272981",
+        checkedAt: "2026-09-15",
+      },
+    ],
+    related: [
+      { type: "team", id: "earth-jets" },
+      { type: "team", id: "pirates" },
+      { type: "player", id: "aikawa" },
+      { type: "player", id: "asakura_koshin" },
+    ],
+  },
   {
     slug: "mleague-2025-26-final-day8",
     date: "2026-05-15",

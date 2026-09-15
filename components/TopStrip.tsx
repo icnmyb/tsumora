@@ -1,27 +1,30 @@
-import { FINAL_2025_26 } from "@/app/mleague/sf-data";
+import { getPlayer } from "@/app/players/data";
+import { REGULAR_2026_27 } from "@/app/mleague/season-data";
 import { getTeamBySlug } from "@/app/teams/data";
 
 export function TopStrip() {
-  const nextFinal = FINAL_2025_26.upcoming[0];
-  const champion = getTeamBySlug(FINAL_2025_26.standings[0]?.teamSlug)?.shortName;
-  const isFinalComplete = FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
-  const finalTeams = nextFinal?.teamSlugs
-    .map((slug) => getTeamBySlug(slug)?.shortName)
-    .filter((name): name is string => Boolean(name))
+  const leader = REGULAR_2026_27.standings[0];
+  const leaderName = getTeamBySlug(leader.teamSlug)?.shortName;
+  const openingWinners = REGULAR_2026_27.openingResults
+    .map((result) => {
+      const player = getPlayer(result.winnerId);
+      return player ? `${player.name} +${result.points.toFixed(1)}pt` : undefined;
+    })
+    .filter((item): item is string => Boolean(item))
     .join(" / ");
   const renderInfoItems = () => (
     <>
       <span className="live-tag">INFO</span>
       <span className="item">
-        <b>Mリーグ</b> 2025-26 ファイナル · {isFinalComplete ? "最終結果" : `${FINAL_2025_26.startDate.replaceAll("-", ".")} 開幕`}
+        <b>Mリーグ</b> {REGULAR_2026_27.season} レギュラーシーズン · 9.14開幕
       </span>
       <span className="sep">／</span>
       <span className="item">
-        <b>{isFinalComplete ? "優勝" : "出場"}</b> {isFinalComplete ? champion : finalTeams}
+        <b>暫定首位</b> {leaderName} +{leader.points.toFixed(1)}pt
       </span>
       <span className="sep">／</span>
       <span className="item">
-        全<b>{FINAL_2025_26.totalGames}</b>試合 · 最終日 {FINAL_2025_26.endDate.replaceAll("-", ".")}
+        <b>開幕日トップ</b> {openingWinners}
       </span>
       <span className="sep">／</span>
       <span className="item">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { REGULAR_2026_27 } from "@/app/mleague/season-data";
 import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS } from "@/app/teams/data";
 import { LiveClock } from "@/components/LiveClock";
@@ -6,7 +7,7 @@ import { LiveClock } from "@/components/LiveClock";
 // TSUMORA launch date (基準日。Vol番号はここからの週数で算出)
 const LAUNCH_DATE = new Date("2025-09-01T00:00:00+09:00");
 // Mリーグ シーズン情報 (TEAMS データの最新シーズンから推定)
-const CURRENT_SEASON = TEAMS[0]?.seasons?.find((s) => s.result === "ongoing")?.season ?? "2025-26";
+const CURRENT_SEASON = TEAMS[0]?.seasons?.find((s) => s.result === "ongoing")?.season ?? REGULAR_2026_27.season;
 
 function getJSTDateParts(date: Date) {
   // JST タイムゾーンで年月日を取得

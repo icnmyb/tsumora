@@ -1,32 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useState } from "react";
-import { TEAM_NAME_TO_SLUG, TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
-import { ALL_PLAYERS, getPlayer, isFeaturedPlayer, type AnnualPoint, type FeaturedPlayer } from "@/app/players/data";
-import { FINAL_2025_26, REGULAR_FINAL_2025_26, SEMIFINAL_2025_26 } from "@/app/mleague/sf-data";
-import { getPlayerPhaseStats, getPlayerPhaseStatsByTeam, getTeamPhaseStats } from "@/app/mleague/stats-db";
+import { Fragment } from "react";
+import { TEAMS as ALL_TEAMS, type TeamData } from "@/app/teams/data";
+import { getPlayer, isFeaturedPlayer, type FeaturedPlayer } from "@/app/players/data";
+import { getRegularPlayerStats, REGULAR_2026_27 } from "@/app/mleague/season-data";
 import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 
-const CURRENT_SEASON = "2025-26";
-type PhaseKey = "regular" | "semifinal" | "final";
+const CURRENT_SEASON = REGULAR_2026_27.season;
 
-const PHASE_TABS: Array<{
-  key: PhaseKey;
-  label: string;
-  en: string;
-  date: string;
-}> = [
-  { key: "regular", label: "レギュラー", en: "REGULAR", date: "2026.03.27" },
-  { key: "semifinal", label: "セミファイナル", en: "SEMIFINAL", date: "2026.04.30" },
-  { key: "final", label: "ファイナル", en: "FINAL", date: "2026.05.04-" },
-];
-
-// ── Compute 2025-26 team standings from real player annualPoints ──
 interface ComputedStanding {
+  rank: number;
   team: TeamData;
   phasePoints: number;
-  carryover?: number;
   totalPts: number;
   gamesPlayed: number;
   gamesTotal: number;
@@ -36,180 +22,71 @@ interface ComputedStanding {
 }
 
 function enrichStanding(
-  phase: PhaseKey,
   team: TeamData,
+  rank: number,
   totalPts: number,
   gamesPlayed: number,
   gamesTotal: number,
+  firsts: number,
+  bestScore: number,
 ): ComputedStanding {
-  const rosterPlayers = getSeasonRosterPlayers(phase, team.slug);
-  let topRateSum = 0;
-  let topRateCount = 0;
-  let bestScore = 0;
-  for (const p of rosterPlayers) {
-    const cs = p.currentSeason;
-    if (cs?.season === CURRENT_SEASON) {
-      if (typeof cs.topRate === "number") {
-        topRateSum += cs.topRate;
-        topRateCount++;
-      }
-      if (typeof cs.bestScore === "number" && cs.bestScore > bestScore) {
-        bestScore = cs.bestScore;
-      }
-    }
-  }
-  const phaseStats = getTeamPhaseStats(phase, team.slug);
-  const shouldUseFallbackSeasonStats = phase === "regular";
+  const rosterPlayers = getSeasonRosterPlayers(team);
   return {
+    rank,
     team,
     phasePoints: totalPts,
     totalPts,
     gamesPlayed,
     gamesTotal,
-    topRateAvg: phaseStats
-      ? (phaseStats.firsts / phaseStats.games) * 100
-      : shouldUseFallbackSeasonStats && topRateCount > 0
-        ? topRateSum / topRateCount
-        : 0,
-    bestScore: phaseStats?.bestScore ?? (shouldUseFallbackSeasonStats ? bestScore : 0),
+    topRateAvg: gamesPlayed > 0 ? (firsts / gamesPlayed) * 100 : 0,
+    bestScore,
     rosterPlayers,
   };
 }
 
-function getAnnualPointTeamSlug(player: FeaturedPlayer, annualPoint: AnnualPoint): string | undefined {
-  const teamName = annualPoint.team ?? player.mleagueTeam;
-  return teamName ? TEAM_NAME_TO_SLUG[teamName] : undefined;
-}
-
-function getSeasonRosterPlayers(phase: PhaseKey, teamSlug: string): FeaturedPlayer[] {
-  if (phase === "regular") {
-    return ALL_PLAYERS
-      .filter((player) =>
-        player.annualPoints?.some((annualPoint) =>
-          annualPoint.season === CURRENT_SEASON &&
-          getAnnualPointTeamSlug(player, annualPoint) === teamSlug,
-        ),
-      )
-      .sort((a, b) => (getPlayerPhasePts(b, phase) ?? 0) - (getPlayerPhasePts(a, phase) ?? 0));
-  }
-
-  return getPlayerPhaseStatsByTeam(phase, teamSlug)
-    .map((stats) => getPlayer(stats.playerId))
+function getSeasonRosterPlayers(team: TeamData): FeaturedPlayer[] {
+  return team.currentRoster
+    .map(({ id }) => getPlayer(id))
     .filter((player): player is FeaturedPlayer => !!player && isFeaturedPlayer(player))
-    .sort((a, b) => (getPlayerPhasePts(b, phase) ?? 0) - (getPlayerPhasePts(a, phase) ?? 0));
+    .sort((a, b) => getPlayerPhasePts(b) - getPlayerPhasePts(a));
 }
 
-function computeStandings(phase: PhaseKey): ComputedStanding[] {
+function computeStandings(): ComputedStanding[] {
   const out: ComputedStanding[] = [];
-  if (phase === "regular") {
-    for (const entry of REGULAR_FINAL_2025_26.standings) {
-      const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-      if (team) {
-        out.push({
-          ...enrichStanding(phase, team, entry.points, 96, 96),
-          phasePoints: entry.points,
-        });
-      }
-    }
-    return out;
-  }
-  if (phase === "semifinal") {
-    for (const entry of SEMIFINAL_2025_26.standings) {
-      const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
-      if (team) {
-        out.push({
-          ...enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal),
-          carryover: entry.carryover,
-          phasePoints: entry.sfPoints,
-        });
-      }
-    }
-    return out;
-  }
-  for (const entry of FINAL_2025_26.standings) {
+  for (const entry of REGULAR_2026_27.standings) {
     const team = ALL_TEAMS.find((t) => t.slug === entry.teamSlug);
     if (team) {
       out.push({
-        ...enrichStanding(phase, team, entry.total, entry.gamesPlayed, entry.gamesTotal),
-        carryover: entry.carryover,
-        phasePoints: entry.finalPoints,
+        ...enrichStanding(
+          team,
+          entry.rank,
+          entry.points,
+          entry.gamesPlayed,
+          entry.gamesTotal,
+          entry.firsts,
+          entry.bestScore ?? 0,
+        ),
+        phasePoints: entry.points,
       });
     }
   }
   return out;
 }
 
-function getPhaseCopy(phase: PhaseKey) {
-  const isFinalComplete = FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
+const PHASE_COPY = {
+  tag: "レギュラー · 9.14終了時点",
+  heading: "レギュラーシーズン順位",
+  en: "Regular Season Standings",
+  deskLabel: `全${ALL_TEAMS.length}チーム`,
+  deskEn: `Regular Season · ${ALL_TEAMS.length} Teams`,
+  ptsLabel: "レギュラー PTS",
+  diffLabel: "首位差",
+  lead:
+    "大和証券Mリーグ2026-27は9月14日に開幕。初日は逢川恵夢と朝倉康心がトップを獲得し、U-NEXT Piratesが58.5ptで首位に立った。",
+} as const;
 
-  switch (phase) {
-    case "regular":
-      return {
-        tag: "レギュラー最終",
-        heading: "レギュラーシーズン最終順位",
-        en: "Regular Season Final Standings",
-        deskLabel: `全${ALL_TEAMS.length}チーム`,
-        deskEn: `Regular Season · ${ALL_TEAMS.length} Teams`,
-        ptsLabel: "レギュラー PTS",
-        diffLabel: "SFボーダー差",
-        borderLabel: "SF進出ライン",
-        lead:
-          "2018年に発足した国内初の本格的プロ麻雀団体対抗リーグ。2025-26シーズンのレギュラーシーズンは10チームで争われ、上位6チームがセミファイナルへ進出した。",
-      };
-    case "semifinal":
-      return {
-        tag: "セミファイナル終了",
-        heading: "セミファイナル最終順位",
-        en: "Semifinal Final Standings",
-        deskLabel: "SF進出6チーム",
-        deskEn: "Semifinalists · 6 Teams",
-        ptsLabel: "SF合計 PTS",
-        diffLabel: "Finalボーダー差",
-        borderLabel: "FINAL進出ライン",
-        lead:
-          "2025-26シーズンはセミファイナルを経て、EX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電がファイナルへ進出した。",
-      };
-    case "final":
-      return {
-        tag: isFinalComplete
-          ? "ファイナル終了"
-          : FINAL_2025_26.gamesPlayed > 0
-            ? "ファイナル進行中"
-            : "ファイナル開幕前",
-        heading: isFinalComplete
-          ? "ファイナル最終順位"
-          : FINAL_2025_26.gamesPlayed > 0
-            ? "ファイナル順位表"
-            : "ファイナル開始時順位",
-        en: isFinalComplete ? "Final Series Result" : "Final Series Standings",
-        deskLabel: "Final進出4チーム",
-        deskEn: "Finalists · 4 Teams",
-        ptsLabel: "Final PTS",
-        diffLabel: "首位差",
-        borderLabel: "",
-        lead:
-          isFinalComplete
-            ? "2025-26シーズンのファイナルはEX風林火山が優勝。表示ポイントは持越pt + ファイナル獲得pt（合計）を表示。"
-            : FINAL_2025_26.gamesPlayed > 0
-            ? "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントは持越pt + ファイナル獲得pt（合計）を表示。"
-            : "2025-26シーズンのファイナルはEX風林火山、BEAST X、KONAMI麻雀格闘倶楽部、TEAM RAIDEN/雷電の4チームで争われる。表示ポイントはセミファイナル最終ptの半分を持ち越した開始時点の値。",
-      };
-  }
-}
-
-function getLineInfo(phase: PhaseKey, idx: number) {
-  if (phase === "regular") {
-    if (idx < 6) return { label: "SF進出", cls: "s", eliminated: false, border: idx === 5 };
-    return { label: "敗退", cls: "x", eliminated: true, border: false };
-  }
-  if (phase === "semifinal") {
-    if (idx < 4) return { label: "FINAL進出", cls: "f", eliminated: false, border: idx === 3 };
-    return { label: "SF敗退", cls: "x", eliminated: true, border: false };
-  }
-  const isFinalComplete = FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
+function getLineInfo(idx: number) {
   return {
-    label: isFinalComplete ? (idx === 0 ? "優勝" : "最終順位") : FINAL_2025_26.gamesPlayed > 0 ? "FINAL" : "開幕前",
-    cls: idx === 0 ? "f" : "s",
     eliminated: false,
     border: idx === 0,
   };
@@ -221,21 +98,15 @@ interface IndividualLeader {
   pts: number;
 }
 
-function getPlayerPhasePts(player: FeaturedPlayer, phase: PhaseKey): number | undefined {
-  const phaseStats = getPlayerPhaseStats(phase, player.id);
-  if (phaseStats) return phaseStats.points;
-  if (phase === "final") return undefined;
-  return player.annualPoints?.find((a) => a.season === CURRENT_SEASON)?.points;
+function getPlayerPhasePts(player: FeaturedPlayer): number {
+  return getRegularPlayerStats(player.id)?.points ?? 0;
 }
 
-function computeIndividualLeaders(standings: ComputedStanding[], phase: PhaseKey): IndividualLeader[] {
+function computeIndividualLeaders(standings: ComputedStanding[]): IndividualLeader[] {
   const leaders: IndividualLeader[] = [];
   for (const s of standings) {
     for (const p of s.rosterPlayers) {
-      const pts = getPlayerPhasePts(p, phase);
-      if (pts !== undefined) {
-        leaders.push({ player: p, team: s.team, pts });
-      }
+      leaders.push({ player: p, team: s.team, pts: getPlayerPhasePts(p) });
     }
   }
   leaders.sort((a, b) => b.pts - a.pts);
@@ -253,30 +124,11 @@ function getMonogram(name: string): string {
   return name.replace(/\s/g, "").charAt(0);
 }
 
-function getCompactSideMetric(
-  phase: PhaseKey,
-  standing: ComputedStanding,
-  leaderPts: number,
-) {
-  if (phase === "regular") {
-    return {
-      label: "1位率",
-      value: standing.topRateAvg > 0 ? `${standing.topRateAvg.toFixed(1)}%` : "—",
-      tone: "neutral",
-    };
-  }
-  if (phase === "semifinal") {
-    return {
-      label: "期間pt",
-      value: fmtPts(standing.phasePoints),
-      tone: standing.phasePoints >= 0 ? "p" : "m",
-    };
-  }
-  const diff = standing.totalPts - leaderPts;
+function getCompactSideMetric(standing: ComputedStanding) {
   return {
-    label: "首位差",
-    value: diff === 0 ? "—" : fmtPts(diff),
-    tone: diff === 0 ? "neutral" : "m",
+    label: "1位率",
+    value: standing.gamesPlayed > 0 ? `${standing.topRateAvg.toFixed(1)}%` : "—",
+    tone: "neutral",
   };
 }
 
@@ -292,25 +144,16 @@ function getContrastText(hex: string): string {
 }
 
 export default function MleaguePage() {
-  const [selectedPhase, setSelectedPhase] = useState<PhaseKey>("final");
-  const phaseCopy = getPhaseCopy(selectedPhase);
-  const standings = computeStandings(selectedPhase);
-  const leaders = computeIndividualLeaders(standings, selectedPhase).slice(0, 10);
+  const phaseCopy = PHASE_COPY;
+  const standings = computeStandings();
+  const leaders = computeIndividualLeaders(standings).slice(0, 10);
   const leader = standings[0];
-  const seasonPlayerTotal = computeStandings("regular").reduce((acc, s) => acc + s.rosterPlayers.length, 0);
-  const isSelectedFinalComplete =
-    selectedPhase === "final" && FINAL_2025_26.gamesPlayed >= FINAL_2025_26.totalGames;
+  const seasonPlayerTotal = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
   const totalPlayers = standings.reduce((acc, s) => acc + s.rosterPlayers.length, 0);
   // バーは max abs で正規化、片側 50% にキャップしてはみ出しを防ぐ
   const maxAbs = Math.max(...standings.map((s) => Math.abs(s.totalPts)), 1);
-  const borderIndex = selectedPhase === "regular" ? 5 : selectedPhase === "semifinal" ? 3 : 0;
-  const borderPts = standings[borderIndex]?.totalPts ?? leader?.totalPts ?? 0;
-  const showBorderLine = selectedPhase !== "final";
-  const compactSideLabel = getCompactSideMetric(
-    selectedPhase,
-    standings[0],
-    leader?.totalPts ?? 0,
-  ).label;
+  const borderPts = leader?.totalPts ?? 0;
+  const compactSideLabel = getCompactSideMetric(standings[0]).label;
   const scrollToTeam = (teamSlug: string) => {
     document.getElementById(`mleague-team-${teamSlug}`)?.scrollIntoView({
       behavior: "smooth",
@@ -338,7 +181,7 @@ export default function MleaguePage() {
           <div className="m">
             <div className="l">Season</div>
             <div className="v accent">{CURRENT_SEASON}</div>
-            <div className="sub">第8シーズン</div>
+            <div className="sub">第9シーズン</div>
           </div>
           <div className="m">
             <div className="l">Teams</div>
@@ -351,36 +194,17 @@ export default function MleaguePage() {
             <div className="sub">表示中フェーズの出場者</div>
           </div>
           <div className="m">
-            <div className="l">{isSelectedFinalComplete ? "Champion" : "Leader"}</div>
+            <div className="l">Leader</div>
             <div className="v red">{leader ? fmtPts(leader.totalPts) : "—"}</div>
             <div className="sub">{leader?.team.shortName ?? "—"}</div>
           </div>
           <div className="m">
             <div className="l">Broadcaster</div>
             <div className="v">ABEMA</div>
-            <div className="sub">通常19:00〜 / 最終日17:00〜</div>
+            <div className="sub">全試合生放送</div>
           </div>
         </div>
       </section>
-
-      <nav className="phase-switch" aria-label="Mリーグ順位表フェーズ切替">
-        {PHASE_TABS.map((tab) => {
-          const active = selectedPhase === tab.key;
-          return (
-            <button
-              key={tab.key}
-              type="button"
-              className={active ? "active" : undefined}
-              aria-pressed={active}
-              onClick={() => setSelectedPhase(tab.key)}
-            >
-              <span className="ps-en">{tab.en}</span>
-              <span className="ps-jp">{tab.label}</span>
-              <span className="ps-date">{tab.date}</span>
-            </button>
-          );
-        })}
-      </nav>
 
       <section className="mobile-standings-compact" aria-label={`${phaseCopy.heading} コンパクト順位表`}>
         <div className="msc-head">
@@ -389,9 +213,9 @@ export default function MleaguePage() {
         </div>
         <ol className="msc-list">
           {standings.map((s, idx) => {
-            const line = getLineInfo(selectedPhase, idx);
+            const line = getLineInfo(idx);
             const isBorder = line.border;
-            const sideMetric = getCompactSideMetric(selectedPhase, s, leader?.totalPts ?? 0);
+            const sideMetric = getCompactSideMetric(s);
             return (
               <li
                 key={s.team.slug}
@@ -399,12 +223,11 @@ export default function MleaguePage() {
                 className={`${line.eliminated ? "is-eliminated" : ""}${isBorder ? " is-border" : ""}`.trim()}
               >
                 <button type="button" onClick={() => scrollToTeam(s.team.slug)}>
-                  <span className={`msc-rank${idx < 3 ? " top3" : ""}`}>
-                    {idx + 1}
+                  <span className={`msc-rank${s.rank <= 3 ? " top3" : ""}`}>
+                    {s.rank}
                   </span>
                   <span className="msc-team">
                     <b>{s.team.shortName}</b>
-                    <small>{line.label}</small>
                   </span>
                   <span className={`msc-pts ${s.totalPts >= 0 ? "p" : "m"}`}>
                     {fmtPts(s.totalPts)}
@@ -430,17 +253,16 @@ export default function MleaguePage() {
             <tr>
               <th>順位</th>
               <th>チーム</th>
-              <th style={{ width: 88 }}>ライン</th>
               <th className="pts-th">{phaseCopy.ptsLabel}</th>
               <th className="n">{phaseCopy.diffLabel}</th>
               <th className="n">試合数</th>
-              <th className="n">平均1位率</th>
+              <th className="n">1位率</th>
               <th className="n">最高素点</th>
             </tr>
           </thead>
           <tbody>
             {standings.map((s, idx) => {
-              const line = getLineInfo(selectedPhase, idx);
+              const line = getLineInfo(idx);
               const isBorder = line.border;
               const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
               const diff = s.totalPts - borderPts;
@@ -450,8 +272,8 @@ export default function MleaguePage() {
                   data-team={s.team.slug}
                   className={`${isBorder ? "is-border" : ""}${line.eliminated ? " is-eliminated" : ""}`.trim()}
                 >
-                  <td className={`rk ${idx < 3 ? "top3" : ""}`.trim()}>
-                    {KANJI_RANK[idx] ?? `${idx + 1}`}
+                  <td className={`rk ${s.rank <= 3 ? "top3" : ""}`.trim()}>
+                    {KANJI_RANK[s.rank - 1] ?? `${s.rank}`}
                   </td>
                   <td>
                     <div className="t-name">
@@ -460,9 +282,6 @@ export default function MleaguePage() {
                         {s.rosterPlayers.map((p) => p.name).join(" / ") || "選手データ準備中"}
                       </small>
                     </div>
-                  </td>
-                  <td>
-                    <span className={`line-tag ${line.cls}`}>{line.label}</span>
                   </td>
                   <td className="pts-cell">
                     <div className="pts-row">
@@ -491,7 +310,7 @@ export default function MleaguePage() {
                     })()}
                   </td>
                   <td className="n">
-                    {s.topRateAvg > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
+                    {s.gamesPlayed > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
                   </td>
                   <td className="n">
                     {s.bestScore > 0 ? `${s.bestScore.toLocaleString()}` : "—"}
@@ -505,7 +324,7 @@ export default function MleaguePage() {
         {/* Mobile: card stack（テーブルが入らないので別レンダー）*/}
         <ul className="st-mobile-list">
           {standings.map((s, idx) => {
-            const line = getLineInfo(selectedPhase, idx);
+            const line = getLineInfo(idx);
             const isBorder = line.border;
             const fillPct = (Math.abs(s.totalPts) / maxAbs) * 50;
             const diff = s.totalPts - borderPts;
@@ -520,8 +339,8 @@ export default function MleaguePage() {
                   className="st-card-link"
                 >
                   <div className="st-card-top">
-                    <span className={`st-card-rk${idx < 3 ? " top3" : ""}`}>
-                      {KANJI_RANK[idx] ?? `${idx + 1}`}
+                    <span className={`st-card-rk${s.rank <= 3 ? " top3" : ""}`}>
+                      {KANJI_RANK[s.rank - 1] ?? `${s.rank}`}
                     </span>
                     <div className="st-card-name">
                       <span className="st-card-team">{s.team.name}</span>
@@ -529,7 +348,6 @@ export default function MleaguePage() {
                         {s.rosterPlayers.map((p) => p.name).join(" / ") || "—"}
                       </span>
                     </div>
-                    <span className={`line-tag ${line.cls}`}>{line.label}</span>
                   </div>
                   <div className="st-card-bar" aria-hidden="true">
                     <div className="bar-axis"></div>
@@ -555,9 +373,9 @@ export default function MleaguePage() {
                   </div>
                   <div className="st-card-stats">
                     <div className="stat">
-                      <span className="lbl">平均1位率</span>
+                      <span className="lbl">1位率</span>
                       <span className="val">
-                        {s.topRateAvg > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
+                        {s.gamesPlayed > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
                       </span>
                     </div>
                     <div className="stat">
@@ -586,7 +404,7 @@ export default function MleaguePage() {
       </h2>
       <div className="team-grid">
         {standings.map((s, idx) => {
-          const line = getLineInfo(selectedPhase, idx);
+          const line = getLineInfo(idx);
           const isBorder = line.border;
           const accent = s.team.colorOnDark ?? s.team.color;
           const avText = getContrastText(s.team.color);
@@ -611,12 +429,12 @@ export default function MleaguePage() {
               </span>
               <div className="head">
                 <div className="head-rank">
-                  <span className="rk-num">{idx + 1}</span>
+                  <span className="rk-num">{s.rank}</span>
                   <span className="rk-unit">位</span>
                 </div>
                 <div className="head-info">
                   <div className="head-meta">
-                    {String(idx + 1).padStart(2, "0")} · {s.team.nameEn.toUpperCase()}
+                    {String(s.rank).padStart(2, "0")} · {s.team.nameEn.toUpperCase()}
                   </div>
                   <h3 className="head-name">
                     <Link href={`/teams/${s.team.slug}`}>{s.team.name}</Link>
@@ -657,9 +475,9 @@ export default function MleaguePage() {
                   </span>
                 </div>
                 <div className="stat">
-                  <span className="lbl">平均1位率</span>
+                  <span className="lbl">1位率</span>
                   <span className="val">
-                    {s.topRateAvg > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
+                    {s.gamesPlayed > 0 ? `${s.topRateAvg.toFixed(1)}%` : "—"}
                   </span>
                 </div>
                 <div className="stat">
@@ -690,7 +508,7 @@ export default function MleaguePage() {
               </label>
               <ul className="roster">
                 {s.rosterPlayers.map((p) => {
-                  const pts = getPlayerPhasePts(p, selectedPhase);
+                  const pts = getPlayerPhasePts(p);
                   return (
                     <li key={p.id} className="p">
                       <span
@@ -703,19 +521,14 @@ export default function MleaguePage() {
                         <Link href={p.href}>{p.name}</Link>
                         <small>{p.org}</small>
                       </div>
-                      <span className={`pt ${pts === undefined || pts >= 0 ? "p" : "m"}`}>
-                        {pts === undefined ? "—" : fmtPts(pts)}
+                      <span className={`pt ${pts >= 0 ? "p" : "m"}`}>
+                        {fmtPts(pts)}
                       </span>
                     </li>
                   );
                 })}
               </ul>
             </div>
-            {isBorder && showBorderLine && (
-              <div className="grid-border-line" aria-label={phaseCopy.borderLabel}>
-                <span>{phaseCopy.borderLabel}</span>
-              </div>
-            )}
             </Fragment>
           );
         })}
@@ -783,9 +596,9 @@ export default function MleaguePage() {
             <dd>全{seasonPlayerTotal}名（レギュラーシーズン）</dd>
             <dt>レギュラー</dt>
             <dd>
-              10月〜翌5月
+              2026年9月14日〜
               <br />
-              各チーム約100戦
+              各チーム120戦
             </dd>
             <dt>進出ライン</dt>
             <dd>
@@ -795,9 +608,9 @@ export default function MleaguePage() {
             </dd>
             <dt>放送</dt>
             <dd>
-              <b>ABEMA</b>にて全試合無料生配信
+              <b>ABEMA</b>にて全試合生放送
               <br />
-              通常19:00〜 / 最終日17:00〜
+              通常19:00〜
             </dd>
             <dt>歴代王者</dt>
             <dd style={{ fontSize: 11.5, lineHeight: 1.6 }}>
