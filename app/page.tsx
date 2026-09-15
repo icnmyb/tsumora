@@ -404,7 +404,7 @@ export default function Home() {
       <section className="home-ad-banner" aria-label="広告">
         <TrackedExternalLink
           href={URL_UNIVERSITY_MAHJONG_TOURNAMENT_LINE}
-          aria-label="大学生限定チーム制麻雀大会の公式LINEを開く"
+          aria-label="大学生限定麻雀大会の公式LINEを開く"
           eventName="External Link Click"
           eventProps={{
             area: "home_ad_banner",
@@ -414,7 +414,7 @@ export default function Home() {
         >
           <img
             src="/ads/university-mahjong-tournament-2026.png"
-            alt="大学生限定 チーム制麻雀大会 2026年10月4日12時開始 2人1組のチーム戦 初心者歓迎"
+            alt="大学生限定 麻雀大会 2026年10月4日12時開始 初心者歓迎"
             width={1774}
             height={887}
             loading="lazy"
