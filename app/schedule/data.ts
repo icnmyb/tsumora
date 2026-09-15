@@ -1,4 +1,9 @@
 import { FINAL_2025_26 } from "@/app/mleague/sf-data";
+import {
+  MLEAGUE_REGULAR_2026_27_TABLES,
+  MLEAGUE_TEAM_NAMES,
+  type MLeagueTeamId,
+} from "./mleague-2026-27";
 
 export type ScheduledEvent = {
   date: string; // YYYY-MM-DD (JST)
@@ -15,6 +20,41 @@ export type ScheduledEvent = {
 };
 
 export const URL_ABEMA_MAHJONG = "https://abema.tv/now-on-air/mahjong";
+
+const MLEAGUE_REGULAR_TABLES_BY_DATE = new Map<
+  string,
+  MLeagueTeamId[][]
+>();
+
+for (const [date, ...teams] of MLEAGUE_REGULAR_2026_27_TABLES) {
+  const tables = MLEAGUE_REGULAR_TABLES_BY_DATE.get(date) ?? [];
+  tables.push(teams);
+  MLEAGUE_REGULAR_TABLES_BY_DATE.set(date, tables);
+}
+
+export const MLEAGUE_REGULAR_EVENTS: ScheduledEvent[] = Array.from(
+  MLEAGUE_REGULAR_TABLES_BY_DATE,
+  ([date, tables]) => {
+    const matchups = tables.map((teams, index) => {
+      const teamNames = teams.map((teamId) => MLEAGUE_TEAM_NAMES[teamId]);
+      const tableLabel = tables.length > 1 ? `第${index + 1}卓: ` : "";
+      return `${tableLabel}${teamNames.join(" vs ")}`;
+    });
+
+    return {
+      date,
+      startTime: "19:00",
+      endTime: "23:00",
+      timeLabel: "19:00開始",
+      org: "M-LEAGUE",
+      title: "Mリーグ 2026-27 レギュラーシーズン",
+      sub: `${matchups.join(" / ")} · ${tables.length * 2}試合`,
+      channel: tables.length > 1 ? "ABEMA · 2卓同時" : "ABEMA",
+      tagColor: "#d4b94e",
+      link: URL_ABEMA_MAHJONG,
+    };
+  },
+);
 
 export const MLEAGUE_FINAL_MATCHES = FINAL_2025_26.upcoming;
 

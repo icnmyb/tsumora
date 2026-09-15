@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 import {
   MLEAGUE_FINAL_EVENTS,
+  MLEAGUE_REGULAR_EVENTS,
   URL_ABEMA_MAHJONG,
   type ScheduledEvent,
 } from "./data";
@@ -175,6 +176,10 @@ const NPM_BROADCAST_EVENTS: ScheduledEvent[] = [
 }));
 
 const EVENTS: ScheduledEvent[] = [
+  // ── Mリーグ 2026-27 レギュラーシーズン（9/14–3/2 全300試合）──
+  // 公式の1卓2試合を単位にし、2卓同時開催日はカレンダー上で1イベントに集約。
+  ...MLEAGUE_REGULAR_EVENTS,
+
   // ── Mリーグ 2025-26 セミファイナル（4/6–4/30 月火木金 全15日 30試合）──
   // 1日2試合制（19:00-21:00 + 21:00-22:30）を1イベントとして表示
   {
