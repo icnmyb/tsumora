@@ -30,10 +30,18 @@ export interface RegularSeasonMatchResult {
   points: number;
 }
 
+export interface RegularSeasonMatch {
+  date: string;
+  startTimeJst: string;
+  teamSlugs: string[];
+}
+
 export const REGULAR_2026_27 = {
   season: "2026-27",
   startDate: "2026-09-14",
   asOf: "2026-09-14",
+  gamesPlayed: 2,
+  totalGames: 300,
   standings: [
     { rank: 1, teamSlug: "pirates", points: 58.5, gamesPlayed: 2, gamesTotal: 120, firsts: 1, bestScore: 34700 },
     { rank: 2, teamSlug: "earth-jets", points: 9.9, gamesPlayed: 2, gamesTotal: 120, firsts: 1, bestScore: 38000 },
@@ -60,6 +68,23 @@ export const REGULAR_2026_27 = {
     { game: 1, winnerId: "aikawa", winnerTeamSlug: "earth-jets", points: 58.0 },
     { game: 2, winnerId: "asakura_koshin", winnerTeamSlug: "pirates", points: 54.7 },
   ] satisfies RegularSeasonMatchResult[],
+  upcomingMatches: [
+    {
+      date: "2026-09-15",
+      startTimeJst: "19:00",
+      teamSlugs: ["drivens", "furinkazan", "sakura-knights", "phoenix"],
+    },
+    {
+      date: "2026-09-17",
+      startTimeJst: "19:00",
+      teamSlugs: ["earth-jets", "drivens", "raiden", "beast-x"],
+    },
+    {
+      date: "2026-09-18",
+      startTimeJst: "19:00",
+      teamSlugs: ["sakura-knights", "konami", "raiden", "pirates"],
+    },
+  ] satisfies RegularSeasonMatch[],
 } as const;
 
 export function getRegularPlayerStats(playerId: string): RegularSeasonPlayerStats | undefined {

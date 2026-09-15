@@ -4,13 +4,9 @@ import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
 import { getCategoryLabel, getHomeNewsSelection } from "@/app/news/data";
-import { MLEAGUE_FINAL_MATCHES, URL_ABEMA_MAHJONG } from "@/app/schedule/data";
+import { URL_ABEMA_MAHJONG } from "@/app/schedule/data";
 import { TrackedExternalLink } from "@/components/TrackedExternalLink";
-import {
-  FINAL_2025_26,
-  type FinalState,
-  type FinalTeamStanding,
-} from "@/app/mleague/sf-data";
+import { REGULAR_2026_27, type RegularSeasonStanding } from "@/app/mleague/season-data";
 import type { TeamData } from "@/app/teams/data";
 import {
   fmtPts,
@@ -84,29 +80,25 @@ function monthDayLabel(dateIso: string): string {
   return `${Number(m)}月${Number(d)}日`;
 }
 
-type EnrichedFinalStanding = FinalTeamStanding & { team: TeamData };
+type EnrichedRegularStanding = RegularSeasonStanding & { team: TeamData };
 
 function MLeagueStandingsCard({
-  final,
-  finalStandings,
+  regular,
+  standings,
   leaderPts,
 }: {
-  final: FinalState;
-  finalStandings: EnrichedFinalStanding[];
+  regular: typeof REGULAR_2026_27;
+  standings: EnrichedRegularStanding[];
   leaderPts: number;
 }) {
-  const progressPct = (final.gamesPlayed / final.totalGames) * 100;
-  const isBeforeOpen = final.gamesPlayed === 0;
-  const isFinalComplete = final.gamesPlayed >= final.totalGames;
+  const progressPct = (regular.gamesPlayed / regular.totalGames) * 100;
   return (
     <>
       <div className="hmb-head">
         <div className="hmb-head-top">
           <div className="hmb-title-group">
             <h2 className="hmb-title">Mリーグ順位表</h2>
-            <span className="hmb-phase-chip">
-              {isFinalComplete ? "FINAL RESULT" : isBeforeOpen ? "FINAL OPENING" : "FINAL"}
-            </span>
+            <span className="hmb-phase-chip">REGULAR</span>
           </div>
           <Link href="/mleague" className="hmb-more">
             詳細 →
@@ -120,35 +112,23 @@ function MLeagueStandingsCard({
             />
           </div>
           <span className="hmb-progress-count">
-            <b>{final.gamesPlayed}</b>
+            <b>{regular.gamesPlayed}</b>
             <span className="hmb-meta-slash">/</span>
-            <span className="hmb-meta-total">{final.totalGames}</span>
+            <span className="hmb-meta-total">{regular.totalGames}</span>
             <span className="hmb-meta-unit">試合</span>
           </span>
         </div>
         <div className="hmb-meta-row">
-          <span>
-            {isFinalComplete
-              ? "2025-26 · Final終了"
-              : isBeforeOpen
-                ? "2025-26 · Final 5/4開幕"
-                : "2025-26 · Final進行中"}
-          </span>
-          <span className="hmb-meta-final">
-            {isFinalComplete
-              ? "最終結果を反映"
-              : isBeforeOpen
-                ? "SF最終ptの半分を持越"
-                : "確認済み結果を反映"}
-          </span>
+          <span>{regular.season} · {regular.asOf.slice(5).replace("-", ".")}終了時点</span>
+          <span className="hmb-meta-final">確定結果を反映</span>
         </div>
       </div>
 
       <ul className="hmb-list">
-        {finalStandings.map((s, idx) => {
-          const rank = idx + 1;
+        {standings.map((s) => {
+          const rank = s.rank;
           const teamColor = MLEAGUE_LOGO_COLORS[s.team.slug] ?? s.team.color;
-          const diff = s.total - leaderPts;
+          const diff = s.points - leaderPts;
           return (
             <li
               key={s.team.slug}
@@ -157,15 +137,15 @@ function MLeagueStandingsCard({
             >
               <Link href={`/teams/${s.team.slug}`} className="hmb-row-link">
                 <span className="hmb-strip" aria-hidden="true"></span>
-                <span className="hmb-rk">{KANJI_RANK[idx]}</span>
+                <span className="hmb-rk">{KANJI_RANK[rank - 1]}</span>
                 <span className="hmb-team-name">{s.team.shortName}</span>
                 <span className="hmb-pt-stack">
-                  <span className={`hmb-pt${s.total >= 0 ? " p" : " m"}`}>
-                    {fmtPts(s.total)}
+                  <span className={`hmb-pt${s.points >= 0 ? " p" : " m"}`}>
+                    {fmtPts(s.points)}
                   </span>
                   {rank === 1 ? (
                     <span className="hmb-bd hmb-bd--zero">
-                      <span className="hmb-bd-lbl">{isBeforeOpen ? "開始首位" : "首位"}</span>
+                      <span className="hmb-bd-lbl">首位</span>
                       <span className="hmb-bd-val">—</span>
                     </span>
                   ) : (
@@ -204,19 +184,18 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default function Home() {
-  const final = FINAL_2025_26;
-  const isFinalComplete = final.gamesPlayed >= final.totalGames;
-  const finalStandings = final.standings.map((s) => ({
+  const regular = REGULAR_2026_27;
+  const regularStandings = regular.standings.map((s) => ({
     ...s,
     team: getTeamBySlug(s.teamSlug),
   })).filter((s): s is typeof s & { team: NonNullable<typeof s.team> } => Boolean(s.team));
-  const finalLeader = finalStandings[0];
+  const regularLeader = regularStandings[0];
   const todayISO = fmtDateISO(nowJst());
-  const nextMatch = MLEAGUE_FINAL_MATCHES.find((m) => m.teamSlugs.length > 0 && m.date >= todayISO);
+  const nextMatch = regular.upcomingMatches.find((m) => m.teamSlugs.length > 0 && m.date >= todayISO);
   const nextMatchTeams = nextMatch
     ? nextMatch.teamSlugs.map((slug) => getTeamBySlug(slug)).filter((t): t is NonNullable<typeof t> => Boolean(t))
     : [];
-  const todayMatches = MLEAGUE_FINAL_MATCHES.filter((m) => m.date === todayISO);
+  const todayMatches = regular.upcomingMatches.filter((m) => m.date === todayISO);
   const visibleTodayMatches = todayMatches.length > 0 ? todayMatches : [];
   const watchNowMatch = todayMatches[0];
   const watchNowTeams = watchNowMatch
@@ -295,7 +274,7 @@ export default function Home() {
           )}
         </div>
 
-        {/* Mリーグ semifinal — 次戦 + フェーズ */}
+        {/* Mリーグ レギュラーシーズン — 順位 + 次戦 */}
         <aside className="home-hero-mboard">
           <div className="mlb-head">
             <div className="mlb-brand">
@@ -303,27 +282,27 @@ export default function Home() {
               <span className="mlb-brand-name">LEAGUE</span>
             </div>
             <div className="mlb-meta">
-              <span className="mlb-season">2025-26</span>
-              <span className="mlb-phase">{isFinalComplete ? "FINAL RESULT" : "FINAL OPENING"}</span>
+              <span className="mlb-season">{regular.season}</span>
+              <span className="mlb-phase">REGULAR</span>
             </div>
           </div>
 
           <div className="mlb-progress">
             <div className="mlb-progress-row">
               <span className="mlb-progress-label">
-                {isFinalComplete ? "FINAL RESULT POINTS" : "FINAL STARTING POINTS"}
+                REGULAR SEASON
               </span>
               <span className="mlb-progress-count">
-                <strong>{final.gamesPlayed}</strong>
+                <strong>{regular.gamesPlayed}</strong>
                 <span className="slash">/</span>
-                <span className="total">{final.totalGames}</span>
+                <span className="total">{regular.totalGames}</span>
                 <span className="unit">試合</span>
               </span>
             </div>
             <div className="mlb-progress-bar">
               <div
                 className="mlb-progress-fill"
-                style={{ width: `${(final.gamesPlayed / final.totalGames) * 100}%` }}
+                style={{ width: `${(regular.gamesPlayed / regular.totalGames) * 100}%` }}
               />
               <div
                 className="mlb-progress-tick"
@@ -331,15 +310,16 @@ export default function Home() {
               />
             </div>
             <div className="mlb-progress-meta">
-              <span>{final.startDate.slice(5).replace("-", ".")} 開幕</span>
-              <span>{final.endDate.slice(5).replace("-", ".")} 最終日</span>
+              <span>{regular.startDate.slice(5).replace("-", ".")} 開幕</span>
+              <span>{regular.asOf.slice(5).replace("-", ".")} 終了時点</span>
             </div>
           </div>
 
           {nextMatch && nextMatchTeams.length > 0 && (
             <div className="mlb-next">
               <div className="mlb-next-tag">
-                <span className="mlb-next-dot">●</span> NEXT MATCH
+                <span className="mlb-next-dot">●</span>{" "}
+                {nextMatch.date === todayISO ? "TODAY'S MATCH" : "NEXT MATCH"}
               </div>
               <div className="mlb-next-when">
                 <span className="mlb-next-date">
@@ -366,17 +346,17 @@ export default function Home() {
             </div>
           )}
 
-          {finalLeader && (
+          {regularLeader && (
             <div className="mlb-leader-line">
-              <Link href={`/teams/${finalLeader.team.slug}`}>
-                <span className="mlb-ll-tag">{isFinalComplete ? "CHAMPION" : "START LEADER"}</span>
+              <Link href={`/teams/${regularLeader.team.slug}`}>
+                <span className="mlb-ll-tag">LEADER</span>
                 <span
                   className="mlb-ll-swatch"
-                  style={{ background: finalLeader.team.color }}
+                  style={{ background: regularLeader.team.color }}
                 />
-                <span className="mlb-ll-name">{finalLeader.team.shortName}</span>
-                <span className={`mlb-ll-pt${finalLeader.total >= 0 ? "" : " m"}`}>
-                  {fmtPts(finalLeader.total)}
+                <span className="mlb-ll-name">{regularLeader.team.shortName}</span>
+                <span className={`mlb-ll-pt${regularLeader.points >= 0 ? "" : " m"}`}>
+                  {fmtPts(regularLeader.points)}
                 </span>
               </Link>
             </div>
@@ -388,16 +368,16 @@ export default function Home() {
         </aside>
       </section>
 
-      {/* M-LEAGUE SF STANDINGS — モバイルのみ Mリーグセクション直下に配置 */}
+      {/* M-LEAGUE STANDINGS — モバイルのみ Mリーグセクション直下に配置 */}
       <section
         className="home-mleague-block home-mleague-block--mobile"
         style={{ marginBottom: 22 }}
-        aria-label="Mリーグ 2025-26 ファイナル開始時順位表"
+        aria-label="Mリーグ 2026-27 レギュラーシーズン順位表"
       >
         <MLeagueStandingsCard
-          final={final}
-          finalStandings={finalStandings}
-          leaderPts={finalLeader?.total ?? 0}
+          regular={regular}
+          standings={regularStandings}
+          leaderPts={regularLeader?.points ?? 0}
         />
       </section>
 
@@ -473,7 +453,7 @@ export default function Home() {
                   <Link key={`${m.date}-${m.startTimeJst}`} href="/schedule" className="it">
                     <span className="time">{m.startTimeJst}</span>
                     <span className="tag">M.LEAGUE</span>
-                    <span className="t">Mリーグ ファイナル</span>
+                    <span className="t">Mリーグ レギュラーシーズン</span>
                     <span className="sub">
                       {teams.map((t) => t.shortName).join(" / ")}
                     </span>
@@ -508,7 +488,7 @@ export default function Home() {
                   <span className="org-badge" style={{ ["--c" as string]: "#d4b94e" } as React.CSSProperties}>
                     M
                   </span>
-                  Mリーグ ファイナル
+                  Mリーグ レギュラーシーズン
                   <span className="ch">
                     {watchNowTeams.map((t) => t.shortName).join(" / ")}
                   </span>
@@ -692,15 +672,15 @@ export default function Home() {
 
         {/* RIGHT SIDEBAR */}
         <div className="col">
-          {/* M-LEAGUE SF STANDINGS — デスクトップのみサイドバーに表示 */}
+          {/* M-LEAGUE STANDINGS — デスクトップのみサイドバーに表示 */}
           <section
             className="home-mleague-block home-mleague-block--desktop"
-            aria-label="Mリーグ 2025-26 ファイナル開始時順位表"
+            aria-label="Mリーグ 2026-27 レギュラーシーズン順位表"
           >
             <MLeagueStandingsCard
-              final={final}
-              finalStandings={finalStandings}
-              leaderPts={finalLeader?.total ?? 0}
+              regular={regular}
+              standings={regularStandings}
+              leaderPts={regularLeader?.points ?? 0}
             />
           </section>
 
