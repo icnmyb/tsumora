@@ -163,8 +163,29 @@ const NPM_BROADCAST_EVENTS: ScheduledEvent[] = [
   { date: "2026-08-15", title: "雀王戦A2/B1リーグ第6節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
   { date: "2026-08-17", title: "雀王戦A1リーグ第8節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
   { date: "2026-08-22", title: "雀王戦A2/B1リーグ第7節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
-  { date: "2026-08-24", title: "雀王戦A1リーグ第8節A卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-08-24", title: "雀王戦A1リーグ第8節B卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
   { date: "2026-08-31", title: "雀王戦A1リーグ第8節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-09-19", title: "女流雀王戦Aリーグ第6節B卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-09-27", title: "雀王戦A2/B1リーグ第8節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
+  { date: "2026-09-29", title: "女流雀王戦Aリーグ第6節C卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-10-03", title: "雀王戦A1リーグ第9節C卓", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-10-10", title: "女流雀王戦A~C2リーグ第6節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・柳本店・ノーブル・協会対局室" },
+  { date: "2026-10-12", title: "女流雀王戦Aリーグ第7節A卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-10-13", title: "女流雀王戦Aリーグ第7節B卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-10-17", title: "雀王戦A1リーグ最終節（全卓配信）", channel: "ABEMA・他", sub: "公式スケジュール掲載: ABEMA・他" },
+  { date: "2026-10-18", title: "女流雀王戦Aリーグ第7節C卓", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-10-25", title: "女流雀王戦A~C2リーグ第7節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・柳本店・ノーブル・協会対局室" },
+  { date: "2026-10-31", title: "雀王決定戦1日目", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-11-03", title: "雀王戦A2/B1リーグ第9節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
+  { date: "2026-11-07", title: "女流雀王戦A～C2リーグ第8節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・柳本店・ノーブル・協会対局室" },
+  { date: "2026-11-14", title: "雀王決定戦2日目", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-12-05", title: "雀王決定戦3日目", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-12-06", title: "雀王戦A2/B1リーグ第10節", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル・協会対局室" },
+  { date: "2026-12-19", title: "雀王決定戦4日目", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2026-12-27", title: "女流雀王決定戦1日目", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2026-12-29", title: "雀王決定戦最終日", channel: "ABEMA", sub: "公式スケジュール掲載: ABEMA" },
+  { date: "2027-01-03", title: "女流雀王決定戦2日目", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
+  { date: "2027-01-09", title: "女流雀王決定戦最終日", channel: "協会チャンネル", sub: "公式スケジュール掲載: 協会チャンネル" },
 ].map((event) => ({
   ...event,
   startTime: "12:00",
@@ -172,7 +193,36 @@ const NPM_BROADCAST_EVENTS: ScheduledEvent[] = [
   org: "NPM",
   tagColor: "#1d4ed8",
   tagTextColor: "#ebe4d2",
-  link: event.channel === "ABEMA" ? URL_ABEMA_MAHJONG : URL_NPM_YOUTUBE,
+  link: event.channel.includes("ABEMA") ? URL_ABEMA_MAHJONG : URL_NPM_YOUTUBE,
+}));
+
+const SAIKOUISEN_BROADCAST_ADDITIONS: ScheduledEvent[] = [
+  { date: "2026-09-16", title: "最高位戦A1リーグ 第11節 卓1", sub: "村上 淳・平賀 聡彦・水巻 渉・馬場 翔平", channel: "ABEMA" },
+  { date: "2026-09-23", title: "最高位戦A1リーグ 第11節 卓2", sub: "鈴木 たろう・鈴木 聡一郎・近藤 誠一・立花 裕", channel: "ABEMA" },
+  { date: "2026-09-30", title: "最高位戦A1リーグ 第11節 卓3", sub: "石井 一馬・太田 安紀・鈴木 優・中嶋 和正", channel: "ABEMA" },
+  { date: "2026-10-07", title: "最高位戦A1リーグ 第11節 卓4", sub: "園田 賢・竹内 元太・坂井 秀隆・日向 藍子", channel: "ABEMA" },
+  { date: "2026-10-14", title: "最高位戦A1リーグ 第12節 卓1", sub: "中嶋 和正・日向 藍子・馬場 翔平・立花 裕", channel: "ABEMA" },
+  { date: "2026-10-21", title: "最高位戦A1リーグ 第12節 卓2", sub: "近藤 誠一・水巻 渉・坂井 秀隆・鈴木 優", channel: "ABEMA" },
+  { date: "2026-10-28", title: "最高位戦A1リーグ 第12節 卓3", sub: "竹内 元太・太田 安紀・鈴木 聡一郎・平賀 聡彦", channel: "ABEMA" },
+  { date: "2026-11-04", title: "最高位戦A1リーグ 第12節 卓4", sub: "村上 淳・鈴木 たろう・石井 一馬・園田 賢", channel: "ABEMA" },
+  { date: "2026-11-11", title: "最高位戦A1リーグ 決定戦プレーオフ", sub: "全12節終了時の2位〜5位が出場", channel: "ABEMA" },
+  { date: "2026-11-18", title: "最高位戦A1リーグ 残留プレーオフ", sub: "全12節終了時の12位〜15位が出場", channel: "ABEMA" },
+  { date: "2026-09-18", title: "最高位戦A2リーグ 第9節 卓3", sub: "宇野 公介・平島 洋太・塩澤 彰大・酒井 一興", channel: "最高位戦ch" },
+  { date: "2026-09-25", title: "最高位戦A2リーグ 第9節 卓4", sub: "井上 祐希・渡辺 太・太野 奈月・中邨 光康・大平 亜季", channel: "最高位戦ch" },
+  { date: "2026-09-26", title: "最高位戦A2リーグ 第9節 卓5", sub: "山田 独歩・木村 誠・設楽 遙斗・醍醐 大", channel: "最高位戦ch" },
+  { date: "2026-10-02", title: "最高位戦A2リーグ 第10節 卓1", sub: "宇野 公介・新井 啓文・大平 亜季・醍醐 大", channel: "最高位戦ch" },
+  { date: "2026-10-03", title: "最高位戦A2リーグ 第10節 卓2", sub: "朝倉 康心・渡辺 太・塩澤 彰大・木村 誠・平島 晶太", channel: "最高位戦ch" },
+  { date: "2026-10-09", title: "最高位戦A2リーグ 第10節 卓3", sub: "河野 直也・井上 祐希・佐藤 崇・酒井 一興", channel: "最高位戦ch" },
+  { date: "2026-10-10", title: "最高位戦A2リーグ 第10節 卓4", sub: "小平 崇弘・津田 岳宏・設楽 遙斗・太野 奈月・有賀 利樹", channel: "最高位戦ch" },
+  { date: "2026-10-16", title: "最高位戦A2リーグ 第10節 卓5", sub: "山田 独歩・平島 洋太・中邨 光康・今村 順平", channel: "最高位戦ch" },
+].map((event) => ({
+  ...event,
+  startTime: "12:00",
+  endTime: "20:00",
+  org: "SAIKOUISEN",
+  tagColor: "#7c3aed",
+  tagTextColor: "#ebe4d2",
+  link: event.channel === "ABEMA" ? URL_ABEMA_MAHJONG : URL_SAIKOUISEN_YOUTUBE,
 }));
 
 const EVENTS: ScheduledEvent[] = [
@@ -219,8 +269,8 @@ const EVENTS: ScheduledEvent[] = [
   ...MLEAGUE_FINAL_EVENTS,
 
   // ── NPM（日本プロ麻雀協会）放送対局 ──────────────────────
-  // 出典: https://npm2001.com/schedule/ （2026-05-04確認）
-  // 8月までの関東スケジュールから、配信先に「ABEMA」または「協会チャンネル」と記載のある対局のみ掲載。
+  // 出典: https://npm2001.com/schedule/ （2026-09-16確認）
+  // 2027年1月までの関東スケジュールから、既存シリーズかつ配信先に「ABEMA」または「協会チャンネル」と記載のある対局のみ掲載。
   // 開始/終了時刻は公式公開待ちのため、暫定的に 12:00–20:00。
   ...NPM_BROADCAST_EVENTS,
 
@@ -283,7 +333,7 @@ const EVENTS: ScheduledEvent[] = [
 
   // ── 最高位戦 第51期 A2リーグ（最高位戦ch / YouTube 配信）─────
   // 出典: saikouisen.com/results/league/league-a2/ の卓組表
-  // 配信先: 最高位戦チャンネル (YouTube) ※ A1 = ABEMA, A2 = YouTube で取り違え注意
+  // 赤色セル = 最高位戦チャンネル (YouTube)、青色セル = ABEMA。放送卓未定の第11・12節は未掲載。
   // 開始/終了時刻は公式公開待ち、暫定 12:00–20:00
   {
     date: "2026-05-01",
@@ -304,10 +354,10 @@ const EVENTS: ScheduledEvent[] = [
     org: "SAIKOUISEN",
     title: "最高位戦A2リーグ 第3節 卓4",
     sub: "小平 崇弘・宇野 公介・井上 祐希・醍醐 大",
-    channel: "最高位戦ch",
+    channel: "ABEMA",
     tagColor: "#7c3aed",
     tagTextColor: "#ebe4d2",
-    link: URL_SAIKOUISEN_YOUTUBE,
+    link: URL_ABEMA_MAHJONG,
   },
   {
     date: "2026-05-08",
@@ -393,6 +443,9 @@ const EVENTS: ScheduledEvent[] = [
     tagTextColor: "#ebe4d2",
     link: URL_SAIKOUISEN_YOUTUBE,
   },
+
+  // 2026-09-16時点で公式の放送色または放送予定が確定している今後のA1/A2対局。
+  ...SAIKOUISEN_BROADCAST_ADDITIONS,
 ];
 
 // ============================================================
