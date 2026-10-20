@@ -1088,32 +1088,6 @@ main { padding: 20px 0 60px; }
   }
 }
 
-.home-ad-banner {
-  margin: 4px 0 28px;
-  background: var(--ink);
-  border: var(--border);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.home-ad-banner a,
-.home-ad-banner picture,
-.home-ad-banner img {
-  display: block;
-}
-
-.home-ad-banner img {
-  width: 100%;
-  height: auto;
-}
-
-@media (max-width: 720px) {
-  .home-ad-banner {
-    margin: 0 0 24px;
-    box-shadow: 4px 4px 0 var(--ink);
-  }
-}
-
 /* ============ TITLES SECTION ============ */
 .titles-section h2 {
   font-family: "Shippori Mincho"; font-weight: 900; font-size: 38px;
@@ -1369,27 +1343,6 @@ main { padding: 20px 0 60px; }
   text-align: right;
 }
 .ranks-table .cnt .u { font-family: "Geist Mono"; font-weight: 500; font-size: 11px; color: var(--ink-3); margin-left: 2px; }
-
-/* ============ NEWS BOX ============ */
-.news-box { border: var(--border); background: var(--paper); box-shadow: var(--shadow); }
-.news-box ul { margin: 0; padding: 0; list-style: none; }
-.news-box li {
-  padding: 11px 14px; border-bottom: 1.5px solid rgba(11,11,9,.12);
-  display: grid; grid-template-columns: 54px 50px 1fr; gap: 10px; align-items: baseline;
-}
-.news-box li:last-child { border-bottom: 0; }
-.news-box .dt { font-family: "Geist Mono"; font-size: 10.5px; color: var(--ink-3); font-weight: 700; }
-.news-box .cat {
-  font-family: "Geist Mono"; font-size: 9px; font-weight: 700;
-  letter-spacing: 0.1em; text-align: center;
-  padding: 2px 0; border: 2px solid var(--ink);
-  background: var(--paper-2);
-}
-.news-box .cat.tf { background: var(--vermilion); color: var(--paper); border-color: var(--vermilion-d); }
-.news-box .cat.rs { background: var(--ink); color: var(--paper); }
-.news-box .cat.ev { background: var(--gold); color: var(--ink); }
-.news-box .t { font-family: "Shippori Mincho"; font-weight: 500; font-size: 12.5px; line-height: 1.5; }
-.news-box .t b { color: var(--vermilion); font-weight: 700; }
 
 /* ============ PICK BOX ============ */
 .pick-box {
@@ -5157,10 +5110,8 @@ footer.main .cr {
 }
 @media (max-width: 720px) {
   .home-hero-lead { padding: 24px 20px 22px; box-shadow: 5px 5px 0 var(--vermilion); }
-  .home-hero-lead .hh-news-headline { font-size: clamp(28px, 7vw, 40px); }
-  .home-hero-lead .hh-news-actions { flex-wrap: wrap; gap: 12px; }
-  .home-hero-lead .hh-news-list-cat { width: auto; }
-  .home-hero-lead .hh-news-list a { gap: 10px; }
+  .home-hero-lead .hh-feature-headline { font-size: clamp(28px, 7vw, 40px); }
+  .home-hero-lead .hh-feature-actions { flex-wrap: wrap; gap: 12px; }
 }
 .home-hero-lead::before {
   content: "";
@@ -5231,15 +5182,15 @@ footer.main .cr {
   padding-top: 16px;
 }
 
-/* Top Story news 見出し: 通常の hh-title より小さく、見出しらしく */
-.home-hero-lead .hh-news-link {
+/* HOMEの導入見出し */
+.home-hero-lead .hh-feature-link {
   position: relative;
   z-index: 1;
   display: block;
   text-decoration: none;
   color: inherit;
 }
-.home-hero-lead .hh-news-headline {
+.home-hero-lead .hh-feature-headline {
   font-size: clamp(32px, 3.6vw, 52px);
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -5247,10 +5198,10 @@ footer.main .cr {
   color: var(--paper);
   transition: color .2s ease;
 }
-.home-hero-lead .hh-news-link:hover .hh-news-headline {
+.home-hero-lead .hh-feature-link:hover .hh-feature-headline {
   color: #f0c86d;
 }
-.home-hero-lead .hh-news-lead {
+.home-hero-lead .hh-feature-lead {
   position: relative;
   z-index: 1;
   margin: 0 0 24px;
@@ -5260,17 +5211,15 @@ footer.main .cr {
   color: rgba(235,228,210,.82);
   max-width: 56ch;
 }
-.home-hero-lead .hh-news-actions {
+.home-hero-lead .hh-feature-actions {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   gap: 18px;
-  margin-bottom: 28px;
-  padding-bottom: 22px;
-  border-bottom: 1.5px solid rgba(235,228,210,.18);
+  margin-bottom: 0;
 }
-.home-hero-lead .hh-news-cta {
+.home-hero-lead .hh-feature-cta {
   font-family: "Shippori Mincho", serif;
   font-size: 17px;
   font-weight: 700;
@@ -5281,11 +5230,11 @@ footer.main .cr {
   box-shadow: 4px 4px 0 var(--paper);
   transition: transform .15s ease, box-shadow .15s ease;
 }
-.home-hero-lead .hh-news-cta:hover {
+.home-hero-lead .hh-feature-cta:hover {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 var(--paper);
 }
-.home-hero-lead .hh-news-all {
+.home-hero-lead .hh-feature-secondary {
   font-family: "Geist Mono", ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -5295,341 +5244,10 @@ footer.main .cr {
   padding-bottom: 2px;
   transition: color .2s ease, border-color .2s ease;
 }
-.home-hero-lead .hh-news-all:hover {
+.home-hero-lead .hh-feature-secondary:hover {
   color: #f0c86d;
   border-color: #f0c86d;
 }
-.home-hero-lead .hh-news-list {
-  position: relative;
-  z-index: 1;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.home-hero-lead .hh-news-list li {
-  margin: 0;
-}
-.home-hero-lead .hh-news-list a {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  text-decoration: none;
-  color: rgba(235,228,210,.82);
-  transition: color .2s ease;
-  padding: 4px 0;
-}
-.home-hero-lead .hh-news-list a:hover {
-  color: #f0c86d;
-}
-.home-hero-lead .hh-news-list-cat {
-  flex-shrink: 0;
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--vermilion);
-  width: 70px;
-}
-.home-hero-lead .hh-news-list-headline {
-  font-family: "Shippori Mincho", serif;
-  font-size: 16px;
-  line-height: 1.4;
-  font-weight: 600;
-}
-
-/* /news ページ */
-.news-index-hd {
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 2px solid var(--ink);
-}
-.news-index-kicker {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  font-weight: 700;
-  color: var(--vermilion);
-  margin-bottom: 14px;
-}
-.news-index-title {
-  font-family: "Shippori Mincho", serif;
-  font-weight: 900;
-  font-size: clamp(56px, 8vw, 110px);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-  margin: 0 0 16px;
-}
-.news-index-title .comma { color: var(--vermilion); font-size: 0.7em; }
-.news-index-title .em { color: var(--vermilion); }
-.news-index-en {
-  font-family: "Instrument Serif", serif;
-  font-style: italic;
-  font-size: 22px;
-  color: var(--ink-2);
-  margin: 0;
-}
-.news-top {
-  display: block;
-  background: var(--ink);
-  color: var(--paper);
-  border: var(--border);
-  box-shadow: 7px 7px 0 var(--vermilion);
-  padding: 38px 44px;
-  margin-bottom: 28px;
-  text-decoration: none;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-@media (max-width: 720px) {
-  .news-top { padding: 24px 20px; box-shadow: 5px 5px 0 var(--vermilion); }
-  .news-index-title { font-size: clamp(40px, 11vw, 70px); }
-  .news-item { padding: 18px 18px; }
-  .news-article-lead {
-    padding: 14px 15px;
-    font-size: 14.5px;
-    line-height: 1.8;
-  }
-  .news-article-body {
-    margin: 0 -14px;
-    padding: 18px 16px 1px;
-    border-left: 0;
-    border-right: 0;
-    box-shadow: 2px 2px 0 rgba(11,11,9,.18);
-  }
-}
-.news-top:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 9px 9px 0 var(--vermilion);
-}
-.news-top-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 18px;
-}
-.news-top-cat {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  font-weight: 700;
-  background: var(--vermilion);
-  color: var(--paper);
-  padding: 5px 11px;
-}
-.news-top-date {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: rgba(235,228,210,.7);
-}
-.news-top-headline {
-  font-family: "Shippori Mincho", serif;
-  font-weight: 900;
-  font-size: clamp(34px, 4.6vw, 60px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin: 0 0 18px;
-  color: var(--paper);
-}
-.news-top-lead {
-  font-family: "Noto Sans JP", sans-serif;
-  font-size: 15px;
-  line-height: 1.75;
-  color: rgba(235,228,210,.82);
-  margin: 0 0 24px;
-  max-width: 60ch;
-}
-.news-top-cta {
-  font-family: "Shippori Mincho", serif;
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--paper);
-  background: var(--vermilion);
-  padding: 10px 18px;
-  display: inline-block;
-}
-.news-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-}
-.news-item {
-  display: block;
-  background: var(--paper);
-  border: var(--border);
-  box-shadow: 5px 5px 0 var(--ink);
-  padding: 24px 26px;
-  text-decoration: none;
-  color: inherit;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-.news-item:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 7px 7px 0 var(--ink);
-}
-.news-item-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.news-item-cat {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  font-weight: 700;
-  padding: 4px 9px;
-  background: var(--ink);
-  color: var(--paper);
-}
-.news-cat-title { background: var(--vermilion); }
-.news-cat-mleague { background: #a07e28; }
-.news-cat-result { background: #1d4ed8; }
-.news-cat-info { background: var(--ink-2); }
-.news-item-date {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: var(--ink-2);
-}
-.news-item-headline {
-  font-family: "Shippori Mincho", serif;
-  font-weight: 800;
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  margin: 0 0 12px;
-  color: var(--ink);
-}
-.news-item-lead {
-  font-family: "Noto Sans JP", sans-serif;
-  font-size: 13.5px;
-  line-height: 1.7;
-  color: var(--ink-2);
-  margin: 0;
-}
-
-/* /news/[slug] 詳細ページ */
-.news-article {
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 24px 0;
-}
-.news-back {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: var(--ink-2);
-  text-decoration: none;
-  margin-bottom: 28px;
-  display: inline-block;
-}
-.news-back:hover {
-  color: var(--vermilion);
-}
-.news-article-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-.news-article-date {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: var(--ink-2);
-}
-.news-article-headline {
-  font-family: "Shippori Mincho", serif;
-  font-weight: 900;
-  font-size: clamp(34px, 4.4vw, 54px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin: 0 0 24px;
-  color: var(--ink);
-}
-.news-article-lead {
-  font-family: "Noto Sans JP", sans-serif;
-  font-size: 16.5px;
-  line-height: 1.85;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 0 0 32px;
-  padding: 18px 20px;
-  background: var(--paper);
-  box-shadow: 3px 3px 0 rgba(11,11,9,.18);
-  border: 1.5px solid rgba(11,11,9,.55);
-  border-left: 5px solid var(--vermilion);
-}
-.news-article-body {
-  padding: 22px 24px 2px;
-  background: rgba(245, 239, 220, .94);
-  border: 1.5px solid rgba(11,11,9,.45);
-  box-shadow: 3px 3px 0 rgba(11,11,9,.16);
-}
-.news-article-body p {
-  font-family: "Noto Sans JP", sans-serif;
-  font-size: 16px;
-  line-height: 2.05;
-  color: var(--ink-2);
-  margin: 0 0 26px;
-  letter-spacing: 0.02em;
-}
-.news-article-related {
-  margin-top: 48px;
-  padding-top: 28px;
-  border-top: 1.5px solid var(--ink);
-}
-.news-related-hd {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  font-weight: 700;
-  color: var(--vermilion);
-  margin-bottom: 14px;
-}
-.news-related-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.news-related-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: var(--paper);
-  border: var(--border);
-  font-family: "Shippori Mincho", serif;
-  font-size: 14px;
-  color: var(--ink);
-  text-decoration: none;
-  transition: background .15s ease;
-}
-.news-related-item:hover {
-  background: var(--vermilion);
-  color: var(--paper);
-}
-.news-related-tag {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  font-weight: 700;
-  color: var(--vermilion);
-  text-transform: uppercase;
-}
-.news-related-item:hover .news-related-tag {
-  color: var(--paper);
-}
-
-@media (max-width: 720px) {
-  .news-list { grid-template-columns: 1fr; }
-}
-
 .home-hero-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -7415,8 +7033,6 @@ html::-webkit-scrollbar { display: none; }
   }
 
   .box,
-  .news-top,
-  .news-item,
   .org-hero,
   .p-hero,
   .title-hero,
@@ -7911,84 +7527,6 @@ html::-webkit-scrollbar { display: none; }
     width: 100%;
   }
 
-  .news-index-hd {
-    margin-bottom: 22px;
-    padding-bottom: 18px;
-  }
-  .news-index-kicker,
-  .news-top-date,
-  .news-item-date,
-  .news-article-date {
-    letter-spacing: 0.1em;
-  }
-  .news-index-en {
-    font-size: 17px;
-    line-height: 1.35;
-  }
-  .news-top {
-    margin-bottom: 20px;
-  }
-  .news-top-meta,
-  .news-item-meta,
-  .news-article-meta {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .news-top-headline {
-    font-size: clamp(30px, 9vw, 42px);
-    line-height: 1.12;
-    overflow-wrap: anywhere;
-  }
-  .news-top-lead,
-  .news-item-lead {
-    font-size: 13px;
-  }
-  .news-top-cta,
-  .news-back {
-    min-height: 40px;
-    display: inline-flex;
-    align-items: center;
-  }
-  .news-item-headline {
-    font-size: 19px;
-    overflow-wrap: anywhere;
-  }
-  .news-article-headline {
-    font-size: clamp(30px, 9vw, 44px);
-    overflow-wrap: anywhere;
-  }
-  .news-article-body p {
-    font-size: 14.5px;
-    line-height: 2;
-    margin-bottom: 22px;
-  }
-  .news-article-related {
-    margin-top: 36px;
-    padding-top: 22px;
-  }
-  .news-related-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-  .news-related-item {
-    display: grid;
-    align-content: start;
-    justify-content: stretch;
-    gap: 5px;
-    min-width: 0;
-    min-height: 58px;
-    padding: 10px 11px;
-    font-size: 13px;
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-  }
-  .news-related-tag {
-    width: fit-content;
-    font-size: 8px;
-    line-height: 1.2;
-  }
-
   .about-page {
     padding-top: 24px;
   }
@@ -8012,9 +7550,7 @@ html::-webkit-scrollbar { display: none; }
   .p-hero,
   .title-hero,
   .rk-hero,
-  .sc-hero,
-  .news-top,
-  .news-item {
+  .sc-hero {
     border-width: 2px;
   }
   .org-hero h1,
@@ -8049,10 +7585,6 @@ html::-webkit-scrollbar { display: none; }
   .sched-strip .grid {
     gap: 9px;
   }
-  .news-top,
-  .news-item {
-    padding: 18px 16px;
-  }
 }
 
 /* ============ FONT BALANCE OVERRIDES ============ */
@@ -8075,7 +7607,6 @@ nav.main a,
 .mleague .team,
 .ranks-box .hd,
 .ranks-table .name,
-.news-box .t,
 .pick-box .tag,
 .sched-grid .ev,
 footer.main ul,
@@ -8172,7 +7703,6 @@ body {
 .fact-box,
 .history-list,
 .timeline-list,
-.news-box,
 .rule-box,
 .profile-copy,
 .player-bio,

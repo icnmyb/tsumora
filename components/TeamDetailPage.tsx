@@ -701,7 +701,7 @@ export function TeamDetailPage({ team }: TeamDetailPageProps) {
         <div className="meta" style={{ color: "rgba(255,255,255,0.82)" }}>M.LEAGUE</div>
         <div className="nm" style={{ fontSize: 26, marginTop: 4 }}>Mリーグ全体ページへ</div>
         <div className="meta" style={{ color: "rgba(255,255,255,0.82)", marginTop: 6 }}>
-          全10チームの順位・スケジュール・最新ニュース
+          全10チームの順位・個人成績・スケジュール
         </div>
         <span className="tag" style={{ background: "var(--paper)", color: "var(--ink)", marginTop: 14 }}>
           リーグページへ →

@@ -74,15 +74,14 @@ function computeStandings(): ComputedStanding[] {
 }
 
 const PHASE_COPY = {
-  tag: "レギュラー · 9.15終了時点",
+  tag: `レギュラー · ${Number(REGULAR_2026_27.asOf.slice(5, 7))}.${Number(REGULAR_2026_27.asOf.slice(8, 10))}終了時点`,
   heading: "レギュラーシーズン順位",
   en: "Regular Season Standings",
   deskLabel: `全${ALL_TEAMS.length}チーム`,
   deskEn: `Regular Season · ${ALL_TEAMS.length} Teams`,
   ptsLabel: "レギュラー PTS",
   diffLabel: "首位差",
-  lead:
-    "大和証券Mリーグ2026-27は2日目を終了。尻無濱航と茅森早香がトップを獲得し、セガサミーフェニックスが82.9ptで暫定首位に立った。",
+  lead: REGULAR_2026_27.summary,
 } as const;
 
 function getLineInfo(idx: number) {

@@ -202,7 +202,7 @@ export default function TeamsIndexPage() {
         <div className="meta" style={{ color: "rgba(255,255,255,0.82)" }}>M.LEAGUE</div>
         <div className="nm" style={{ fontSize: 26, marginTop: 4 }}>Mリーグ順位表 / スケジュール</div>
         <div className="meta" style={{ color: "rgba(255,255,255,0.82)", marginTop: 6 }}>
-          現在のシーズン状況・最新ニュース
+          現在の順位・個人成績・今後の対戦予定
         </div>
         <span className="tag" style={{ background: "var(--paper)", color: "var(--ink)", marginTop: 14 }}>
           リーグページへ →

@@ -5,13 +5,14 @@ import { getTeamBySlug } from "@/app/teams/data";
 export function TopStrip() {
   const leader = REGULAR_2026_27.standings[0];
   const leaderName = getTeamBySlug(leader.teamSlug)?.shortName;
-  const openingWinners = REGULAR_2026_27.openingResults
+  const latestWinners = REGULAR_2026_27.latestResults
     .map((result) => {
       const player = getPlayer(result.winnerId);
       return player ? `${player.name} +${result.points.toFixed(1)}pt` : undefined;
     })
     .filter((item): item is string => Boolean(item))
     .join(" / ");
+  const latestDate = `${Number(REGULAR_2026_27.asOf.slice(5, 7))}.${Number(REGULAR_2026_27.asOf.slice(8, 10))}`;
   const renderInfoItems = () => (
     <>
       <span className="live-tag">INFO</span>
@@ -24,7 +25,7 @@ export function TopStrip() {
       </span>
       <span className="sep">／</span>
       <span className="item">
-        <b>開幕日トップ</b> {openingWinners}
+        <b>{latestDate}トップ</b> {latestWinners}
       </span>
       <span className="sep">／</span>
       <span className="item">

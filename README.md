@@ -1,6 +1,6 @@
 # TSUMORA / ツモーラ
 
-**The Pro Mahjong Review** — 日本のプロ麻雀界を横断する総合データベース・編集メディア。
+**The Pro Mahjong Review** — 日本のプロ麻雀界を横断する総合データベース。
 
 「裏ドラのように、表に出ない麻雀の深さを、毎日編む」── JPML 39期・鷹見としや（@tt_23_mm）が編集・運営する編集調ポータル。
 5 つのプロ団体 (JPML / 最高位戦 / NPM / RMU / μ) + Mリーグの選手・チーム・タイトル戦・対局スケジュールを 1 つの画面で扱う。
@@ -15,9 +15,8 @@
 - **40 Mリーガー** の詳細プロフィール (経歴 / タイトル / 通算成績 / 動画ハイライト)
 - **5 団体のロスター 全 2,900+ 名** を検索・絞り込み
 - **主要タイトル戦** (鳳凰位 / 十段位 / 王位 / 雀王 / 雀竜 / 令昭位 / 最高位) の歴代記録 + 現保持者
-- **Mリーグ 2025-26** レギュラー終了順位 + セミファイナル進行ボード
+- **Mリーグ 2026-27** 最新順位・個人成績・対戦予定
 - **対局カレンダー** (7 日 × 時間軸の編集誌風レイアウト)
-- **編集部選ニュース** + 個別記事ページ
 - **`/predict`**: M リーグ予想ゲーム (UI のみ実装、バックエンド未接続)
 
 ## クイックスタート
@@ -81,17 +80,13 @@ function doPost(e) {
 ```
 tsumora/
 ├── app/
-│   ├── page.tsx                # ホーム (NEWS hero + Mリーグ board + 番付)
+│   ├── page.tsx                # ホーム (導入 hero + Mリーグ board + 番付)
 │   ├── layout.tsx              # 共通レイアウト (Masthead + MainNav + SiteFooter)
 │   ├── globals.css             # 全 CSS (タイポ・配色・コンポーネント全部)
 │   ├── api/og/player/          # 動的 OG 画像 (Edge runtime)
 │   ├── mleague/
 │   │   ├── page.tsx
 │   │   └── sf-data.ts          # 2025-26 シーズン実データ (レギュラー終了 + SF)
-│   ├── news/
-│   │   ├── page.tsx            # /news 一覧
-│   │   ├── [slug]/page.tsx     # /news/:slug 詳細
-│   │   └── data.ts             # 注目記事データ (手動更新中)
 │   ├── organizations/{jpml,npm,saikouisen,rmu,mu}/
 │   ├── players/
 │   │   ├── data.ts             # 40 Mリーガー詳細
@@ -150,11 +145,8 @@ tsumora/
 ロスター追加は基本 scraper 経由 (手書きはしない)。
 
 ### Mリーグ シーズンデータ
-`app/mleague/sf-data.ts` の `REGULAR_FINAL_2025_26` / `SEMIFINAL_2025_26` を更新。
-出典は Wikipedia + キンマweb + 公式。
-
-### ニュース
-`app/news/data.ts` の `NEWS` 配列に追記。`date` 降順でホームの Top Story が選ばれる。
+`app/mleague/season-data.ts` の `REGULAR_2026_27` を更新。
+出典は Mリーグ公式の試合結果・成績一覧。
 
 ## スクリプト
 
@@ -171,7 +163,6 @@ node scripts/add-joinyear.mjs         # joinYear 一括補完
 
 - `/predict` 予想ゲームのバックエンド (Supabase 連携、#G1-G5)
 - 対局スケジュールの実データ統合 (#G3, 公式 API 不在のため scraper 必要)
-- ニュース自動収集 (X / Google News / 5ch ハイブリッド検討中)
 - RMU 選手の `joinYear` / `nameEn` 補完 (公式プロフィールページ 404 多数)
 
 詳細は `.claude/roadmap.md`。

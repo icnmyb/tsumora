@@ -61,7 +61,6 @@ export default function AboutPage() {
         <ul className="about-roadmap-list">
           <li>Mリーグ予想ゲーム ── 2026-27 シーズン開幕（2026年9月）に合わせて公開</li>
           <li>自然言語検索 ──「30代女流Mリーガー」のような検索</li>
-          <li>ニュース体制の強化</li>
         </ul>
       </section>
 

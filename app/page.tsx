@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { ALL_PLAYERS, ROSTER_PLAYERS } from "@/app/players/data";
 import { TEAMS, getTeamBySlug } from "@/app/teams/data";
 import { TITLES } from "@/app/titles/data";
-import { getCategoryLabel, getHomeNewsSelection } from "@/app/news/data";
 import { URL_ABEMA_MAHJONG } from "@/app/schedule/data";
 import { TrackedExternalLink } from "@/components/TrackedExternalLink";
 import { REGULAR_2026_27, type RegularSeasonStanding } from "@/app/mleague/season-data";
@@ -48,7 +47,6 @@ const MLEAGUE_LOGO_COLORS: Record<string, string> = {
 };
 
 const KANJI_RANK = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
-const URL_UNIVERSITY_MAHJONG_TOURNAMENT_LINE = "https://lin.ee/zSB9bq9";
 
 // 各主要団体から最高峰タイトルを1つずつ厳選 (5団体 → 5タイトル)
 const ORG_PRIORITY = ["JPML", "NPM", "SAIKOUISEN", "RMU", "MU"] as const;
@@ -204,9 +202,6 @@ export default function Home() {
 
   const currentTitlists = getCurrentTitlists();
 
-  // HOMEの注目記事は app/news/data.ts の HOME_NEWS_SELECTION で手動選択する
-  const { topStory, otherNews } = getHomeNewsSelection();
-
   // 団体ごとに最も代表的なタイトル戦を1つずつ選んで5つに
   const featuredTitles = ORG_PRIORITY.map((org) => TITLES.find((t) => t.org === org)).filter(
     (t): t is NonNullable<typeof t> => Boolean(t),
@@ -243,35 +238,25 @@ export default function Home() {
           </div>
           <div className="hh-kicker">
             <span className="hh-k-tag">●</span>
-            TOP STORY · 注目記事{" "}
-            <span className="hh-k-en">{getCategoryLabel(topStory.category)} · {topStory.date}</span>
+            THE PRO MAHJONG REVIEW
+            <span className="hh-k-en">TSUMORA</span>
           </div>
-          <Link href={`/news/${topStory.slug}`} className="hh-news-link">
-            <h2 className="hh-title hh-news-headline">{topStory.headline}</h2>
+          <Link href="/players" className="hh-feature-link">
+            <h2 className="hh-title hh-feature-headline">
+              プロ麻雀の「いま」を、ひとつに。
+            </h2>
           </Link>
-          <p className="hh-news-lead">{topStory.lead}</p>
-          <div className="hh-news-actions">
-            <Link href={`/news/${topStory.slug}`} className="hh-news-cta">
-              全文を読む →
+          <p className="hh-feature-lead">
+            5団体とMリーグの選手、タイトル戦、対局予定を横断して探せるプロ麻雀データベース。
+          </p>
+          <div className="hh-feature-actions">
+            <Link href="/players" className="hh-feature-cta">
+              選手を探す →
             </Link>
-            <Link href="/news" className="hh-news-all">
-              ALL NEWS
+            <Link href="/schedule" className="hh-feature-secondary">
+              対局予定を見る
             </Link>
           </div>
-          {otherNews.length > 0 && (
-            <ul className="hh-news-list">
-              {otherNews.map((n) => (
-                <li key={n.slug}>
-                  <Link href={`/news/${n.slug}`}>
-                    <span className="hh-news-list-cat">
-                      {getCategoryLabel(n.category)}
-                    </span>
-                    <span className="hh-news-list-headline">{n.headline}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
 
         {/* Mリーグ レギュラーシーズン — 順位 + 次戦 */}
@@ -381,28 +366,6 @@ export default function Home() {
         />
       </section>
 
-      <section className="home-ad-banner" aria-label="広告">
-        <TrackedExternalLink
-          href={URL_UNIVERSITY_MAHJONG_TOURNAMENT_LINE}
-          aria-label="大学生限定麻雀大会の公式LINEを開く"
-          eventName="External Link Click"
-          eventProps={{
-            area: "home_ad_banner",
-            destination: "LINE",
-            url: URL_UNIVERSITY_MAHJONG_TOURNAMENT_LINE,
-          }}
-        >
-          <img
-            src="/ads/university-mahjong-tournament-2026.png"
-            alt="大学生限定 麻雀大会 2026年10月4日12時開始 初心者歓迎"
-            width={1774}
-            height={887}
-            loading="lazy"
-            decoding="async"
-          />
-        </TrackedExternalLink>
-      </section>
-
       {/* 現タイトル保持者 — 5団体 banzuke */}
       <section className="home-titlists" style={{ marginBottom: 22 }}>
         <header className="ht-head">
@@ -450,7 +413,7 @@ export default function Home() {
                   .map((slug) => getTeamBySlug(slug))
                   .filter((t): t is NonNullable<typeof t> => Boolean(t));
                 return (
-                  <Link key={`${m.date}-${m.startTimeJst}`} href="/schedule" className="it">
+                  <Link key={`${m.date}-${m.teamSlugs.join("-")}`} href="/schedule" className="it">
                     <span className="time">{m.startTimeJst}</span>
                     <span className="tag">M.LEAGUE</span>
                     <span className="t">Mリーグ レギュラーシーズン</span>
